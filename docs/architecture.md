@@ -16,7 +16,7 @@ The generated project should not be manually edited for structural changes. Upda
 
 - `gridOS`: macOS SwiftUI app target.
 - `GridOSKit`: shared product models and cross-module types.
-- `TerminalCore`: PTY, shell lifecycle, terminal backend adapter, and terminal session model.
+- `TerminalCore`: PTY, shell lifecycle, SwiftTerm adapter, and terminal session model.
 - `RenderCore`: Metal renderer, shader pipelines, visual modes, and procedural identity.
 - `SystemMetrics`: CPU, memory, disk, network, power, thermal, and process sampling.
 - `CommandIntelligence`: LLM provider abstraction, context packing, redaction, and command safety.
@@ -43,15 +43,18 @@ CommandIntelligence -> GridOSKit
 
 ## Phase 1 architecture target
 
-Phase 1 should introduce a real terminal through `TerminalCore` without letting SwiftTerm or any other backend leak directly into the app shell.
+Phase 1 introduces a real terminal through `TerminalCore` without letting SwiftTerm leak directly into the app shell.
 
 Target abstractions:
 
-- `TerminalSession`
-- `TerminalSessionController`
-- `TerminalViewRepresentable`
-- `TerminalProfile`
-- `TerminalEvent`
+- `TerminalSessionConfiguration`
+- `TerminalSessionState`
+- `TerminalSurface`
+- `TerminalCommandCenter`
+
+`TerminalSurface` is currently backed by SwiftTerm's `LocalProcessTerminalView`. The app shell should continue to consume `TerminalCore` APIs only.
+
+For repeatable launch smoke tests, `TerminalSessionConfiguration.fromProcessArguments()` recognizes `--cmd <command>` and sends that command to the shell shortly after launch.
 
 ## Phase 2 architecture target
 

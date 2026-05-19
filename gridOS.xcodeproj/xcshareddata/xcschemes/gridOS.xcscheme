@@ -23,6 +23,20 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "06CE6DA54421071FA72D113D"
+               BuildableName = "TerminalCoreTests.xctest"
+               BlueprintName = "TerminalCoreTests"
+               ReferencedContainer = "container:gridOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
@@ -62,6 +76,17 @@
                BlueprintIdentifier = "100825E750D842241C98CFF7"
                BuildableName = "GridOSKitTests.xctest"
                BlueprintName = "GridOSKitTests"
+               ReferencedContainer = "container:gridOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "06CE6DA54421071FA72D113D"
+               BuildableName = "TerminalCoreTests.xctest"
+               BlueprintName = "TerminalCoreTests"
                ReferencedContainer = "container:gridOS.xcodeproj">
             </BuildableReference>
          </TestableReference>

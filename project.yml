@@ -7,6 +7,11 @@ options:
   createIntermediateGroups: true
   groupSortPosition: top
 
+packages:
+  SwiftTerm:
+    url: https://github.com/migueldeicaza/SwiftTerm.git
+    from: 1.13.0
+
 settings:
   base:
     CLANG_ANALYZER_NONNULL: YES
@@ -72,6 +77,7 @@ targets:
       - path: Sources/TerminalCore
     dependencies:
       - target: GridOSKit
+      - package: SwiftTerm
     info:
       path: Sources/TerminalCore/Info.plist
       properties:
@@ -157,13 +163,27 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.GridOSKitTests
 
+  TerminalCoreTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/TerminalCoreTests
+    dependencies:
+      - target: TerminalCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.TerminalCoreTests
+
 schemes:
   gridOS:
     build:
       targets:
         gridOS: all
         GridOSKitTests: [test]
+        TerminalCoreTests: [test]
     test:
       gatherCoverageData: true
       targets:
         - GridOSKitTests
+        - TerminalCoreTests

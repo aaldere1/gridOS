@@ -5,6 +5,6 @@ public enum TerminalCoreStatus {
         id: "terminal-core",
         title: "TerminalCore",
         state: .scaffolded,
-        detail: "PTY and terminal adapter boundary reserved."
+        detail: "SwiftTerm-backed local shell surface."
     )
 }

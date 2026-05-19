@@ -1,17 +1,9 @@
-import CommandIntelligence
 import GridOSKit
-import RenderCore
 import SwiftUI
-import SystemMetrics
 import TerminalCore
 
 struct RootView: View {
-    private let modules = [
-        TerminalCoreStatus.module,
-        RenderCoreStatus.module,
-        SystemMetricsStatus.module,
-        CommandIntelligenceStatus.module
-    ]
+    private let configuration = TerminalSessionConfiguration.fromProcessArguments()
 
     var body: some View {
         ZStack {
@@ -25,17 +17,15 @@ struct RootView: View {
             )
             .ignoresSafeArea()
 
-            VStack(alignment: .leading, spacing: 28) {
-                HStack(alignment: .firstTextBaseline) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(GridOSProduct.name)
-                            .font(.system(size: 56, weight: .semibold, design: .rounded))
-                            .foregroundStyle(.white)
+            VStack(spacing: 16) {
+                HStack(spacing: 12) {
+                    Text(GridOSProduct.name)
+                        .font(.system(size: 18, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white)
 
-                        Text("Foundation online")
-                            .font(.system(size: 16, weight: .medium, design: .monospaced))
-                            .foregroundStyle(.cyan.opacity(0.78))
-                    }
+                    Text(configuration.shellDisplayName)
+                        .font(.system(size: 12, weight: .medium, design: .monospaced))
+                        .foregroundStyle(.cyan.opacity(0.72))
 
                     Spacer()
 
@@ -47,76 +37,14 @@ struct RootView: View {
                         .background(.white.opacity(0.08), in: Capsule())
                 }
 
-                VStack(alignment: .leading, spacing: 14) {
-                    ForEach(modules) { module in
-                        ModuleStatusRow(module: module)
+                TerminalSurface(configuration: configuration)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .stroke(.cyan.opacity(0.18), lineWidth: 1)
                     }
-                }
-
-                Spacer()
-
-                Text(GridOSProduct.productionPromise)
-                    .font(.system(size: 13, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.58))
             }
-            .padding(44)
-        }
-    }
-}
-
-private struct ModuleStatusRow: View {
-    let module: FoundationModuleStatus
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Image(systemName: module.state.symbolName)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(module.state.tint)
-                .frame(width: 24, height: 24)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(module.title)
-                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.9))
-
-                Text(module.detail)
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.52))
-                    .lineLimit(1)
-            }
-
-            Spacer()
-
-            Text(module.state.rawValue.uppercased())
-                .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                .foregroundStyle(module.state.tint)
-        }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 14)
-        .background(.white.opacity(0.055), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .stroke(.white.opacity(0.08), lineWidth: 1)
-        }
-    }
-}
-
-private extension FoundationModuleStatus.State {
-    var symbolName: String {
-        switch self {
-        case .scaffolded:
-            "checkmark.seal"
-        case .pending:
-            "circle.dashed"
-        }
-    }
-
-    var tint: Color {
-        switch self {
-        case .scaffolded:
-            .cyan
-        case .pending:
-            .white.opacity(0.42)
+            .padding(18)
         }
     }
 }

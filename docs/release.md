@@ -24,6 +24,18 @@ For unsigned CI builds:
 xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build test
 ```
 
+The project currently depends on SwiftTerm pinned through XcodeGen/SwiftPM. Regenerate the project after changing `project.yml` so package resolution stays in sync.
+
+## Terminal smoke
+
+Debug builds support a startup command for verification:
+
+```sh
+open -n path/to/gridOS.app --args --cmd 'echo ok; exit'
+```
+
+This is intended for local smoke tests of the shell bridge, not as a user-facing automation contract yet.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

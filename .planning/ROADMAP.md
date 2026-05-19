@@ -19,7 +19,7 @@ Exit criteria:
 
 ## Phase 1 - Native shell MVP
 
-Status: active
+Status: complete
 
 Goal: ship a boring but real terminal surface before visual ambition expands.
 
@@ -32,7 +32,7 @@ Exit criteria:
 
 ## Phase 2 - Metal identity MVP
 
-Status: pending
+Status: active
 
 Goal: prove the product can feel special without damaging terminal usability.
 
