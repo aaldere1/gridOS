@@ -68,7 +68,7 @@ One codebase, multiple visual identities. Hotkey to switch (default: `⌘⇧M`).
 
 Modes are not just color swaps — each is a coherent design system (motion, shapes, shaders, sounds).
 
-## Pillar 4 — Macros integration
+## Pillar 4 — macOS integration
 
 gridOS should feel like Apple built it. Things competitors fake or skip:
 

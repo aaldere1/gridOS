@@ -1,0 +1,1152 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12962474B93F90CD00A8BFB4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */; };
+		1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */; };
+		2AD53518AD65CB2C036A58F0 /* RenderCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; };
+		3770BCD312A15B0DCA26E074 /* GridOSKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		406D76F617E589801EB4936B /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */; };
+		4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */; };
+		6C42A8184629FA4E8562547A /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		6F3EF1C785DD8FDC54969161 /* SystemMetricsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */; };
+		791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
+		7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1127428923C1991E7539 /* RootView.swift */; };
+		8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */; };
+		8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320B2947DC731EEFE381700 /* GridOSApp.swift */; };
+		8E67097DD922BB61316E90F7 /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9290380486D013E75E87EAC1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
+		9AAC3AC26B613C98063BC536 /* RenderCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A28AF910A66839B6646D0588 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		A507D5731F9C853B20011905 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A59CD739DBCB9CA929E924F4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
+		CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
+		F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */; };
+		F5A84D7C3F4BF27C8968B1A8 /* CommandIntelligence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F9EE6C24EAAED47B6C116F27 /* GridOSKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1D1A3186E3DEF5A91B9A5160 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D13A5694669E4963B4985D5D;
+			remoteInfo = RenderCore;
+		};
+		2B52CB3E5F7315DDB98E4F0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+		5A467A8044B269E96ED47377 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+		6D25956843E63226EC80D910 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+		7239B570D7F9E42873E4ECD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7A0D5F0B763ECC9E27DCE4D;
+			remoteInfo = TerminalCore;
+		};
+		8295EDE1EB10A08FC498FBEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5AA73FDF1FE6F38C96A774B1;
+			remoteInfo = SystemMetrics;
+		};
+		A981BE2FED4B4F9052C652AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+		BDFE75C04081D44CB3022DAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84079C839D5B1068F78F0197;
+			remoteInfo = CommandIntelligence;
+		};
+		C98E38ADC6459020DE937D2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+		EFEFC98852799EFF612FFEC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0089BA194C18C04899040AD9;
+			remoteInfo = GridOSKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6A326CB775C97A82A0C1B823 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3770BCD312A15B0DCA26E074 /* GridOSKit.framework in Embed Frameworks */,
+				8E67097DD922BB61316E90F7 /* TerminalCore.framework in Embed Frameworks */,
+				9AAC3AC26B613C98063BC536 /* RenderCore.framework in Embed Frameworks */,
+				A507D5731F9C853B20011905 /* SystemMetrics.framework in Embed Frameworks */,
+				F5A84D7C3F4BF27C8968B1A8 /* CommandIntelligence.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96ACE9F6108CB5CB6B83BD86 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F9EE6C24EAAED47B6C116F27 /* GridOSKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04603B4F1C7F884B938E1F08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridOSKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1456C0B22F5C1822B36E194E /* SystemMetrics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SystemMetrics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		174EF9F9D687DF34A3D4B95E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreStatus.swift; sourceTree = "<group>"; };
+		201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModuleStatus.swift; sourceTree = "<group>"; };
+		3320B2947DC731EEFE381700 /* GridOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSApp.swift; sourceTree = "<group>"; };
+		386D7AD72B82EB596CE79DED /* gridOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gridOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E4798756519A15DD8DFA804 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4A9A68DD08D77B219E090A4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		512E1127428923C1991E7539 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsStatus.swift; sourceTree = "<group>"; };
+		5449C18D52D6690542E48A9C /* GridOSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GridOSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
+		D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TerminalCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA1F8B3FFD0F89D8849F0EA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProductTests.swift; sourceTree = "<group>"; };
+		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
+		FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCoreStatus.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		025153996BAA1105E80B99DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A59CD739DBCB9CA929E924F4 /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37CEA35CAD67C1F5577D4E85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C42A8184629FA4E8562547A /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		574345F855E1294D216FDC3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				406D76F617E589801EB4936B /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A290C1F1A25AEE6C65BBD817 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */,
+				9290380486D013E75E87EAC1 /* TerminalCore.framework in Frameworks */,
+				2AD53518AD65CB2C036A58F0 /* RenderCore.framework in Frameworks */,
+				CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */,
+				791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B98B853B26FFAFAC97ED499C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12962474B93F90CD00A8BFB4 /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFBD3CCF3860D779D7061749 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A28AF910A66839B6646D0588 /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C8FFD1FAC209B5AAC5F33C8 /* TerminalCore */ = {
+			isa = PBXGroup;
+			children = (
+				04603B4F1C7F884B938E1F08 /* Info.plist */,
+				FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */,
+			);
+			path = TerminalCore;
+			sourceTree = "<group>";
+		};
+		3C87DA64D344552B78B3100A /* CommandIntelligence */ = {
+			isa = PBXGroup;
+			children = (
+				B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */,
+				3E4798756519A15DD8DFA804 /* Info.plist */,
+			);
+			path = CommandIntelligence;
+			sourceTree = "<group>";
+		};
+		3CB8EFB279731999A349C1B0 /* RenderCore */ = {
+			isa = PBXGroup;
+			children = (
+				174EF9F9D687DF34A3D4B95E /* Info.plist */,
+				184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */,
+			);
+			path = RenderCore;
+			sourceTree = "<group>";
+		};
+		451C19E6CC0E44AE9C8DEEC0 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FEBAA93669969541F8BD411C /* GridOSKitTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		540D1FB513E2C88707D754BC /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3C87DA64D344552B78B3100A /* CommandIntelligence */,
+				87615F4D27FC71110D22D43F /* GridOSApp */,
+				DC2ECAD3C24B17E72AD5FE69 /* GridOSKit */,
+				3CB8EFB279731999A349C1B0 /* RenderCore */,
+				541717C902EF3D77947C4DFE /* SystemMetrics */,
+				0C8FFD1FAC209B5AAC5F33C8 /* TerminalCore */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		541717C902EF3D77947C4DFE /* SystemMetrics */ = {
+			isa = PBXGroup;
+			children = (
+				DA1F8B3FFD0F89D8849F0EA5 /* Info.plist */,
+				5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */,
+			);
+			path = SystemMetrics;
+			sourceTree = "<group>";
+		};
+		87615F4D27FC71110D22D43F /* GridOSApp */ = {
+			isa = PBXGroup;
+			children = (
+				3320B2947DC731EEFE381700 /* GridOSApp.swift */,
+				ACBE83C91B238DA23848EE62 /* Info.plist */,
+				512E1127428923C1991E7539 /* RootView.swift */,
+				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
+			);
+			path = GridOSApp;
+			sourceTree = "<group>";
+		};
+		DC2ECAD3C24B17E72AD5FE69 /* GridOSKit */ = {
+			isa = PBXGroup;
+			children = (
+				201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */,
+				ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */,
+				4A9A68DD08D77B219E090A4D /* Info.plist */,
+			);
+			path = GridOSKit;
+			sourceTree = "<group>";
+		};
+		EA80B93BC760A703103FD36E = {
+			isa = PBXGroup;
+			children = (
+				540D1FB513E2C88707D754BC /* Sources */,
+				451C19E6CC0E44AE9C8DEEC0 /* Tests */,
+				F0770DE1E78CD71D7A56BDAA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F0770DE1E78CD71D7A56BDAA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */,
+				386D7AD72B82EB596CE79DED /* gridOS.app */,
+				5449C18D52D6690542E48A9C /* GridOSKit.framework */,
+				14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */,
+				9135D79F52087818F7CA8C70 /* RenderCore.framework */,
+				1456C0B22F5C1822B36E194E /* SystemMetrics.framework */,
+				D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FEBAA93669969541F8BD411C /* GridOSKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */,
+			);
+			path = GridOSKitTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0089BA194C18C04899040AD9 /* GridOSKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADD45799FE0AFBFDDB013B74 /* Build configuration list for PBXNativeTarget "GridOSKit" */;
+			buildPhases = (
+				D4CB0258255D0191A230773B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GridOSKit;
+			packageProductDependencies = (
+			);
+			productName = GridOSKit;
+			productReference = 5449C18D52D6690542E48A9C /* GridOSKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		100825E750D842241C98CFF7 /* GridOSKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D473148DF7A2B42D12CF04C /* Build configuration list for PBXNativeTarget "GridOSKitTests" */;
+			buildPhases = (
+				A3979FB245330CFE43BA30F6 /* Sources */,
+				025153996BAA1105E80B99DB /* Frameworks */,
+				96ACE9F6108CB5CB6B83BD86 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50B16B3D2F6E16D229218396 /* PBXTargetDependency */,
+			);
+			name = GridOSKitTests;
+			packageProductDependencies = (
+			);
+			productName = GridOSKitTests;
+			productReference = 14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5AA73FDF1FE6F38C96A774B1 /* SystemMetrics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4CDD708919BDDD3EB097737 /* Build configuration list for PBXNativeTarget "SystemMetrics" */;
+			buildPhases = (
+				C4AB7C518CFEAFB751758E1C /* Sources */,
+				37CEA35CAD67C1F5577D4E85 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3B858BB1969623C85A736491 /* PBXTargetDependency */,
+			);
+			name = SystemMetrics;
+			packageProductDependencies = (
+			);
+			productName = SystemMetrics;
+			productReference = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		630CCF7786B746F898743DAA /* gridOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 800DF5ADDF65002F86955C6C /* Build configuration list for PBXNativeTarget "gridOS" */;
+			buildPhases = (
+				8EE1D12FEE1ED289FDCA5A97 /* Sources */,
+				A290C1F1A25AEE6C65BBD817 /* Frameworks */,
+				6A326CB775C97A82A0C1B823 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CCC1AD36FA3B2016C6A9E246 /* PBXTargetDependency */,
+				47F18CC0EBDAAF8C34E2F77B /* PBXTargetDependency */,
+				BE780B5EABE7D86633FE6C15 /* PBXTargetDependency */,
+				3606EE9EC03DB1B0C50FDA41 /* PBXTargetDependency */,
+				6729692A7271A4093A4FF6A7 /* PBXTargetDependency */,
+			);
+			name = gridOS;
+			packageProductDependencies = (
+			);
+			productName = gridOS;
+			productReference = 386D7AD72B82EB596CE79DED /* gridOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		84079C839D5B1068F78F0197 /* CommandIntelligence */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DE646715F147DA3F11B7A6F /* Build configuration list for PBXNativeTarget "CommandIntelligence" */;
+			buildPhases = (
+				7CC6BEC0F5D35A9100943347 /* Sources */,
+				574345F855E1294D216FDC3D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B22D30245621B9BC233538ED /* PBXTargetDependency */,
+			);
+			name = CommandIntelligence;
+			packageProductDependencies = (
+			);
+			productName = CommandIntelligence;
+			productReference = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D13A5694669E4963B4985D5D /* RenderCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D1A67D951A299B339E666E7 /* Build configuration list for PBXNativeTarget "RenderCore" */;
+			buildPhases = (
+				6DB4050CE462E064478D61DF /* Sources */,
+				B98B853B26FFAFAC97ED499C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB1123860A69BEC4F3016F5F /* PBXTargetDependency */,
+			);
+			name = RenderCore;
+			packageProductDependencies = (
+			);
+			productName = RenderCore;
+			productReference = 9135D79F52087818F7CA8C70 /* RenderCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F7A0D5F0B763ECC9E27DCE4D /* TerminalCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B0469C2ED251374895E771CA /* Build configuration list for PBXNativeTarget "TerminalCore" */;
+			buildPhases = (
+				C0FD5B713CA3D7B3B662E990 /* Sources */,
+				FFBD3CCF3860D779D7061749 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CDD5F63008C1242DCA7AF4D4 /* PBXTargetDependency */,
+			);
+			name = TerminalCore;
+			packageProductDependencies = (
+			);
+			productName = TerminalCore;
+			productReference = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		67219AE595E98DA70A0CD28B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					630CCF7786B746F898743DAA = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A20FC81903AA2D89E3C4145A /* Build configuration list for PBXProject "gridOS" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EA80B93BC760A703103FD36E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F0770DE1E78CD71D7A56BDAA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84079C839D5B1068F78F0197 /* CommandIntelligence */,
+				0089BA194C18C04899040AD9 /* GridOSKit */,
+				100825E750D842241C98CFF7 /* GridOSKitTests */,
+				D13A5694669E4963B4985D5D /* RenderCore */,
+				5AA73FDF1FE6F38C96A774B1 /* SystemMetrics */,
+				F7A0D5F0B763ECC9E27DCE4D /* TerminalCore */,
+				630CCF7786B746F898743DAA /* gridOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6DB4050CE462E064478D61DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CC6BEC0F5D35A9100943347 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE1D12FEE1ED289FDCA5A97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */,
+				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
+				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3979FB245330CFE43BA30F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FD5B713CA3D7B3B662E990 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4AB7C518CFEAFB751758E1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F3EF1C785DD8FDC54969161 /* SystemMetricsStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CB0258255D0191A230773B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */,
+				4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3606EE9EC03DB1B0C50FDA41 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5AA73FDF1FE6F38C96A774B1 /* SystemMetrics */;
+			targetProxy = 8295EDE1EB10A08FC498FBEC /* PBXContainerItemProxy */;
+		};
+		3B858BB1969623C85A736491 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = 2B52CB3E5F7315DDB98E4F0D /* PBXContainerItemProxy */;
+		};
+		47F18CC0EBDAAF8C34E2F77B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7A0D5F0B763ECC9E27DCE4D /* TerminalCore */;
+			targetProxy = 7239B570D7F9E42873E4ECD5 /* PBXContainerItemProxy */;
+		};
+		50B16B3D2F6E16D229218396 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = 5A467A8044B269E96ED47377 /* PBXContainerItemProxy */;
+		};
+		6729692A7271A4093A4FF6A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84079C839D5B1068F78F0197 /* CommandIntelligence */;
+			targetProxy = BDFE75C04081D44CB3022DAB /* PBXContainerItemProxy */;
+		};
+		AB1123860A69BEC4F3016F5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = EFEFC98852799EFF612FFEC4 /* PBXContainerItemProxy */;
+		};
+		B22D30245621B9BC233538ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = 6D25956843E63226EC80D910 /* PBXContainerItemProxy */;
+		};
+		BE780B5EABE7D86633FE6C15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D13A5694669E4963B4985D5D /* RenderCore */;
+			targetProxy = 1D1A3186E3DEF5A91B9A5160 /* PBXContainerItemProxy */;
+		};
+		CCC1AD36FA3B2016C6A9E246 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = A981BE2FED4B4F9052C652AD /* PBXContainerItemProxy */;
+		};
+		CDD5F63008C1242DCA7AF4D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0089BA194C18C04899040AD9 /* GridOSKit */;
+			targetProxy = C98E38ADC6459020DE937D2B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0300952DDC814C1759FC5273 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/RenderCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		0557CA85E9DCAFF921A01777 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKitTests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0823F82C30F0DECF2ECC6A28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/GridOSApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
+				PRODUCT_NAME = gridOS;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		268A3F9C6B57EFFB75BC4A1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/SystemMetrics/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		2B9E1745FAC069F1CD23ADA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/SystemMetrics/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		2F0146797C53D6936D4B8D4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TerminalCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		31C3727021E5B4347D789854 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/GridOSKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		45ACF838C51C51EA011CA8E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/GridOSApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
+				PRODUCT_NAME = gridOS;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		54B422F6E27587FD27666641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		574B2ED1D1C94400067D4701 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/CommandIntelligence/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		62CFFE872BDE1FDF03E83B58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		74AC95272A91D9EF05415ADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/TerminalCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		941C5B31F1B60EE3FDCF2F83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/CommandIntelligence/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		A136A27046125CCA8EBBA657 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/RenderCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		BEAACBD80BA86113DBF056F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/GridOSKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		C524DA8DCED4F9B64DA209BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKitTests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DE646715F147DA3F11B7A6F /* Build configuration list for PBXNativeTarget "CommandIntelligence" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				941C5B31F1B60EE3FDCF2F83 /* Debug */,
+				574B2ED1D1C94400067D4701 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6D1A67D951A299B339E666E7 /* Build configuration list for PBXNativeTarget "RenderCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0300952DDC814C1759FC5273 /* Debug */,
+				A136A27046125CCA8EBBA657 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6D473148DF7A2B42D12CF04C /* Build configuration list for PBXNativeTarget "GridOSKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0557CA85E9DCAFF921A01777 /* Debug */,
+				C524DA8DCED4F9B64DA209BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		800DF5ADDF65002F86955C6C /* Build configuration list for PBXNativeTarget "gridOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45ACF838C51C51EA011CA8E7 /* Debug */,
+				0823F82C30F0DECF2ECC6A28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A20FC81903AA2D89E3C4145A /* Build configuration list for PBXProject "gridOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54B422F6E27587FD27666641 /* Debug */,
+				62CFFE872BDE1FDF03E83B58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		ADD45799FE0AFBFDDB013B74 /* Build configuration list for PBXNativeTarget "GridOSKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEAACBD80BA86113DBF056F6 /* Debug */,
+				31C3727021E5B4347D789854 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B0469C2ED251374895E771CA /* Build configuration list for PBXNativeTarget "TerminalCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74AC95272A91D9EF05415ADF /* Debug */,
+				2F0146797C53D6936D4B8D4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C4CDD708919BDDD3EB097737 /* Build configuration list for PBXNativeTarget "SystemMetrics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				268A3F9C6B57EFFB75BC4A1E /* Debug */,
+				2B9E1745FAC069F1CD23ADA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 67219AE595E98DA70A0CD28B /* Project object */;
+}

@@ -1,0 +1,166 @@
+# gridOS implementation roadmap
+
+This file is the execution-oriented companion to `docs/production-roadmap.md`.
+
+## Phase 0 - Product, legal, and repo foundation
+
+Status: complete
+
+Goal: make the repo buildable, trackable, and safe to iterate on.
+
+Exit criteria:
+
+- Durable planning state exists.
+- License posture is explicit.
+- XcodeGen project scaffold exists.
+- Blank app builds.
+- Initial architecture/security/release docs exist.
+- CI skeleton exists.
+
+## Phase 1 - Native shell MVP
+
+Status: active
+
+Goal: ship a boring but real terminal surface before visual ambition expands.
+
+Exit criteria:
+
+- User default shell launches in app.
+- PTY lifecycle and resize handling work.
+- Copy, paste, selection, clear, reset, and basic preferences exist.
+- Real TUI apps are manually verified.
+
+## Phase 2 - Metal identity MVP
+
+Status: pending
+
+Goal: prove the product can feel special without damaging terminal usability.
+
+Exit criteria:
+
+- One Metal background shader renders behind or around the terminal.
+- Procedural install seed exists.
+- Terminal activity can trigger subtle visual effects.
+- Renderer idles responsibly.
+
+## Phase 3 - Production app frame
+
+Status: pending
+
+Goal: turn the prototype into a coherent Mac app shell.
+
+Exit criteria:
+
+- Settings, keyboard commands, window behavior, accessibility, and state restoration are production-shaped.
+
+## Phase 4 - Real system metrics
+
+Status: pending
+
+Goal: replace decorative panels with truthful instrumentation.
+
+Exit criteria:
+
+- CPU, memory, disk, network, battery, and thermal metrics are sampled and displayed with graceful fallback.
+
+## Phase 5 - Aesthetic modes
+
+Status: pending
+
+Goal: ship multiple coherent visual identities.
+
+Exit criteria:
+
+- Tron, Severance, and Apple-native modes exist.
+- Mode switching is fast and stable.
+- Effects never obscure terminal text.
+
+## Phase 6 - LLM command palette
+
+Status: pending
+
+Goal: add useful command assistance without unsafe execution surprises.
+
+Exit criteria:
+
+- Command palette supports suggested commands, explain output, failed-command help, context preview, redaction, and confirmation gates.
+
+## Phase 7 - Multi-pane and session management
+
+Status: pending
+
+Goal: support real developer workflows with multiple shells.
+
+Exit criteria:
+
+- Split panes, session restoration, recent directories, and process cleanup are reliable.
+
+## Phase 8 - macOS integrations
+
+Status: pending
+
+Goal: make gridOS genuinely Mac-first.
+
+Exit criteria:
+
+- Menu bar extra, notifications, Keychain-backed secrets, and optional indexing/preview integrations are stable.
+
+## Phase 9 - Performance hardening
+
+Status: pending
+
+Goal: prove the native rewrite with measurements.
+
+Exit criteria:
+
+- Cold start, memory, idle CPU, input latency, heavy output, and frame pacing evidence exists.
+
+## Phase 10 - Security and privacy hardening
+
+Status: pending
+
+Goal: make a terminal plus LLM app trustworthy.
+
+Exit criteria:
+
+- Threat model, privacy inventory, redaction tests, dependency review, and hardened runtime pass are complete.
+
+## Phase 11 - Alpha
+
+Status: pending
+
+Goal: internal daily-driver validation.
+
+Exit criteria:
+
+- Signed internal builds are used for real work without terminal correctness blockers.
+
+## Phase 12 - Beta
+
+Status: pending
+
+Goal: external installability and feedback.
+
+Exit criteria:
+
+- Developer ID signed, hardened, notarized distribution and update flow work on a clean Mac.
+
+## Phase 13 - 1.0 release candidate
+
+Status: pending
+
+Goal: freeze features and prove release quality.
+
+Exit criteria:
+
+- Full release checklist passes with no critical or high-severity known issues.
+
+## Phase 14 - Production launch
+
+Status: pending
+
+Goal: ship and operate.
+
+Exit criteria:
+
+- Public download, update feed, checksums, support docs, known issues, and hotfix process are live.

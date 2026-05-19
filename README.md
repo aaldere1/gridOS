@@ -4,7 +4,7 @@ A native macOS app for Apple Silicon that reimagines [eDEX-UI](https://github.co
 
 ## Status
 
-Early planning. Vision and design notes in [`docs/vision.md`](docs/vision.md). No code yet — Xcode scaffolding will happen on the development Mac.
+Early implementation. Vision and design notes live in [`docs/vision.md`](docs/vision.md), the production roadmap lives in [`docs/production-roadmap.md`](docs/production-roadmap.md), and execution state lives in [`.planning/`](.planning/). The repo now has a reproducible XcodeGen scaffold and blank macOS app.
 
 ## What makes it different
 
@@ -23,7 +23,14 @@ Early planning. Vision and design notes in [`docs/vision.md`](docs/vision.md). N
 
 ## Development
 
-Requires a Mac with Apple Silicon and Xcode. Clone, open in Xcode, build. Scaffolding TBD.
+Requires a Mac with Apple Silicon, Xcode, and XcodeGen.
+
+```sh
+xcodegen generate
+xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build test
+```
+
+Open `gridOS.xcodeproj` in Xcode after generating it.
 
 ## Relationship to eDEX-UI
 

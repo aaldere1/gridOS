@@ -1,0 +1,169 @@
+name: gridOS
+
+options:
+  bundleIdPrefix: com.aaldere1
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    CLANG_ANALYZER_NONNULL: YES
+    CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION: YES_AGGRESSIVE
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    SWIFT_VERSION: "6.0"
+
+targets:
+  gridOS:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/GridOSApp
+    dependencies:
+      - target: GridOSKit
+      - target: TerminalCore
+      - target: RenderCore
+      - target: SystemMetrics
+      - target: CommandIntelligence
+    info:
+      path: Sources/GridOSApp/Info.plist
+      properties:
+        CFBundleDisplayName: gridOS
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        NSHumanReadableCopyright: Copyright (c) 2026 gridOS Authors. All rights reserved.
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: ""
+        ENABLE_HARDENED_RUNTIME: YES
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos
+        PRODUCT_NAME: gridOS
+
+  GridOSKit:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/GridOSKit
+    info:
+      path: Sources/GridOSKit/Info.plist
+      properties:
+        CFBundleDisplayName: GridOSKit
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.GridOSKit
+
+  TerminalCore:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/TerminalCore
+    dependencies:
+      - target: GridOSKit
+    info:
+      path: Sources/TerminalCore/Info.plist
+      properties:
+        CFBundleDisplayName: TerminalCore
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.TerminalCore
+
+  RenderCore:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/RenderCore
+    dependencies:
+      - target: GridOSKit
+    info:
+      path: Sources/RenderCore/Info.plist
+      properties:
+        CFBundleDisplayName: RenderCore
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.RenderCore
+
+  SystemMetrics:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/SystemMetrics
+    dependencies:
+      - target: GridOSKit
+    info:
+      path: Sources/SystemMetrics/Info.plist
+      properties:
+        CFBundleDisplayName: SystemMetrics
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.SystemMetrics
+
+  CommandIntelligence:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/CommandIntelligence
+    dependencies:
+      - target: GridOSKit
+    info:
+      path: Sources/CommandIntelligence/Info.plist
+      properties:
+        CFBundleDisplayName: CommandIntelligence
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.CommandIntelligence
+
+  GridOSKitTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/GridOSKitTests
+    dependencies:
+      - target: GridOSKit
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.GridOSKitTests
+
+schemes:
+  gridOS:
+    build:
+      targets:
+        gridOS: all
+        GridOSKitTests: [test]
+    test:
+      gatherCoverageData: true
+      targets:
+        - GridOSKitTests
