@@ -15,6 +15,20 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "96F467AD7D8155E34BD27CEE"
+               BuildableName = "CommandIntelligenceTests.xctest"
+               BlueprintName = "CommandIntelligenceTests"
+               ReferencedContainer = "container:gridOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "100825E750D842241C98CFF7"
                BuildableName = "GridOSKitTests.xctest"
                BlueprintName = "GridOSKitTests"
@@ -96,6 +110,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "96F467AD7D8155E34BD27CEE"
+               BuildableName = "CommandIntelligenceTests.xctest"
+               BlueprintName = "CommandIntelligenceTests"
+               ReferencedContainer = "container:gridOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
          <TestableReference
             skipped = "NO"
             parallelizable = "NO">

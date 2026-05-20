@@ -175,6 +175,18 @@ targets:
         MARKETING_VERSION: 0.1.0
         PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.CommandIntelligence
 
+  CommandIntelligenceTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/CommandIntelligenceTests
+    dependencies:
+      - target: CommandIntelligence
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.CommandIntelligenceTests
+
   GridOSKitTests:
     type: bundle.unit-test
     platform: macOS
@@ -204,6 +216,7 @@ schemes:
     build:
       targets:
         gridOS: all
+        CommandIntelligenceTests: [test]
         GridOSKitTests: [test]
         RenderCoreTests: [test]
         SystemMetricsTests: [test]
@@ -211,6 +224,7 @@ schemes:
     test:
       gatherCoverageData: true
       targets:
+        - CommandIntelligenceTests
         - GridOSKitTests
         - RenderCoreTests
         - SystemMetricsTests

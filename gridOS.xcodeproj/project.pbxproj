@@ -16,6 +16,7 @@
 		1D3905099B4AB15A30546545 /* RenderCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		257A3E64AF4B5A755C7B3671 /* RenderCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; };
 		2AD53518AD65CB2C036A58F0 /* RenderCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; };
+		2B7E718D24E234871A82E257 /* CommandIntelligenceModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */; };
 		3071E6307B2FF85C5C043069 /* VisualTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58649F5A9018C2BA4E5CC93 /* VisualTheme.swift */; };
 		3770BCD312A15B0DCA26E074 /* GridOSKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		406D76F617E589801EB4936B /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
@@ -24,8 +25,10 @@
 		4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */; };
 		4B55FBDAF5C861FF08245AA1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
 		4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */; };
+		5413A3D1A9D4627C330146D9 /* CommandIntelligence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */; };
 		560E59CE9FAA9E27459702BC /* SystemMetricsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E1DD37EF7424775DE825D1 /* SystemMetricsModelTests.swift */; };
+		57575794890DF5AE18A29879 /* CommandIntelligenceFailureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */; };
 		5BA683C2AF090D06FB3759C8 /* TerminalActivityEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */; };
 		5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */; };
 		65839B203EE419CFB256680F /* SystemMetricsSamplingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3997B802125DFB57593040D1 /* SystemMetricsSamplingPolicyTests.swift */; };
@@ -38,6 +41,7 @@
 		7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1127428923C1991E7539 /* RootView.swift */; };
 		7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E76722893B0C28248B49F /* GridOSAppPreferences.swift */; };
 		8429E33DE7CFFB0A883A5B2B /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		85F5BF6B0681BA56996DA2BE /* CommandCredentialStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */; };
 		8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */; };
 		8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320B2947DC731EEFE381700 /* GridOSApp.swift */; };
 		8E67097DD922BB61316E90F7 /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -59,6 +63,7 @@
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
+		EE0655CCF740F7F4AE3CE796 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		F04AB68B838DF5118BD971FE /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
 		F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */; };
 		F495B8D43388ED108A5431B6 /* RenderEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA8C0F47F4E9DFEAFA5D2BF /* RenderEvent.swift */; };
@@ -130,6 +135,13 @@
 			remoteGlobalIDString = 0089BA194C18C04899040AD9;
 			remoteInfo = GridOSKit;
 		};
+		B16726FFC4C740BC08AA1343 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84079C839D5B1068F78F0197;
+			remoteInfo = CommandIntelligence;
+		};
 		BDFE75C04081D44CB3022DAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 67219AE595E98DA70A0CD28B /* Project object */;
@@ -183,6 +195,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F9EE6C24EAAED47B6C116F27 /* GridOSKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A52656EB9D0956951A64C185 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5413A3D1A9D4627C330146D9 /* CommandIntelligence.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,12 +267,15 @@
 		3FA8C0F47F4E9DFEAFA5D2BF /* RenderEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderEvent.swift; sourceTree = "<group>"; };
 		44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSessionState.swift; sourceTree = "<group>"; };
 		4A9A68DD08D77B219E090A4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		50D887A88FFD11E28A2F6297 /* CommandIntelligenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommandIntelligenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		512E1127428923C1991E7539 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsStatus.swift; sourceTree = "<group>"; };
 		5449C18D52D6690542E48A9C /* GridOSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GridOSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E1DD37EF7424775DE825D1 /* SystemMetricsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsModelTests.swift; sourceTree = "<group>"; };
+		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
+		844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCredentialStoreTests.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSystemMetricsProvider.swift; sourceTree = "<group>"; };
@@ -260,6 +286,7 @@
 		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
 		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
+		BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFailureTests.swift; sourceTree = "<group>"; };
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
 		C4E6FB4ADEFD81AEFF49FE48 /* SystemMetricsSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSampler.swift; sourceTree = "<group>"; };
 		C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFrameController.swift; sourceTree = "<group>"; };
@@ -289,6 +316,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C42A8184629FA4E8562547A /* GridOSKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52C513C5FF8F691A5515B981 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE0655CCF740F7F4AE3CE796 /* CommandIntelligence.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +432,7 @@
 		451C19E6CC0E44AE9C8DEEC0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C96DD5F1CB310E4246B94706 /* CommandIntelligenceTests */,
 				FEBAA93669969541F8BD411C /* GridOSKitTests */,
 				CE378D5B1107BA2DEEA4479C /* RenderCoreTests */,
 				CC5672B8979DDCCF8B27E358 /* SystemMetricsTests */,
@@ -452,6 +488,16 @@
 			path = GridOSApp;
 			sourceTree = "<group>";
 		};
+		C96DD5F1CB310E4246B94706 /* CommandIntelligenceTests */ = {
+			isa = PBXGroup;
+			children = (
+				844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */,
+				BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */,
+				6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */,
+			);
+			path = CommandIntelligenceTests;
+			sourceTree = "<group>";
+		};
 		CC5672B8979DDCCF8B27E358 /* SystemMetricsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +540,7 @@
 			isa = PBXGroup;
 			children = (
 				6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */,
+				50D887A88FFD11E28A2F6297 /* CommandIntelligenceTests.xctest */,
 				386D7AD72B82EB596CE79DED /* gridOS.app */,
 				5449C18D52D6690542E48A9C /* GridOSKit.framework */,
 				14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */,
@@ -658,6 +705,26 @@
 			productReference = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		96F467AD7D8155E34BD27CEE /* CommandIntelligenceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 642B0FC87EFDD736CE9BA805 /* Build configuration list for PBXNativeTarget "CommandIntelligenceTests" */;
+			buildPhases = (
+				5CAAD26EBA14273575889A74 /* Sources */,
+				52C513C5FF8F691A5515B981 /* Frameworks */,
+				A52656EB9D0956951A64C185 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				239DAE0D6CED6B7E0D1F1B66 /* PBXTargetDependency */,
+			);
+			name = CommandIntelligenceTests;
+			packageProductDependencies = (
+			);
+			productName = CommandIntelligenceTests;
+			productReference = 50D887A88FFD11E28A2F6297 /* CommandIntelligenceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D13A5694669E4963B4985D5D /* RenderCore */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D1A67D951A299B339E666E7 /* Build configuration list for PBXNativeTarget "RenderCore" */;
@@ -750,6 +817,7 @@
 			projectRoot = "";
 			targets = (
 				84079C839D5B1068F78F0197 /* CommandIntelligence */,
+				96F467AD7D8155E34BD27CEE /* CommandIntelligenceTests */,
 				0089BA194C18C04899040AD9 /* GridOSKit */,
 				100825E750D842241C98CFF7 /* GridOSKitTests */,
 				D13A5694669E4963B4985D5D /* RenderCore */,
@@ -771,6 +839,16 @@
 				C0DD8F6B430B64D503ECB5CC /* SystemMetricsDeltaTests.swift in Sources */,
 				560E59CE9FAA9E27459702BC /* SystemMetricsModelTests.swift in Sources */,
 				65839B203EE419CFB256680F /* SystemMetricsSamplingPolicyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CAAD26EBA14273575889A74 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85F5BF6B0681BA56996DA2BE /* CommandCredentialStoreTests.swift in Sources */,
+				57575794890DF5AE18A29879 /* CommandIntelligenceFailureTests.swift in Sources */,
+				2B7E718D24E234871A82E257 /* CommandIntelligenceModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +953,11 @@
 			isa = PBXTargetDependency;
 			target = 5AA73FDF1FE6F38C96A774B1 /* SystemMetrics */;
 			targetProxy = CDB45328735B794A06D05315 /* PBXContainerItemProxy */;
+		};
+		239DAE0D6CED6B7E0D1F1B66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84079C839D5B1068F78F0197 /* CommandIntelligence */;
+			targetProxy = B16726FFC4C740BC08AA1343 /* PBXContainerItemProxy */;
 		};
 		3606EE9EC03DB1B0C50FDA41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1466,6 +1549,22 @@
 			};
 			name = Release;
 		};
+		CCAC39CA5EF1F5F3906D890F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligenceTests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		EBFF39A5496BC1BF00493EED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1481,6 +1580,22 @@
 				SDKROOT = macosx;
 			};
 			name = Release;
+		};
+		F7EC858907812BD39B5204B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligenceTests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1499,6 +1614,15 @@
 			buildConfigurations = (
 				941C5B31F1B60EE3FDCF2F83 /* Debug */,
 				574B2ED1D1C94400067D4701 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		642B0FC87EFDD736CE9BA805 /* Build configuration list for PBXNativeTarget "CommandIntelligenceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7EC858907812BD39B5204B5 /* Debug */,
+				CCAC39CA5EF1F5F3906D890F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
