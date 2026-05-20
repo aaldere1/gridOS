@@ -95,7 +95,7 @@ Exit criteria:
 Plans: 6 plans
 
 - [x] 06-01-PLAN.md - CommandIntelligence contracts, approved-payload contract, test target, credentials, and failure copy.
-- [ ] 06-02-PLAN.md - Secret redaction and context preview construction.
+- [x] 06-02-PLAN.md - Secret redaction and context preview construction.
 - [x] 06-03-PLAN.md - Local risk classifier and run policy.
 - [ ] 06-04-PLAN.md - Anthropic provider adapter, Keychain credential storage, and Settings setup.
 - [ ] 06-05-PLAN.md - Command-K palette shell, TerminalCore interaction bridge, preview-before-send flow, and Settings action wiring.
