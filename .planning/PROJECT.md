@@ -20,7 +20,9 @@ The repository began as planning-only documentation:
 - `docs/vision.md`
 - `docs/production-roadmap.md`
 
-No production app source, Xcode project, CI, signing setup, or release pipeline existed at the start of implementation.
+Phase 2 is now complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, and a first Metal-backed visual identity layer that reacts to coarse terminal activity while idling after short render bursts.
+
+No production signing setup, release pipeline, updater, metrics panels, or LLM command help exists yet.
 
 ## Build approach
 
@@ -34,6 +36,12 @@ Initial architecture:
 - `RenderCore`: Metal visual identity layer.
 - `SystemMetrics`: system sampler abstraction.
 - `CommandIntelligence`: LLM provider and command safety abstraction.
+
+Validated implementation so far:
+
+- Phase 0: project scaffold, module boundaries, CI skeleton, and docs.
+- Phase 1: native local shell MVP behind `TerminalCore`.
+- Phase 2: Metal identity MVP behind `RenderCore`.
 
 ## Non-negotiables
 

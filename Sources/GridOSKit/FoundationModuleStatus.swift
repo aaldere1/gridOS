@@ -2,6 +2,7 @@ import Foundation
 
 public struct FoundationModuleStatus: Identifiable, Equatable, Sendable {
     public enum State: String, Sendable {
+        case active
         case scaffolded
         case pending
     }

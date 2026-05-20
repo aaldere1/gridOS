@@ -3,14 +3,21 @@ import SwiftTerm
 import SwiftUI
 
 public struct TerminalSurface: NSViewRepresentable {
-    private let configuration: TerminalSessionConfiguration
+    public typealias ActivityHandler = @MainActor (TerminalActivityEvent) -> Void
 
-    public init(configuration: TerminalSessionConfiguration = .default) {
+    private let configuration: TerminalSessionConfiguration
+    private let onActivity: ActivityHandler
+
+    public init(
+        configuration: TerminalSessionConfiguration = .default,
+        onActivity: @escaping ActivityHandler = { _ in }
+    ) {
         self.configuration = configuration
+        self.onActivity = onActivity
     }
 
     @MainActor public func makeCoordinator() -> Coordinator {
-        Coordinator(configuration: configuration)
+        Coordinator(configuration: configuration, onActivity: onActivity)
     }
 
     @MainActor public func makeNSView(context: Context) -> NSView {
@@ -28,17 +35,26 @@ public struct TerminalSurface: NSViewRepresentable {
     @MainActor
     public final class Coordinator: NSObject, @MainActor LocalProcessTerminalViewDelegate {
         private let configuration: TerminalSessionConfiguration
+        private let onActivity: ActivityHandler
         private var state = TerminalSessionState.idle
+        private var outputFlushScheduled = false
+        private var pendingOutputBytes = 0
         private weak var terminalView: LocalProcessTerminalView?
 
-        init(configuration: TerminalSessionConfiguration) {
+        init(configuration: TerminalSessionConfiguration, onActivity: @escaping ActivityHandler) {
             self.configuration = configuration
+            self.onActivity = onActivity
             super.init()
             registerCommandObservers()
         }
 
         func attach(_ terminalView: LocalProcessTerminalView) {
             self.terminalView = terminalView
+            if let gridOSTerminalView = terminalView as? GridOSTerminalView {
+                gridOSTerminalView.activityHandler = { [weak self] event in
+                    self?.recordActivity(event)
+                }
+            }
             configure(terminalView)
             startShell(in: terminalView)
         }
@@ -49,14 +65,21 @@ public struct TerminalSurface: NSViewRepresentable {
             removeCommandObservers()
         }
 
-        public func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {}
+        public func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {
+            recordActivity(.resized(columns: newCols, rows: newRows))
+        }
 
-        public func setTerminalTitle(source: LocalProcessTerminalView, title: String) {}
+        public func setTerminalTitle(source: LocalProcessTerminalView, title: String) {
+            recordActivity(.titleChanged(title))
+        }
 
-        public func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {}
+        public func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {
+            recordActivity(.workingDirectoryChanged(directory))
+        }
 
         public func processTerminated(source: TerminalView, exitCode: Int32?) {
             state = .terminated(exitCode: exitCode)
+            recordActivity(.processTerminated(exitCode: exitCode))
         }
 
         private func configure(_ terminalView: LocalProcessTerminalView) {
@@ -93,6 +116,7 @@ public struct TerminalSurface: NSViewRepresentable {
                 currentDirectory: configuration.workingDirectory
             )
             state = .running
+            recordActivity(.processStarted(shell: configuration.shellDisplayName))
 
             DispatchQueue.main.async {
                 terminalView.window?.makeFirstResponder(terminalView)
@@ -125,6 +149,39 @@ public struct TerminalSurface: NSViewRepresentable {
             NotificationCenter.default.removeObserver(self)
         }
 
+        private func recordActivity(_ event: TerminalActivityEvent) {
+            switch event {
+            case .output(let byteCount):
+                pendingOutputBytes += byteCount
+                scheduleOutputFlush()
+            default:
+                onActivity(event)
+            }
+        }
+
+        private func scheduleOutputFlush() {
+            guard !outputFlushScheduled else {
+                return
+            }
+
+            outputFlushScheduled = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0 / 30.0) { [weak self] in
+                self?.flushOutputActivity()
+            }
+        }
+
+        private func flushOutputActivity() {
+            let byteCount = pendingOutputBytes
+            pendingOutputBytes = 0
+            outputFlushScheduled = false
+
+            guard byteCount > 0 else {
+                return
+            }
+
+            onActivity(.output(byteCount: byteCount))
+        }
+
         @objc private func copyCommand() {
             terminalView?.copy(self)
         }
@@ -146,6 +203,8 @@ public struct TerminalSurface: NSViewRepresentable {
 
 @MainActor
 private final class GridOSTerminalView: LocalProcessTerminalView {
+    var activityHandler: ((TerminalActivityEvent) -> Void)?
+
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
 
@@ -155,6 +214,22 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
             }
 
             self.window?.makeFirstResponder(self)
+        }
+    }
+
+    override func send(source: TerminalView, data: ArraySlice<UInt8>) {
+        emitActivity(.input(byteCount: data.count))
+        super.send(source: source, data: data)
+    }
+
+    override func dataReceived(slice: ArraySlice<UInt8>) {
+        emitActivity(.output(byteCount: slice.count))
+        super.dataReceived(slice: slice)
+    }
+
+    private func emitActivity(_ event: TerminalActivityEvent) {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityHandler?(event)
         }
     }
 }

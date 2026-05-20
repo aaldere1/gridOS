@@ -111,6 +111,18 @@ targets:
         MARKETING_VERSION: 0.1.0
         PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.RenderCore
 
+  RenderCoreTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/RenderCoreTests
+    dependencies:
+      - target: RenderCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.RenderCoreTests
+
   SystemMetrics:
     type: framework
     platform: macOS
@@ -181,9 +193,11 @@ schemes:
       targets:
         gridOS: all
         GridOSKitTests: [test]
+        RenderCoreTests: [test]
         TerminalCoreTests: [test]
     test:
       gatherCoverageData: true
       targets:
         - GridOSKitTests
+        - RenderCoreTests
         - TerminalCoreTests

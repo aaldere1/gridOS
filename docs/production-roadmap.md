@@ -2,11 +2,13 @@
 
 This plan takes gridOS from the current planning-only repository to a production-ready macOS 1.0. It assumes the product intent in `docs/vision.md` remains intact: a native Apple Silicon sci-fi terminal that is beautiful, fast, useful, and meaningfully Mac-first.
 
-Current state as of 2026-05-19:
+Current state as of 2026-05-20:
 
-- Repository contains planning docs only.
-- No Xcode project, package manifest, source code, tests, CI, signing setup, or release pipeline exists yet.
-- The repo is private and has no project license selected.
+- XcodeGen project, generated Xcode project, module boundaries, tests, docs, and CI skeleton exist.
+- Phase 1 native shell MVP is complete with SwiftTerm behind `TerminalCore`.
+- Phase 2 Metal identity MVP is complete with a burst-driven `RenderCore` Metal background behind/around the terminal.
+- Signing setup, release pipeline, updater, system metrics, and LLM command help do not exist yet.
+- The repo is private with a proprietary private-alpha license posture.
 
 ## Production-ready definition
 

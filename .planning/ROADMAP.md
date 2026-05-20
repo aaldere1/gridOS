@@ -32,7 +32,7 @@ Exit criteria:
 
 ## Phase 2 - Metal identity MVP
 
-Status: active
+Status: complete
 
 Goal: prove the product can feel special without damaging terminal usability.
 
@@ -45,7 +45,7 @@ Exit criteria:
 
 ## Phase 3 - Production app frame
 
-Status: pending
+Status: active
 
 Goal: turn the prototype into a coherent Mac app shell.
 

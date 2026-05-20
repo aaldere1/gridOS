@@ -20,7 +20,9 @@ The generated project should not be manually edited for structural changes. Upda
 - `RenderCore`: Metal renderer, shader pipelines, visual modes, and procedural identity.
 - `SystemMetrics`: CPU, memory, disk, network, power, thermal, and process sampling.
 - `CommandIntelligence`: LLM provider abstraction, context packing, redaction, and command safety.
-- `GridOSKitTests`: first unit test bundle.
+- `GridOSKitTests`: shared model unit tests.
+- `TerminalCoreTests`: terminal configuration and session model unit tests.
+- `RenderCoreTests`: visual identity, render event, and shader compile unit tests.
 
 ## Dependency direction
 
@@ -58,15 +60,19 @@ For repeatable launch smoke tests, `TerminalSessionConfiguration.fromProcessArgu
 
 ## Phase 2 architecture target
 
-Phase 2 should introduce `RenderCore` through a single Metal surface that can be hosted by the app without coupling terminal correctness to shader work.
+Phase 2 introduces `RenderCore` through a single Metal surface that can be hosted by the app without coupling terminal correctness to shader work.
 
-Target abstractions:
+Current abstractions:
 
 - `VisualIdentity`
 - `VisualMode`
 - `ProceduralSeed`
 - `RenderEvent`
 - `MetalBackgroundView`
+
+`MetalBackgroundView` hosts an `MTKView` and compiles the first embedded `Signal Field` shader at runtime. Rendering is burst-driven: the background draws an initial frame, animates briefly after terminal activity, and invalidates its timer after the pulse decays.
+
+`TerminalCore` emits coarse `TerminalActivityEvent` values for input, output, resize, and process lifecycle events. `GridOSApp` translates those events into `RenderEvent` values. This preserves the dependency rule: `TerminalCore` does not import or depend on `RenderCore`.
 
 ## Architecture rule
 

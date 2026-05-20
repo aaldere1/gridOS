@@ -36,6 +36,25 @@ open -n path/to/gridOS.app --args --cmd 'echo ok; exit'
 
 This is intended for local smoke tests of the shell bridge, not as a user-facing automation contract yet.
 
+## Visual identity smoke
+
+Phase 2 adds a Metal-backed background through `RenderCore.MetalBackgroundView`. The current smoke bar is:
+
+- app launches without shader setup crashes
+- startup command still reaches the shell
+- shell child exits after command completion
+- app quits cleanly
+- app CPU returns to idle after the startup render burst
+
+Recent local Phase 2 evidence:
+
+```text
+GRIDOS_PHASE2_SMOKE
+APP_SAMPLE=0.0 106496 SN .../gridOS.app/Contents/MacOS/gridOS
+```
+
+This is not a substitute for Phase 9 performance hardening; it is only the Phase 2 guardrail that the first renderer does not obviously spin while idle.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

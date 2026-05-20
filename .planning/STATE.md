@@ -2,11 +2,11 @@
 
 ## Active phase
 
-Phase 2 - Metal identity MVP
+Phase 3 - Production app frame
 
 ## Current status
 
-Phase 1 is complete. The app now opens to a SwiftTerm-backed local shell through `TerminalCore`, with the backend hidden behind a narrow adapter, terminal menu commands, profile placeholders, startup-command smoke support, and passing build/tests.
+Phase 2 is complete. The app now opens to a SwiftTerm-backed local shell over a burst-driven Metal `Signal Field` background from `RenderCore`, with terminal activity bridged into subtle render pulses and passing build/tests/smoke checks.
 
 ## Decisions made
 
@@ -18,6 +18,8 @@ Phase 1 is complete. The app now opens to a SwiftTerm-backed local shell through
 - Use a conservative proprietary license posture during private alpha unless changed before public release.
 - Keep `project.yml` authoritative for Xcode project structure.
 - Keep SwiftTerm isolated inside `TerminalCore`; `GridOSApp` should consume `TerminalSurface`, `TerminalSessionConfiguration`, and `TerminalCommandCenter` only.
+- Keep Metal rendering isolated inside `RenderCore`; `TerminalCore` emits coarse activity events and does not depend on rendering code.
+- Keep the Phase 2 renderer burst-driven so idle CPU stays quiet before heavier visual systems are added.
 
 ## Decisions still open
 
@@ -44,12 +46,18 @@ Phase 1 is complete. The app now opens to a SwiftTerm-backed local shell through
 - 2026-05-19: Verified `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` passed with 8 tests.
 - 2026-05-19: Launch-smoke verified `gridOS.app` starts, creates a `-zsh` child, accepts keyboard input after window activation/click, and cleans up after `exit`.
 - 2026-05-19: PTY smoke verified `vim --version`, `less --version`, `ssh -V`, `tmux -V`, `top -l 1 -n 0`, and a 1000-line fast-output burst through the app startup command path.
+- 2026-05-20: Created the Phase 2 GSD execution plan because the roadmap had Phase 2 active but no phase directory yet.
+- 2026-05-20: Added `RenderCore` visual identity types, deterministic procedural seeds, render events, and a Metal-backed `MetalBackgroundView`.
+- 2026-05-20: Added coarse terminal activity events in `TerminalCore` and bridged them to render pulses in `GridOSApp`.
+- 2026-05-20: Added `RenderCoreTests`, including Metal shader compilation when a device is available.
+- 2026-05-20: Verified `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` passed with 13 unit tests.
+- 2026-05-20: Launch-smoke verified `GRIDOS_PHASE2_SMOKE`, shell exit, clean app quit, and a post-burst app CPU sample of `0.0`.
 
 ## Next target
 
-Start Phase 2 Metal identity MVP:
+Start Phase 3 Production app frame:
 
-1. Add `RenderCore` visual mode and procedural seed types.
-2. Host a first Metal-backed background behind the terminal.
-3. Bridge terminal activity into subtle render events without blocking PTY throughput.
-4. Measure idle CPU before adding heavier effects.
+1. Make window behavior, focus, and state restoration production-shaped.
+2. Replace Settings placeholders with persisted terminal/app preferences.
+3. Harden keyboard commands and accessibility paths.
+4. Add focused tests around app frame state and preference behavior.
