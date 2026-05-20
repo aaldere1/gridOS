@@ -15,9 +15,11 @@ final class CommandCredentialStoreTests: XCTestCase {
         let provider: LLMProviderID = "anthropic"
 
         try await store.saveAPIKey("sk-test-value", for: provider)
-        XCTAssertEqual(try await store.apiKey(for: provider), "sk-test-value")
+        let savedAPIKey = try await store.apiKey(for: provider)
+        XCTAssertEqual(savedAPIKey, "sk-test-value")
 
         try await store.deleteAPIKey(for: provider)
-        XCTAssertNil(try await store.apiKey(for: provider))
+        let deletedAPIKey = try await store.apiKey(for: provider)
+        XCTAssertNil(deletedAPIKey)
     }
 }
