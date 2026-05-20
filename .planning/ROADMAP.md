@@ -75,6 +75,13 @@ Exit criteria:
 - Mode switching is fast and stable.
 - Effects never obscure terminal text.
 
+Plans: 4 plans
+
+- [ ] 05-01-PLAN.md - RenderCore/GridOSKit mode registry, tokens, preferences, and seed foundation.
+- [ ] 05-02-PLAN.md - AppStorage composition, Settings picker, and native Command-Shift-M mode command.
+- [ ] 05-03-PLAN.md - App-frame token integration and mode-aware Metal shader/motion integration.
+- [ ] 05-04-PLAN.md - Screenshot evidence helper, docs/state updates, and visual verification checkpoint.
+
 ## Phase 6 - LLM command palette
 
 Status: pending
