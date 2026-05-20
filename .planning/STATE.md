@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase-03-complete
-last_updated: "2026-05-20T14:50:49Z"
+status: phase-04-context-gathered
+last_updated: "2026-05-20T14:54:56Z"
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 4
   total_plans: 4
   completed_plans: 4
@@ -19,7 +19,7 @@ Phase 4 - Real system metrics
 
 ## Current status
 
-Phase 3 is complete and verified. The app now has a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility labels/values layered around the SwiftTerm-backed shell and Metal `Signal Field` background.
+Phase 4 context is gathered and ready for research/planning. The next work is replacing Phase 3's placeholder system/activity panels with truthful local metrics while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and idle-friendly sampling.
 
 ## Decisions made
 
@@ -77,14 +77,11 @@ Phase 3 is complete and verified. The app now has a terminal-first production fr
 - 2026-05-20: Verified Phase 3 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, and `git diff --check` passed.
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE3_SMOKE` written to `/tmp/gridos-phase3-smoke.txt` through the app startup command path and the Debug app quit cleanly.
 - 2026-05-20: Phase 3 verification passed with 3/3 key links verified and no blocking gaps.
+- 2026-05-20: Scaffolded Phase 4 directory and captured context for real system metrics, including metric truth, sampling budget, app-frame display, privacy, unavailable states, and verification direction.
 
 ## Next target
 
-Start Phase 4 Real system metrics:
-
-1. Define truthful CPU, memory, disk, network, battery, and thermal metric contracts.
-2. Replace Phase 3 placeholder panels with graceful real-data surfaces.
-3. Preserve terminal focus, privacy defaults, and renderer idle behavior.
+Plan Phase 4 Real system metrics from `.planning/phases/04-real-system-metrics/04-CONTEXT.md`.
 
 ## Session handoff
 
@@ -92,4 +89,6 @@ Start Phase 4 Real system metrics:
 - Resume file: `.planning/phases/03-production-app-frame/03-CONTEXT.md`.
 - 2026-05-20: Phase 03 research, UI design contract, validation strategy, and executable plan created.
 - Plan file: `.planning/phases/03-production-app-frame/03-01-PLAN.md`.
-- Next command: `$gsd-discuss-phase 4`.
+- 2026-05-20: Phase 04 context gathered.
+- Resume file: `.planning/phases/04-real-system-metrics/04-CONTEXT.md`.
+- Next command: `$gsd-plan-phase 4`.
