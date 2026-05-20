@@ -54,6 +54,43 @@ public struct CPUMetrics: Equatable, Sendable {
         self.idlePercent = idlePercent
         self.nicePercent = nicePercent
     }
+
+    public static func percent(
+        user: Int64,
+        system: Int64,
+        idle: Int64,
+        nice: Int64 = 0
+    ) -> CPUMetrics {
+        let userDelta = max(0, Double(user))
+        let systemDelta = max(0, Double(system))
+        let idleDelta = max(0, Double(idle))
+        let niceDelta = max(0, Double(nice))
+        let total = userDelta + systemDelta + idleDelta + niceDelta
+
+        guard total > 0 else {
+            return CPUMetrics(
+                usagePercent: 0,
+                userPercent: 0,
+                systemPercent: 0,
+                idlePercent: 100,
+                nicePercent: 0
+            )
+        }
+
+        let userPercent = (userDelta / total) * 100
+        let systemPercent = (systemDelta / total) * 100
+        let idlePercent = (idleDelta / total) * 100
+        let nicePercent = (niceDelta / total) * 100
+        let usagePercent = min(100, max(0, userPercent + systemPercent + nicePercent))
+
+        return CPUMetrics(
+            usagePercent: usagePercent,
+            userPercent: userPercent,
+            systemPercent: systemPercent,
+            idlePercent: min(100, max(0, idlePercent)),
+            nicePercent: nicePercent
+        )
+    }
 }
 
 public struct MemoryMetrics: Equatable, Sendable {
@@ -114,6 +151,18 @@ public struct NetworkMetrics: Equatable, Sendable {
         self.sentBytesPerSecond = sentBytesPerSecond
         self.stateText = stateText
     }
+
+    public static func throughput(
+        previousBytes: UInt64,
+        currentBytes: UInt64,
+        elapsed: TimeInterval
+    ) -> Double {
+        guard elapsed > 0, currentBytes >= previousBytes else {
+            return 0
+        }
+
+        return Double(currentBytes - previousBytes) / elapsed
+    }
 }
 
 public struct BatteryMetrics: Equatable, Sendable {
@@ -163,6 +212,24 @@ public struct TopProcessMetrics: Equatable, Sendable, Identifiable {
         self.name = name
         self.cpuPercent = cpuPercent
         self.residentMemoryBytes = residentMemoryBytes
+    }
+
+    public static func cpuPercent(
+        previousTotalTime: UInt64,
+        currentTotalTime: UInt64,
+        elapsed: TimeInterval,
+        processorCount: Int
+    ) -> Double {
+        guard elapsed > 0, currentTotalTime >= previousTotalTime, processorCount > 0 else {
+            return 0
+        }
+
+        let deltaNanoseconds = currentTotalTime - previousTotalTime
+        let deltaSeconds = Double(deltaNanoseconds) / 1_000_000_000
+        let percent = (deltaSeconds / elapsed) * 100
+        let maximum = Double(processorCount) * 100
+
+        return min(maximum, max(0, percent))
     }
 }
 
