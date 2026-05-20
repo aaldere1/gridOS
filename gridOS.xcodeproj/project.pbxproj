@@ -70,6 +70,7 @@
 		BA8B8EB3621B9DC432815FE3 /* TerminalInteractionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558F2F8D06CFAE784CAB06B /* TerminalInteractionControllerTests.swift */; };
 		BD8EBC693438F1B6B43CEDAD /* MetalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */; };
 		C0DD8F6B430B64D503ECB5CC /* SystemMetricsDeltaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A243302A878294B594542C4D /* SystemMetricsDeltaTests.swift */; };
+		C36CC27EA6470E140C89AC44 /* TerminalInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */; };
 		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
 		CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */; };
 		CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
@@ -268,6 +269,7 @@
 		1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSessionConfigurationTests.swift; sourceTree = "<group>"; };
 		14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridOSKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1456C0B22F5C1822B36E194E /* SystemMetrics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SystemMetrics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalInteractionController.swift; sourceTree = "<group>"; };
 		160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralSeed.swift; sourceTree = "<group>"; };
 		174EF9F9D687DF34A3D4B95E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreStatus.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */,
 				8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */,
 				FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */,
+				15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */,
 				CBECCF1F82B155BC5EDCDBD0 /* TerminalSessionConfiguration.swift */,
 				44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */,
 				AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */,
@@ -981,6 +984,7 @@
 				5BA683C2AF090D06FB3759C8 /* TerminalActivityEvent.swift in Sources */,
 				8E870C9CF11957939FA24108 /* TerminalCommandCenter.swift in Sources */,
 				C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */,
+				C36CC27EA6470E140C89AC44 /* TerminalInteractionController.swift in Sources */,
 				43D28347C40C309F7F2EE032 /* TerminalSessionConfiguration.swift in Sources */,
 				70834CB4225B77F676925F08 /* TerminalSessionState.swift in Sources */,
 				5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */,

@@ -7,17 +7,20 @@ public struct TerminalSurface: NSViewRepresentable {
 
     private let configuration: TerminalSessionConfiguration
     private let onActivity: ActivityHandler
+    private let interactionController: TerminalInteractionController?
 
     public init(
         configuration: TerminalSessionConfiguration = .default,
+        interactionController: TerminalInteractionController? = nil,
         onActivity: @escaping ActivityHandler = { _ in }
     ) {
         self.configuration = configuration
+        self.interactionController = interactionController
         self.onActivity = onActivity
     }
 
     @MainActor public func makeCoordinator() -> Coordinator {
-        Coordinator(configuration: configuration, onActivity: onActivity)
+        Coordinator(configuration: configuration, interactionController: interactionController, onActivity: onActivity)
     }
 
     @MainActor public func makeNSView(context: Context) -> NSView {
@@ -35,21 +38,31 @@ public struct TerminalSurface: NSViewRepresentable {
     @MainActor
     public final class Coordinator: NSObject, @MainActor LocalProcessTerminalViewDelegate {
         private let configuration: TerminalSessionConfiguration
+        private let interactionController: TerminalInteractionController?
         private let onActivity: ActivityHandler
         private var state = TerminalSessionState.idle
         private var outputFlushScheduled = false
         private var pendingOutputBytes = 0
         private weak var terminalView: LocalProcessTerminalView?
 
-        init(configuration: TerminalSessionConfiguration, onActivity: @escaping ActivityHandler) {
+        init(
+            configuration: TerminalSessionConfiguration,
+            interactionController: TerminalInteractionController?,
+            onActivity: @escaping ActivityHandler
+        ) {
             self.configuration = configuration
+            self.interactionController = interactionController
             self.onActivity = onActivity
             super.init()
             registerCommandObservers()
         }
 
         func attach(_ terminalView: LocalProcessTerminalView) {
+            if let currentTerminalView = self.terminalView {
+                interactionController?.detach(currentTerminalView)
+            }
             self.terminalView = terminalView
+            interactionController?.attach(terminalView)
             if let gridOSTerminalView = terminalView as? GridOSTerminalView {
                 gridOSTerminalView.activityHandler = { [weak self] event in
                     self?.recordActivity(event)
@@ -60,6 +73,9 @@ public struct TerminalSurface: NSViewRepresentable {
         }
 
         func shutdown() {
+            if let terminalView {
+                interactionController?.detach(terminalView)
+            }
             terminalView?.terminate()
             state = .terminated(exitCode: nil)
             removeCommandObservers()
@@ -235,7 +251,7 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
 }
 
 @MainActor
-private extension LocalProcessTerminalView {
+extension LocalProcessTerminalView: TerminalInteractionControllingTerminal {
     func sendControlByte(_ byte: UInt8) {
         let bytes = [byte]
         send(source: self, data: bytes[...])
@@ -244,5 +260,9 @@ private extension LocalProcessTerminalView {
     func sendText(_ text: String) {
         let bytes = Array(text.utf8)
         send(source: self, data: bytes[...])
+    }
+
+    func focusTerminal() {
+        window?.makeFirstResponder(self)
     }
 }
