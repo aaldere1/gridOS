@@ -21,6 +21,7 @@
 		4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */; };
 		4B55FBDAF5C861FF08245AA1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
 		4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */; };
+		558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */; };
 		5BA683C2AF090D06FB3759C8 /* TerminalActivityEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */; };
 		5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */; };
 		6640D0A991EA4BFC34875E2F /* VisualIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307045E1593C0C65F5C30CEF /* VisualIdentity.swift */; };
@@ -224,6 +225,7 @@
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
 		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
+		C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowFrameController.swift; sourceTree = "<group>"; };
 		CBECCF1F82B155BC5EDCDBD0 /* TerminalSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSessionConfiguration.swift; sourceTree = "<group>"; };
 		D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TerminalCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferencesTests.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				ACBE83C91B238DA23848EE62 /* Info.plist */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
+				C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */,
 			);
 			path = GridOSApp;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
+				558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

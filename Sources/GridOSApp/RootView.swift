@@ -58,6 +58,7 @@ struct RootView: View {
             }
             .padding(18)
         }
+        .background(WindowFrameController(autosaveName: "gridOS.main"))
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
