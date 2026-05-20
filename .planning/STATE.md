@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 05
-last_updated: "2026-05-20T16:26:57.745Z"
+last_updated: "2026-05-20T16:33:41.572Z"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 9
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # gridOS state
@@ -19,7 +19,7 @@ Phase 5 - Aesthetic modes
 
 ## Current status
 
-Phase 5 context is gathered and ready for planning. The phase should deliver Tron, Severance, and Apple-native visual modes with fast mode switching, stable local persistence, per-mode motion profiles, and subtle per-install procedural variation while preserving terminal readability and real metrics clarity.
+Phase 5 Plan 01 is complete. RenderCore now exposes the tested three-mode visual foundation for Tron, Severance, and Apple-native, and GridOSKit owns string-only persistence helpers for selected mode and install seed. Next target is Plan 02: app-layer composition, Settings picker, first-launch install seed generation, and `Command-Shift-M` mode cycling.
 
 ## Decisions made
 
@@ -42,6 +42,10 @@ Phase 5 context is gathered and ready for planning. The phase should deliver Tro
 - Keep aesthetic modes as coherent visual systems, not color swaps, but do not replace SwiftTerm rendering or obscure terminal/metrics text.
 - Use `Command-Shift-M` as the required native mode switcher and persist selected mode locally with existing app preference patterns.
 - Make procedural variation stable per install and subtle within each mode.
+- [Phase 05-aesthetic-modes]: Expose exactly Tron, Severance, and Apple-native as public VisualMode cases, with Tron as the default.
+- [Phase 05-aesthetic-modes]: Keep GridOSKit preference helpers string-only so RenderCore remains downstream of GridOSKit.
+- [Phase 05-aesthetic-modes]: Namespace install-derived visual seeds as gridOS.visual.v1.<installSeed>.<mode> for stable per-install variation.
+- [Phase 05-aesthetic-modes]: Compose global visual intensity and reduced-motion settings with per-mode motion profiles instead of replacing the existing scalar contract.
 
 ## Decisions still open
 
@@ -93,10 +97,18 @@ Phase 5 context is gathered and ready for planning. The phase should deliver Tro
 - 2026-05-20: Verified Phase 4 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, `git diff --check`, source `rg` checks, and key-link verification passed.
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE4_SMOKE` written to `/tmp/gridos-phase4-smoke.txt` through the app startup command path and the Debug app quit cleanly through LaunchServices.
 - 2026-05-20: Scaffolded Phase 5 directory and captured context for aesthetic modes, including mode taste, switching/persistence, app-frame theming scope, terminal protection, motion profiles, procedural variation, and deferred visual ideas.
+- 2026-05-20: Executed Phase 5 Plan 01 with TDD coverage for the public visual mode registry, exact mode token bundles, deterministic install-derived seeds, reduced-motion pulse suppression, and GridOSKit raw preference validation.
+- 2026-05-20: Verified Phase 5 Plan 01 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, required `rg` source checks, and `git diff --check` passed.
+
+## Performance metrics
+
+| Phase | Plan | Duration | Tasks | Files |
+| --- | --- | --- | --- | --- |
+| 05-aesthetic-modes | 01 | 5 min | 2 | 9 |
 
 ## Next target
 
-Plan Phase 5 Aesthetic modes from `.planning/phases/05-aesthetic-modes/05-CONTEXT.md`.
+Execute `.planning/phases/05-aesthetic-modes/05-02-PLAN.md`.
 
 ## Session handoff
 
@@ -114,4 +126,6 @@ Plan Phase 5 Aesthetic modes from `.planning/phases/05-aesthetic-modes/05-CONTEX
 - 2026-05-20: Phase 05 context gathered.
 - Resume file: `.planning/phases/05-aesthetic-modes/05-CONTEXT.md`.
 - Discussion log: `.planning/phases/05-aesthetic-modes/05-DISCUSSION-LOG.md`.
-- Next command: `$gsd-plan-phase 5`.
+- 2026-05-20: Phase 05 Plan 01 executed and verified.
+- Summary file: `.planning/phases/05-aesthetic-modes/05-01-SUMMARY.md`.
+- Next command: execute `.planning/phases/05-aesthetic-modes/05-02-PLAN.md`.

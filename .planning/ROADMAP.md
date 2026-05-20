@@ -65,7 +65,7 @@ Exit criteria:
 
 ## Phase 5 - Aesthetic modes
 
-Status: next
+Status: in progress
 
 Goal: ship multiple coherent visual identities.
 
@@ -77,7 +77,7 @@ Exit criteria:
 
 Plans: 4 plans
 
-- [ ] 05-01-PLAN.md - RenderCore/GridOSKit mode registry, tokens, preferences, and seed foundation.
+- [x] 05-01-PLAN.md - RenderCore/GridOSKit mode registry, tokens, preferences, and seed foundation.
 - [ ] 05-02-PLAN.md - AppStorage composition, Settings picker, and native Command-Shift-M mode command.
 - [ ] 05-03-PLAN.md - App-frame token integration and mode-aware Metal shader/motion integration.
 - [ ] 05-04-PLAN.md - Screenshot evidence helper, docs/state updates, and visual verification checkpoint.
