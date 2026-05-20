@@ -31,4 +31,8 @@ public struct ProceduralSeed: Equatable, Sendable {
             Float(lower) / divisor
         )
     }
+
+    public static func installDerived(installSeed: String, mode: VisualMode) -> ProceduralSeed {
+        ProceduralSeed(stableString: "gridOS.visual.v1.\(installSeed).\(mode.rawValue)")
+    }
 }

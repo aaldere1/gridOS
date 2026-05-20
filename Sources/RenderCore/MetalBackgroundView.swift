@@ -56,7 +56,7 @@ public struct MetalBackgroundView: NSViewRepresentable {
             effectConfiguration: VisualEffectConfiguration
         ) -> NSView {
             guard let device = MTLCreateSystemDefaultDevice() else {
-                return makeFallbackView()
+                return makeFallbackView(identity: identity)
             }
 
             let view = MTKView(frame: .zero, device: device)
@@ -66,7 +66,7 @@ public struct MetalBackgroundView: NSViewRepresentable {
             view.enableSetNeedsDisplay = true
             view.isPaused = true
             view.preferredFramesPerSecond = 30
-            view.clearColor = MTLClearColor(red: 0.006, green: 0.008, blue: 0.012, alpha: 1)
+            view.clearColor = identity.mode.theme.palette.background.metalClearColor
 
             renderer.configure(view: view)
             renderer.update(identity: identity)
@@ -91,9 +91,11 @@ public struct MetalBackgroundView: NSViewRepresentable {
             renderer.update(identity: identity)
 
             guard let metalView = view as? MTKView else {
-                view.layer?.backgroundColor = NSColor(calibratedRed: 0.006, green: 0.008, blue: 0.012, alpha: 1).cgColor
+                view.layer?.backgroundColor = identity.mode.theme.palette.background.nsColor.cgColor
                 return
             }
+
+            metalView.clearColor = identity.mode.theme.palette.background.metalClearColor
 
             if let event, event.sequence != lastEventSequence {
                 submit(event, configuration: effectConfiguration)
@@ -152,10 +154,10 @@ public struct MetalBackgroundView: NSViewRepresentable {
             animationTimer = nil
         }
 
-        private func makeFallbackView() -> NSView {
+        private func makeFallbackView(identity: VisualIdentity) -> NSView {
             let view = NSView(frame: .zero)
             view.wantsLayer = true
-            view.layer?.backgroundColor = NSColor(calibratedRed: 0.006, green: 0.008, blue: 0.012, alpha: 1).cgColor
+            view.layer?.backgroundColor = identity.mode.theme.palette.background.nsColor.cgColor
             return view
         }
     }
@@ -168,7 +170,12 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         var seed: SIMD2<Float>
         var resolution: SIMD2<Float>
         var mode: Float
-        var padding: SIMD3<Float> = .zero
+        var paletteBackground: SIMD4<Float>
+        var primaryAccent: SIMD4<Float>
+        var secondaryAccent: SIMD4<Float>
+        var statusAccent: SIMD4<Float>
+        var motion: SIMD4<Float>
+        var shader: SIMD4<Float>
     }
 
     private var commandQueue: MTLCommandQueue?
@@ -204,7 +211,11 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
 
     @discardableResult
     func record(event: RenderEvent, configuration: VisualEffectConfiguration) -> Double {
-        let magnitude = configuration.pulseMagnitude(for: event.magnitude)
+        let motion = identity.mode.theme.motion
+        let magnitude = configuration.pulseMagnitude(
+            for: event.magnitude,
+            motionProfile: motion
+        )
 
         guard magnitude > 0 else {
             pulse = 0
@@ -213,7 +224,7 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         }
 
         pulse = min(1, max(pulse, Float(magnitude)))
-        activeUntil = CACurrentMediaTime() + 1.4
+        activeUntil = CACurrentMediaTime() + motion.maxPulseDuration
         return magnitude
     }
 
@@ -228,7 +239,8 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         let now = CACurrentMediaTime()
         let delta = Float(max(0, min(now - lastDrawTime, 1.0)))
         lastDrawTime = now
-        pulse = max(0, pulse - delta * 0.42)
+        let theme = identity.mode.theme
+        pulse = max(0, pulse - delta * Float(theme.motion.pulseDecay))
 
         guard let commandQueue,
               let pipelineState,
@@ -247,7 +259,23 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
                 max(Float(view.drawableSize.width), 1),
                 max(Float(view.drawableSize.height), 1)
             ),
-            mode: identity.mode.shaderValue
+            mode: identity.mode.shaderValue,
+            paletteBackground: theme.palette.background.shaderVector,
+            primaryAccent: theme.palette.primaryAccent.shaderVector,
+            secondaryAccent: theme.palette.secondaryAccent.shaderVector,
+            statusAccent: theme.palette.statusAccent.shaderVector,
+            motion: SIMD4<Float>(
+                Float(theme.motion.idleDriftRate),
+                Float(theme.motion.eventGain),
+                Float(theme.motion.pulseDecay),
+                Float(theme.motion.detailDensity)
+            ),
+            shader: SIMD4<Float>(
+                Float(theme.shader.fieldScale),
+                Float(theme.shader.glowIntensity),
+                Float(theme.shader.lineIntensity),
+                Float(theme.shader.grainIntensity)
+            )
         )
 
         encoder?.setRenderPipelineState(pipelineState)
@@ -273,7 +301,12 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         float2 seed;
         float2 resolution;
         float mode;
-        float3 padding;
+        float4 paletteBackground;
+        float4 primaryAccent;
+        float4 secondaryAccent;
+        float4 statusAccent;
+        float4 motion;
+        float4 shader;
     };
 
     vertex VertexOut gridos_background_vertex(uint vertexID [[vertex_id]]) {
@@ -296,30 +329,77 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         float2 centered = float2((uv.x - 0.5) * aspect, uv.y - 0.5);
         float radius = length(centered);
 
-        float drift = uniforms.time * 0.18;
-        float waveA = sin((centered.x + uniforms.seed.x) * 16.0 + drift * 5.0);
-        float waveB = cos((centered.y + uniforms.seed.y) * 18.0 - drift * 4.0);
+        float drift = uniforms.time * uniforms.motion.x;
+        float detail = clamp(uniforms.motion.w, 0.05, 1.0);
+        float fieldScale = max(uniforms.shader.x, 0.05);
+        float waveA = sin((centered.x + uniforms.seed.x) * 16.0 * fieldScale + drift * 5.0);
+        float waveB = cos((centered.y + uniforms.seed.y) * 18.0 * fieldScale - drift * 4.0);
         float field = smoothstep(-0.8, 1.0, waveA * 0.45 + waveB * 0.38 - radius * 0.92);
 
-        float gridX = smoothstep(0.985, 1.0, cos((uv.x + uniforms.seed.x * 0.03) * 90.0));
-        float gridY = smoothstep(0.988, 1.0, cos((uv.y + uniforms.seed.y * 0.03) * 72.0));
-        float scan = smoothstep(0.998, 1.0, sin(uv.y * 260.0 + uniforms.time * 0.9));
+        float lineScaleX = mix(34.0, 96.0, detail) * fieldScale;
+        float lineScaleY = mix(28.0, 78.0, detail) * fieldScale;
+        float gridX = smoothstep(0.985, 1.0, cos((uv.x + uniforms.seed.x * 0.03) * lineScaleX));
+        float gridY = smoothstep(0.988, 1.0, cos((uv.y + uniforms.seed.y * 0.03) * lineScaleY));
+        float scan = smoothstep(0.998, 1.0, sin(uv.y * mix(120.0, 260.0, detail) + uniforms.time * 0.9));
 
         float pulse = clamp(uniforms.pulse, 0.0, 1.0);
         float vignette = smoothstep(0.86, 0.18, radius);
 
-        float3 base = float3(0.004, 0.007, 0.011);
-        float3 cyan = float3(0.10, 0.72, 0.78);
-        float3 blue = float3(0.12, 0.24, 0.46);
-        float3 amber = float3(0.95, 0.52, 0.20);
+        float3 base = uniforms.paletteBackground.rgb;
+        float3 primary = uniforms.primaryAccent.rgb;
+        float3 secondary = uniforms.secondaryAccent.rgb;
+        float3 status = uniforms.statusAccent.rgb;
+        float glow = uniforms.shader.y;
+        float line = uniforms.shader.z;
+        float grain = uniforms.shader.w;
 
         float3 color = base;
-        color += cyan * field * (0.11 + pulse * 0.18);
-        color += blue * vignette * 0.16;
-        color += amber * (gridX + gridY) * (0.012 + pulse * 0.035);
-        color += cyan * scan * (0.018 + pulse * 0.045);
+        if (uniforms.mode < 0.5) {
+            color += primary * field * (0.11 + pulse * 0.18) * glow;
+            color += secondary * vignette * 0.16;
+            color += status * (gridX + gridY) * (0.012 + pulse * 0.035) * line;
+            color += primary * scan * (0.018 + pulse * 0.045);
+        } else if (uniforms.mode < 1.5) {
+            float panel = smoothstep(0.46, 0.47, abs(centered.x)) * 0.5
+                + smoothstep(0.28, 0.29, abs(centered.y)) * 0.5;
+            color += primary * field * (0.025 + pulse * 0.030) * glow;
+            color += secondary * panel * 0.035;
+            color += status * (gridX + gridY) * (0.006 + pulse * 0.008) * line;
+        } else {
+            float aura = smoothstep(0.78, 0.12, radius);
+            color += primary * aura * (0.070 + pulse * 0.060) * glow;
+            color += secondary * field * 0.055;
+            color += status * scan * (0.008 + pulse * 0.018) * line;
+        }
+
+        float micro = fract(sin(dot(uv + uniforms.seed, float2(12.9898, 78.233))) * 43758.5453);
+        color += (micro - 0.5) * grain * 0.014;
 
         return float4(color, 1.0);
     }
     """
+}
+
+private extension VisualColor {
+    var nsColor: NSColor {
+        NSColor(
+            calibratedRed: red,
+            green: green,
+            blue: blue,
+            alpha: alpha
+        )
+    }
+
+    var metalClearColor: MTLClearColor {
+        MTLClearColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+
+    var shaderVector: SIMD4<Float> {
+        SIMD4<Float>(
+            Float(red),
+            Float(green),
+            Float(blue),
+            Float(alpha)
+        )
+    }
 }

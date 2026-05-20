@@ -12,11 +12,24 @@ public struct VisualEffectConfiguration: Equatable, Sendable {
     }
 
     public func pulseMagnitude(for eventMagnitude: Double) -> Double {
+        pulseMagnitude(
+            for: eventMagnitude,
+            motionProfile: VisualMode.defaultMode.theme.motion
+        )
+    }
+
+    public func pulseMagnitude(
+        for eventMagnitude: Double,
+        motionProfile: VisualMotionProfile
+    ) -> Double {
         guard !reducedMotion else {
             return 0
         }
 
-        let clampedEventMagnitude = min(1, max(0, eventMagnitude))
-        return intensity * clampedEventMagnitude
+        return motionProfile.pulseMagnitude(
+            for: eventMagnitude,
+            intensity: intensity,
+            reducedMotion: reducedMotion
+        )
     }
 }
