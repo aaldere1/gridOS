@@ -21,12 +21,13 @@ struct RootView: View {
     @State private var renderSequence: UInt64 = 0
     @StateObject private var terminalInteractionController = TerminalInteractionController()
     @State private var isCommandPalettePresented = false
+    @State private var currentWorkingDirectory: String?
     @State private var renderEvent = RenderEvent(
         sequence: 0,
         kind: .startup,
         magnitude: 0.26
     )
-    @State private var metricsSnapshot: SystemMetricsSnapshot = SystemMetricsPreviewData.snapshot
+    @State private var systemSnapshot: SystemMetricsSnapshot = SystemMetricsPreviewData.snapshot
 
     var body: some View {
         ZStack {
@@ -55,7 +56,7 @@ struct RootView: View {
 
                 HStack(alignment: .top, spacing: 16) {
                     VStack(spacing: 12) {
-                        SystemStripView(snapshot: metricsSnapshot, theme: visualTheme)
+                        SystemStripView(snapshot: systemSnapshot, theme: visualTheme)
                         TerminalWorkspaceView(
                             configuration: terminalConfiguration,
                             theme: visualTheme,
@@ -65,7 +66,7 @@ struct RootView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                    ActivityContextPanel(snapshot: metricsSnapshot, theme: visualTheme)
+                    ActivityContextPanel(snapshot: systemSnapshot, theme: visualTheme)
                         .frame(width: 204)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -85,6 +86,12 @@ struct RootView: View {
 
                 CommandPaletteView(
                     theme: visualTheme,
+                    selectedTextProvider: {
+                        terminalInteractionController.selectedText()
+                    },
+                    workingDirectoryProvider: {
+                        commandPaletteWorkingDirectory
+                    },
                     onClose: dismissCommandPalette,
                     onOpenCommandIntelligenceSettings: openCommandIntelligenceSettingsFromPalette
                 )
@@ -142,6 +149,10 @@ struct RootView: View {
         )
     }
 
+    private var commandPaletteWorkingDirectory: String? {
+        currentWorkingDirectory ?? terminalConfiguration.workingDirectory
+    }
+
     private var effectiveReducedMotion: Bool {
         accessibilityReduceMotion || preferences.reducedMotion
     }
@@ -189,6 +200,10 @@ struct RootView: View {
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
+        if case .workingDirectoryChanged(let directory) = activity {
+            currentWorkingDirectory = directory
+        }
+
         guard let parameters = renderEventParameters(for: activity) else {
             return
         }
@@ -220,7 +235,7 @@ struct RootView: View {
         while !Task.isCancelled {
             let snapshot = await metricsSampler.snapshot(isActive: true)
             await MainActor.run {
-                metricsSnapshot = snapshot
+                systemSnapshot = snapshot
             }
 
             let refreshInterval = max(0.2, snapshot.samplingState.nextRefreshAfter)

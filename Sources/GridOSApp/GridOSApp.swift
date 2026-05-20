@@ -26,7 +26,8 @@ private struct TerminalCommands: Commands {
     var body: some Commands {
         CommandMenu("Terminal") {
             Button("Copy") {
-                TerminalCommandCenter.copy()
+                let copyTerminalSelection = TerminalCommandCenter.copy
+                copyTerminalSelection()
             }
             .keyboardShortcut("c", modifiers: [.command])
 
