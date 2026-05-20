@@ -32,7 +32,7 @@ All screenshots in this set use raw mode `tron` with three different install see
 
 ## Capture Status
 
-Automated app-window-isolated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six screenshots at `3104x2024`.
+Automated app-window-isolated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six mode/variation screenshots at `3104x2024`; after the terminal-focus smoke, the dedicated proof screenshot also reports `3104x2024`.
 
 Files produced:
 
@@ -42,10 +42,15 @@ Files produced:
 - `tron-install-a.png`
 - `tron-install-b.png`
 - `tron-install-c.png`
+- `focus-smoke-command-shift-m.png`
 
 ## Command-Shift-M terminal-focus smoke
 
 Before Phase 5 is approved, launch the app, focus the terminal, type a harmless marker, press `Command-Shift-M` repeatedly, verify the mode indicator changes, verify shell input remains accepted after each switch, and record the pass/fail result in `05-04-SUMMARY.md` or this README.
+
+Smoke result: passed on 2026-05-20. Starting from `appearance.visualMode=tron` and install seed `phase5-focus-smoke`, the terminal accepted input before switching. `Command-Shift-M` then cycled `severance -> appleNative -> tron`, and the embedded terminal accepted shell input after each mode switch. Marker files created during the smoke were `/tmp/gridos_phase5_focus_before`, `/tmp/gridos_phase5_focus_after_1`, `/tmp/gridos_phase5_focus_after_2`, and `/tmp/gridos_phase5_focus_after_3`.
+
+Proof screenshot: `focus-smoke-command-shift-m.png` shows the terminal markers after all three cycles and the final Tron mode indicator.
 
 ## Deferred Ideas
 

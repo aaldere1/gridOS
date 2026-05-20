@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Executing Phase 05
-last_updated: "2026-05-20T16:52:57Z"
+status: Phase 05 complete
+last_updated: "2026-05-20T17:17:04Z"
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 5 - Aesthetic modes
+Phase 5 - Aesthetic modes (complete)
 
 ## Current status
 
-Phase 5 Plan 04 is complete through automated evidence capture and is paused at the human visual/focus checkpoint. The evidence helper, release/architecture docs, and six local screenshots exist for Tron, Severance, Apple-native, and three same-mode Tron install seeds. Next target is human review of screenshots and the Command-Shift-M terminal-focus smoke; do not mark Phase 6 active before approval.
+Phase 5 Plan 04 is complete after approved visual evidence review and a passing live Command-Shift-M terminal-focus smoke. The evidence helper, release/architecture docs, six local screenshots, and `focus-smoke-command-shift-m.png` proof screenshot exist. Phase 6 remains pending and inactive until explicitly started.
 
 ## Decisions made
 
@@ -112,7 +112,9 @@ Phase 5 Plan 04 is complete through automated evidence capture and is paused at 
 - 2026-05-20: Executed Phase 5 Plan 04 Task 01 by adding `.planning/phases/05-aesthetic-modes/capture-mode-evidence.sh` and `.planning/phases/05-aesthetic-modes/evidence/README.md` for shared-seed mode screenshots, same-mode install variation, and terminal-focus smoke documentation.
 - 2026-05-20: Verified Phase 5 Plan 04 automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, `git diff --check`, and required source `rg` checks passed.
 - 2026-05-20: Ran `.planning/phases/05-aesthetic-modes/capture-mode-evidence.sh`; `tron.png`, `severance.png`, `apple-native.png`, `tron-install-a.png`, `tron-install-b.png`, and `tron-install-c.png` were produced and reported as 5120x2880 PNGs by `sips`.
-- 2026-05-20: Phase 5 Plan 04 is awaiting human visual review and Command-Shift-M terminal-focus smoke approval. Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility remain deferred and out of scope.
+- 2026-05-20: Phase 5 Plan 04 visual review approved the app-window isolated screenshots: Tron, Severance, and Apple-native are visibly distinct with the shared seed; terminal and metrics remain readable; deferred surfaces are absent; and Tron install variants A/B/C are subtly distinct without hurting readability.
+- 2026-05-20: Live Command-Shift-M terminal-focus smoke passed from `appearance.visualMode=tron` and install seed `phase5-focus-smoke`; the app cycled `severance -> appleNative -> tron`, accepted shell input after each switch, created `/tmp/gridos_phase5_focus_before`, `/tmp/gridos_phase5_focus_after_1`, `/tmp/gridos_phase5_focus_after_2`, and `/tmp/gridos_phase5_focus_after_3`, and captured `.planning/phases/05-aesthetic-modes/evidence/focus-smoke-command-shift-m.png`.
+- 2026-05-20: Final Phase 5 Plan 04 completion checks passed: `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all seven evidence images at `3104x2024`, and `git diff --check` passed. Earlier full `xcodegen generate --use-cache` and `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` evidence from the checkpoint remains the full build/test gate for this plan.
 
 ## Performance metrics
 
@@ -121,10 +123,11 @@ Phase 5 Plan 04 is complete through automated evidence capture and is paused at 
 | 05-aesthetic-modes | 01 | 5 min | 2 | 9 |
 | 05-aesthetic-modes | 02 | 3 min | 2 | 3 |
 | 05-aesthetic-modes | 03 | 5 min | 2 | 3 |
+| 05-aesthetic-modes | 04 | 27 min | 3 | 14 |
 
 ## Next target
 
-Complete the Phase 5 Plan 04 human visual/focus checkpoint for `.planning/phases/05-aesthetic-modes/05-04-PLAN.md`.
+Run Phase 5 verification or explicitly start Phase 6 when ready; Phase 6 is not active yet.
 
 ## Session handoff
 
@@ -150,5 +153,7 @@ Complete the Phase 5 Plan 04 human visual/focus checkpoint for `.planning/phases
 - Summary file: `.planning/phases/05-aesthetic-modes/05-03-SUMMARY.md`.
 - 2026-05-20: Phase 05 Plan 04 automated evidence capture completed and paused at human visual/focus checkpoint.
 - Evidence README: `.planning/phases/05-aesthetic-modes/evidence/README.md`.
-- Screenshot files: `.planning/phases/05-aesthetic-modes/evidence/tron.png`, `.planning/phases/05-aesthetic-modes/evidence/severance.png`, `.planning/phases/05-aesthetic-modes/evidence/apple-native.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-a.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-b.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-c.png`.
-- Next command: human reviewer should complete the Plan 04 checkpoint and respond with `approved` or exact visual/readability/focus issues.
+- Screenshot files: `.planning/phases/05-aesthetic-modes/evidence/tron.png`, `.planning/phases/05-aesthetic-modes/evidence/severance.png`, `.planning/phases/05-aesthetic-modes/evidence/apple-native.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-a.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-b.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-c.png`, `.planning/phases/05-aesthetic-modes/evidence/focus-smoke-command-shift-m.png`.
+- 2026-05-20: Phase 05 Plan 04 completed after approved visual review and live focus smoke.
+- Summary file: `.planning/phases/05-aesthetic-modes/05-04-SUMMARY.md`.
+- Next command: run Phase 5 verification or explicitly begin Phase 6; Phase 6 remains pending until selected.
