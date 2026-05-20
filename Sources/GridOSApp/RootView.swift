@@ -35,7 +35,8 @@ struct RootView: View {
                 .ignoresSafeArea()
                 .accessibilityHidden(true)
 
-            Color.black.opacity(0.18)
+            Color(visualTheme.palette.background)
+                .opacity(max(0.12, visualTheme.panel.backgroundOpacity * 0.48))
                 .ignoresSafeArea()
                 .accessibilityHidden(true)
 
@@ -45,20 +46,22 @@ struct RootView: View {
                     shellDisplayName: terminalConfiguration.shellDisplayName,
                     visualModeName: visualIdentity.mode.displayName,
                     version: GridOSProduct.version,
-                    reducedMotion: effectiveReducedMotion
+                    reducedMotion: effectiveReducedMotion,
+                    theme: visualTheme
                 )
 
                 HStack(alignment: .top, spacing: 16) {
                     VStack(spacing: 12) {
-                        SystemStripView(snapshot: metricsSnapshot)
+                        SystemStripView(snapshot: metricsSnapshot, theme: visualTheme)
                         TerminalWorkspaceView(
                             configuration: terminalConfiguration,
+                            theme: visualTheme,
                             onActivity: handleTerminalActivity
                         )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                    ActivityContextPanel(snapshot: metricsSnapshot)
+                    ActivityContextPanel(snapshot: metricsSnapshot, theme: visualTheme)
                         .frame(width: 204)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -77,6 +80,10 @@ struct RootView: View {
     private var visualMode: VisualMode {
         let normalizedRawValue = GridOSAppPreferences.normalizedVisualModeRawValue(visualModeRawValue)
         return VisualMode(rawValue: normalizedRawValue) ?? .defaultMode
+    }
+
+    private var visualTheme: VisualTheme {
+        visualMode.theme
     }
 
     private var installSeed: String {
@@ -177,35 +184,39 @@ private struct AppFrameHeader: View {
     let visualModeName: String
     let version: String
     let reducedMotion: Bool
+    let theme: VisualTheme
 
     var body: some View {
         HStack(spacing: 12) {
             Text(productName)
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white)
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.92))
 
             Text(shellDisplayName)
                 .font(.system(size: 12, weight: .medium, design: .monospaced))
-                .foregroundStyle(.cyan.opacity(0.72))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.78))
 
             Spacer(minLength: 16)
 
             HStack(spacing: 8) {
                 Circle()
-                    .fill(reducedMotion ? .white.opacity(0.42) : .cyan.opacity(0.72))
+                    .fill(
+                        Color(reducedMotion ? theme.palette.secondaryAccent : theme.palette.statusAccent)
+                            .opacity(reducedMotion ? 0.56 : 0.82)
+                    )
                     .frame(width: 7, height: 7)
                     .accessibilityHidden(true)
 
                 Text(visualModeName)
                     .font(.system(size: 12, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.62))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.68))
             }
             .accessibilityLabel("Visual mode indicator")
             .accessibilityValue(visualModeName)
 
             Text("v\(version)")
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
-                .foregroundStyle(.white.opacity(0.56))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.56))
         }
         .padding(.leading, 72)
         .accessibilityElement(children: .combine)
@@ -214,32 +225,33 @@ private struct AppFrameHeader: View {
 
 private struct SystemStripView: View {
     let snapshot: SystemMetricsSnapshot
+    let theme: VisualTheme
 
     var body: some View {
         HStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 2)
-                .fill(.cyan.opacity(0.72))
+                .fill(Color(theme.palette.statusAccent).opacity(0.76))
                 .frame(width: 4, height: 16)
                 .accessibilityHidden(true)
 
-            MetricReadout(label: "CPU", value: cpuText)
-            MetricDivider()
-            MetricReadout(label: "MEM", value: memoryText)
-            MetricDivider()
-            MetricReadout(label: "NET", value: networkText)
-            MetricDivider()
-            MetricReadout(label: "BAT", value: batteryText)
-            MetricDivider()
-            MetricReadout(label: "THERM", value: thermalText)
+            MetricReadout(label: "CPU", value: cpuText, theme: theme)
+            MetricDivider(theme: theme)
+            MetricReadout(label: "MEM", value: memoryText, theme: theme)
+            MetricDivider(theme: theme)
+            MetricReadout(label: "NET", value: networkText, theme: theme)
+            MetricDivider(theme: theme)
+            MetricReadout(label: "BAT", value: batteryText, theme: theme)
+            MetricDivider(theme: theme)
+            MetricReadout(label: "THERM", value: thermalText, theme: theme)
 
             Spacer()
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(.black.opacity(0.28))
+        .background(Color(theme.palette.background).opacity(theme.panel.backgroundOpacity))
         .overlay(alignment: .bottom) {
             Rectangle()
-                .fill(.white.opacity(0.08))
+                .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
                 .frame(height: 1)
                 .accessibilityHidden(true)
         }
@@ -306,23 +318,24 @@ private struct SystemStripView: View {
 
 private struct ActivityContextPanel: View {
     let snapshot: SystemMetricsSnapshot
+    let theme: VisualTheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text("Activity")
                     .font(.system(size: 12, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.74))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.74))
 
                 if snapshot.topProcesses.isStale {
                     Text("Stale")
                         .font(.system(size: 11, weight: .regular, design: .monospaced))
-                        .foregroundStyle(.white.opacity(0.52))
+                        .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.58))
                 }
             }
 
             Rectangle()
-                .fill(.cyan.opacity(0.16))
+                .fill(Color(theme.palette.statusAccent).opacity(theme.panel.separatorOpacity))
                 .frame(height: 1)
                 .accessibilityHidden(true)
 
@@ -332,12 +345,13 @@ private struct ActivityContextPanel: View {
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding(12)
-        .background(.black.opacity(0.24))
+        .background(Color(theme.palette.background).opacity(theme.panel.backgroundOpacity))
         .overlay {
-            Rectangle()
-                .stroke(.white.opacity(0.08), lineWidth: 1)
+            RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
                 .accessibilityHidden(true)
         }
+        .clipShape(RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous))
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Top processes")
         .accessibilityValue(accessibilityValue)
@@ -352,7 +366,7 @@ private struct ActivityContextPanel: View {
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(processes.prefix(5)) { process in
-                        TopProcessRow(process: process)
+                        TopProcessRow(process: process, theme: theme)
                     }
                 }
             }
@@ -364,7 +378,7 @@ private struct ActivityContextPanel: View {
     private func unavailableText(_ text: String) -> some View {
         Text(text)
             .font(.system(size: 11, weight: .regular))
-            .foregroundStyle(.white.opacity(0.58))
+            .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.58))
             .fixedSize(horizontal: false, vertical: true)
     }
 
@@ -387,16 +401,17 @@ private struct ActivityContextPanel: View {
 private struct MetricReadout: View {
     let label: String
     let value: String
+    let theme: VisualTheme
 
     var body: some View {
         HStack(spacing: 5) {
             Text(label)
                 .font(.system(size: 11, weight: .medium, design: .monospaced))
-                .foregroundStyle(.white.opacity(0.56))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.56))
 
             Text(value)
                 .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                .foregroundStyle(value == "Stale" ? .white.opacity(0.62) : .white.opacity(0.84))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(value == "Stale" ? 0.62 : 0.84))
                 .lineLimit(1)
                 .truncationMode(.middle)
         }
@@ -406,9 +421,11 @@ private struct MetricReadout: View {
 }
 
 private struct MetricDivider: View {
+    let theme: VisualTheme
+
     var body: some View {
         Rectangle()
-            .fill(.white.opacity(0.10))
+            .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
             .frame(width: 1, height: 14)
             .accessibilityHidden(true)
     }
@@ -416,13 +433,14 @@ private struct MetricDivider: View {
 
 private struct TopProcessRow: View {
     let process: TopProcessMetrics
+    let theme: VisualTheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(process.name)
                     .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.78))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.78))
                     .lineLimit(1)
                     .truncationMode(.middle)
 
@@ -430,7 +448,7 @@ private struct TopProcessRow: View {
 
                 Text(percentText(process.cpuPercent))
                     .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(.cyan.opacity(0.82))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.82))
                     .lineLimit(1)
             }
 
@@ -439,7 +457,7 @@ private struct TopProcessRow: View {
                 Text(byteCountText(process.residentMemoryBytes))
             }
             .font(.system(size: 10, weight: .regular, design: .monospaced))
-            .foregroundStyle(.white.opacity(0.48))
+            .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.56))
             .lineLimit(1)
         }
         .accessibilityElement(children: .ignore)
@@ -450,14 +468,16 @@ private struct TopProcessRow: View {
 
 private struct TerminalWorkspaceView: View {
     let configuration: TerminalSessionConfiguration
+    let theme: VisualTheme
     let onActivity: TerminalSurface.ActivityHandler
 
     var body: some View {
         TerminalSurface(configuration: configuration, onActivity: onActivity)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(Color(theme.palette.background).opacity(theme.terminal.backgroundOpacity))
+            .clipShape(RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(.cyan.opacity(0.18), lineWidth: 1)
+                RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous)
+                    .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
                     .accessibilityHidden(true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -497,4 +517,16 @@ private func byteCountText(_ bytes: UInt64) -> String {
         fromByteCount: Int64(clampedBytes),
         countStyle: .memory
     )
+}
+
+// SwiftUI bridge for Color(_ visualColor: VisualColor) token use in this file.
+private extension Color {
+    init(_ visualColor: VisualColor) {
+        self.init(
+            red: visualColor.red,
+            green: visualColor.green,
+            blue: visualColor.blue,
+            opacity: visualColor.alpha
+        )
+    }
 }
