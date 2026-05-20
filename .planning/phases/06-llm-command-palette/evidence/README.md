@@ -46,6 +46,14 @@ Result:
 PHASE6_FIXTURE_LAUNCH
 ```
 
+Additional orchestrator spot-check after plan execution:
+
+```text
+PHASE6_ORCHESTRATOR_FIXTURE
+```
+
+The orchestrator also launched the Debug app with `--command-intelligence-smoke-fixture`, activated gridOS, sent `Command-K` through System Events, and captured a local screenshot showing the `Command Intelligence` palette open with `Suggest Command`, `Explain Output`, `Fix Failed Command`, and `Open Command Intelligence Settings` visible. The screenshot was intentionally not committed because it captured unrelated desktop/private content outside gridOS.
+
 ## Smoke Checklist
 
 | Check | Status | Evidence |
