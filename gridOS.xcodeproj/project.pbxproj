@@ -12,6 +12,7 @@
 		0DCFAE80292DB2164073C9F1 /* RenderCoreModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092B6E00EC7B185D73364DA6 /* RenderCoreModelTests.swift */; };
 		12470C6D2E91B548FD969A17 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB3C2745E118FBDDDBE306E /* SwiftTerm */; };
 		12962474B93F90CD00A8BFB4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		179190E8DE52E79B2F0E2744 /* SecretRedactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */; };
 		188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */; };
 		1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */; };
 		1D3905099B4AB15A30546545 /* RenderCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -68,6 +69,7 @@
 		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
 		CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */; };
 		CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
+		D11853FE3BA3A5804DA36906 /* CommandContextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */; };
 		D1EDA2DC1A4B491B57CCACB5 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
@@ -290,6 +292,7 @@
 		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
+		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCredentialStoreTests.swift; sourceTree = "<group>"; };
 		895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModels.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
@@ -317,6 +320,7 @@
 		DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSamplingPolicy.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
 		F0B59E04CD3F342827CCC045 /* TerminalCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminalCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretRedactor.swift; sourceTree = "<group>"; };
 		FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCoreStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -426,6 +430,7 @@
 		3C87DA64D344552B78B3100A /* CommandIntelligence */ = {
 			isa = PBXGroup;
 			children = (
+				7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */,
 				27A4993E53068E1B90C511DF /* CommandContextPreview.swift */,
 				D840427A9B6B3B8EF4F73188 /* CommandCredentialStore.swift */,
 				50936291FA3EA35F038A1261 /* CommandIntelligenceFailure.swift */,
@@ -434,6 +439,7 @@
 				B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */,
 				3E4798756519A15DD8DFA804 /* Info.plist */,
 				233FBC5D701469255971E5ED /* LLMCommandProvider.swift */,
+				F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */,
 			);
 			path = CommandIntelligence;
 			sourceTree = "<group>";
@@ -908,6 +914,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D11853FE3BA3A5804DA36906 /* CommandContextBuilder.swift in Sources */,
 				B2F8D3CB5D35C40D394E942D /* CommandContextPreview.swift in Sources */,
 				8F801B514F765712A694EB78 /* CommandCredentialStore.swift in Sources */,
 				3EEDEE8277A59A5782B93CBB /* CommandIntelligenceFailure.swift in Sources */,
@@ -915,6 +922,7 @@
 				8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */,
 				5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */,
 				41A6997C96B5667099D1EC53 /* LLMCommandProvider.swift in Sources */,
+				179190E8DE52E79B2F0E2744 /* SecretRedactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
