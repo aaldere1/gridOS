@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 06 complete; Phase 07 planning next
-last_updated: "2026-05-20T20:04:21.081Z"
+status: Phase 07 context gathered; Phase 07 planning next
+last_updated: "2026-05-20T20:15:20.000Z"
 progress:
   total_phases: 15
   completed_phases: 7
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 7 - Multi-pane and session management (Phase 6 complete; Phase 7 planning next)
+Phase 7 - Multi-pane and session management (context gathered; planning next)
 
 ## Current status
 
-Phase 6 is verified complete with 13/13 must-haves passed. Command Intelligence now sends only approved preview payloads, handles missing provider keys as a normal setup state, supports a DEBUG deterministic smoke fixture without a live Anthropic key, locally reclassifies provider commands before rendering insert/run controls, and records final automated/orchestrator smoke evidence in `.planning/phases/06-llm-command-palette/evidence/README.md`.
+Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 context is gathered for multi-pane and session management: in-window split panes, active-pane routing, layout/directory restore without process resurrection, local recent-directory state, and explicit process-cleanup evidence.
 
 ## Decisions made
 
@@ -75,6 +75,10 @@ Phase 6 is verified complete with 13/13 must-haves passed. Command Intelligence 
 - [Phase 06-llm-command-palette]: Keep DebugCommandIntelligenceFixtureProvider DEBUG-gated and launch-argument selected so smoke never needs a live Anthropic key.
 - [Phase 06-llm-command-palette]: Treat CommandRiskClassifier as the local execution-policy authority; provider risk labels are advisory.
 - [Phase 06-llm-command-palette]: Auto-approve the final human-verify checkpoint in workflow auto mode while recording manual smoke steps and noninteractive fixture evidence.
+- [Phase 07-multi-pane-session-management]: Add multi-pane support inside the existing primary gridOS window rather than starting with a full tabs/windows overhaul.
+- [Phase 07-multi-pane-session-management]: Route Terminal menu actions, focus restoration, and Command Intelligence selected-text/insert/run behavior to the active pane only.
+- [Phase 07-multi-pane-session-management]: Restore layout, active pane, profile metadata, and last known working directories on relaunch, but never attempt to resurrect running shell processes.
+- [Phase 07-multi-pane-session-management]: Treat pane close/app quit process cleanup as a required evidence item; no orphaned shell processes after pane close or app quit.
 
 ## Decisions still open
 
@@ -147,6 +151,7 @@ Phase 6 is verified complete with 13/13 must-haves passed. Command Intelligence 
 - 2026-05-20: Phase 06 Plan 06 final automated gate passed; Debug fixture launch without a live Anthropic key passed; human-verify checkpoint auto-approved by workflow auto-advance.
 - 2026-05-20: Phase 06 verification passed with 13/13 must-haves verified; orchestrator reran the full automated gate, proved the Debug fixture launch, opened the Command-K palette with UI automation, and committed `06-VERIFICATION.md`.
 - 2026-05-20: Phase 06 marked complete; Phase 07 multi-pane and session management is next.
+- 2026-05-20: Phase 07 context gathered for multi-pane and session management, including active-pane routing, layout/directory restore, local recent-directory state, and process-cleanup evidence.
 
 ## Performance metrics
 
@@ -211,4 +216,7 @@ Plan Phase 07: multi-pane and session management.
 - Summary file: `.planning/phases/06-llm-command-palette/06-05-SUMMARY.md`.
 - 2026-05-20: Phase 06 Plan 06 executed and verified.
 - Summary file: `.planning/phases/06-llm-command-palette/06-06-SUMMARY.md`.
-- Stopped at: Phase 06 verified and completed; Phase 07 planning next.
+- 2026-05-20: Phase 07 context gathered for multi-pane and session management.
+- Resume file: `.planning/phases/07-multi-pane-session-management/07-CONTEXT.md`.
+- Discussion log: `.planning/phases/07-multi-pane-session-management/07-DISCUSSION-LOG.md`.
+- Stopped at: Phase 07 context gathered; Phase 07 planning next.
