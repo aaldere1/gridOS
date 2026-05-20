@@ -20,7 +20,7 @@ The repository began as planning-only documentation:
 - `docs/vision.md`
 - `docs/production-roadmap.md`
 
-Phase 2 is now complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, and a first Metal-backed visual identity layer that reacts to coarse terminal activity while idling after short render bursts.
+Phase 3 is now complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a first Metal-backed visual identity layer that reacts to coarse terminal activity while idling after short render bursts, and a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility coverage.
 
 No production signing setup, release pipeline, updater, metrics panels, or LLM command help exists yet.
 
@@ -42,6 +42,7 @@ Validated implementation so far:
 - Phase 0: project scaffold, module boundaries, CI skeleton, and docs.
 - Phase 1: native local shell MVP behind `TerminalCore`.
 - Phase 2: Metal identity MVP behind `RenderCore`.
+- Phase 3: production app frame with persisted preferences, window autosave, terminal-safe commands, reduced motion, and accessibility coverage.
 
 ## Non-negotiables
 

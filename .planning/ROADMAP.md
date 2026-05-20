@@ -45,7 +45,7 @@ Exit criteria:
 
 ## Phase 3 - Production app frame
 
-Status: active
+Status: complete
 
 Goal: turn the prototype into a coherent Mac app shell.
 
@@ -55,7 +55,7 @@ Exit criteria:
 
 ## Phase 4 - Real system metrics
 
-Status: pending
+Status: active
 
 Goal: replace decorative panels with truthful instrumentation.
 

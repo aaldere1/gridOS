@@ -1,12 +1,25 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: phase-03-complete
+last_updated: "2026-05-20T14:50:49Z"
+progress:
+  total_phases: 4
+  completed_phases: 4
+  total_plans: 4
+  completed_plans: 4
+---
+
 # gridOS state
 
 ## Active phase
 
-Phase 3 - Production app frame
+Phase 4 - Real system metrics
 
 ## Current status
 
-Phase 3 plan execution is code-complete and awaiting phase-level verification. The app now has a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility labels/values layered around the SwiftTerm-backed shell and Metal `Signal Field` background.
+Phase 3 is complete and verified. The app now has a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility labels/values layered around the SwiftTerm-backed shell and Metal `Signal Field` background.
 
 ## Decisions made
 
@@ -63,10 +76,15 @@ Phase 3 plan execution is code-complete and awaiting phase-level verification. T
 - 2026-05-20: Hardened the terminal command menu as an explicit `TerminalCommands` type while preserving SwiftTerm focus behavior.
 - 2026-05-20: Verified Phase 3 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, and `git diff --check` passed.
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE3_SMOKE` written to `/tmp/gridos-phase3-smoke.txt` through the app startup command path and the Debug app quit cleanly.
+- 2026-05-20: Phase 3 verification passed with 3/3 key links verified and no blocking gaps.
 
 ## Next target
 
-Complete Phase 3 final verification, launch smoke, summary, and phase-level verification.
+Start Phase 4 Real system metrics:
+
+1. Define truthful CPU, memory, disk, network, battery, and thermal metric contracts.
+2. Replace Phase 3 placeholder panels with graceful real-data surfaces.
+3. Preserve terminal focus, privacy defaults, and renderer idle behavior.
 
 ## Session handoff
 
@@ -74,4 +92,4 @@ Complete Phase 3 final verification, launch smoke, summary, and phase-level veri
 - Resume file: `.planning/phases/03-production-app-frame/03-CONTEXT.md`.
 - 2026-05-20: Phase 03 research, UI design contract, validation strategy, and executable plan created.
 - Plan file: `.planning/phases/03-production-app-frame/03-01-PLAN.md`.
-- Next command: `$gsd-execute-phase 3`.
+- Next command: `$gsd-discuss-phase 4`.
