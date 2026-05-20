@@ -61,3 +61,9 @@ Start Phase 3 Production app frame:
 2. Replace Settings placeholders with persisted terminal/app preferences.
 3. Harden keyboard commands and accessibility paths.
 4. Add focused tests around app frame state and preference behavior.
+
+## Session handoff
+
+- 2026-05-20: Phase 03 context gathered.
+- Resume file: `.planning/phases/03-production-app-frame/03-CONTEXT.md`.
+- Next command: `$gsd-plan-phase 3`.
