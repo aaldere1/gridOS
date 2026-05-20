@@ -38,4 +38,40 @@ final class GridOSAppPreferencesTests: XCTestCase {
 
         XCTAssertTrue(preferences.reducedMotion)
     }
+
+    func testVisualModePreferenceKeysUsePhaseFiveStorageNames() {
+        XCTAssertEqual(GridOSAppPreferences.visualModeStorageKey, "appearance.visualMode")
+        XCTAssertEqual(GridOSAppPreferences.installSeedStorageKey, "appearance.installSeed")
+    }
+
+    func testVisualModeRawDefaultsToTron() {
+        XCTAssertEqual(GridOSAppPreferences.defaultVisualModeRawValue, "tron")
+        XCTAssertEqual(GridOSAppPreferences.defaultInstallSeedRawValue, "")
+        XCTAssertEqual(GridOSAppPreferences.supportedVisualModeRawValues, ["tron", "severance", "appleNative"])
+    }
+
+    func testVisualModeRawValueFallsBackToTron() {
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue(""), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("   "), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("unknown"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("cyberpunk"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("matrix"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("tron"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue(" severance "), "severance")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("\nappleNative\t"), "appleNative")
+    }
+
+    func testVisualModeRawValueCyclesInPhaseFiveOrder() {
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "tron"), "severance")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "severance"), "appleNative")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "appleNative"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: ""), "severance")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "matrix"), "severance")
+    }
+
+    func testInstallSeedRawValueIsTrimmed() {
+        XCTAssertEqual(GridOSAppPreferences.normalizedInstallSeedRawValue(""), "")
+        XCTAssertEqual(GridOSAppPreferences.normalizedInstallSeedRawValue("   "), "")
+        XCTAssertEqual(GridOSAppPreferences.normalizedInstallSeedRawValue("\n install-a \t"), "install-a")
+    }
 }
