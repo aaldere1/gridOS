@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 06
-last_updated: "2026-05-20T19:14:15.644Z"
+last_updated: "2026-05-20T19:26:30.864Z"
 progress:
   total_phases: 15
   completed_phases: 6
   total_plans: 15
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 6 - LLM command palette (Plans 01, 02, and 03 complete; Plan 04 next)
+Phase 6 - LLM command palette (Plans 01, 02, 03, and 04 complete; Plan 05 next)
 
 ## Current status
 
-Phase 6 Wave 2 Plans 02 and 03 are complete. `CommandIntelligence` now redacts command context before approved preview payload construction and has a deterministic local risk classifier/run-policy contract. Continue with `.planning/phases/06-llm-command-palette/06-04-PLAN.md`.
+Phase 6 Plan 04 is complete. `CommandIntelligence` now has a direct Anthropic Messages provider, Keychain-only provider credential storage, non-secret provider/model preferences, and a Settings setup surface. Continue with `.planning/phases/06-llm-command-palette/06-05-PLAN.md`.
 
 ## Decisions made
 
@@ -65,6 +65,9 @@ Phase 6 Wave 2 Plans 02 and 03 are complete. `CommandIntelligence` now redacts c
 - [Phase 06-llm-command-palette]: Redact every included context block before constructing CommandContextPreview.approvedPayload.
 - [Phase 06-llm-command-palette]: Treat private key blocks as redacted but blocked, making canSend false until the user edits context.
 - [Phase 06-llm-command-palette]: Keep LLMCommandRequest construction dependent on ApprovedCommandContextPayload rather than raw CommandAssistanceInput.
+- [Phase 06-llm-command-palette]: Use direct Anthropic Messages API calls with Foundation URLSession and no provider SDK dependency.
+- [Phase 06-llm-command-palette]: Store provider API keys only in Keychain generic-password items under com.aaldere1.gridos.command-intelligence.
+- [Phase 06-llm-command-palette]: Persist only provider and model IDs through GridOSKit/AppStorage; API keys, prompts, generated commands, and responses are not preference data.
 
 ## Decisions still open
 
@@ -131,6 +134,7 @@ Phase 6 Wave 2 Plans 02 and 03 are complete. `CommandIntelligence` now redacts c
 - 2026-05-20: Executed Phase 06 Plan 01 with CommandIntelligence contracts, approved preview payloads, credential store abstraction, failure copy, and `CommandIntelligenceTests`.
 - 2026-05-20: Executed Phase 06 Plan 02 with deterministic secret redaction, redacted context preview construction, and `SecretRedactorTests`/`CommandContextPreviewTests`.
 - 2026-05-20: Executed Phase 06 Plan 03 with deterministic command risk classification, insert-only high/unknown run policy, and `CommandRiskClassifierTests`.
+- 2026-05-20: Executed Phase 06 Plan 04 with the Anthropic Messages provider, Keychain credential storage, non-secret provider/model preferences, and Command Intelligence Settings setup.
 
 ## Performance metrics
 
@@ -143,10 +147,11 @@ Phase 6 Wave 2 Plans 02 and 03 are complete. `CommandIntelligence` now redacts c
 | 06-llm-command-palette | 01 | 5 min | 1 | 12 |
 | 06-llm-command-palette | 03 | 6 min | 1 | 3 |
 | 06-llm-command-palette | 02 | 8 min | 1 | 6 |
+| 06-llm-command-palette | 04 | 9 min | 3 | 9 |
 
 ## Next target
 
-Execute Phase 06 Plan 04: Anthropic provider adapter, Keychain credential storage, and Settings setup.
+Execute Phase 06 Plan 05: Command-K palette shell, TerminalCore interaction bridge, preview-before-send flow, and Settings action wiring.
 
 ## Session handoff
 
@@ -186,4 +191,6 @@ Execute Phase 06 Plan 04: Anthropic provider adapter, Keychain credential storag
 - Summary file: `.planning/phases/06-llm-command-palette/06-02-SUMMARY.md`.
 - 2026-05-20: Phase 06 Plan 03 executed and verified in Wave 2.
 - Summary file: `.planning/phases/06-llm-command-palette/06-03-SUMMARY.md`.
-- Next incomplete plan: `.planning/phases/06-llm-command-palette/06-04-PLAN.md`.
+- 2026-05-20: Phase 06 Plan 04 executed and verified.
+- Summary file: `.planning/phases/06-llm-command-palette/06-04-SUMMARY.md`.
+- Next incomplete plan: `.planning/phases/06-llm-command-palette/06-05-PLAN.md`.
