@@ -4,6 +4,11 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultShellPath = "/bin/zsh"
     public static let defaultTerminalFontSize = 13.0
     public static let defaultVisualIntensity = 0.65
+    public static let visualModeStorageKey = "appearance.visualMode"
+    public static let installSeedStorageKey = "appearance.installSeed"
+    public static let defaultVisualModeRawValue = "tron"
+    public static let defaultInstallSeedRawValue = ""
+    public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
     public static let fontSizeRange = 10.0...24.0
     public static let visualIntensityRange = 0.0...1.0
 
@@ -32,6 +37,32 @@ public struct GridOSAppPreferences: Equatable, Sendable {
 
     public static func clampedVisualIntensity(_ visualIntensity: Double) -> Double {
         min(visualIntensityRange.upperBound, max(visualIntensityRange.lowerBound, visualIntensity))
+    }
+
+    public static func normalizedVisualModeRawValue(_ rawValue: String) -> String {
+        let trimmedRawValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard supportedVisualModeRawValues.contains(trimmedRawValue) else {
+            return defaultVisualModeRawValue
+        }
+
+        return trimmedRawValue
+    }
+
+    public static func nextVisualModeRawValue(after rawValue: String) -> String {
+        let normalizedRawValue = normalizedVisualModeRawValue(rawValue)
+        let currentIndex = supportedVisualModeRawValues.firstIndex(of: normalizedRawValue) ?? 0
+        let nextIndex = supportedVisualModeRawValues.index(after: currentIndex)
+
+        guard nextIndex < supportedVisualModeRawValues.endIndex else {
+            return supportedVisualModeRawValues[0]
+        }
+
+        return supportedVisualModeRawValues[nextIndex]
+    }
+
+    public static func normalizedInstallSeedRawValue(_ rawValue: String) -> String {
+        rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     public static let defaultValue = GridOSAppPreferences()
