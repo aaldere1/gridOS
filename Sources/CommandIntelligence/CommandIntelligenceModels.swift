@@ -8,6 +8,7 @@ public enum CommandIntelligenceFlow: String, CaseIterable, Codable, Sendable {
 
 public struct LLMProviderID: RawRepresentable, Codable, Equatable, Hashable, Sendable, ExpressibleByStringLiteral {
     public static let anthropic = LLMProviderID("anthropic")
+    public static let debugSmokeFixture = LLMProviderID("debug-smoke-fixture")
 
     public let rawValue: String
 

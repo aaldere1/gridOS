@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0126CA717B72999CD58ADEAF /* CommandIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */; };
 		05B712D68962F483935AA5E0 /* SystemMetricsSamplingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */; };
 		0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */; };
 		0DCFAE80292DB2164073C9F1 /* RenderCoreModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092B6E00EC7B185D73364DA6 /* RenderCoreModelTests.swift */; };
@@ -52,6 +53,7 @@
 		7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E76722893B0C28248B49F /* GridOSAppPreferences.swift */; };
 		8429E33DE7CFFB0A883A5B2B /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85F5BF6B0681BA56996DA2BE /* CommandCredentialStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */; };
+		867AC48BA8E9E93797ECCDA8 /* DebugCommandIntelligenceFixtureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */; };
 		8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */; };
 		8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320B2947DC731EEFE381700 /* GridOSApp.swift */; };
 		8E67097DD922BB61316E90F7 /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -311,12 +313,14 @@
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
+		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
 		844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCredentialStoreTests.swift; sourceTree = "<group>"; };
 		895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModels.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSystemMetricsProvider.swift; sourceTree = "<group>"; };
 		9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectConfiguration.swift; sourceTree = "<group>"; };
+		9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCommandIntelligenceFixtureProvider.swift; sourceTree = "<group>"; };
 		A243302A878294B594542C4D /* SystemMetricsDeltaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsDeltaTests.swift; sourceTree = "<group>"; };
 		A58649F5A9018C2BA4E5CC93 /* VisualTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTheme.swift; sourceTree = "<group>"; };
 		AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBackgroundView.swift; sourceTree = "<group>"; };
@@ -457,8 +461,10 @@
 				D840427A9B6B3B8EF4F73188 /* CommandCredentialStore.swift */,
 				50936291FA3EA35F038A1261 /* CommandIntelligenceFailure.swift */,
 				895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */,
+				7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */,
 				B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */,
 				B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */,
+				9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */,
 				3E4798756519A15DD8DFA804 /* Info.plist */,
 				5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */,
 				233FBC5D701469255971E5ED /* LLMCommandProvider.swift */,
@@ -954,8 +960,10 @@
 				8F801B514F765712A694EB78 /* CommandCredentialStore.swift in Sources */,
 				3EEDEE8277A59A5782B93CBB /* CommandIntelligenceFailure.swift in Sources */,
 				0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */,
+				0126CA717B72999CD58ADEAF /* CommandIntelligenceService.swift in Sources */,
 				8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */,
 				5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */,
+				867AC48BA8E9E93797ECCDA8 /* DebugCommandIntelligenceFixtureProvider.swift in Sources */,
 				E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */,
 				41A6997C96B5667099D1EC53 /* LLMCommandProvider.swift in Sources */,
 				179190E8DE52E79B2F0E2744 /* SecretRedactor.swift in Sources */,

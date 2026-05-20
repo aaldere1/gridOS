@@ -13,7 +13,8 @@ final class CommandIntelligenceFlowTests: XCTestCase {
         let result = await service.completeApprovedRequest(preview: approvedPreview())
 
         XCTAssertEqual(result.failure, .noProviderKey())
-        XCTAssertEqual(await provider.invocationCount, 0)
+        let invocationCount = await provider.invocationCount
+        XCTAssertEqual(invocationCount, 0)
     }
 
     func testDebugFixtureDoesNotRequireProviderKey() async {
@@ -41,7 +42,8 @@ final class CommandIntelligenceFlowTests: XCTestCase {
         let result = await service.completeApprovedRequest(preview: blockedPreview())
 
         XCTAssertEqual(result.failure, .redactionBlocked(reasons: ["Private key block detected."]))
-        XCTAssertEqual(await provider.invocationCount, 0)
+        let invocationCount = await provider.invocationCount
+        XCTAssertEqual(invocationCount, 0)
     }
 
     func testProviderFailureMapsToProductCopy() async {

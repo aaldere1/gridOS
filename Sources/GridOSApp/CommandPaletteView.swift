@@ -8,7 +8,9 @@ struct CommandPaletteView: View {
     let workingDirectoryProvider: @MainActor () -> String?
     let onClose: () -> Void
     let onOpenCommandIntelligenceSettings: () -> Void
-    let onSendRequest: @MainActor (CommandContextPreview) async -> Void
+    let onInsertCommand: @MainActor (String) -> Void
+    let onRunCommand: @MainActor (String) -> Void
+    let onSendRequest: @MainActor (CommandContextPreview) async -> CommandIntelligenceServiceResult
 
     @State private var selectedFlow: CommandPaletteFlow = .suggestCommand
     @State private var prompt = ""
@@ -16,8 +18,12 @@ struct CommandPaletteView: View {
     @State private var failedCommand = ""
     @State private var failedOutput = ""
     @State private var preview: CommandContextPreview?
+    @State private var lastSubmittedPreview: CommandContextPreview?
+    @State private var serviceResult: CommandIntelligenceServiceResult?
     @State private var selectionFailure: CommandIntelligenceSelectionFailure?
     @State private var isSending = false
+    @State private var pendingRunCommand: ClassifiedGeneratedCommand?
+    @State private var isRunConfirmationPresented = false
     @FocusState private var isPromptFocused: Bool
 
     private let contextBuilder = CommandContextBuilder()
@@ -28,13 +34,19 @@ struct CommandPaletteView: View {
         workingDirectoryProvider: @escaping @MainActor () -> String? = { nil },
         onClose: @escaping () -> Void,
         onOpenCommandIntelligenceSettings: @escaping () -> Void,
-        onSendRequest: @escaping @MainActor (CommandContextPreview) async -> Void = { _ in }
+        onInsertCommand: @escaping @MainActor (String) -> Void = { _ in },
+        onRunCommand: @escaping @MainActor (String) -> Void = { _ in },
+        onSendRequest: @escaping @MainActor (CommandContextPreview) async -> CommandIntelligenceServiceResult = { _ in
+            .failure(.providerError())
+        }
     ) {
         self.theme = theme
         self.selectedTextProvider = selectedTextProvider
         self.workingDirectoryProvider = workingDirectoryProvider
         self.onClose = onClose
         self.onOpenCommandIntelligenceSettings = onOpenCommandIntelligenceSettings
+        self.onInsertCommand = onInsertCommand
+        self.onRunCommand = onRunCommand
         self.onSendRequest = onSendRequest
     }
 
@@ -53,10 +65,14 @@ struct CommandPaletteView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .disabled(preview != nil || isSending)
+                .disabled(preview != nil || serviceResult != nil || isSending)
                 .accessibilityLabel("Command Intelligence flow")
 
-                if let preview {
+                if isSending {
+                    loadingContent
+                } else if let serviceResult {
+                    resultContent(serviceResult)
+                } else if let preview {
                     previewContent(preview)
                 } else {
                     composeContent
@@ -83,6 +99,20 @@ struct CommandPaletteView: View {
         .onExitCommand {
             onClose()
         }
+        .alert("Run exactly this command?", isPresented: $isRunConfirmationPresented) {
+            Button("Run Command") {
+                if let pendingRunCommand {
+                    onRunCommand(pendingRunCommand.command.command)
+                }
+                self.pendingRunCommand = nil
+            }
+
+            Button("Cancel", role: .cancel) {
+                pendingRunCommand = nil
+            }
+        } message: {
+            Text(pendingRunCommand?.command.command ?? "")
+        }
     }
 
     private var header: some View {
@@ -92,7 +122,7 @@ struct CommandPaletteView: View {
                     .font(.system(size: 16, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
 
-                Text(preview == nil ? selectedFlow.subtitle : "Preview the redacted context before sending.")
+                Text(headerSubtitle)
                     .font(.system(size: 11, weight: .regular))
                     .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.80))
             }
@@ -111,6 +141,18 @@ struct CommandPaletteView: View {
             .accessibilityLabel("Close Command Intelligence")
         }
         .padding(16)
+    }
+
+    private var headerSubtitle: String {
+        if isSending {
+            return "Sending the approved context to the configured provider."
+        }
+
+        if serviceResult != nil {
+            return "Review the result before inserting or running anything."
+        }
+
+        return preview == nil ? selectedFlow.subtitle : "Preview the redacted context before sending."
     }
 
     private var composeContent: some View {
@@ -147,6 +189,185 @@ struct CommandPaletteView: View {
                 .keyboardShortcut(.return, modifiers: [.command])
                 .disabled(!canBuildPreview)
             }
+        }
+    }
+
+    private var loadingContent: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ProgressView()
+                .controlSize(.small)
+
+            Text("Sending Request")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.88))
+
+            Text("The terminal remains available. No command will be inserted or run from a provider response.")
+                .font(.system(size: 13, weight: .regular))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
+
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private func resultContent(_ result: CommandIntelligenceServiceResult) -> some View {
+        switch result {
+        case .completion(let completion):
+            completionContent(completion)
+        case .failure(let failure):
+            failureContent(failure)
+        }
+    }
+
+    private func completionContent(_ completion: CommandIntelligenceCompletion) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    previewRow("Summary", completion.summary)
+
+                    if completion.commands.isEmpty {
+                        readOnlyExplanationContent(completion)
+                    } else {
+                        ForEach(completion.commands, id: \.command.command) { command in
+                            generatedCommandContent(command)
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .frame(maxHeight: .infinity)
+
+            HStack(spacing: 12) {
+                Button("Edit Context") {
+                    closeResult()
+                }
+
+                Spacer(minLength: 16)
+
+                Button("Close Preview") {
+                    closeResult()
+                }
+            }
+        }
+    }
+
+    private func readOnlyExplanationContent(_ completion: CommandIntelligenceCompletion) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            previewRow("Meaning", completion.explanation)
+            previewRow("Likely cause", "Review the selected or pasted output above; no command was generated.")
+            previewRow("Next checks", "Continue in the terminal or ask for a separate fix command if you want one.")
+        }
+    }
+
+    private func generatedCommandContent(_ classifiedCommand: ClassifiedGeneratedCommand) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            previewRow("Command", classifiedCommand.command.command)
+            previewRow("Explanation", classifiedCommand.command.explanation)
+            previewRow("Working directory assumption", classifiedCommand.command.workingDirectoryAssumption)
+            previewRow("Context used", contextUsedText(classifiedCommand.command.contextUsed))
+            riskContent(classifiedCommand.localRisk)
+
+            HStack(spacing: 12) {
+                Button(insertActionLabel(for: classifiedCommand.localRisk.policy)) {
+                    onInsertCommand(classifiedCommand.command.command)
+                }
+                .keyboardShortcut(.defaultAction)
+
+                if classifiedCommand.localRisk.policy == .canRun {
+                    Button("Run Command") {
+                        onRunCommand(classifiedCommand.command.command)
+                    }
+                } else if classifiedCommand.localRisk.policy == .requiresConfirmation {
+                    Button("Run Command") {
+                        pendingRunCommand = classifiedCommand
+                        isRunConfirmationPresented = true
+                    }
+                }
+            }
+        }
+        .padding(12)
+        .background(Color(theme.palette.background).opacity(0.38))
+        .overlay {
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .stroke(riskBorderColor(classifiedCommand.localRisk).opacity(0.62), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+    }
+
+    private func riskContent(_ risk: CommandRiskAssessment) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Local risk label")
+                .font(.system(size: 11, weight: .regular))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.72))
+
+            Text("\(risk.level.displayName): \(risk.reason)")
+                .font(.system(size: 12, weight: .regular, design: .monospaced))
+                .foregroundStyle(riskTextColor(risk))
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.bottom, 4)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
+                .frame(height: 1)
+                .accessibilityHidden(true)
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    private func failureContent(_ failure: CommandIntelligenceFailure) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(commandPaletteFailureTitle(failure))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.92))
+
+                Text(failure.message)
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.86))
+            }
+            .accessibilityElement(children: .combine)
+
+            Spacer(minLength: 0)
+
+            HStack(spacing: 12) {
+                Button("Edit Context") {
+                    closeResult()
+                }
+
+                Spacer(minLength: 16)
+
+                if failure.recoveryAction == "Open Command Intelligence Settings" {
+                    Button("Open Command Intelligence Settings") {
+                        onOpenCommandIntelligenceSettings()
+                    }
+                } else if failure.recoveryAction == "Retry Request" {
+                    Button("Retry Request") {
+                        retryRequest()
+                    }
+                    .disabled(lastSubmittedPreview == nil)
+                }
+            }
+        }
+    }
+
+    private func commandPaletteFailureTitle(_ failure: CommandIntelligenceFailure) -> String {
+        switch failure {
+        case .noProviderKey:
+            "Provider not configured"
+        case .offline:
+            "Provider unreachable"
+        case .rateLimited:
+            "Provider is busy"
+        case .redactionBlocked:
+            "Context needs review"
+        case .unsupportedSelection:
+            "Selection unavailable"
+        case .cancelledBeforeSend:
+            failure.title
+        case .providerError, .providerRefusal, .invalidProviderResponse, .truncatedResponse:
+            "Command intelligence is unavailable"
         }
     }
 
@@ -317,6 +538,45 @@ struct CommandPaletteView: View {
         }
     }
 
+    private func contextUsedText(_ contextUsed: [CommandContextSource]) -> String {
+        if contextUsed.isEmpty {
+            return "None"
+        }
+
+        return contextUsed.map(\.previewLabel).joined(separator: ", ")
+    }
+
+    private func insertActionLabel(for policy: CommandRunPolicy) -> String {
+        switch policy {
+        case .canRun, .requiresConfirmation:
+            "Insert Command"
+        case .insertOnly:
+            "Insert for Review"
+        }
+    }
+
+    private func riskTextColor(_ risk: CommandRiskAssessment) -> Color {
+        switch risk.level {
+        case .low:
+            Color(theme.palette.primaryAccent).opacity(0.90)
+        case .medium, .unknown:
+            Color(theme.palette.statusAccent).opacity(0.94)
+        case .high:
+            .red.opacity(0.92)
+        }
+    }
+
+    private func riskBorderColor(_ risk: CommandRiskAssessment) -> Color {
+        switch risk.level {
+        case .low:
+            Color(theme.palette.primaryAccent)
+        case .medium, .unknown:
+            Color(theme.palette.statusAccent)
+        case .high:
+            .red
+        }
+    }
+
     private var canBuildPreview: Bool {
         switch selectedFlow {
         case .suggestCommand:
@@ -332,6 +592,7 @@ struct CommandPaletteView: View {
     @MainActor
     private func buildPreview() {
         selectionFailure = nil
+        serviceResult = nil
 
         guard let input = commandAssistanceInput() else {
             return
@@ -384,14 +645,40 @@ struct CommandPaletteView: View {
     }
 
     @MainActor
+    private func closeResult() {
+        serviceResult = nil
+        lastSubmittedPreview = nil
+        preview = nil
+        isPromptFocused = true
+    }
+
+    @MainActor
     private func sendRequest() {
         guard let preview, preview.canSend else {
             return
         }
 
+        sendPreview(preview)
+    }
+
+    @MainActor
+    private func retryRequest() {
+        guard let lastSubmittedPreview else {
+            return
+        }
+
+        sendPreview(lastSubmittedPreview)
+    }
+
+    @MainActor
+    private func sendPreview(_ preview: CommandContextPreview) {
         Task { @MainActor in
             isSending = true
-            await onSendRequest(preview)
+            serviceResult = nil
+            lastSubmittedPreview = preview
+            let result = await onSendRequest(preview)
+            self.preview = nil
+            serviceResult = result
             isSending = false
         }
     }
@@ -399,7 +686,11 @@ struct CommandPaletteView: View {
     @MainActor
     private func resetComposeState() {
         preview = nil
+        lastSubmittedPreview = nil
+        serviceResult = nil
         selectionFailure = nil
+        pendingRunCommand = nil
+        isRunConfirmationPresented = false
         isPromptFocused = true
     }
 
@@ -470,6 +761,21 @@ private enum CommandPaletteFlow: String, CaseIterable, Identifiable {
 private struct CommandIntelligenceSelectionFailure: Equatable {
     let title: String
     let message: String
+}
+
+private extension CommandRiskLevel {
+    var displayName: String {
+        switch self {
+        case .low:
+            "Low risk"
+        case .medium:
+            "Medium risk"
+        case .high:
+            "High risk"
+        case .unknown:
+            "Unknown risk"
+        }
+    }
 }
 
 private extension Color {

@@ -1,4 +1,5 @@
 import AppKit
+import CommandIntelligence
 import Foundation
 import GridOSKit
 import RenderCore
@@ -17,6 +18,10 @@ struct RootView: View {
     @AppStorage("appearance.visualIntensity") private var visualIntensity = GridOSAppPreferences.defaultVisualIntensity
     @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
     @AppStorage(GridOSAppPreferences.installSeedStorageKey) private var installSeedRawValue = GridOSAppPreferences.defaultInstallSeedRawValue
+    @AppStorage(GridOSAppPreferences.commandIntelligenceProviderStorageKey)
+    private var commandIntelligenceProviderRawValue = GridOSAppPreferences.defaultCommandIntelligenceProviderID
+    @AppStorage(GridOSAppPreferences.commandIntelligenceModelStorageKey)
+    private var commandIntelligenceModelRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID
 
     @State private var renderSequence: UInt64 = 0
     @StateObject private var terminalInteractionController = TerminalInteractionController()
@@ -93,7 +98,16 @@ struct RootView: View {
                         commandPaletteWorkingDirectory
                     },
                     onClose: dismissCommandPalette,
-                    onOpenCommandIntelligenceSettings: openCommandIntelligenceSettingsFromPalette
+                    onOpenCommandIntelligenceSettings: openCommandIntelligenceSettingsFromPalette,
+                    onInsertCommand: { command in
+                        terminalInteractionController.insert(command)
+                    },
+                    onRunCommand: { command in
+                        terminalInteractionController.run(command)
+                    },
+                    onSendRequest: { preview in
+                        await completeCommandIntelligenceRequest(preview)
+                    }
                 )
                 .padding(48)
                 .transition(commandPaletteTransition)
@@ -153,6 +167,30 @@ struct RootView: View {
         currentWorkingDirectory ?? terminalConfiguration.workingDirectory
     }
 
+    private var commandIntelligenceProviderID: LLMProviderID {
+        #if DEBUG
+        if isCommandIntelligenceSmokeFixtureEnabled {
+            return .debugSmokeFixture
+        }
+        #endif
+
+        return LLMProviderID(
+            GridOSAppPreferences.normalizedCommandIntelligenceProviderID(commandIntelligenceProviderRawValue)
+        )
+    }
+
+    private var commandIntelligenceModelID: LLMModelID {
+        LLMModelID(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID(commandIntelligenceModelRawValue)
+        )
+    }
+
+    #if DEBUG
+    private var isCommandIntelligenceSmokeFixtureEnabled: Bool {
+        ProcessInfo.processInfo.arguments.contains("--command-intelligence-smoke-fixture")
+    }
+    #endif
+
     private var effectiveReducedMotion: Bool {
         accessibilityReduceMotion || preferences.reducedMotion
     }
@@ -197,6 +235,33 @@ struct RootView: View {
     @MainActor private func openCommandIntelligenceSettingsWindow() {
         NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    @MainActor private func completeCommandIntelligenceRequest(
+        _ preview: CommandContextPreview
+    ) async -> CommandIntelligenceServiceResult {
+        let provider = commandIntelligenceProvider()
+        let service = CommandIntelligenceService(
+            credentialStore: KeychainCommandCredentialStore(),
+            provider: provider,
+            riskClassifier: CommandRiskClassifier()
+        )
+
+        return await service.completeApprovedRequest(
+            preview: preview,
+            providerID: commandIntelligenceProviderID,
+            modelID: commandIntelligenceModelID
+        )
+    }
+
+    private func commandIntelligenceProvider() -> any LLMCommandProvider {
+        #if DEBUG
+        if isCommandIntelligenceSmokeFixtureEnabled {
+            return DebugCommandIntelligenceFixtureProvider()
+        }
+        #endif
+
+        return AnthropicCommandProvider()
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
