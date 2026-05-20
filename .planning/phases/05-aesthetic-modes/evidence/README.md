@@ -28,6 +28,19 @@ All screenshots in this set use raw mode `tron` with three different install see
 - Install seed preference key: `appearance.installSeed`
 - Mode switch shortcut: `.keyboardShortcut("m", modifiers: [.command, .shift])`
 
+## Capture Status
+
+Automated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six screenshots at `5120x2880`.
+
+Files produced:
+
+- `tron.png`
+- `severance.png`
+- `apple-native.png`
+- `tron-install-a.png`
+- `tron-install-b.png`
+- `tron-install-c.png`
+
 ## Command-Shift-M terminal-focus smoke
 
 Before Phase 5 is approved, launch the app, focus the terminal, type a harmless marker, press `Command-Shift-M` repeatedly, verify the mode indicator changes, verify shell input remains accepted after each switch, and record the pass/fail result in `05-04-SUMMARY.md` or this README.

@@ -103,6 +103,38 @@ GRIDOS_PHASE4_SMOKE
 APP_QUIT=clean
 ```
 
+## Phase 5 aesthetic mode evidence
+
+Phase 5 adds local aesthetic modes for Tron, Severance, and Apple-native. The release evidence lane verifies the mode contract with automated checks, shared-seed screenshots, same-mode install-variation screenshots, and a human Command-Shift-M terminal-focus smoke.
+
+Final automated commands:
+
+```sh
+xcodegen generate --use-cache
+xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
+git diff --check
+rg "case tron|case severance|case appleNative|VisualTheme|VisualMotionProfile" Sources/RenderCore Tests/RenderCoreTests
+rg "identity\\.seed\\.normalizedVector|uniforms.seed|testInstallDerivedSeedIsInstallSpecificWithinSameMode" Sources/RenderCore Tests/RenderCoreTests
+rg "appearance.visualMode|appearance.installSeed|@AppStorage" Sources/GridOSApp Sources/GridOSKit Tests/GridOSKitTests
+rg "keyboardShortcut\\(\"m\", modifiers: \\[\\.command, \\.shift\\]\\)|Cycle Visual Mode" Sources/GridOSApp
+rg "accessibilityReduceMotion|reducedMotion|VisualEffectConfiguration" Sources/GridOSApp Sources/RenderCore
+.planning/phases/05-aesthetic-modes/capture-mode-evidence.sh
+sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png
+```
+
+The mode-comparison screenshots must use the same install seed, `phase5-evidence-shared-seed`, for `tron.png`, `severance.png`, and `apple-native.png`. The install-variation screenshots must use the same raw mode, `tron`, with three different seeds for `tron-install-a.png`, `tron-install-b.png`, and `tron-install-c.png`.
+
+Command-Shift-M terminal-focus smoke:
+
+1. Launch the built Debug app.
+2. Click or focus the terminal.
+3. Type `echo PHASE5_FOCUS_SMOKE`.
+4. Press `Command-Shift-M` at least three times and verify the visual mode indicator cycles.
+5. Type `echo PHASE5_FOCUS_AFTER` and confirm shell input still works.
+6. Record pass/fail and any focus anomaly in `05-04-SUMMARY.md` or `.planning/phases/05-aesthetic-modes/evidence/README.md`.
+
+Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility remain deferred and out of scope for this release evidence lane.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

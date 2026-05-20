@@ -121,6 +121,29 @@ Current abstractions:
 
 `RootView` consumes the sampler through the `SystemMetricsSampler` protocol. `SystemStripView(snapshot:)` displays compact CPU, memory, network, battery, and thermal readouts; `ActivityContextPanel(snapshot:)` displays a read-only top-process list with process name, PID, CPU percent, and resident memory only.
 
+## Phase 5 architecture target
+
+Phase 5 turns the single visual identity into three local aesthetic systems while keeping terminal and metrics correctness ahead of effects.
+
+Current abstractions:
+
+- `VisualMode`
+- `VisualTheme`
+- `VisualMotionProfile`
+- `VisualIdentity`
+- `GridOSAppPreferences.visualModeStorageKey`
+- `GridOSAppPreferences.installSeedStorageKey`
+
+`VisualMode` exposes exactly `tron`, `severance`, and `appleNative`; `VisualTheme` owns each mode's palette, panel, terminal chrome, motion, and shader tokens. `VisualMotionProfile` composes with `VisualEffectConfiguration` so app and system reduced-motion settings still suppress motion across every mode.
+
+`RootView` reads the local `appearance.visualMode` and `appearance.installSeed` preferences with `@AppStorage`, normalizes them through `GridOSAppPreferences`, and composes a `VisualIdentity`. The selected mode is changed through Settings or the native Appearance command menu. The required shortcut is `Command-Shift-M`, implemented as `.keyboardShortcut("m", modifiers: [.command, .shift])`, and it only changes the local mode preference.
+
+The app-frame UI consumes `VisualTheme` tokens at the boundary: header indicator, metrics strip, activity panel, panel separators, and terminal chrome styling are mode-aware without changing the terminal layout. SwiftTerm text rendering stays owned by `TerminalCore`.
+
+`MetalBackgroundView` receives the full `VisualIdentity`. Its renderer maps `VisualIdentity.seed` through `identity.seed.normalizedVector` into the shader uniform `seed`, alongside the mode shader value and theme palette/profile inputs. The Metal shader keeps one pipeline but branches visually for Tron, Severance, and Apple-native so the same install seed can prove mode distinction and different install seeds can prove subtle same-mode variation.
+
+Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility are deferred and out of scope for the Phase 5 architecture target.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.
