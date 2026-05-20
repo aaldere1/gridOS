@@ -371,11 +371,17 @@ public struct NativeSystemMetricsProvider: Sendable {
             return nil
         }
 
-        var nameBuffer = [CChar](repeating: 0, count: Int(PROC_PIDPATHINFO_MAXSIZE))
+        var nameBuffer = [CChar](repeating: 0, count: 1_024)
         let nameLength = nameBuffer.withUnsafeMutableBufferPointer { buffer in
             proc_name(pid, buffer.baseAddress, UInt32(buffer.count))
         }
-        let name = nameLength > 0 ? String(cString: nameBuffer) : "pid \(pid)"
+        let name: String
+        if nameLength > 0 {
+            let nameBytes = nameBuffer.prefix(Int(nameLength)).map { UInt8(bitPattern: $0) }
+            name = String(decoding: nameBytes, as: UTF8.self)
+        } else {
+            name = "pid \(pid)"
+        }
         let totalTime = UInt64(taskInfo.pti_total_user) + UInt64(taskInfo.pti_total_system)
         let cpuPercent = TopProcessMetrics.cpuPercent(
             previousTotalTime: previous?.totalTime ?? totalTime,
