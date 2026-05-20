@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 07 context gathered; Phase 07 planning next
-last_updated: "2026-05-20T20:15:20.000Z"
+status: Phase 07 planned; Phase 07 execution next
+last_updated: "2026-05-20T20:38:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 7
-  total_plans: 15
+  total_plans: 20
   completed_plans: 15
 ---
 
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 7 - Multi-pane and session management (context gathered; planning next)
+Phase 7 - Multi-pane and session management (planned; execution next)
 
 ## Current status
 
-Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 context is gathered for multi-pane and session management: in-window split panes, active-pane routing, layout/directory restore without process resurrection, local recent-directory state, and explicit process-cleanup evidence.
+Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 is planned across five execution waves: TerminalCore pane/session models, active-pane routing and process lifecycle, multi-pane workspace UI/native commands, session restore/recent directories/recovery copy, and final smoke evidence.
 
 ## Decisions made
 
@@ -152,6 +152,7 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 context is ga
 - 2026-05-20: Phase 06 verification passed with 13/13 must-haves verified; orchestrator reran the full automated gate, proved the Debug fixture launch, opened the Command-K palette with UI automation, and committed `06-VERIFICATION.md`.
 - 2026-05-20: Phase 06 marked complete; Phase 07 multi-pane and session management is next.
 - 2026-05-20: Phase 07 context gathered for multi-pane and session management, including active-pane routing, layout/directory restore, local recent-directory state, and process-cleanup evidence.
+- 2026-05-20: Phase 07 research, UI design contract, validation strategy, and five executable plans created for multi-pane/session management.
 
 ## Performance metrics
 
@@ -167,10 +168,11 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 context is ga
 | 06-llm-command-palette | 04 | 9 min | 3 | 9 |
 | 06-llm-command-palette | 05 | 10min | 3 | 9 |
 | Phase 06-llm-command-palette P06 | 14min | 3 tasks | 12 files |
+| 07-multi-pane-session-management | planned | 5 plans | pending execution |
 
 ## Next target
 
-Plan Phase 07: multi-pane and session management.
+Execute Phase 07: multi-pane and session management.
 
 ## Session handoff
 
@@ -219,4 +221,9 @@ Plan Phase 07: multi-pane and session management.
 - 2026-05-20: Phase 07 context gathered for multi-pane and session management.
 - Resume file: `.planning/phases/07-multi-pane-session-management/07-CONTEXT.md`.
 - Discussion log: `.planning/phases/07-multi-pane-session-management/07-DISCUSSION-LOG.md`.
-- Stopped at: Phase 07 context gathered; Phase 07 planning next.
+- 2026-05-20: Phase 07 research, UI design contract, validation strategy, and executable plans created.
+- Research file: `.planning/phases/07-multi-pane-session-management/07-RESEARCH.md`.
+- UI design contract: `.planning/phases/07-multi-pane-session-management/07-UI-SPEC.md`.
+- Validation strategy: `.planning/phases/07-multi-pane-session-management/07-VALIDATION.md`.
+- Plan files: `.planning/phases/07-multi-pane-session-management/07-01-PLAN.md` through `.planning/phases/07-multi-pane-session-management/07-05-PLAN.md`.
+- Stopped at: Phase 07 planned; Phase 07 execution next.
