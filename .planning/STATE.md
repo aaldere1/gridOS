@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 06 context gathered
-last_updated: "2026-05-20T17:51:37Z"
+status: Executing Phase 06
+last_updated: "2026-05-20T19:01:53.823Z"
 progress:
   total_phases: 15
   completed_phases: 6
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 15
+  completed_plans: 10
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 6 - LLM command palette (context gathered)
+Phase 6 - LLM command palette (Plan 01 complete; Plan 02 next)
 
 ## Current status
 
-Phase 5 is verified complete with 8/8 must-haves passed. Phase 6 context is gathered in `.planning/phases/06-llm-command-palette/06-CONTEXT.md`; planning can begin next.
+Phase 6 Plan 01 is complete. `CommandIntelligence` now has tested provider-neutral contracts, an approved-payload provider request boundary, async credential-store contracts, and product-level failure copy. Continue with `.planning/phases/06-llm-command-palette/06-02-PLAN.md`.
 
 ## Decisions made
 
@@ -56,6 +56,9 @@ Phase 5 is verified complete with 8/8 must-haves passed. Phase 6 context is gath
 - [Phase 06-llm-command-palette]: Show a context preview and redactions before every provider request; send no shell context without explicit user action.
 - [Phase 06-llm-command-palette]: Store provider API keys in Keychain and treat no-key configuration as a normal disabled state.
 - [Phase 06-llm-command-palette]: Default to Anthropic/Claude if Phase 6 implements one live hosted provider, while preserving a provider abstraction for future OpenAI/local adapters.
+- [Phase 06-llm-command-palette]: Keep provider requests typed around ApprovedCommandContextPayload so providers cannot receive raw CommandAssistanceInput.
+- [Phase 06-llm-command-palette]: Keep credential access async from the first contract slice so Keychain-backed storage can be added without blocking SwiftUI.
+- [Phase 06-llm-command-palette]: Map all provider/network/parser failures to product-level copy before UI rendering.
 
 ## Decisions still open
 
@@ -119,6 +122,7 @@ Phase 5 is verified complete with 8/8 must-haves passed. Phase 6 context is gath
 - 2026-05-20: Phase 5 Plan 04 visual review approved the app-window isolated screenshots: Tron, Severance, and Apple-native are visibly distinct with the shared seed; terminal and metrics remain readable; deferred surfaces are absent; and Tron install variants A/B/C are subtly distinct without hurting readability.
 - 2026-05-20: Live Command-Shift-M terminal-focus smoke passed from `appearance.visualMode=tron` and install seed `phase5-focus-smoke`; the app cycled `severance -> appleNative -> tron`, accepted shell input after each switch, created `/tmp/gridos_phase5_focus_before`, `/tmp/gridos_phase5_focus_after_1`, `/tmp/gridos_phase5_focus_after_2`, and `/tmp/gridos_phase5_focus_after_3`, and captured `.planning/phases/05-aesthetic-modes/evidence/focus-smoke-command-shift-m.png`.
 - 2026-05-20: Final Phase 5 Plan 04 completion checks passed: `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all seven evidence images at `3104x2024`, and `git diff --check` passed. Earlier full `xcodegen generate --use-cache` and `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` evidence from the checkpoint remains the full build/test gate for this plan.
+- 2026-05-20: Executed Phase 06 Plan 01 with CommandIntelligence contracts, approved preview payloads, credential store abstraction, failure copy, and `CommandIntelligenceTests`.
 
 ## Performance metrics
 
@@ -128,10 +132,11 @@ Phase 5 is verified complete with 8/8 must-haves passed. Phase 6 context is gath
 | 05-aesthetic-modes | 02 | 3 min | 2 | 3 |
 | 05-aesthetic-modes | 03 | 5 min | 2 | 3 |
 | 05-aesthetic-modes | 04 | 27 min | 3 | 14 |
+| 06-llm-command-palette | 01 | 5 min | 1 | 12 |
 
 ## Next target
 
-Run Phase 5 verification or explicitly start Phase 6 when ready; Phase 6 is not active yet.
+Execute Phase 06 Plan 02: secret redaction and context preview construction.
 
 ## Session handoff
 
@@ -165,4 +170,6 @@ Run Phase 5 verification or explicitly start Phase 6 when ready; Phase 6 is not 
 - 2026-05-20: Phase 06 context gathered for the LLM command palette with conservative command safety, explicit context preview, Keychain-backed provider setup, and insert-first generated-command handling.
 - Resume file: `.planning/phases/06-llm-command-palette/06-CONTEXT.md`.
 - Discussion log: `.planning/phases/06-llm-command-palette/06-DISCUSSION-LOG.md`.
-- Next command: `$gsd-plan-phase 6`.
+- 2026-05-20: Phase 06 Plan 01 executed and verified.
+- Summary file: `.planning/phases/06-llm-command-palette/06-01-SUMMARY.md`.
+- Next plan: `.planning/phases/06-llm-command-palette/06-02-PLAN.md`.
