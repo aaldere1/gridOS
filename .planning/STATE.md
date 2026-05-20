@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Executing Phase 06
-last_updated: "2026-05-20T19:39:31.162Z"
+status: Phase 06 complete
+last_updated: "2026-05-20T19:56:59Z"
 progress:
   total_phases: 15
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 15
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 6 - LLM command palette (Plans 01, 02, 03, 04, and 05 complete; Plan 06 next)
+Phase 7 - Multi-pane and session management (Phase 6 complete; Phase 7 planning next)
 
 ## Current status
 
-Phase 6 Plan 05 is complete. Command-K now opens a compact Command Intelligence palette, Terminal Clear moved to Command-Option-K, terminal interaction routes through `TerminalCore.TerminalInteractionController`, and `Send Request` is gated behind a redacted context preview. Continue with `.planning/phases/06-llm-command-palette/06-06-PLAN.md`.
+Phase 6 Plan 06 is complete. Command Intelligence now sends only approved preview payloads, handles missing provider keys as a normal setup state, supports a DEBUG deterministic smoke fixture without a live Anthropic key, locally reclassifies provider commands before rendering insert/run controls, and records final automated smoke evidence in `.planning/phases/06-llm-command-palette/evidence/README.md`.
 
 ## Decisions made
 
@@ -71,6 +71,10 @@ Phase 6 Plan 05 is complete. Command-K now opens a compact Command Intelligence 
 - [Phase 06-llm-command-palette]: Keep terminal selected text, insert, run, and focus access inside TerminalCore.TerminalInteractionController so GridOSApp never imports SwiftTerm.
 - [Phase 06-llm-command-palette]: Use CommandIntelligenceCommandCenter notifications for Command-K and Settings routing instead of binding app commands directly to view state.
 - [Phase 06-llm-command-palette]: Keep Send Request behind a preview-approved injected closure until Plan 06-06 wires provider orchestration.
+- [Phase 06-llm-command-palette]: Use CommandIntelligenceService as the provider orchestration boundary after preview approval.
+- [Phase 06-llm-command-palette]: Keep DebugCommandIntelligenceFixtureProvider DEBUG-gated and launch-argument selected so smoke never needs a live Anthropic key.
+- [Phase 06-llm-command-palette]: Treat CommandRiskClassifier as the local execution-policy authority; provider risk labels are advisory.
+- [Phase 06-llm-command-palette]: Auto-approve the final human-verify checkpoint in workflow auto mode while recording manual smoke steps and noninteractive fixture evidence.
 
 ## Decisions still open
 
@@ -155,10 +159,11 @@ Phase 6 Plan 05 is complete. Command-K now opens a compact Command Intelligence 
 | 06-llm-command-palette | 02 | 8 min | 1 | 6 |
 | 06-llm-command-palette | 04 | 9 min | 3 | 9 |
 | 06-llm-command-palette | 05 | 10min | 3 | 9 |
+| Phase 06-llm-command-palette P06 | 14min | 3 tasks | 12 files |
 
 ## Next target
 
-Execute Phase 06 Plan 06: result rendering, deterministic smoke fixture, insert/run policy, docs/evidence, and final smoke checkpoint.
+Plan Phase 07: multi-pane and session management.
 
 ## Session handoff
 
@@ -202,4 +207,6 @@ Execute Phase 06 Plan 06: result rendering, deterministic smoke fixture, insert/
 - Summary file: `.planning/phases/06-llm-command-palette/06-04-SUMMARY.md`.
 - 2026-05-20: Phase 06 Plan 05 executed and verified.
 - Summary file: `.planning/phases/06-llm-command-palette/06-05-SUMMARY.md`.
-- Next incomplete plan: `.planning/phases/06-llm-command-palette/06-06-PLAN.md`.
+- 2026-05-20: Phase 06 Plan 06 executed and verified.
+- Summary file: `.planning/phases/06-llm-command-palette/06-06-SUMMARY.md`.
+- Stopped at: Completed 06-06-PLAN.md.

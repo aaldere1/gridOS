@@ -84,7 +84,7 @@ Plans: 4 plans
 
 ## Phase 6 - LLM command palette
 
-Status: In Progress
+Status: complete
 
 Goal: add useful command assistance without unsafe execution surprises.
 
@@ -99,7 +99,7 @@ Plans: 6 plans
 - [x] 06-03-PLAN.md - Local risk classifier and run policy.
 - [x] 06-04-PLAN.md - Anthropic provider adapter, Keychain credential storage, and Settings setup.
 - [x] 06-05-PLAN.md - Command-K palette shell, TerminalCore interaction bridge, preview-before-send flow, and Settings action wiring.
-- [ ] 06-06-PLAN.md - Result rendering, deterministic smoke fixture, insert/run policy, docs/evidence, and final smoke checkpoint.
+- [x] 06-06-PLAN.md - Result rendering, deterministic smoke fixture, insert/run policy, docs/evidence, and final smoke checkpoint.
 
 ## Phase 7 - Multi-pane and session management
 
