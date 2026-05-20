@@ -55,6 +55,25 @@ APP_SAMPLE=0.0 106496 SN .../gridOS.app/Contents/MacOS/gridOS
 
 This is not a substitute for Phase 9 performance hardening; it is only the Phase 2 guardrail that the first renderer does not obviously spin while idle.
 
+## Phase 3 app-frame smoke
+
+Phase 3 adds persisted app-frame settings, hidden-titlebar window autosave, reduced-motion-aware rendering, and accessibility coverage. The current local smoke bar is:
+
+- app launches with the Debug binary and accepts `--cmd`
+- startup command writes `GRIDOS_PHASE3_SMOKE` through the terminal path
+- app quits cleanly after shell exit
+- `SettingsView` persists shell path, font size, reduced motion, and visual intensity through shared keys
+- `WindowFrameController` configures `setFrameAutosaveName("gridOS.main")`
+- reduced motion suppresses Metal pulse magnitude through `VisualEffectConfiguration`
+
+Smoke command:
+
+```sh
+rm -f /tmp/gridos-phase3-smoke.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --cmd "printf 'GRIDOS_PHASE3_SMOKE\n' > /tmp/gridos-phase3-smoke.txt; exit"
+cat /tmp/gridos-phase3-smoke.txt
+```
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

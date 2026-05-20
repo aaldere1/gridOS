@@ -74,6 +74,28 @@ Current abstractions:
 
 `TerminalCore` emits coarse `TerminalActivityEvent` values for input, output, resize, and process lifecycle events. `GridOSApp` translates those events into `RenderEvent` values. This preserves the dependency rule: `TerminalCore` does not import or depend on `RenderCore`.
 
+## Phase 3 architecture target
+
+Phase 3 turns the prototype into a production-shaped app frame while preserving the Phase 1 terminal boundary and Phase 2 render boundary.
+
+Current abstractions:
+
+- `GridOSAppPreferences`
+- `VisualEffectConfiguration`
+- `WindowFrameController`
+- `AppFrameHeader`
+- `SystemStripView`
+- `ActivityContextPanel`
+- `TerminalWorkspaceView`
+
+`GridOSAppPreferences` lives in `GridOSKit` so shell path, terminal font size, reduced motion, and visual intensity defaults can be tested outside the SwiftUI app. `RootView` and `SettingsView` share the same `@AppStorage` keys, and `RootView` maps persisted values into a fresh `TerminalSessionConfiguration` without bypassing `TerminalCore`.
+
+`WindowFrameController` is an invisible AppKit bridge attached to the root view. It configures hidden-titlebar chrome, minimum size, and `setFrameAutosaveName("gridOS.main")` without making itself first responder.
+
+`VisualEffectConfiguration` lives in `RenderCore` and controls pulse magnitude from visual intensity and reduced motion. `RootView` combines the app preference with `accessibilityReduceMotion` before passing the effective setting into `MetalBackgroundView`.
+
+The app frame remains terminal-first: `TerminalWorkspaceView` is the dominant working region, while `SystemStripView` and `ActivityContextPanel` are truthful placeholders until later phases add real metrics and command context.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.

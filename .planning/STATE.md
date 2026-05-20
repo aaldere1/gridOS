@@ -6,7 +6,7 @@ Phase 3 - Production app frame
 
 ## Current status
 
-Phase 2 is complete. The app now opens to a SwiftTerm-backed local shell over a burst-driven Metal `Signal Field` background from `RenderCore`, with terminal activity bridged into subtle render pulses and passing build/tests/smoke checks.
+Phase 3 plan execution is code-complete and awaiting phase-level verification. The app now has a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility labels/values layered around the SwiftTerm-backed shell and Metal `Signal Field` background.
 
 ## Decisions made
 
@@ -20,6 +20,9 @@ Phase 2 is complete. The app now opens to a SwiftTerm-backed local shell over a 
 - Keep SwiftTerm isolated inside `TerminalCore`; `GridOSApp` should consume `TerminalSurface`, `TerminalSessionConfiguration`, and `TerminalCommandCenter` only.
 - Keep Metal rendering isolated inside `RenderCore`; `TerminalCore` emits coarse activity events and does not depend on rendering code.
 - Keep the Phase 2 renderer burst-driven so idle CPU stays quiet before heavier visual systems are added.
+- Persist Phase 3 app-frame preferences with shared `@AppStorage` keys and test pure defaults/clamping through `GridOSKit.GridOSAppPreferences`.
+- Use AppKit `setFrameAutosaveName("gridOS.main")` through an invisible SwiftUI bridge rather than custom window-state serialization.
+- Combine the app reduced-motion setting with the system `accessibilityReduceMotion` environment before driving `RenderCore.VisualEffectConfiguration`.
 
 ## Decisions still open
 
@@ -52,15 +55,18 @@ Phase 2 is complete. The app now opens to a SwiftTerm-backed local shell over a 
 - 2026-05-20: Added `RenderCoreTests`, including Metal shader compilation when a device is available.
 - 2026-05-20: Verified `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` passed with 13 unit tests.
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE2_SMOKE`, shell exit, clean app quit, and a post-burst app CPU sample of `0.0`.
+- 2026-05-20: Added `GridOSAppPreferences` with tests for shell fallback, font-size clamping, visual-intensity clamping, and reduced-motion storage.
+- 2026-05-20: Added `VisualEffectConfiguration` and threaded reduced-motion/intensity into the Metal background pulse path.
+- 2026-05-20: Added `WindowFrameController` to configure hidden-titlebar chrome, minimum size, and `gridOS.main` frame autosave.
+- 2026-05-20: Refactored `RootView` into a terminal-first app frame with header, system strip, activity panel, and dominant terminal workspace.
+- 2026-05-20: Replaced Settings placeholders with persisted Terminal, Appearance, and Recovery controls.
+- 2026-05-20: Hardened the terminal command menu as an explicit `TerminalCommands` type while preserving SwiftTerm focus behavior.
+- 2026-05-20: Verified Phase 3 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, and `git diff --check` passed.
+- 2026-05-20: Launch-smoke verified `GRIDOS_PHASE3_SMOKE` written to `/tmp/gridos-phase3-smoke.txt` through the app startup command path and the Debug app quit cleanly.
 
 ## Next target
 
-Start Phase 3 Production app frame:
-
-1. Make window behavior, focus, and state restoration production-shaped.
-2. Replace Settings placeholders with persisted terminal/app preferences.
-3. Harden keyboard commands and accessibility paths.
-4. Add focused tests around app frame state and preference behavior.
+Complete Phase 3 final verification, launch smoke, summary, and phase-level verification.
 
 ## Session handoff
 
