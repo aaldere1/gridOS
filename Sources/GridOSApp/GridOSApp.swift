@@ -12,6 +12,7 @@ struct GridOSApplication: App {
         .windowStyle(.hiddenTitleBar)
         .commands {
             TerminalCommands()
+            CommandIntelligenceCommands()
             AppearanceCommands()
         }
 
@@ -39,12 +40,27 @@ private struct TerminalCommands: Commands {
             Button("Clear") {
                 TerminalCommandCenter.clear()
             }
-            .keyboardShortcut("k", modifiers: [.command])
+            .keyboardShortcut("k", modifiers: [.command, .option])
 
             Button("Reset") {
                 TerminalCommandCenter.reset()
             }
             .keyboardShortcut("r", modifiers: [.command, .option])
+        }
+    }
+}
+
+private struct CommandIntelligenceCommands: Commands {
+    var body: some Commands {
+        CommandMenu("Command Intelligence") {
+            Button("Command Intelligence") {
+                CommandIntelligenceCommandCenter.openCommandIntelligence()
+            }
+            .keyboardShortcut("k", modifiers: [.command])
+
+            Button("Open Command Intelligence Settings") {
+                CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+            }
         }
     }
 }

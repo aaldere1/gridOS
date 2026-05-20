@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import GridOSKit
 import RenderCore
@@ -18,6 +19,8 @@ struct RootView: View {
     @AppStorage(GridOSAppPreferences.installSeedStorageKey) private var installSeedRawValue = GridOSAppPreferences.defaultInstallSeedRawValue
 
     @State private var renderSequence: UInt64 = 0
+    @StateObject private var terminalInteractionController = TerminalInteractionController()
+    @State private var isCommandPalettePresented = false
     @State private var renderEvent = RenderEvent(
         sequence: 0,
         kind: .startup,
@@ -56,6 +59,7 @@ struct RootView: View {
                         TerminalWorkspaceView(
                             configuration: terminalConfiguration,
                             theme: visualTheme,
+                            interactionController: terminalInteractionController,
                             onActivity: handleTerminalActivity
                         )
                     }
@@ -69,8 +73,29 @@ struct RootView: View {
             .padding(.top, 18)
             .padding(.horizontal, 18)
             .padding(.bottom, 18)
+
+            if isCommandPalettePresented {
+                Color.black
+                    .opacity(0.34)
+                    .ignoresSafeArea()
+                    .accessibilityHidden(true)
+                    .onTapGesture {
+                        dismissCommandPalette()
+                    }
+
+                CommandPaletteView(
+                    theme: visualTheme,
+                    onClose: dismissCommandPalette,
+                    onOpenCommandIntelligenceSettings: openCommandIntelligenceSettingsFromPalette
+                )
+                .padding(48)
+                .transition(commandPaletteTransition)
+            }
         }
         .background(WindowFrameController(autosaveName: "gridOS.main"))
+        .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
+            isCommandPalettePresented = true
+        }
         .task {
             ensureInstallSeed()
             await runMetricsLoop()
@@ -128,12 +153,39 @@ struct RootView: View {
         )
     }
 
+    private var commandPaletteTransition: AnyTransition {
+        if effectiveReducedMotion {
+            return .opacity
+        }
+
+        return .opacity.combined(with: .scale(scale: 0.98))
+    }
+
     @MainActor private func ensureInstallSeed() {
         guard GridOSAppPreferences.normalizedInstallSeedRawValue(installSeedRawValue).isEmpty else {
             return
         }
 
         installSeedRawValue = UUID().uuidString.lowercased()
+    }
+
+    @MainActor private func dismissCommandPalette() {
+        isCommandPalettePresented = false
+        terminalInteractionController.focusTerminal()
+    }
+
+    @MainActor private func openCommandIntelligenceSettingsFromPalette() {
+        CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+        openCommandIntelligenceSettingsWindow()
+        DispatchQueue.main.async {
+            CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+        }
+        dismissCommandPalette()
+    }
+
+    @MainActor private func openCommandIntelligenceSettingsWindow() {
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
@@ -469,10 +521,15 @@ private struct TopProcessRow: View {
 private struct TerminalWorkspaceView: View {
     let configuration: TerminalSessionConfiguration
     let theme: VisualTheme
+    let interactionController: TerminalInteractionController
     let onActivity: TerminalSurface.ActivityHandler
 
     var body: some View {
-        TerminalSurface(configuration: configuration, onActivity: onActivity)
+        TerminalSurface(
+            configuration: configuration,
+            interactionController: interactionController,
+            onActivity: onActivity
+        )
             .background(Color(theme.palette.background).opacity(theme.terminal.backgroundOpacity))
             .clipShape(RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous))
             .overlay {
