@@ -78,7 +78,7 @@ Exit criteria:
 Plans: 4 plans
 
 - [x] 05-01-PLAN.md - RenderCore/GridOSKit mode registry, tokens, preferences, and seed foundation.
-- [ ] 05-02-PLAN.md - AppStorage composition, Settings picker, and native Command-Shift-M mode command.
+- [x] 05-02-PLAN.md - AppStorage composition, Settings picker, and native Command-Shift-M mode command.
 - [ ] 05-03-PLAN.md - App-frame token integration and mode-aware Metal shader/motion integration.
 - [ ] 05-04-PLAN.md - Screenshot evidence helper, docs/state updates, and visual verification checkpoint.
 
