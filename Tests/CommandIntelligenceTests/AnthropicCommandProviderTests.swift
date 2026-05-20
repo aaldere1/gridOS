@@ -12,7 +12,8 @@ final class AnthropicCommandProviderTests: XCTestCase {
 
         _ = try await provider.complete(request, apiKey: "sk-ant-secret-test")
 
-        let sentRequest = try XCTUnwrap(await transport.requests.first)
+        let requests = await transport.recordedRequests()
+        let sentRequest = try XCTUnwrap(requests.first)
         XCTAssertEqual(sentRequest.httpMethod, "POST")
         XCTAssertEqual(sentRequest.url?.absoluteString, "https://api.anthropic.com/v1/messages")
         XCTAssertEqual(sentRequest.value(forHTTPHeaderField: "x-api-key"), "sk-ant-secret-test")
@@ -216,6 +217,10 @@ private actor MockAnthropicHTTPTransport: AnthropicHTTPTransport {
         requests.append(request)
         let response = try result.get()
         return (response.data, response.response)
+    }
+
+    func recordedRequests() -> [URLRequest] {
+        requests
     }
 }
 
