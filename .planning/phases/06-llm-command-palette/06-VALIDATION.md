@@ -60,7 +60,7 @@ Per-phase validation contract for feedback sampling during execution.
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
-| `Command-K` palette focus restoration | LLM-01, LLM-12 | First responder behavior crosses SwiftUI, AppKit, and SwiftTerm | Launch Debug app, focus terminal, press `Command-K`, close palette with Escape or Cancel, type `printf 'PHASE6_FOCUS\n' > /tmp/gridos_phase6_focus.txt`, and verify the file exists. |
+| `Command-K` palette focus restoration | LLM-01, LLM-12 | First responder behavior crosses SwiftUI, AppKit, and SwiftTerm | Launch Debug app, focus terminal, press `Command-K`, close palette with Escape or the labeled palette close action, type `printf 'PHASE6_FOCUS\n' > /tmp/gridos_phase6_focus.txt`, and verify the file exists. |
 | Insert does not execute | LLM-09 | Requires observing the real shell after UI insertion | Use a mock/live suggested command `printf 'PHASE6_INSERT\n' > /tmp/gridos_phase6_insert.txt`; click Insert; verify `/tmp/gridos_phase6_insert.txt` does not exist until Return or explicit Run. |
 | Run confirmation gate | LLM-07, LLM-09 | Exact visual confirmation and no-auto-run behavior need real UI review | Use a high-risk fixture such as `rm -rf ~/tmp/gridos-test`; verify high/unknown risk is insert-only or shows a distinct exact-command confirmation, and no execution happens on model response. |
 | Selected-output explain fallback | LLM-02, LLM-10 | SwiftTerm selection behavior varies by terminal state and alternate-screen apps | Select visible output and open Explain Output; if selected text is unavailable, verify paste fallback and unsupported-selection copy are clear. |
