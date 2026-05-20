@@ -30,15 +30,16 @@ final class CommandCredentialStoreTests: XCTestCase {
 
         try await store.saveAPIKey("  sk-ant-test-value  ", for: .anthropic)
 
-        let operation = try XCTUnwrap(await client.recordedOperations().first)
+        let operations = await client.recordedOperations()
+        let operation = try XCTUnwrap(operations.first)
         guard case let .add(query) = operation else {
             return XCTFail("Expected add operation")
         }
 
-        XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword))
+        XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword as String))
         XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.command-intelligence"))
         XCTAssertEqual(query[kSecAttrAccount], .string("anthropic"))
-        XCTAssertEqual(query[kSecAttrAccessible], .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly))
+        XCTAssertEqual(query[kSecAttrAccessible], .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly as String))
         XCTAssertEqual(query[kSecUseDataProtectionKeychain], .bool(true))
         XCTAssertEqual(query[kSecValueData], .data(Data("sk-ant-test-value".utf8)))
     }
@@ -58,14 +59,14 @@ final class CommandCredentialStoreTests: XCTestCase {
             return XCTFail("Expected add followed by update")
         }
 
-        XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword))
+        XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword as String))
         XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.command-intelligence"))
         XCTAssertEqual(query[kSecAttrAccount], .string("anthropic"))
         XCTAssertNil(query[kSecValueData])
         XCTAssertEqual(attributesToUpdate[kSecValueData], .data(Data("sk-ant-replacement".utf8)))
         XCTAssertEqual(
             attributesToUpdate[kSecAttrAccessible],
-            .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
+            .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly as String)
         )
     }
 
@@ -88,7 +89,7 @@ final class CommandCredentialStoreTests: XCTestCase {
             return XCTFail("Expected copy then delete")
         }
         XCTAssertEqual(copyQuery[kSecReturnData], .bool(true))
-        XCTAssertEqual(copyQuery[kSecMatchLimit], .securityConstant(kSecMatchLimitOne))
+        XCTAssertEqual(copyQuery[kSecMatchLimit], .securityConstant(kSecMatchLimitOne as String))
         XCTAssertEqual(deleteQuery[kSecUseDataProtectionKeychain], .bool(true))
     }
 

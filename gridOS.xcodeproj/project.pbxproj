@@ -76,6 +76,7 @@
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
+		E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */; };
 		EE0655CCF740F7F4AE3CE796 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		F04AB68B838DF5118BD971FE /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
 		F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */; };
@@ -292,6 +293,7 @@
 		5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsStatus.swift; sourceTree = "<group>"; };
 		5449C18D52D6690542E48A9C /* GridOSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GridOSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E1DD37EF7424775DE825D1 /* SystemMetricsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsModelTests.swift; sourceTree = "<group>"; };
+		5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCommandCredentialStore.swift; sourceTree = "<group>"; };
 		6922304D1FF56546CD96CE28 /* AnthropicCommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicCommandProvider.swift; sourceTree = "<group>"; };
 		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -443,6 +445,7 @@
 				B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */,
 				B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */,
 				3E4798756519A15DD8DFA804 /* Info.plist */,
+				5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */,
 				233FBC5D701469255971E5ED /* LLMCommandProvider.swift */,
 				F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */,
 			);
@@ -929,6 +932,7 @@
 				0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */,
 				8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */,
 				5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */,
+				E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */,
 				41A6997C96B5667099D1EC53 /* LLMCommandProvider.swift in Sources */,
 				179190E8DE52E79B2F0E2744 /* SecretRedactor.swift in Sources */,
 			);

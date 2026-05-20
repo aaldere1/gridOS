@@ -6,9 +6,15 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultVisualIntensity = 0.65
     public static let visualModeStorageKey = "appearance.visualMode"
     public static let installSeedStorageKey = "appearance.installSeed"
+    public static let commandIntelligenceProviderStorageKey = "commandIntelligence.providerID"
+    public static let commandIntelligenceModelStorageKey = "commandIntelligence.modelID"
     public static let defaultVisualModeRawValue = "tron"
     public static let defaultInstallSeedRawValue = ""
+    public static let defaultCommandIntelligenceProviderID = "anthropic"
+    public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-6"
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
+    public static let supportedCommandIntelligenceProviderIDs = [defaultCommandIntelligenceProviderID]
+    public static let supportedCommandIntelligenceModelIDs = [defaultCommandIntelligenceModelID]
     public static let fontSizeRange = 10.0...24.0
     public static let visualIntensityRange = 0.0...1.0
 
@@ -63,6 +69,26 @@ public struct GridOSAppPreferences: Equatable, Sendable {
 
     public static func normalizedInstallSeedRawValue(_ rawValue: String) -> String {
         rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    public static func normalizedCommandIntelligenceProviderID(_ rawValue: String) -> String {
+        let trimmedRawValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard supportedCommandIntelligenceProviderIDs.contains(trimmedRawValue) else {
+            return defaultCommandIntelligenceProviderID
+        }
+
+        return trimmedRawValue
+    }
+
+    public static func normalizedCommandIntelligenceModelID(_ rawValue: String) -> String {
+        let trimmedRawValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard supportedCommandIntelligenceModelIDs.contains(trimmedRawValue) else {
+            return defaultCommandIntelligenceModelID
+        }
+
+        return trimmedRawValue
     }
 
     public static let defaultValue = GridOSAppPreferences()
