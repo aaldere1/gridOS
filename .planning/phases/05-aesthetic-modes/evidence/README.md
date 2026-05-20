@@ -2,6 +2,8 @@
 
 This directory contains local screenshot evidence for the Phase 5 visual-mode checkpoint.
 
+All screenshot files are app-window isolated. The helper activates gridOS, sets the main window to the deterministic `160,120,1440,900` point rectangle, resolves the gridOS CoreGraphics window ID, and captures that window with non-interactive `screencapture -x -l`. The evidence is not full-desktop capture and excludes unrelated desktop, browser, chat, and foreground app content.
+
 ## Mode Comparison Set
 
 All screenshots in this set must use the exact shared install seed `phase5-evidence-shared-seed` so mode differences are not confounded by per-install seed changes.
@@ -30,7 +32,7 @@ All screenshots in this set use raw mode `tron` with three different install see
 
 ## Capture Status
 
-Automated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six screenshots at `5120x2880`.
+Automated app-window-isolated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six screenshots at `3104x2024`.
 
 Files produced:
 
