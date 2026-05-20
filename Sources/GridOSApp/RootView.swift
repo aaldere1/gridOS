@@ -7,7 +7,6 @@ import TerminalCore
 
 struct RootView: View {
     private let processConfiguration = TerminalSessionConfiguration.fromProcessArguments()
-    private let visualIdentity = VisualIdentity.default
     private let metricsSampler: any SystemMetricsSampler = LiveSystemMetricsSampler()
 
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
@@ -15,6 +14,8 @@ struct RootView: View {
     @AppStorage("terminal.fontSize") private var terminalFontSize = GridOSAppPreferences.defaultTerminalFontSize
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
     @AppStorage("appearance.visualIntensity") private var visualIntensity = GridOSAppPreferences.defaultVisualIntensity
+    @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
+    @AppStorage(GridOSAppPreferences.installSeedStorageKey) private var installSeedRawValue = GridOSAppPreferences.defaultInstallSeedRawValue
 
     @State private var renderSequence: UInt64 = 0
     @State private var renderEvent = RenderEvent(
@@ -68,8 +69,22 @@ struct RootView: View {
         }
         .background(WindowFrameController(autosaveName: "gridOS.main"))
         .task {
+            ensureInstallSeed()
             await runMetricsLoop()
         }
+    }
+
+    private var visualMode: VisualMode {
+        let normalizedRawValue = GridOSAppPreferences.normalizedVisualModeRawValue(visualModeRawValue)
+        return VisualMode(rawValue: normalizedRawValue) ?? .defaultMode
+    }
+
+    private var installSeed: String {
+        GridOSAppPreferences.normalizedInstallSeedRawValue(installSeedRawValue)
+    }
+
+    private var visualIdentity: VisualIdentity {
+        VisualIdentity(mode: visualMode, installSeed: installSeed.isEmpty ? "gridOS.phase5.bootstrap" : installSeed)
     }
 
     private var preferences: GridOSAppPreferences {
@@ -104,6 +119,14 @@ struct RootView: View {
             intensity: preferences.visualIntensity,
             reducedMotion: effectiveReducedMotion
         )
+    }
+
+    @MainActor private func ensureInstallSeed() {
+        guard GridOSAppPreferences.normalizedInstallSeedRawValue(installSeedRawValue).isEmpty else {
+            return
+        }
+
+        installSeedRawValue = UUID().uuidString.lowercased()
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
