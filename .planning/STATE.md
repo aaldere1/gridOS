@@ -3,23 +3,23 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 06
-last_updated: "2026-05-20T19:26:30.864Z"
+last_updated: "2026-05-20T19:39:31.162Z"
 progress:
   total_phases: 15
   completed_phases: 6
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 6 - LLM command palette (Plans 01, 02, 03, and 04 complete; Plan 05 next)
+Phase 6 - LLM command palette (Plans 01, 02, 03, 04, and 05 complete; Plan 06 next)
 
 ## Current status
 
-Phase 6 Plan 04 is complete. `CommandIntelligence` now has a direct Anthropic Messages provider, Keychain-only provider credential storage, non-secret provider/model preferences, and a Settings setup surface. Continue with `.planning/phases/06-llm-command-palette/06-05-PLAN.md`.
+Phase 6 Plan 05 is complete. Command-K now opens a compact Command Intelligence palette, Terminal Clear moved to Command-Option-K, terminal interaction routes through `TerminalCore.TerminalInteractionController`, and `Send Request` is gated behind a redacted context preview. Continue with `.planning/phases/06-llm-command-palette/06-06-PLAN.md`.
 
 ## Decisions made
 
@@ -68,6 +68,9 @@ Phase 6 Plan 04 is complete. `CommandIntelligence` now has a direct Anthropic Me
 - [Phase 06-llm-command-palette]: Use direct Anthropic Messages API calls with Foundation URLSession and no provider SDK dependency.
 - [Phase 06-llm-command-palette]: Store provider API keys only in Keychain generic-password items under com.aaldere1.gridos.command-intelligence.
 - [Phase 06-llm-command-palette]: Persist only provider and model IDs through GridOSKit/AppStorage; API keys, prompts, generated commands, and responses are not preference data.
+- [Phase 06-llm-command-palette]: Keep terminal selected text, insert, run, and focus access inside TerminalCore.TerminalInteractionController so GridOSApp never imports SwiftTerm.
+- [Phase 06-llm-command-palette]: Use CommandIntelligenceCommandCenter notifications for Command-K and Settings routing instead of binding app commands directly to view state.
+- [Phase 06-llm-command-palette]: Keep Send Request behind a preview-approved injected closure until Plan 06-06 wires provider orchestration.
 
 ## Decisions still open
 
@@ -135,6 +138,7 @@ Phase 6 Plan 04 is complete. `CommandIntelligence` now has a direct Anthropic Me
 - 2026-05-20: Executed Phase 06 Plan 02 with deterministic secret redaction, redacted context preview construction, and `SecretRedactorTests`/`CommandContextPreviewTests`.
 - 2026-05-20: Executed Phase 06 Plan 03 with deterministic command risk classification, insert-only high/unknown run policy, and `CommandRiskClassifierTests`.
 - 2026-05-20: Executed Phase 06 Plan 04 with the Anthropic Messages provider, Keychain credential storage, non-secret provider/model preferences, and Command Intelligence Settings setup.
+- 2026-05-20: Executed Phase 06 Plan 05 with `TerminalInteractionController`, Command-K palette overlay, Command-Option-K Terminal Clear, Settings focus routing, and preview-before-send gating.
 
 ## Performance metrics
 
@@ -148,10 +152,11 @@ Phase 6 Plan 04 is complete. `CommandIntelligence` now has a direct Anthropic Me
 | 06-llm-command-palette | 03 | 6 min | 1 | 3 |
 | 06-llm-command-palette | 02 | 8 min | 1 | 6 |
 | 06-llm-command-palette | 04 | 9 min | 3 | 9 |
+| 06-llm-command-palette | 05 | 10min | 3 | 9 |
 
 ## Next target
 
-Execute Phase 06 Plan 05: Command-K palette shell, TerminalCore interaction bridge, preview-before-send flow, and Settings action wiring.
+Execute Phase 06 Plan 06: result rendering, deterministic smoke fixture, insert/run policy, docs/evidence, and final smoke checkpoint.
 
 ## Session handoff
 
@@ -193,4 +198,6 @@ Execute Phase 06 Plan 05: Command-K palette shell, TerminalCore interaction brid
 - Summary file: `.planning/phases/06-llm-command-palette/06-03-SUMMARY.md`.
 - 2026-05-20: Phase 06 Plan 04 executed and verified.
 - Summary file: `.planning/phases/06-llm-command-palette/06-04-SUMMARY.md`.
-- Next incomplete plan: `.planning/phases/06-llm-command-palette/06-05-PLAN.md`.
+- 2026-05-20: Phase 06 Plan 05 executed and verified.
+- Summary file: `.planning/phases/06-llm-command-palette/06-05-SUMMARY.md`.
+- Next incomplete plan: `.planning/phases/06-llm-command-palette/06-06-PLAN.md`.
