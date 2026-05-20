@@ -54,6 +54,77 @@ final class CommandIntelligenceFailureTests: XCTestCase {
         XCTAssertEqual(failure.title, "Command intelligence is unavailable")
     }
 
+    func testEveryFailureStateHasStableCopy() {
+        let cases: [(failure: CommandIntelligenceFailure, title: String, message: String, recoveryAction: String?)] = [
+            (
+                .noProviderKey(),
+                "Provider not configured",
+                "Add a provider key in Settings to use command intelligence. The terminal still works normally.",
+                "Open Command Intelligence Settings"
+            ),
+            (
+                .cancelledBeforeSend(),
+                "Request cancelled",
+                "Nothing was sent.",
+                nil
+            ),
+            (
+                .offline(),
+                "Provider unreachable",
+                "Check your connection or try again later. Nothing was sent after the failure.",
+                "Retry Request"
+            ),
+            (
+                .rateLimited(),
+                "Provider is busy",
+                "Wait a moment and try again. The terminal is still available.",
+                "Retry Request"
+            ),
+            (
+                .providerError(message: "HTTP 500"),
+                "Command intelligence is unavailable",
+                "Try again or continue in the terminal without assistance.",
+                "Retry Request"
+            ),
+            (
+                .providerRefusal(message: "Refused"),
+                "Command intelligence is unavailable",
+                "Try again or continue in the terminal without assistance.",
+                "Retry Request"
+            ),
+            (
+                .invalidProviderResponse(underlyingDescription: "Bad JSON"),
+                "Command intelligence is unavailable",
+                "Try again or continue in the terminal without assistance.",
+                "Retry Request"
+            ),
+            (
+                .truncatedResponse(providerMessage: "max_tokens"),
+                "Command intelligence is unavailable",
+                "Try again or continue in the terminal without assistance.",
+                "Retry Request"
+            ),
+            (
+                .redactionBlocked(reasons: ["Private key block"]),
+                "Context needs review",
+                "Sensitive content was detected that cannot be safely sent. Remove it or continue manually.",
+                "Edit Context"
+            ),
+            (
+                .unsupportedSelection(),
+                "Selection unavailable",
+                "Paste the output into the field to continue.",
+                nil
+            )
+        ]
+
+        for copy in cases {
+            XCTAssertEqual(copy.failure.title, copy.title)
+            XCTAssertEqual(copy.failure.message, copy.message)
+            XCTAssertEqual(copy.failure.recoveryAction, copy.recoveryAction)
+        }
+    }
+
     func testFailureCopyDoesNotExposeTechnicalJargon() {
         let failures: [CommandIntelligenceFailure] = [
             .offline(underlyingDescription: "URLError.notConnectedToInternet"),
