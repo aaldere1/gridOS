@@ -160,7 +160,9 @@ final class RenderCoreModelTests: XCTestCase {
         let differentMode = ProceduralSeed.installDerived(installSeed: "install-a", mode: .severance)
 
         XCTAssertEqual(first, second)
+        XCTAssertEqual(first.normalizedVector, second.normalizedVector)
         XCTAssertNotEqual(first, differentMode)
+        XCTAssertNotEqual(first.normalizedVector, differentMode.normalizedVector)
     }
 
     func testInstallDerivedSeedIsInstallSpecificWithinSameMode() {
@@ -168,6 +170,7 @@ final class RenderCoreModelTests: XCTestCase {
         let second = ProceduralSeed.installDerived(installSeed: "install-b", mode: .appleNative)
 
         XCTAssertNotEqual(first, second)
+        XCTAssertNotEqual(first.normalizedVector, second.normalizedVector)
     }
 
     func testVisualIdentityCanDeriveInstallSpecificSeeds() {
@@ -184,6 +187,43 @@ final class RenderCoreModelTests: XCTestCase {
                 0
             )
         }
+    }
+
+    func testEveryVisualModeHasShaderCoverage() {
+        let shaderValuesByMode = Dictionary(
+            uniqueKeysWithValues: VisualMode.allCases.map { ($0.rawValue, $0.shaderValue) }
+        )
+
+        XCTAssertEqual(shaderValuesByMode["tron"], 0)
+        XCTAssertEqual(shaderValuesByMode["severance"], 1)
+        XCTAssertEqual(shaderValuesByMode["appleNative"], 2)
+
+        let source = MetalBackgroundRenderer.shaderSource
+        XCTAssertTrue(source.contains("uniforms.mode < 0.5"))
+        XCTAssertTrue(source.contains("uniforms.mode >= 0.5 && uniforms.mode < 1.5"))
+        XCTAssertTrue(source.contains("else {"))
+    }
+
+    func testMetalBackgroundPassesIdentitySeedVectorToShaderUniforms() throws {
+        let sourceRoot = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        let sourceFile = sourceRoot
+            .appendingPathComponent("Sources")
+            .appendingPathComponent("RenderCore")
+            .appendingPathComponent("MetalBackgroundView.swift")
+        let source = try String(contentsOf: sourceFile, encoding: .utf8)
+
+        XCTAssertTrue(source.contains("seed: identity.seed.normalizedVector"))
+    }
+
+    func testMetalShaderUsesSeedUniformInEveryModeBranch() {
+        let source = MetalBackgroundRenderer.shaderSource
+
+        XCTAssertTrue(source.contains("float tronSeed = uniforms.seed.x * 31.0 + uniforms.seed.y * 17.0"))
+        XCTAssertTrue(source.contains("float severanceSeed = uniforms.seed.y * 0.04 - uniforms.seed.x * 0.025"))
+        XCTAssertTrue(source.contains("float appleSeed = uniforms.seed.x * 0.07 + uniforms.seed.y * 0.11"))
     }
 
     func testMetalShaderSourceCompilesWhenDeviceIsAvailable() throws {

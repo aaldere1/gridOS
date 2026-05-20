@@ -174,8 +174,12 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         var primaryAccent: SIMD4<Float>
         var secondaryAccent: SIMD4<Float>
         var statusAccent: SIMD4<Float>
-        var motion: SIMD4<Float>
-        var shader: SIMD4<Float>
+        var gridScale: Float
+        var fieldScale: Float
+        var scanlineIntensity: Float
+        var noiseIntensity: Float
+        var detailDensity: Float
+        var glowIntensity: Float
     }
 
     private var commandQueue: MTLCommandQueue?
@@ -211,11 +215,10 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
 
     @discardableResult
     func record(event: RenderEvent, configuration: VisualEffectConfiguration) -> Double {
-        let motion = identity.mode.theme.motion
-        let magnitude = configuration.pulseMagnitude(
-            for: event.magnitude,
-            motionProfile: motion
-        )
+        let theme = identity.mode.theme
+        let motion = theme.motion
+        let scaledEventMagnitude = event.magnitude * motion.eventGain
+        let magnitude = configuration.pulseMagnitude(for: scaledEventMagnitude)
 
         guard magnitude > 0 else {
             pulse = 0
@@ -224,7 +227,7 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         }
 
         pulse = min(1, max(pulse, Float(magnitude)))
-        activeUntil = CACurrentMediaTime() + motion.maxPulseDuration
+        activeUntil = CACurrentMediaTime() + identity.mode.theme.motion.maxPulseDuration
         return magnitude
     }
 
@@ -240,7 +243,7 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         let delta = Float(max(0, min(now - lastDrawTime, 1.0)))
         lastDrawTime = now
         let theme = identity.mode.theme
-        pulse = max(0, pulse - delta * Float(theme.motion.pulseDecay))
+        pulse = max(0, pulse - delta * Float(identity.mode.theme.motion.pulseDecay))
 
         guard let commandQueue,
               let pipelineState,
@@ -264,18 +267,12 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
             primaryAccent: theme.palette.primaryAccent.shaderVector,
             secondaryAccent: theme.palette.secondaryAccent.shaderVector,
             statusAccent: theme.palette.statusAccent.shaderVector,
-            motion: SIMD4<Float>(
-                Float(theme.motion.idleDriftRate),
-                Float(theme.motion.eventGain),
-                Float(theme.motion.pulseDecay),
-                Float(theme.motion.detailDensity)
-            ),
-            shader: SIMD4<Float>(
-                Float(theme.shader.fieldScale),
-                Float(theme.shader.glowIntensity),
-                Float(theme.shader.lineIntensity),
-                Float(theme.shader.grainIntensity)
-            )
+            gridScale: Float(max(0.1, theme.shader.lineIntensity * (0.75 + theme.motion.detailDensity))),
+            fieldScale: Float(theme.shader.fieldScale),
+            scanlineIntensity: Float(theme.shader.lineIntensity),
+            noiseIntensity: Float(theme.shader.grainIntensity),
+            detailDensity: Float(theme.motion.detailDensity),
+            glowIntensity: Float(theme.shader.glowIntensity)
         )
 
         encoder?.setRenderPipelineState(pipelineState)
@@ -305,8 +302,12 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         float4 primaryAccent;
         float4 secondaryAccent;
         float4 statusAccent;
-        float4 motion;
-        float4 shader;
+        float gridScale;
+        float fieldScale;
+        float scanlineIntensity;
+        float noiseIntensity;
+        float detailDensity;
+        float glowIntensity;
     };
 
     vertex VertexOut gridos_background_vertex(uint vertexID [[vertex_id]]) {
@@ -329,18 +330,22 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         float2 centered = float2((uv.x - 0.5) * aspect, uv.y - 0.5);
         float radius = length(centered);
 
-        float drift = uniforms.time * uniforms.motion.x;
-        float detail = clamp(uniforms.motion.w, 0.05, 1.0);
-        float fieldScale = max(uniforms.shader.x, 0.05);
+        float detail = clamp(uniforms.detailDensity, 0.05, 1.0);
+        float drift = uniforms.time * mix(0.035, 0.20, detail);
+        float fieldScale = max(uniforms.fieldScale, 0.05);
         float waveA = sin((centered.x + uniforms.seed.x) * 16.0 * fieldScale + drift * 5.0);
         float waveB = cos((centered.y + uniforms.seed.y) * 18.0 * fieldScale - drift * 4.0);
         float field = smoothstep(-0.8, 1.0, waveA * 0.45 + waveB * 0.38 - radius * 0.92);
 
-        float lineScaleX = mix(34.0, 96.0, detail) * fieldScale;
-        float lineScaleY = mix(28.0, 78.0, detail) * fieldScale;
+        float lineScaleX = mix(34.0, 96.0, detail) * max(uniforms.gridScale, 0.08);
+        float lineScaleY = mix(28.0, 78.0, detail) * max(uniforms.gridScale, 0.08);
         float gridX = smoothstep(0.985, 1.0, cos((uv.x + uniforms.seed.x * 0.03) * lineScaleX));
         float gridY = smoothstep(0.988, 1.0, cos((uv.y + uniforms.seed.y * 0.03) * lineScaleY));
-        float scan = smoothstep(0.998, 1.0, sin(uv.y * mix(120.0, 260.0, detail) + uniforms.time * 0.9));
+        float scan = smoothstep(
+            0.998,
+            1.0,
+            sin(uv.y * mix(120.0, 260.0, detail) + uniforms.time * (0.35 + uniforms.scanlineIntensity))
+        ) * uniforms.scanlineIntensity;
 
         float pulse = clamp(uniforms.pulse, 0.0, 1.0);
         float vignette = smoothstep(0.86, 0.18, radius);
@@ -349,27 +354,38 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         float3 primary = uniforms.primaryAccent.rgb;
         float3 secondary = uniforms.secondaryAccent.rgb;
         float3 status = uniforms.statusAccent.rgb;
-        float glow = uniforms.shader.y;
-        float line = uniforms.shader.z;
-        float grain = uniforms.shader.w;
+        float glow = uniforms.glowIntensity;
+        float line = uniforms.scanlineIntensity;
+        float grain = uniforms.noiseIntensity;
 
         float3 color = base;
         if (uniforms.mode < 0.5) {
-            color += primary * field * (0.11 + pulse * 0.18) * glow;
-            color += secondary * vignette * 0.16;
-            color += status * (gridX + gridY) * (0.012 + pulse * 0.035) * line;
-            color += primary * scan * (0.018 + pulse * 0.045);
-        } else if (uniforms.mode < 1.5) {
-            float panel = smoothstep(0.46, 0.47, abs(centered.x)) * 0.5
-                + smoothstep(0.28, 0.29, abs(centered.y)) * 0.5;
-            color += primary * field * (0.025 + pulse * 0.030) * glow;
-            color += secondary * panel * 0.035;
-            color += status * (gridX + gridY) * (0.006 + pulse * 0.008) * line;
+            float tronSeed = uniforms.seed.x * 31.0 + uniforms.seed.y * 17.0;
+            float circuit = smoothstep(
+                0.992,
+                1.0,
+                cos((uv.x + uv.y * 0.35 + tronSeed * 0.01) * lineScaleX * 0.72 + drift * 2.0)
+            );
+            color += primary * field * (0.12 + pulse * 0.20) * glow;
+            color += secondary * vignette * 0.18;
+            color += status * circuit * (0.014 + pulse * 0.032) * line;
+            color += primary * (gridX + gridY + scan) * (0.018 + pulse * 0.045) * line;
+        } else if (uniforms.mode >= 0.5 && uniforms.mode < 1.5) {
+            float severanceSeed = uniforms.seed.y * 0.04 - uniforms.seed.x * 0.025;
+            float panel = smoothstep(0.46, 0.468, abs(centered.x + severanceSeed)) * 0.45
+                + smoothstep(0.28, 0.288, abs(centered.y - severanceSeed)) * 0.45;
+            float fluorescent = smoothstep(0.994, 1.0, cos((uv.y + severanceSeed) * 54.0));
+            float lowPulse = pulse * 0.16;
+            color += primary * field * (0.020 + lowPulse * 0.020) * glow;
+            color += secondary * panel * 0.045;
+            color += status * fluorescent * (0.004 + lowPulse * 0.006) * line;
         } else {
-            float aura = smoothstep(0.78, 0.12, radius);
-            color += primary * aura * (0.070 + pulse * 0.060) * glow;
-            color += secondary * field * 0.055;
-            color += status * scan * (0.008 + pulse * 0.018) * line;
+            float appleSeed = uniforms.seed.x * 0.07 + uniforms.seed.y * 0.11;
+            float aura = smoothstep(0.78, 0.12, radius + appleSeed * 0.018);
+            float depth = smoothstep(-0.25, 0.85, field + sin((centered.x + appleSeed) * 4.0 + drift) * 0.08);
+            color += primary * aura * (0.060 + pulse * 0.050) * glow;
+            color += secondary * depth * 0.060;
+            color += status * scan * (0.006 + pulse * 0.014) * line;
         }
 
         float micro = fract(sin(dot(uv + uniforms.seed, float2(12.9898, 78.233))) * 43758.5453);
