@@ -1,4 +1,5 @@
 import GridOSKit
+import RenderCore
 import SwiftUI
 
 struct SettingsView: View {
@@ -6,6 +7,7 @@ struct SettingsView: View {
     @AppStorage("terminal.fontSize") private var terminalFontSize = GridOSAppPreferences.defaultTerminalFontSize
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
     @AppStorage("appearance.visualIntensity") private var visualIntensity = GridOSAppPreferences.defaultVisualIntensity
+    @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
 
     var body: some View {
         Form {
@@ -27,6 +29,15 @@ struct SettingsView: View {
             }
 
             Section("Appearance") {
+                Picker("Visual mode", selection: $visualModeRawValue) {
+                    ForEach(VisualMode.allCases) { mode in
+                        Text(mode.displayName)
+                            .tag(mode.rawValue)
+                    }
+                }
+                .accessibilityLabel("Visual mode")
+                .accessibilityValue(visualModeDisplayName)
+
                 Toggle("Reduce motion", isOn: $reducedMotion)
                     .accessibilityLabel("Reduce motion")
                     .accessibilityValue(reducedMotion ? "On" : "Off")
@@ -49,7 +60,7 @@ struct SettingsView: View {
                     resetToDefaults()
                 }
                 .accessibilityLabel("Reset to Defaults")
-                .accessibilityValue("Restores shell, font size, reduced motion, and visual intensity")
+                .accessibilityValue("Restores shell, font size, visual mode, reduced motion, and visual intensity")
             }
         }
         .formStyle(.grouped)
@@ -57,10 +68,16 @@ struct SettingsView: View {
         .padding()
     }
 
+    private var visualModeDisplayName: String {
+        let normalizedRawValue = GridOSAppPreferences.normalizedVisualModeRawValue(visualModeRawValue)
+        return VisualMode(rawValue: normalizedRawValue)?.displayName ?? VisualMode.defaultMode.displayName
+    }
+
     private func resetToDefaults() {
         let defaults = GridOSAppPreferences.defaultValue
         shellPath = defaults.shellPath
         terminalFontSize = defaults.terminalFontSize
+        visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
         reducedMotion = defaults.reducedMotion
         visualIntensity = defaults.visualIntensity
     }

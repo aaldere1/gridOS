@@ -1,3 +1,4 @@
+import GridOSKit
 import SwiftUI
 import TerminalCore
 
@@ -11,6 +12,7 @@ struct GridOSApplication: App {
         .windowStyle(.hiddenTitleBar)
         .commands {
             TerminalCommands()
+            AppearanceCommands()
         }
 
         Settings {
@@ -43,6 +45,19 @@ private struct TerminalCommands: Commands {
                 TerminalCommandCenter.reset()
             }
             .keyboardShortcut("r", modifiers: [.command, .option])
+        }
+    }
+}
+
+private struct AppearanceCommands: Commands {
+    @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
+
+    var body: some Commands {
+        CommandMenu("Appearance") {
+            Button("Cycle Visual Mode") {
+                visualModeRawValue = GridOSAppPreferences.nextVisualModeRawValue(after: visualModeRawValue)
+            }
+            .keyboardShortcut("m", modifiers: [.command, .shift])
         }
     }
 }
