@@ -20,9 +20,9 @@ The repository began as planning-only documentation:
 - `docs/vision.md`
 - `docs/production-roadmap.md`
 
-Phase 3 is now complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a first Metal-backed visual identity layer that reacts to coarse terminal activity while idling after short render bursts, and a terminal-first production frame with persisted settings, window autosave, reduced-motion-aware rendering, menu-visible terminal commands, and accessibility coverage.
+Phase 5 is now verified complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a Metal-backed visual identity layer, a terminal-first production frame, truthful native system metrics, and three coherent aesthetic modes: Tron, Severance, and Apple-native. Mode selection is persisted locally, available in Settings, switchable with `Command-Shift-M`, backed by stable per-install procedural variation, and covered by app-window screenshot evidence plus a terminal-focus smoke.
 
-No production signing setup, release pipeline, updater, metrics panels, or LLM command help exists yet.
+No production signing setup, release pipeline, updater, LLM command help, multi-pane/session management, deeper macOS integrations, performance hardening, or security/privacy hardening exists yet.
 
 ## Build approach
 
@@ -43,6 +43,8 @@ Validated implementation so far:
 - Phase 1: native local shell MVP behind `TerminalCore`.
 - Phase 2: Metal identity MVP behind `RenderCore`.
 - Phase 3: production app frame with persisted preferences, window autosave, terminal-safe commands, reduced motion, and accessibility coverage.
+- Phase 4: real native system metrics for CPU, memory, disk, network, battery, thermal state, and top processes.
+- Phase 5: aesthetic modes with public `VisualMode` registry, shared visual tokens, app-frame theming, mode-aware Metal renderer behavior, stable per-install variation, and verified terminal readability/focus safety.
 
 ## Non-negotiables
 
