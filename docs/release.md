@@ -135,6 +135,43 @@ Command-Shift-M terminal-focus smoke:
 
 Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility remain deferred and out of scope for this release evidence lane.
 
+## Phase 6 command intelligence smoke
+
+Phase 6 adds the one-shot Command Intelligence palette, preview-approved provider requests, local risk policy, insert-first generated commands, and a deterministic Debug smoke fixture. The final smoke must not require a live Anthropic key.
+
+Final automated commands:
+
+```sh
+xcodegen generate --use-cache
+xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
+git diff --check
+rg "CommandIntelligenceFlow|suggestCommand|explainOutput|failedCommandHelp" Sources/CommandIntelligence Tests/CommandIntelligenceTests
+rg "SecretRedactor|RedactionFinding|privateKey|Bearer|Basic|credentialURL" Sources/CommandIntelligence Tests/CommandIntelligenceTests
+rg "CommandRiskClassifier|networkPipeToShell|sudo|rm -rf|git push|kubectl|docker|brew install|npm install|PHASE6_INSERT" Sources/CommandIntelligence Tests/CommandIntelligenceTests
+rg "DebugCommandIntelligenceFixtureProvider|debug-smoke-fixture|--command-intelligence-smoke-fixture|PHASE6_INSERT|rm -rf ~/tmp/gridos-test" Sources/CommandIntelligence Sources/GridOSApp Tests/CommandIntelligenceTests
+rg "CommandCredentialStore|KeychainCommandCredentialStore|kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly" Sources/CommandIntelligence Tests/CommandIntelligenceTests
+rg 'keyboardShortcut\("k", modifiers: \[\.command\]\)|keyboardShortcut\("k", modifiers: \[\.command, \.option\]\)|CommandIntelligenceCommands|Clear' Sources/GridOSApp
+rg "Open Command Intelligence Settings|openCommandIntelligenceSettings|command-intelligence-settings|onOpenCommandIntelligenceSettings" Sources/GridOSApp
+rg "TerminalInteractionController|getSelection|sendText|focusTerminal" Sources/TerminalCore Sources/GridOSApp
+! rg "apiKey.*AppStorage|UserDefaults.*api|anthropic.*AppStorage|import SwiftTerm" Sources/GridOSApp Sources/CommandIntelligence
+```
+
+Debug fixture launch:
+
+```sh
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --command-intelligence-smoke-fixture
+```
+
+Manual smoke checklist:
+
+1. Focus the terminal, press `Command-K`, confirm `Command Intelligence` opens with `Suggest Command`, `Explain Output`, and `Fix Failed Command`, then close it with Escape or the close control.
+2. After dismissal, type `printf 'PHASE6_FOCUS\n' > /tmp/gridos_phase6_focus.txt` in the terminal and confirm `cat /tmp/gridos_phase6_focus.txt` prints `PHASE6_FOCUS`.
+3. With no hosted provider key configured, trigger a normal Anthropic request and verify `Provider not configured` plus `Open Command Intelligence Settings`; click the action and verify Settings opens or focuses Command Intelligence.
+4. Relaunch the Debug app with `--command-intelligence-smoke-fixture`; request the deterministic `PHASE6_INSERT` fixture, choose `Insert Command`, and verify `/tmp/gridos_phase6_insert.txt` is not created until Return or explicit `Run Command`.
+5. Request the deterministic high-risk fixture `rm -rf ~/tmp/gridos-test` and verify `Insert for Review` or `Run exactly this command?` appears; no execution happens when the provider response appears.
+6. Try `Explain Output` with selected output; if terminal selection is unavailable, verify `Selection unavailable` and the paste fallback.
+7. Record pass/fail details in `.planning/phases/06-llm-command-palette/evidence/README.md`.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

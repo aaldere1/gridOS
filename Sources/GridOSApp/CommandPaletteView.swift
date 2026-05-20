@@ -112,6 +112,7 @@ struct CommandPaletteView: View {
             }
         } message: {
             Text(pendingRunCommand?.command.command ?? "")
+                .font(.system(size: 12, weight: .regular, design: .monospaced))
         }
     }
 

@@ -144,6 +144,40 @@ The app-frame UI consumes `VisualTheme` tokens at the boundary: header indicator
 
 Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility are deferred and out of scope for the Phase 5 architecture target.
 
+## Phase 6 architecture target
+
+Phase 6 completes the first opt-in command intelligence loop while keeping shell execution under local UI control.
+
+Current abstractions:
+
+- `CommandIntelligenceFlow`
+- `CommandContextBuilder`
+- `CommandContextPreview`
+- `ApprovedCommandContextPayload`
+- `SecretRedactor`
+- `LLMCommandProvider`
+- `AnthropicCommandProvider`
+- `CommandCredentialStore`
+- `KeychainCommandCredentialStore`
+- `CommandRiskClassifier`
+- `CommandIntelligenceService`
+- `DebugCommandIntelligenceFixtureProvider`
+- `TerminalInteractionController`
+- `CommandPaletteView`
+- `CommandIntelligenceSettingsView`
+
+`CommandIntelligence` owns provider contracts, context preview construction, redaction, credential access, Anthropic request shaping, deterministic debug fixtures, failure copy, and local risk classification. The provider boundary accepts only `LLMCommandRequest.approvedPreview`, which is built from `CommandContextPreview.approvedPayload`; raw terminal assistance input does not go directly to hosted providers.
+
+`AnthropicCommandProvider` is the live hosted provider path. It uses Foundation `URLSession` against the Anthropic Messages API and requires a Keychain-backed API key through `KeychainCommandCredentialStore`. Provider and model identifiers may be persisted as normal preferences; API keys, prompts, generated commands, and provider responses are not stored in app preferences.
+
+`SecretRedactor` and `CommandContextBuilder` run before every provider send. The palette shows the redacted preview, redaction summaries, and blocked reasons; `CommandIntelligenceService` refuses blocked previews before invoking either Anthropic or the debug fixture.
+
+`CommandRiskClassifier` is the local authority for generated-command policy. Provider risk labels remain advisory. The service reclassifies every returned command before `GridOSApp` renders action controls, so high-risk and unknown commands map to `insertOnly`, medium commands map to `requiresConfirmation`, and low-risk commands map to `canRun`.
+
+`DebugCommandIntelligenceFixtureProvider` is a DEBUG-only smoke provider selected by `--command-intelligence-smoke-fixture`. It uses the same preview, service, classifier, and palette result controls as Anthropic, but it never requires a live Anthropic key. Its deterministic commands are the Phase 6 insert fixture and the high-risk `rm -rf ~/tmp/gridos-test` fixture.
+
+`TerminalInteractionController` remains the only app-facing terminal interaction boundary for selected text, `insert`, `run`, and focus restoration. `GridOSApp` composes the palette, settings routing, provider choice, service call, and terminal insertion/run closures; `CommandIntelligenceService` does not import `TerminalCore` and never executes shell text.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.
