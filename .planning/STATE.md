@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 05
-last_updated: "2026-05-20T16:39:09.042Z"
+last_updated: "2026-05-20T16:47:59.582Z"
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
 ---
 
 # gridOS state
@@ -19,7 +19,7 @@ Phase 5 - Aesthetic modes
 
 ## Current status
 
-Phase 5 Plan 02 is complete. The app shell now composes its `VisualIdentity` from persisted `appearance.visualMode` and `appearance.installSeed`, creates a stable first-launch install seed, exposes native `Command-Shift-M` mode cycling, and includes a compact Settings visual mode picker. Next target is Plan 03: applying mode-specific tokens to the app frame and renderer without shrinking or obscuring the terminal.
+Phase 5 Plan 03 is complete. The app frame now consumes `VisualTheme` tokens across the header, metrics strip, activity panel, and terminal chrome, and the Metal renderer has seeded mode-specific shader branches for Tron, Severance, and Apple-native while preserving the burst-driven reduced-motion gate. Next target is Plan 04: screenshot evidence and visual verification.
 
 ## Decisions made
 
@@ -49,6 +49,9 @@ Phase 5 Plan 02 is complete. The app shell now composes its `VisualIdentity` fro
 - [Phase 05-aesthetic-modes]: Generate the stable local install seed in RootView on first launch, using a bootstrap fallback only until AppStorage is populated.
 - [Phase 05-aesthetic-modes]: Use a separate AppearanceCommands type so Command-Shift-M changes only the visual mode preference and never routes through TerminalCommandCenter.
 - [Phase 05-aesthetic-modes]: Preserve the install seed during Settings reset while restoring the selected visual mode to Tron.
+- [Phase 05-aesthetic-modes]: Thread VisualTheme through existing SwiftUI frame components so mode styling does not change terminal layout geometry.
+- [Phase 05-aesthetic-modes]: Keep the Metal renderer burst-driven and reuse the existing animation timer instead of adding a mode-specific or global timer.
+- [Phase 05-aesthetic-modes]: Use identity.seed.normalizedVector in each shader mode branch so per-install variation is stable and mode-visible.
 
 ## Decisions still open
 
@@ -104,6 +107,8 @@ Phase 5 Plan 02 is complete. The app shell now composes its `VisualIdentity` fro
 - 2026-05-20: Verified Phase 5 Plan 01 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, required `rg` source checks, and `git diff --check` passed.
 - 2026-05-20: Executed Phase 5 Plan 02 with AppStorage-backed visual identity composition, first-launch install seed creation, a native Appearance menu `Command-Shift-M` mode switcher, and a Settings picker for Tron, Severance, and Apple-native.
 - 2026-05-20: Verified Phase 5 Plan 02 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, required `rg` source checks, and `git diff --check` passed.
+- 2026-05-20: Executed Phase 5 Plan 03 with token-driven app-frame styling, mode-aware Metal shader branches, seed uniforms in every mode branch, and reduced-motion-preserving pulse behavior.
+- 2026-05-20: Verified Phase 5 Plan 03 final automated gate: `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, required `rg` source checks, and `git diff --check` passed.
 
 ## Performance metrics
 
@@ -111,10 +116,11 @@ Phase 5 Plan 02 is complete. The app shell now composes its `VisualIdentity` fro
 | --- | --- | --- | --- | --- |
 | 05-aesthetic-modes | 01 | 5 min | 2 | 9 |
 | 05-aesthetic-modes | 02 | 3 min | 2 | 3 |
+| 05-aesthetic-modes | 03 | 5 min | 2 | 3 |
 
 ## Next target
 
-Execute `.planning/phases/05-aesthetic-modes/05-03-PLAN.md`.
+Execute `.planning/phases/05-aesthetic-modes/05-04-PLAN.md`.
 
 ## Session handoff
 
@@ -136,4 +142,6 @@ Execute `.planning/phases/05-aesthetic-modes/05-03-PLAN.md`.
 - Summary file: `.planning/phases/05-aesthetic-modes/05-01-SUMMARY.md`.
 - 2026-05-20: Phase 05 Plan 02 executed and verified.
 - Summary file: `.planning/phases/05-aesthetic-modes/05-02-SUMMARY.md`.
-- Next command: execute `.planning/phases/05-aesthetic-modes/05-03-PLAN.md`.
+- 2026-05-20: Phase 05 Plan 03 executed and verified.
+- Summary file: `.planning/phases/05-aesthetic-modes/05-03-SUMMARY.md`.
+- Next command: execute `.planning/phases/05-aesthetic-modes/05-04-PLAN.md`.
