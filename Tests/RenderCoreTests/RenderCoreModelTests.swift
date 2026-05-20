@@ -30,6 +30,20 @@ final class RenderCoreModelTests: XCTestCase {
         XCTAssertEqual(event.magnitude, 1)
     }
 
+    func testVisualEffectConfigurationClampsIntensity() {
+        XCTAssertEqual(VisualEffectConfiguration(intensity: -1).intensity, 0)
+        XCTAssertEqual(VisualEffectConfiguration(intensity: 0.4).intensity, 0.4)
+        XCTAssertEqual(VisualEffectConfiguration(intensity: 2).intensity, 1)
+    }
+
+    func testReducedMotionSuppressesPulseMagnitude() {
+        let animated = VisualEffectConfiguration(intensity: 0.5, reducedMotion: false)
+        let reduced = VisualEffectConfiguration(intensity: 0.5, reducedMotion: true)
+
+        XCTAssertEqual(animated.pulseMagnitude(for: 0.8), 0.4)
+        XCTAssertEqual(reduced.pulseMagnitude(for: 0.8), 0)
+    }
+
     func testDefaultVisualIdentityUsesSignalFieldMode() {
         XCTAssertEqual(VisualIdentity.default.mode, .signalField)
         XCTAssertEqual(VisualIdentity.default.seed, .gridOSDefault)

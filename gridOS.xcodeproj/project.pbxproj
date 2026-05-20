@@ -41,6 +41,7 @@
 		A507D5731F9C853B20011905 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A59CD739DBCB9CA929E924F4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		B98B6B9680CF966BFD642CB2 /* VisualEffectConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */; };
 		BD8EBC693438F1B6B43CEDAD /* MetalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */; };
 		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
 		CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */; };
@@ -217,6 +218,7 @@
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectConfiguration.swift; sourceTree = "<group>"; };
 		AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBackgroundView.swift; sourceTree = "<group>"; };
 		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */,
 				184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */,
 				3FA8C0F47F4E9DFEAFA5D2BF /* RenderEvent.swift */,
+				9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */,
 				307045E1593C0C65F5C30CEF /* VisualIdentity.swift */,
 			);
 			path = RenderCore;
@@ -680,6 +683,7 @@
 				CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */,
 				F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */,
 				F495B8D43388ED108A5431B6 /* RenderEvent.swift in Sources */,
+				B98B6B9680CF966BFD642CB2 /* VisualEffectConfiguration.swift in Sources */,
 				6640D0A991EA4BFC34875E2F /* VisualIdentity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

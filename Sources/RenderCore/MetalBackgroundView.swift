@@ -7,10 +7,16 @@ import SwiftUI
 public struct MetalBackgroundView: NSViewRepresentable {
     private let identity: VisualIdentity
     private let event: RenderEvent?
+    private let effectConfiguration: VisualEffectConfiguration
 
-    public init(identity: VisualIdentity = .default, event: RenderEvent? = nil) {
+    public init(
+        identity: VisualIdentity = .default,
+        event: RenderEvent? = nil,
+        effectConfiguration: VisualEffectConfiguration = .defaultValue
+    ) {
         self.identity = identity
         self.event = event
+        self.effectConfiguration = effectConfiguration
     }
 
     @MainActor public func makeCoordinator() -> Coordinator {
@@ -18,11 +24,20 @@ public struct MetalBackgroundView: NSViewRepresentable {
     }
 
     @MainActor public func makeNSView(context: Context) -> NSView {
-        context.coordinator.makeView(identity: identity, event: event)
+        context.coordinator.makeView(
+            identity: identity,
+            event: event,
+            effectConfiguration: effectConfiguration
+        )
     }
 
     @MainActor public func updateNSView(_ nsView: NSView, context: Context) {
-        context.coordinator.update(nsView, identity: identity, event: event)
+        context.coordinator.update(
+            nsView,
+            identity: identity,
+            event: event,
+            effectConfiguration: effectConfiguration
+        )
     }
 
     @MainActor public static func dismantleNSView(_ nsView: NSView, coordinator: Coordinator) {
@@ -35,7 +50,11 @@ public struct MetalBackgroundView: NSViewRepresentable {
         private var animationTimer: Timer?
         private var lastEventSequence: UInt64?
 
-        func makeView(identity: VisualIdentity, event: RenderEvent?) -> NSView {
+        func makeView(
+            identity: VisualIdentity,
+            event: RenderEvent?,
+            effectConfiguration: VisualEffectConfiguration
+        ) -> NSView {
             guard let device = MTLCreateSystemDefaultDevice() else {
                 return makeFallbackView()
             }
@@ -55,7 +74,7 @@ public struct MetalBackgroundView: NSViewRepresentable {
             metalView = view
 
             if let event {
-                submit(event)
+                submit(event, configuration: effectConfiguration)
             } else {
                 view.draw()
             }
@@ -63,7 +82,12 @@ public struct MetalBackgroundView: NSViewRepresentable {
             return view
         }
 
-        func update(_ view: NSView, identity: VisualIdentity, event: RenderEvent?) {
+        func update(
+            _ view: NSView,
+            identity: VisualIdentity,
+            event: RenderEvent?,
+            effectConfiguration: VisualEffectConfiguration
+        ) {
             renderer.update(identity: identity)
 
             guard let metalView = view as? MTKView else {
@@ -72,7 +96,7 @@ public struct MetalBackgroundView: NSViewRepresentable {
             }
 
             if let event, event.sequence != lastEventSequence {
-                submit(event)
+                submit(event, configuration: effectConfiguration)
             } else if animationTimer == nil {
                 metalView.draw()
             }
@@ -84,9 +108,16 @@ public struct MetalBackgroundView: NSViewRepresentable {
             metalView?.delegate = nil
         }
 
-        private func submit(_ event: RenderEvent) {
+        private func submit(_ event: RenderEvent, configuration: VisualEffectConfiguration) {
             lastEventSequence = event.sequence
-            renderer.record(event: event)
+            let pulseMagnitude = renderer.record(event: event, configuration: configuration)
+
+            guard pulseMagnitude > 0 else {
+                stopAnimation()
+                metalView?.draw()
+                return
+            }
+
             startAnimationIfNeeded()
         }
 
@@ -171,9 +202,19 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
         self.identity = identity
     }
 
-    func record(event: RenderEvent) {
-        pulse = min(1, max(pulse, Float(event.magnitude)))
+    @discardableResult
+    func record(event: RenderEvent, configuration: VisualEffectConfiguration) -> Double {
+        let magnitude = configuration.pulseMagnitude(for: event.magnitude)
+
+        guard magnitude > 0 else {
+            pulse = 0
+            activeUntil = CACurrentMediaTime()
+            return magnitude
+        }
+
+        pulse = min(1, max(pulse, Float(magnitude)))
         activeUntil = CACurrentMediaTime() + 1.4
+        return magnitude
     }
 
     func shouldContinueAnimating() -> Bool {
