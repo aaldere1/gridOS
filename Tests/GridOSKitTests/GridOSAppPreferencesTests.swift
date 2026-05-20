@@ -74,4 +74,44 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.normalizedInstallSeedRawValue("   "), "")
         XCTAssertEqual(GridOSAppPreferences.normalizedInstallSeedRawValue("\n install-a \t"), "install-a")
     }
+
+    func testCommandIntelligencePreferencesStoreOnlyProviderAndModel() {
+        XCTAssertEqual(
+            GridOSAppPreferences.commandIntelligenceProviderStorageKey,
+            "commandIntelligence.providerID"
+        )
+        XCTAssertEqual(
+            GridOSAppPreferences.commandIntelligenceModelStorageKey,
+            "commandIntelligence.modelID"
+        )
+        XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceProviderID, "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceModelID, "claude-sonnet-4-6")
+
+        let persistedKeys = [
+            GridOSAppPreferences.commandIntelligenceProviderStorageKey,
+            GridOSAppPreferences.commandIntelligenceModelStorageKey
+        ]
+        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("api") })
+        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("key") })
+        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("prompt") })
+        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("generated") })
+    }
+
+    func testCommandIntelligenceRawValuesNormalizeToSupportedDefaults() {
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("anthropic"), "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(" anthropic "), "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(""), "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("openai"), "anthropic")
+
+        XCTAssertEqual(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID("claude-sonnet-4-6"),
+            "claude-sonnet-4-6"
+        )
+        XCTAssertEqual(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID(" claude-sonnet-4-6 "),
+            "claude-sonnet-4-6"
+        )
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID(""), "claude-sonnet-4-6")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("unknown"), "claude-sonnet-4-6")
+    }
 }
