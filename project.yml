@@ -143,6 +143,18 @@ targets:
         MARKETING_VERSION: 0.1.0
         PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.SystemMetrics
 
+  SystemMetricsTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/SystemMetricsTests
+    dependencies:
+      - target: SystemMetrics
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.SystemMetricsTests
+
   CommandIntelligence:
     type: framework
     platform: macOS
@@ -194,10 +206,12 @@ schemes:
         gridOS: all
         GridOSKitTests: [test]
         RenderCoreTests: [test]
+        SystemMetricsTests: [test]
         TerminalCoreTests: [test]
     test:
       gatherCoverageData: true
       targets:
         - GridOSKitTests
         - RenderCoreTests
+        - SystemMetricsTests
         - TerminalCoreTests
