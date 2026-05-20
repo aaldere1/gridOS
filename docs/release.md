@@ -74,6 +74,35 @@ open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/grid
 cat /tmp/gridos-phase3-smoke.txt
 ```
 
+## Phase 4 metrics smoke
+
+Phase 4 adds truthful local metrics through `SystemMetrics` and wires them into the app frame. The current smoke bar is:
+
+- app launches with the Debug binary and accepts `--cmd`
+- startup command writes `GRIDOS_PHASE4_SMOKE` through the terminal path
+- app quits cleanly after shell exit
+- `SystemMetricsSnapshot`, `SystemMetricsSampler`, `SystemMetricsSamplingPolicy`, and `NativeSystemMetricsProvider` are present in source
+- graceful copy strings are present for `Battery unavailable`, `Thermal unavailable`, `Network idle`, `No process data`, and `Stale`
+- metrics sampling stays local-only and no-root; no telemetry, LLM handoff, persistent logs, or shell command provider is used for normal metrics
+- idle CPU sampling after startup remains a Phase 9 hardening target, but Phase 4 verifies that startup smoke still completes with metrics integrated
+
+Smoke command:
+
+```sh
+rm -f /tmp/gridos-phase4-smoke.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --cmd "printf 'GRIDOS_PHASE4_SMOKE\n' > /tmp/gridos-phase4-smoke.txt; exit"
+cat /tmp/gridos-phase4-smoke.txt
+```
+
+For automated local verification, quit the launched Debug app through LaunchServices after the smoke file appears and confirm no `gridOS` process remains.
+
+Recent local Phase 4 evidence:
+
+```text
+GRIDOS_PHASE4_SMOKE
+APP_QUIT=clean
+```
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:

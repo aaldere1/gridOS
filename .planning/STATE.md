@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase-04-planned
-last_updated: "2026-05-20T15:04:00Z"
+status: phase-04-complete
+last_updated: "2026-05-20T15:32:39Z"
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # gridOS state
@@ -19,7 +19,7 @@ Phase 4 - Real system metrics
 
 ## Current status
 
-Phase 4 is planned and ready for execution. The next work is replacing Phase 3's placeholder system/activity panels with truthful local metrics while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and idle-friendly sampling.
+Phase 4 is complete. The app now replaces Phase 3's placeholder system/activity panels with `SystemMetrics` snapshots while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and sampler-owned cadence/backpressure.
 
 ## Decisions made
 
@@ -36,6 +36,8 @@ Phase 4 is planned and ready for execution. The next work is replacing Phase 3's
 - Persist Phase 3 app-frame preferences with shared `@AppStorage` keys and test pure defaults/clamping through `GridOSKit.GridOSAppPreferences`.
 - Use AppKit `setFrameAutosaveName("gridOS.main")` through an invisible SwiftUI bridge rather than custom window-state serialization.
 - Combine the app reduced-motion setting with the system `accessibilityReduceMotion` environment before driving `RenderCore.VisualEffectConfiguration`.
+- Keep native system sampling inside `SystemMetrics`; `GridOSApp` consumes `SystemMetricsSnapshot` through `SystemMetricsSampler`.
+- Treat battery, thermal, network idle, and process-data absence as normal snapshot states with explicit copy instead of errors.
 
 ## Decisions still open
 
@@ -79,10 +81,17 @@ Phase 4 is planned and ready for execution. The next work is replacing Phase 3's
 - 2026-05-20: Phase 3 verification passed with 3/3 key links verified and no blocking gaps.
 - 2026-05-20: Scaffolded Phase 4 directory and captured context for real system metrics, including metric truth, sampling budget, app-frame display, privacy, unavailable states, and verification direction.
 - 2026-05-20: Researched Phase 4 native macOS metric APIs, added validation and UI design contracts, and created executable plan `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
+- 2026-05-20: Added `SystemMetricsTests`, `SystemMetricAvailability`, `SystemMetricsSnapshot`, and model coverage for available, stale, unavailable, and graceful copy states.
+- 2026-05-20: Added `SystemMetricsSamplingPolicy` plus deterministic CPU, network, and top-process delta tests.
+- 2026-05-20: Added `NativeSystemMetricsProvider` using Mach, Foundation volume keys, `getifaddrs`, IOKit power sources, `ProcessInfo.thermalState`, and libproc without shelling out.
+- 2026-05-20: Added `SystemMetricsSampler`, `LiveSystemMetricsSampler`, and deterministic preview snapshot data.
+- 2026-05-20: Wired `RootView` to consume `SystemMetricsSnapshot` in `SystemStripView(snapshot:)` and `ActivityContextPanel(snapshot:)` with read-only top-process display.
+- 2026-05-20: Verified Phase 4 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, `git diff --check`, source `rg` checks, and key-link verification passed.
+- 2026-05-20: Launch-smoke verified `GRIDOS_PHASE4_SMOKE` written to `/tmp/gridos-phase4-smoke.txt` through the app startup command path and the Debug app quit cleanly through LaunchServices.
 
 ## Next target
 
-Execute Phase 4 Real system metrics from `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
+Plan Phase 5 Aesthetic modes.
 
 ## Session handoff
 
@@ -94,4 +103,7 @@ Execute Phase 4 Real system metrics from `.planning/phases/04-real-system-metric
 - Resume file: `.planning/phases/04-real-system-metrics/04-CONTEXT.md`.
 - 2026-05-20: Phase 04 research, validation strategy, UI design contract, and executable plan created.
 - Plan file: `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
-- Next command: `$gsd-execute-phase 4`.
+- 2026-05-20: Phase 04 executed and verified.
+- Summary file: `.planning/phases/04-real-system-metrics/04-01-SUMMARY.md`.
+- Verification file: `.planning/phases/04-real-system-metrics/04-VERIFICATION.md`.
+- Next command: `$gsd-discuss-phase 5`.

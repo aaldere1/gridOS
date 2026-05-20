@@ -23,6 +23,7 @@ The generated project should not be manually edited for structural changes. Upda
 - `GridOSKitTests`: shared model unit tests.
 - `TerminalCoreTests`: terminal configuration and session model unit tests.
 - `RenderCoreTests`: visual identity, render event, and shader compile unit tests.
+- `SystemMetricsTests`: metrics model, cadence policy, and delta calculation unit tests.
 
 ## Dependency direction
 
@@ -94,7 +95,31 @@ Current abstractions:
 
 `VisualEffectConfiguration` lives in `RenderCore` and controls pulse magnitude from visual intensity and reduced motion. `RootView` combines the app preference with `accessibilityReduceMotion` before passing the effective setting into `MetalBackgroundView`.
 
-The app frame remains terminal-first: `TerminalWorkspaceView` is the dominant working region, while `SystemStripView` and `ActivityContextPanel` are truthful placeholders until later phases add real metrics and command context.
+The app frame remains terminal-first: `TerminalWorkspaceView` is the dominant working region, while `SystemStripView` and `ActivityContextPanel` provide compact support surfaces around it.
+
+## Phase 4 architecture target
+
+Phase 4 replaces the placeholder support surfaces with local, truthful metrics while keeping native sampling isolated inside `SystemMetrics`.
+
+Current abstractions:
+
+- `SystemMetricsSnapshot`
+- `SystemMetricAvailability`
+- `SystemMetricsSamplingPolicy`
+- `NativeSystemMetricsProvider`
+- `SystemMetricsSampler`
+- `LiveSystemMetricsSampler`
+- `SystemMetricsPreviewData`
+
+`SystemMetricsSnapshot` is the app-facing value model. It carries timestamped availability for CPU, memory, disk, network, battery, thermal, and top processes, plus `SamplingState` so the UI can distinguish current, stale, and unavailable data. `SystemMetricAvailability` makes unavailable states explicit instead of letting the app infer missing values from optionals.
+
+`SystemMetricsSamplingPolicy` owns cadence and backpressure: fast metrics default to a one-second cadence, slower-changing metrics have slower stale thresholds, and background sampling can reduce refresh pressure. `RootView` only asks the sampler for snapshots and sleeps for `samplingState.nextRefreshAfter`; SwiftUI views do not own sampling policy.
+
+`NativeSystemMetricsProvider` is the native no-root sampling boundary. It uses Mach CPU and VM statistics, Foundation volume capacity keys, `getifaddrs` interface counters, IOKit power-source data, `ProcessInfo.thermalState`, and libproc process counters. It does not shell out to `top`, `ps`, `vm_stat`, or network tools.
+
+`LiveSystemMetricsSampler` stores the prior CPU, network, and process counter samples needed for delta calculations, then emits one `SystemMetricsSnapshot` for the app frame. It keeps the work local-only: no network APIs, no telemetry sink, no LLM context handoff, and no persistent metric logs. When hardware or APIs do not expose a metric, the snapshot carries normal platform copy such as `Battery unavailable`, `Thermal unavailable`, `Network idle`, or `No process data`.
+
+`RootView` consumes the sampler through the `SystemMetricsSampler` protocol. `SystemStripView(snapshot:)` displays compact CPU, memory, network, battery, and thermal readouts; `ActivityContextPanel(snapshot:)` displays a read-only top-process list with process name, PID, CPU percent, and resident memory only.
 
 ## Architecture rule
 

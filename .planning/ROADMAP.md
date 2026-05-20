@@ -55,7 +55,7 @@ Exit criteria:
 
 ## Phase 4 - Real system metrics
 
-Status: active
+Status: complete
 
 Goal: replace decorative panels with truthful instrumentation.
 
@@ -65,7 +65,7 @@ Exit criteria:
 
 ## Phase 5 - Aesthetic modes
 
-Status: pending
+Status: next
 
 Goal: ship multiple coherent visual identities.
 

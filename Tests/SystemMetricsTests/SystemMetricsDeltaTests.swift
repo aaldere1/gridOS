@@ -2,6 +2,7 @@ import XCTest
 @testable import SystemMetrics
 
 final class SystemMetricsDeltaTests: XCTestCase {
+    // These tests lock down synthetic delta calculations before native counters feed the sampler.
     func testCPUPercentUsesDelta() {
         let metrics = CPUMetrics.percent(
             user: 30,
