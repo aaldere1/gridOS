@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 05 verified complete; Phase 06 pending
-last_updated: "2026-05-20T17:28:00Z"
+status: Phase 06 context gathered
+last_updated: "2026-05-20T17:51:37Z"
 progress:
   total_phases: 15
   completed_phases: 6
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-None active. Phase 6 - LLM command palette is the next pending phase.
+Phase 6 - LLM command palette (context gathered)
 
 ## Current status
 
-Phase 5 is verified complete with 8/8 must-haves passed. The evidence helper, release/architecture docs, six local screenshots, and `focus-smoke-command-shift-m.png` proof screenshot exist. Parent and verifier gates passed `xcodegen generate --use-cache`, `xcodebuild ... build test`, `git diff --check`, Phase 5 source checks, and evidence dimensions. Phase 6 remains pending and inactive until explicitly started.
+Phase 5 is verified complete with 8/8 must-haves passed. Phase 6 context is gathered in `.planning/phases/06-llm-command-palette/06-CONTEXT.md`; planning can begin next.
 
 ## Decisions made
 
@@ -52,13 +52,17 @@ Phase 5 is verified complete with 8/8 must-haves passed. The evidence helper, re
 - [Phase 05-aesthetic-modes]: Thread VisualTheme through existing SwiftUI frame components so mode styling does not change terminal layout geometry.
 - [Phase 05-aesthetic-modes]: Keep the Metal renderer burst-driven and reuse the existing animation timer instead of adding a mode-specific or global timer.
 - [Phase 05-aesthetic-modes]: Use identity.seed.normalizedVector in each shader mode branch so per-install variation is stable and mode-visible.
+- [Phase 06-llm-command-palette]: Keep command intelligence opt-in, one-shot, and insert-first; no autonomous shell agent or persistent chat surface in Phase 6.
+- [Phase 06-llm-command-palette]: Show a context preview and redactions before every provider request; send no shell context without explicit user action.
+- [Phase 06-llm-command-palette]: Store provider API keys in Keychain and treat no-key configuration as a normal disabled state.
+- [Phase 06-llm-command-palette]: Default to Anthropic/Claude if Phase 6 implements one live hosted provider, while preserving a provider abstraction for future OpenAI/local adapters.
 
 ## Decisions still open
 
 - Final public license and source availability.
 - Final bundle identifier and signing team.
 - Whether Intel Macs are supported after beta.
-- Which LLM provider ships first.
+- Final provider availability for alpha after Phase 6 implementation and credential readiness.
 - Whether Sparkle or another updater is used for direct distribution.
 
 ## Progress log
@@ -158,4 +162,7 @@ Run Phase 5 verification or explicitly start Phase 6 when ready; Phase 6 is not 
 - Summary file: `.planning/phases/05-aesthetic-modes/05-04-SUMMARY.md`.
 - 2026-05-20: Phase 05 verification passed with 8/8 must-haves verified.
 - Verification file: `.planning/phases/05-aesthetic-modes/05-VERIFICATION.md`.
-- Next command: `$gsd-discuss-phase 6` or `$gsd-plan-phase 6`; Phase 6 remains pending until selected.
+- 2026-05-20: Phase 06 context gathered for the LLM command palette with conservative command safety, explicit context preview, Keychain-backed provider setup, and insert-first generated-command handling.
+- Resume file: `.planning/phases/06-llm-command-palette/06-CONTEXT.md`.
+- Discussion log: `.planning/phases/06-llm-command-palette/06-DISCUSSION-LOG.md`.
+- Next command: `$gsd-plan-phase 6`.
