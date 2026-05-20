@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase-04-complete
-last_updated: "2026-05-20T15:32:39Z"
+status: phase-05-context
+last_updated: "2026-05-20T15:43:04Z"
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 5
   total_plans: 5
   completed_plans: 5
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 4 - Real system metrics
+Phase 5 - Aesthetic modes
 
 ## Current status
 
-Phase 4 is complete. The app now replaces Phase 3's placeholder system/activity panels with `SystemMetrics` snapshots while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and sampler-owned cadence/backpressure.
+Phase 5 context is gathered and ready for planning. The phase should deliver Tron, Severance, and Apple-native visual modes with fast mode switching, stable local persistence, per-mode motion profiles, and subtle per-install procedural variation while preserving terminal readability and real metrics clarity.
 
 ## Decisions made
 
@@ -38,6 +38,10 @@ Phase 4 is complete. The app now replaces Phase 3's placeholder system/activity 
 - Combine the app reduced-motion setting with the system `accessibilityReduceMotion` environment before driving `RenderCore.VisualEffectConfiguration`.
 - Keep native system sampling inside `SystemMetrics`; `GridOSApp` consumes `SystemMetricsSnapshot` through `SystemMetricsSampler`.
 - Treat battery, thermal, network idle, and process-data absence as normal snapshot states with explicit copy instead of errors.
+- For Phase 5, ship exactly the roadmap modes: Tron, Severance, and Apple-native; defer Cyberpunk and Matrix.
+- Keep aesthetic modes as coherent visual systems, not color swaps, but do not replace SwiftTerm rendering or obscure terminal/metrics text.
+- Use `Command-Shift-M` as the required native mode switcher and persist selected mode locally with existing app preference patterns.
+- Make procedural variation stable per install and subtle within each mode.
 
 ## Decisions still open
 
@@ -88,10 +92,11 @@ Phase 4 is complete. The app now replaces Phase 3's placeholder system/activity 
 - 2026-05-20: Wired `RootView` to consume `SystemMetricsSnapshot` in `SystemStripView(snapshot:)` and `ActivityContextPanel(snapshot:)` with read-only top-process display.
 - 2026-05-20: Verified Phase 4 final automated gate: `xcodegen generate --use-cache`, `xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test`, `git diff --check`, source `rg` checks, and key-link verification passed.
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE4_SMOKE` written to `/tmp/gridos-phase4-smoke.txt` through the app startup command path and the Debug app quit cleanly through LaunchServices.
+- 2026-05-20: Scaffolded Phase 5 directory and captured context for aesthetic modes, including mode taste, switching/persistence, app-frame theming scope, terminal protection, motion profiles, procedural variation, and deferred visual ideas.
 
 ## Next target
 
-Plan Phase 5 Aesthetic modes.
+Plan Phase 5 Aesthetic modes from `.planning/phases/05-aesthetic-modes/05-CONTEXT.md`.
 
 ## Session handoff
 
@@ -106,4 +111,7 @@ Plan Phase 5 Aesthetic modes.
 - 2026-05-20: Phase 04 executed and verified.
 - Summary file: `.planning/phases/04-real-system-metrics/04-01-SUMMARY.md`.
 - Verification file: `.planning/phases/04-real-system-metrics/04-VERIFICATION.md`.
-- Next command: `$gsd-discuss-phase 5`.
+- 2026-05-20: Phase 05 context gathered.
+- Resume file: `.planning/phases/05-aesthetic-modes/05-CONTEXT.md`.
+- Discussion log: `.planning/phases/05-aesthetic-modes/05-DISCUSSION-LOG.md`.
+- Next command: `$gsd-plan-phase 5`.
