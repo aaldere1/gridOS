@@ -34,6 +34,7 @@
 		57575794890DF5AE18A29879 /* CommandIntelligenceFailureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */; };
 		582BCF3446A3F7A835DCB7A9 /* CommandRiskClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1AE19D7C1B0F36E1C642C5 /* CommandRiskClassifierTests.swift */; };
 		5BA683C2AF090D06FB3759C8 /* TerminalActivityEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */; };
+		5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */; };
 		5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */; };
 		65839B203EE419CFB256680F /* SystemMetricsSamplingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3997B802125DFB57593040D1 /* SystemMetricsSamplingPolicyTests.swift */; };
 		6640D0A991EA4BFC34875E2F /* VisualIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307045E1593C0C65F5C30CEF /* VisualIdentity.swift */; };
@@ -300,6 +301,7 @@
 		AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBackgroundView.swift; sourceTree = "<group>"; };
 		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
+		B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandRiskClassifier.swift; sourceTree = "<group>"; };
 		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
 		BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFailureTests.swift; sourceTree = "<group>"; };
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 				50936291FA3EA35F038A1261 /* CommandIntelligenceFailure.swift */,
 				895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */,
 				B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */,
+				B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */,
 				3E4798756519A15DD8DFA804 /* Info.plist */,
 				233FBC5D701469255971E5ED /* LLMCommandProvider.swift */,
 			);
@@ -910,6 +913,7 @@
 				3EEDEE8277A59A5782B93CBB /* CommandIntelligenceFailure.swift in Sources */,
 				0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */,
 				8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */,
+				5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */,
 				41A6997C96B5667099D1EC53 /* LLMCommandProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
