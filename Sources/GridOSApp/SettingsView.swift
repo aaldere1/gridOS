@@ -1,3 +1,4 @@
+import CommandIntelligence
 import GridOSKit
 import RenderCore
 import SwiftUI
@@ -51,6 +52,8 @@ struct SettingsView: View {
                 .accessibilityLabel("Visual intensity")
                 .accessibilityValue("\(Int(visualIntensity * 100)) percent")
             }
+
+            CommandIntelligenceSettingsView()
 
             Section("Recovery") {
                 Text("Running shell processes are not restored after relaunch.")
