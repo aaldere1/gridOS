@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 05 complete
-last_updated: "2026-05-20T17:17:04Z"
+status: Phase 05 verified complete; Phase 06 pending
+last_updated: "2026-05-20T17:28:00Z"
 progress:
-  total_phases: 6
+  total_phases: 15
   completed_phases: 6
   total_plans: 9
   completed_plans: 9
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 5 - Aesthetic modes (complete)
+None active. Phase 6 - LLM command palette is the next pending phase.
 
 ## Current status
 
-Phase 5 Plan 04 is complete after approved visual evidence review and a passing live Command-Shift-M terminal-focus smoke. The evidence helper, release/architecture docs, six local screenshots, and `focus-smoke-command-shift-m.png` proof screenshot exist. Phase 6 remains pending and inactive until explicitly started.
+Phase 5 is verified complete with 8/8 must-haves passed. The evidence helper, release/architecture docs, six local screenshots, and `focus-smoke-command-shift-m.png` proof screenshot exist. Parent and verifier gates passed `xcodegen generate --use-cache`, `xcodebuild ... build test`, `git diff --check`, Phase 5 source checks, and evidence dimensions. Phase 6 remains pending and inactive until explicitly started.
 
 ## Decisions made
 
@@ -156,4 +156,6 @@ Run Phase 5 verification or explicitly start Phase 6 when ready; Phase 6 is not 
 - Screenshot files: `.planning/phases/05-aesthetic-modes/evidence/tron.png`, `.planning/phases/05-aesthetic-modes/evidence/severance.png`, `.planning/phases/05-aesthetic-modes/evidence/apple-native.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-a.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-b.png`, `.planning/phases/05-aesthetic-modes/evidence/tron-install-c.png`, `.planning/phases/05-aesthetic-modes/evidence/focus-smoke-command-shift-m.png`.
 - 2026-05-20: Phase 05 Plan 04 completed after approved visual review and live focus smoke.
 - Summary file: `.planning/phases/05-aesthetic-modes/05-04-SUMMARY.md`.
-- Next command: run Phase 5 verification or explicitly begin Phase 6; Phase 6 remains pending until selected.
+- 2026-05-20: Phase 05 verification passed with 8/8 must-haves verified.
+- Verification file: `.planning/phases/05-aesthetic-modes/05-VERIFICATION.md`.
+- Next command: `$gsd-discuss-phase 6` or `$gsd-plan-phase 6`; Phase 6 remains pending until selected.
