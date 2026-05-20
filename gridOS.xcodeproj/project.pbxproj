@@ -29,6 +29,7 @@
 		70834CB4225B77F676925F08 /* TerminalSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */; };
 		791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1127428923C1991E7539 /* RootView.swift */; };
+		7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E76722893B0C28248B49F /* GridOSAppPreferences.swift */; };
 		8429E33DE7CFFB0A883A5B2B /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8ABAC4DC08D8C937440FE2B7 /* CommandIntelligenceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */; };
 		8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3320B2947DC731EEFE381700 /* GridOSApp.swift */; };
@@ -44,6 +45,7 @@
 		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
 		CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */; };
 		CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
+		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
 		F1F30F23A76FC65759E77F85 /* RenderCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */; };
 		F495B8D43388ED108A5431B6 /* RenderEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA8C0F47F4E9DFEAFA5D2BF /* RenderEvent.swift */; };
@@ -212,6 +214,7 @@
 		5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsStatus.swift; sourceTree = "<group>"; };
 		5449C18D52D6690542E48A9C /* GridOSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GridOSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBackgroundView.swift; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
 		CBECCF1F82B155BC5EDCDBD0 /* TerminalSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSessionConfiguration.swift; sourceTree = "<group>"; };
 		D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TerminalCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferencesTests.swift; sourceTree = "<group>"; };
 		DA1F8B3FFD0F89D8849F0EA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProductTests.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */,
+				741E76722893B0C28248B49F /* GridOSAppPreferences.swift */,
 				ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */,
 				4A9A68DD08D77B219E090A4D /* Info.plist */,
 			);
@@ -434,6 +439,7 @@
 		FEBAA93669969541F8BD411C /* GridOSKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */,
 				DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */,
 			);
 			path = GridOSKitTests;
@@ -716,6 +722,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */,
 				4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -746,6 +753,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */,
+				7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */,
 				4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
