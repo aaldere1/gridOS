@@ -156,9 +156,9 @@ private struct AppFrameHeader: View {
                 Text(visualModeName)
                     .font(.system(size: 12, weight: .medium, design: .monospaced))
                     .foregroundStyle(.white.opacity(0.62))
-                    .accessibilityLabel("Visual mode")
-                    .accessibilityValue(visualModeName)
             }
+            .accessibilityLabel("Visual mode indicator")
+            .accessibilityValue(visualModeName)
 
             Text("v\(version)")
                 .font(.system(size: 13, weight: .medium, design: .monospaced))

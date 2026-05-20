@@ -49,6 +49,7 @@ struct SettingsView: View {
                     resetToDefaults()
                 }
                 .accessibilityLabel("Reset to Defaults")
+                .accessibilityValue("Restores shell, font size, reduced motion, and visual intensity")
             }
         }
         .formStyle(.grouped)
