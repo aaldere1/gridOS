@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: phase-04-context-gathered
-last_updated: "2026-05-20T14:54:56Z"
+status: phase-04-planned
+last_updated: "2026-05-20T15:04:00Z"
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 4
+  total_plans: 5
   completed_plans: 4
 ---
 
@@ -19,7 +19,7 @@ Phase 4 - Real system metrics
 
 ## Current status
 
-Phase 4 context is gathered and ready for research/planning. The next work is replacing Phase 3's placeholder system/activity panels with truthful local metrics while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and idle-friendly sampling.
+Phase 4 is planned and ready for execution. The next work is replacing Phase 3's placeholder system/activity panels with truthful local metrics while preserving terminal dominance, local-only privacy, no-root operation, graceful unavailable states, and idle-friendly sampling.
 
 ## Decisions made
 
@@ -78,10 +78,11 @@ Phase 4 context is gathered and ready for research/planning. The next work is re
 - 2026-05-20: Launch-smoke verified `GRIDOS_PHASE3_SMOKE` written to `/tmp/gridos-phase3-smoke.txt` through the app startup command path and the Debug app quit cleanly.
 - 2026-05-20: Phase 3 verification passed with 3/3 key links verified and no blocking gaps.
 - 2026-05-20: Scaffolded Phase 4 directory and captured context for real system metrics, including metric truth, sampling budget, app-frame display, privacy, unavailable states, and verification direction.
+- 2026-05-20: Researched Phase 4 native macOS metric APIs, added validation and UI design contracts, and created executable plan `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
 
 ## Next target
 
-Plan Phase 4 Real system metrics from `.planning/phases/04-real-system-metrics/04-CONTEXT.md`.
+Execute Phase 4 Real system metrics from `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
 
 ## Session handoff
 
@@ -91,4 +92,6 @@ Plan Phase 4 Real system metrics from `.planning/phases/04-real-system-metrics/0
 - Plan file: `.planning/phases/03-production-app-frame/03-01-PLAN.md`.
 - 2026-05-20: Phase 04 context gathered.
 - Resume file: `.planning/phases/04-real-system-metrics/04-CONTEXT.md`.
-- Next command: `$gsd-plan-phase 4`.
+- 2026-05-20: Phase 04 research, validation strategy, UI design contract, and executable plan created.
+- Plan file: `.planning/phases/04-real-system-metrics/04-01-PLAN.md`.
+- Next command: `$gsd-execute-phase 4`.
