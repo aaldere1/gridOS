@@ -250,7 +250,7 @@ Phase 11 blocked. Plan 05 final verification executed with unsigned build/test a
 | Phase 11-alpha P02 | 3 min | 2 tasks | 4 files |
 | Phase 11-alpha P03 | 3 min | 2 tasks | 6 files |
 | Phase 11-alpha P04 | 4 min | 2 tasks | 6 files |
-| Phase 11-alpha P05 | 6 min | 2 tasks | 7 files |
+| Phase 11-alpha P05 | 8 min | 2 tasks | 8 files |
 
 ## Next target
 
