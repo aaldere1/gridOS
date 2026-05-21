@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TerminalSessionConfiguration: Equatable, Sendable {
+public struct TerminalSessionConfiguration: Codable, Equatable, Sendable {
     public var shellPath: String
     public var shellArguments: [String]
     public var workingDirectory: String?
