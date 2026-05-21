@@ -87,6 +87,20 @@ final class TerminalWorkspacePersistenceTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: temporaryDirectory.appendingPathComponent("session-v1.corrupt.json").path))
     }
 
+    func testPersistenceUsesSessionAndRecentDirectoryFilenamesOnly() throws {
+        let store = fixtureStore()
+
+        try store.saveSnapshot(TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration()).snapshot())
+        try store.saveRecentDirectories(["/tmp/a"])
+
+        let storedFilenames = try FileManager.default.contentsOfDirectory(atPath: temporaryDirectory.path)
+        XCTAssertTrue(storedFilenames.contains("session-v1.json"))
+        XCTAssertTrue(storedFilenames.contains("recent-directories-v1.json"))
+        XCTAssertFalse(storedFilenames.contains("shell-history.json"))
+        XCTAssertFalse(storedFilenames.contains("terminal-transcript.json"))
+        XCTAssertFalse(storedFilenames.contains("generated-commands.json"))
+    }
+
     func testPersistenceDoesNotEncodeProcessIdentifiers() throws {
         let store = fixtureStore()
         var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
@@ -107,7 +121,10 @@ final class TerminalWorkspacePersistenceTests: XCTestCase {
             "child" + "fd",
             "command" + "Output",
             "shell" + "History",
-            "env" + "ironment"
+            "env" + "ironment",
+            "terminal" + "Transcript",
+            "pro" + "mpt",
+            "generated" + "Command"
         ]
     }
 

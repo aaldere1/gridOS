@@ -68,6 +68,7 @@ final class WorkspaceMetadataIndexerTests: XCTestCase {
             .deletingLastPathComponent()
         let sourceURL = repositoryRoot.appendingPathComponent("Sources/Integrations/WorkspaceMetadataIndexer.swift")
         let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let privacyAssertion = "Terminal output and command history are never indexed"
         let privateFieldNames = [
             ["shell", "History"].joined(),
             ["command", "Output"].joined(),
@@ -79,7 +80,7 @@ final class WorkspaceMetadataIndexerTests: XCTestCase {
         ]
 
         for fieldName in privateFieldNames {
-            XCTAssertFalse(source.contains(fieldName), "\(fieldName) must not be indexed")
+            XCTAssertFalse(source.contains(fieldName), "\(privacyAssertion): \(fieldName)")
         }
     }
 }
