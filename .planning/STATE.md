@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 08 planned
-last_updated: "2026-05-21T01:34:48.000Z"
+status: Phase 08 complete
+last_updated: "2026-05-21T02:03:00.000Z"
 progress:
   total_phases: 15
-  completed_phases: 8
+  completed_phases: 9
   total_plans: 24
-  completed_plans: 20
+  completed_plans: 24
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 8 - macOS integrations (planned; execution next)
+Phase 9 - Performance hardening (planning next)
 
 ## Current status
 
-Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 is planned across four executable waves for Mac-native integrations: reusable integration models/preferences and Keychain primitives, a lightweight menu bar companion plus Settings controls, explicit local notifications with deterministic smoke, and optional metadata-only indexing plus final evidence. Execution is next.
+Phase 08 verification passed with 11/11 must-haves verified. gridOS now has reusable macOS integration models/preferences, shared Keychain primitives, a lightweight menu bar companion, macOS Integration Settings, explicit local notifications with deterministic smoke, and opt-in metadata-only Core Spotlight indexing. Plan Phase 09: Performance hardening is next.
 
 ## Decisions made
 
@@ -83,6 +83,8 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 is planned ac
 - [Phase 08-macos-integrations]: Keep notification permission explicit and local-only; do not prompt on first launch.
 - [Phase 08-macos-integrations]: Generalize reusable Keychain primitives in GridOSKit while keeping API keys out of AppStorage/UserDefaults/logs/snapshots/notifications/indexing.
 - [Phase 08-macos-integrations]: Treat Spotlight/preview work as optional metadata-only foundation; do not index terminal output, command history, prompts, secrets, environment variables, process args, or full paths.
+- [Phase 08-macos-integrations]: Defer Quick Look/Finder preview work until gridOS has a stable saved workspace document type.
+- [Phase 08-macos-integrations]: Keep deterministic DEBUG smoke markers sanitized and independent of terminal screenshots.
 
 ## Decisions still open
 
@@ -165,6 +167,11 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 is planned ac
 - 2026-05-20: Phase 07 verification passed with 12/12 must-haves verified after live DEBUG multi-pane and session-restore smoke wrote all markers and left no gridOS process after quit.
 - 2026-05-20: Phase 08 context gathered for Mac-native integrations, with recommended defaults for lightweight menu bar companion, opt-in local notifications, reusable Keychain credential boundaries, optional metadata-only indexing/preview, and privacy-preserving verification.
 - 2026-05-21: Phase 08 research, validation strategy, UI design contract, and four executable plans created for macOS integrations.
+- 2026-05-21: Phase 08 Plan 01 executed and verified with an `Integrations` framework/test target, macOS integration preference defaults, pure integration models, reusable GridOSKit Keychain primitives, and Command Intelligence credential-store reuse.
+- 2026-05-21: Phase 08 Plan 02 executed and verified with a SwiftUI `MenuBarExtra`, compact menu content, app/Settings/Finder-only actions, and the macOS Integrations Settings section.
+- 2026-05-21: Phase 08 Plan 03 executed and verified with injectable local notifications, explicit `Enable Notifications` permission flow, and deterministic sanitized notification smoke support.
+- 2026-05-21: Phase 08 Plan 04 executed and verified with metadata-only Core Spotlight indexing, path-stripping tests, Quick Look deferral, final evidence, and a stabilized notification smoke marker.
+- 2026-05-21: Phase 08 verification passed with final build/test, menu bar, notification, Keychain, Spotlight, privacy, whitespace, and smoke gates green.
 
 ## Performance metrics
 
@@ -185,10 +192,14 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 is planned ac
 | Phase 07 P03 | 6min | 2 tasks | 7 files |
 | Phase 07 P04 | 7min | 2 tasks | 8 files |
 | Phase 07 P05 | 5min | 2 tasks | 5 files |
+| Phase 08 P01 | 6min | 2 tasks | 12 files |
+| Phase 08 P02 | 5min | 2 tasks | 8 files |
+| Phase 08 P03 | 5min | 2 tasks | 7 files |
+| Phase 08 P04 | 12min | 2 tasks | 11 files |
 
 ## Next target
 
-Execute Phase 08: macOS integrations.
+Plan Phase 09: Performance hardening.
 
 ## Session handoff
 
@@ -258,4 +269,20 @@ Execute Phase 08: macOS integrations.
 - 2026-05-20: Phase 08 context gathered.
 - Resume file: `.planning/phases/08-macos-integrations/08-CONTEXT.md`.
 - Discussion log: `.planning/phases/08-macos-integrations/08-DISCUSSION-LOG.md`.
-- Stopped at: Phase 08 context complete; Phase 08 research/planning next.
+- 2026-05-21: Phase 08 research, UI design contract, validation strategy, and executable plans created.
+- Research file: `.planning/phases/08-macos-integrations/08-RESEARCH.md`.
+- UI design contract: `.planning/phases/08-macos-integrations/08-UI-SPEC.md`.
+- Validation strategy: `.planning/phases/08-macos-integrations/08-VALIDATION.md`.
+- Plan files: `.planning/phases/08-macos-integrations/08-01-PLAN.md` through `.planning/phases/08-macos-integrations/08-04-PLAN.md`.
+- 2026-05-21: Phase 08 Plan 01 executed and verified.
+- Summary file: `.planning/phases/08-macos-integrations/08-01-SUMMARY.md`.
+- 2026-05-21: Phase 08 Plan 02 executed and verified.
+- Summary file: `.planning/phases/08-macos-integrations/08-02-SUMMARY.md`.
+- 2026-05-21: Phase 08 Plan 03 executed and verified.
+- Summary file: `.planning/phases/08-macos-integrations/08-03-SUMMARY.md`.
+- 2026-05-21: Phase 08 Plan 04 executed and verified.
+- Summary file: `.planning/phases/08-macos-integrations/08-04-SUMMARY.md`.
+- Evidence file: `.planning/phases/08-macos-integrations/evidence/README.md`.
+- 2026-05-21: Phase 08 verification passed.
+- Verification file: `.planning/phases/08-macos-integrations/08-VERIFICATION.md`.
+- Stopped at: Phase 08 complete; Plan Phase 09: Performance hardening next.

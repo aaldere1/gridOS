@@ -236,6 +236,15 @@ open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/grid
 cat /tmp/gridos_phase8_notification_smoke.txt
 ```
 
+Command-line fallback if LaunchServices does not produce the marker:
+
+```sh
+rm -f /tmp/gridos_phase8_notification_smoke.txt
+APP_BIN=$(ls -dt ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app/Contents/MacOS/gridOS 2>/dev/null | head -1)
+"$APP_BIN" --phase8-notification-smoke
+cat /tmp/gridos_phase8_notification_smoke.txt
+```
+
 Expected marker content includes:
 
 ```text
