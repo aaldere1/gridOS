@@ -111,6 +111,50 @@ final class CommandIntelligenceFlowTests: XCTestCase {
         XCTAssertEqual(result.completion?.commands.first?.localRisk.level, .high)
         XCTAssertEqual(result.completion?.commands.first?.localRisk.policy, .insertOnly)
     }
+
+    func testProviderRiskLabelsDoNotOverrideLocalRunPolicy() async {
+        let provider = RecordingCommandProvider(
+            providerID: .debugSmokeFixture,
+            response: LLMCommandResponse(
+                summary: "Mixed risk commands.",
+                commands: [
+                    GeneratedCommand(
+                        command: "rm -rf ~/tmp/gridos-test",
+                        explanation: "Remove a test directory.",
+                        workingDirectoryAssumption: "Current terminal directory",
+                        contextUsed: [.prompt],
+                        providerRiskLabel: "low"
+                    ),
+                    GeneratedCommand(
+                        command: "git add Sources/GridOSApp/CommandPaletteView.swift",
+                        explanation: "Stage a local file.",
+                        workingDirectoryAssumption: "Current terminal directory",
+                        contextUsed: [.prompt],
+                        providerRiskLabel: "high"
+                    ),
+                    GeneratedCommand(
+                        command: "echo $(whoami)",
+                        explanation: "Use command substitution.",
+                        workingDirectoryAssumption: "Current terminal directory",
+                        contextUsed: [.prompt],
+                        providerRiskLabel: "low"
+                    )
+                ],
+                explanation: "Provider labels are advisory only."
+            )
+        )
+        let service = CommandIntelligenceService(
+            credentialStore: InMemoryCommandCredentialStore(),
+            provider: provider,
+            riskClassifier: CommandRiskClassifier()
+        )
+
+        let result = await service.completeApprovedRequest(preview: approvedPreview())
+
+        XCTAssertEqual(result.completion?.commands.map(\.command.providerRiskLabel), ["low", "high", "low"])
+        XCTAssertEqual(result.completion?.commands.map(\.localRisk.level), [.high, .medium, .unknown])
+        XCTAssertEqual(result.completion?.commands.map(\.localRisk.policy), [.insertOnly, .requiresConfirmation, .insertOnly])
+    }
 }
 
 private actor RecordingCommandProvider: LLMCommandProvider {
