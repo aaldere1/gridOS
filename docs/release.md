@@ -321,8 +321,11 @@ Primary references:
 - `.planning/phases/11-alpha/run-alpha-uat.sh` writes sanitized command-availability and fast output evidence to `.planning/phases/11-alpha/evidence/alpha-uat-summary.md`.
 - `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
 - `.planning/phases/11-alpha/DIAGNOSTICS.md` is the Phase 11 Alpha Diagnostics Policy.
+- `.planning/phases/11-alpha/11-VERIFICATION.md` is the final Alpha verification report and Phase 12 handoff gate.
 
 Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
+
+Final Alpha signoff must use `.planning/phases/11-alpha/11-VERIFICATION.md` as the source of truth. If the report is `BLOCKED`, do not mark Phase 11 complete or move the active target to Phase 12.
 
 Signed internal alpha build:
 
