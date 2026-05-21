@@ -103,13 +103,21 @@ Plans: 6 plans
 
 ## Phase 7 - Multi-pane and session management
 
-Status: pending
+Status: in progress
 
 Goal: support real developer workflows with multiple shells.
 
 Exit criteria:
 
 - Split panes, session restoration, recent directories, and process cleanup are reliable.
+
+Plans: 5 plans
+
+- [x] 07-01-PLAN.md - TerminalCore pane and session model foundation.
+- [ ] 07-02-PLAN.md - Active-pane routing and process lifecycle.
+- [ ] 07-03-PLAN.md - Multi-pane SwiftUI workspace and native commands.
+- [ ] 07-04-PLAN.md - Session persistence, restore copy, recent directories, and docs.
+- [ ] 07-05-PLAN.md - Smoke fixture, evidence, and final verification.
 
 ## Phase 8 - macOS integrations
 

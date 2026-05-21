@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 07 planned; Phase 07 execution next
-last_updated: "2026-05-20T20:38:00.000Z"
+status: Executing Phase 07
+last_updated: "2026-05-21T00:07:39.918Z"
 progress:
   total_phases: 15
   completed_phases: 7
   total_plans: 20
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 7 - Multi-pane and session management (planned; execution next)
+Phase 7 - Multi-pane and session management (executing; Plan 01 complete, Plan 02 next)
 
 ## Current status
 
-Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 is planned across five execution waves: TerminalCore pane/session models, active-pane routing and process lifecycle, multi-pane workspace UI/native commands, session restore/recent directories/recovery copy, and final smoke evidence.
+Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 is executing across five waves. Plan 01 delivered the pure TerminalCore pane/session model; Plan 02 is next for active-pane routing and process lifecycle.
 
 ## Decisions made
 
@@ -153,6 +153,7 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 is planned ac
 - 2026-05-20: Phase 06 marked complete; Phase 07 multi-pane and session management is next.
 - 2026-05-20: Phase 07 context gathered for multi-pane and session management, including active-pane routing, layout/directory restore, local recent-directory state, and process-cleanup evidence.
 - 2026-05-20: Phase 07 research, UI design contract, validation strategy, and five executable plans created for multi-pane/session management.
+- 2026-05-20: Phase 07 Plan 01 executed and verified with a pure TerminalCore workspace model, Codable snapshots, deterministic split/close/duplicate/focus behavior, recent-directory normalization, and no process resurrection state.
 
 ## Performance metrics
 
@@ -168,11 +169,11 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 is planned ac
 | 06-llm-command-palette | 04 | 9 min | 3 | 9 |
 | 06-llm-command-palette | 05 | 10min | 3 | 9 |
 | Phase 06-llm-command-palette P06 | 14min | 3 tasks | 12 files |
-| 07-multi-pane-session-management | planned | 5 plans | pending execution |
+| Phase 07 P01 | 4min | 1 tasks | 4 files |
 
 ## Next target
 
-Execute Phase 07: multi-pane and session management.
+Execute Phase 07 Plan 02: active-pane routing and process lifecycle.
 
 ## Session handoff
 
@@ -226,4 +227,6 @@ Execute Phase 07: multi-pane and session management.
 - UI design contract: `.planning/phases/07-multi-pane-session-management/07-UI-SPEC.md`.
 - Validation strategy: `.planning/phases/07-multi-pane-session-management/07-VALIDATION.md`.
 - Plan files: `.planning/phases/07-multi-pane-session-management/07-01-PLAN.md` through `.planning/phases/07-multi-pane-session-management/07-05-PLAN.md`.
-- Stopped at: Phase 07 planned; Phase 07 execution next.
+- 2026-05-20: Phase 07 Plan 01 executed and verified.
+- Summary file: `.planning/phases/07-multi-pane-session-management/07-01-SUMMARY.md`.
+- Stopped at: Phase 07 Plan 01 complete; Phase 07 Plan 02 next.
