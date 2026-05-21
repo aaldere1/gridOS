@@ -39,7 +39,7 @@ Outputs:
 ## Cold start
 
 - **Target:** < 500 ms
-- **Observed:** 84.244 ms
+- **Observed:** 92.882 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-ready-smoke`
 - **Notes:** App launch to Phase 9 ready marker.
@@ -47,7 +47,7 @@ Outputs:
 ## Resident memory
 
 - **Target:** < 100 MB
-- **Observed:** 111.12 MB
+- **Observed:** 110.47 MB
 - **Status:** MISS
 - **Command:** `ps -o rss= -p <gridOS pid>`
 - **Notes:** RSS sampled after a short startup settle window.
@@ -55,7 +55,7 @@ Outputs:
 ## Idle CPU
 
 - **Target:** < 0.5%
-- **Observed:** 98.700%
+- **Observed:** 98.680%
 - **Status:** MISS
 - **Command:** `ps -o %cpu= -p <gridOS pid>`
 - **Notes:** Average of five quiet-window samples.
