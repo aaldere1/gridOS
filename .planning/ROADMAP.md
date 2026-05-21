@@ -149,7 +149,7 @@ Exit criteria:
 Plans: 4 plans
 
 - [x] 09-01-PLAN.md - Benchmark harness foundation.
-- [ ] 09-02-PLAN.md - Deterministic benchmark app fixtures.
+- [x] 09-02-PLAN.md - Deterministic benchmark app fixtures.
 - [ ] 09-03-PLAN.md - Benchmark scenarios and measured report.
 - [ ] 09-04-PLAN.md - Final evidence, docs, and phase signoff.
 
