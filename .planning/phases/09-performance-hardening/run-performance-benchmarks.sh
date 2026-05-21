@@ -36,6 +36,12 @@ IDLE_CPU_PERCENT_OBSERVED="null"
 INPUT_LATENCY_MS_OBSERVED="null"
 HEAVY_OUTPUT_MS_OBSERVED="null"
 HEAVY_OUTPUT_LINE_COUNT="null"
+FRAME_PACING_MS_OBSERVED="null"
+FRAME_PACING_PULSE_COUNT="null"
+XCTRACE_STATUS="UNAVAILABLE"
+XCTRACE_REASON="Skipped until capture_xctrace_summary runs."
+XCTRACE_TRACE_PATH="null"
+XCTRACE_TOC_PATH="null"
 RSS_STATUS="pending"
 IDLE_CPU_STATUS="pending"
 MEASUREMENT_APP_PID=""
@@ -314,6 +320,63 @@ measure_heavy_output() {
   fi
 }
 
+measure_frame_pacing() {
+  FRAME_PACING_STATUS="$(run_app_marker_smoke "--phase9-frame-pacing-smoke" "$FRAME_PACING_MARKER_PATH" 5)"
+  FRAME_PACING_MS_OBSERVED="$(json_number_field "$FRAME_PACING_MARKER_PATH" "elapsed_ms")"
+  FRAME_PACING_PULSE_COUNT="$(json_number_field "$FRAME_PACING_MARKER_PATH" "pulse_count")"
+}
+
+json_nullable_string() {
+  local value="$1"
+  if [[ "$value" == "null" ]]; then
+    printf 'null'
+  else
+    printf '"%s"' "$(json_quote "$value")"
+  fi
+}
+
+capture_xctrace_summary() {
+  if [[ "$MODE" == "quick" ]]; then
+    XCTRACE_STATUS="UNAVAILABLE"
+    XCTRACE_REASON="Skipped in --quick mode."
+    return 0
+  fi
+
+  if ! command -v xcrun >/dev/null 2>&1; then
+    XCTRACE_STATUS="UNAVAILABLE"
+    XCTRACE_REASON="xcrun is unavailable."
+    return 0
+  fi
+
+  local app_bin
+  if ! app_bin="$(resolve_app_binary)"; then
+    XCTRACE_STATUS="UNAVAILABLE"
+    XCTRACE_REASON="gridOS app binary is unavailable."
+    return 0
+  fi
+
+  local trace_path="$EVIDENCE_DIR/phase9-animation-hitches.trace"
+  local toc_path="$EVIDENCE_DIR/phase9-animation-hitches-toc.xml"
+  rm -rf "$trace_path" "$toc_path"
+
+  if xcrun xctrace record --template 'Animation Hitches' --time-limit 5s --output "$trace_path" --launch -- "$app_bin" --phase9-frame-pacing-smoke >/dev/null 2>&1; then
+    if xcrun xctrace export --input "$trace_path" --toc --output "$toc_path" >/dev/null 2>&1; then
+      XCTRACE_STATUS="PASS"
+      XCTRACE_REASON="Animation Hitches trace and TOC export completed."
+      XCTRACE_TRACE_PATH="evidence/phase9-animation-hitches.trace"
+      XCTRACE_TOC_PATH="evidence/phase9-animation-hitches-toc.xml"
+    else
+      XCTRACE_STATUS="UNAVAILABLE"
+      XCTRACE_REASON="xcrun xctrace export failed after record."
+      XCTRACE_TRACE_PATH="evidence/phase9-animation-hitches.trace"
+      XCTRACE_TOC_PATH="null"
+    fi
+  else
+    XCTRACE_STATUS="UNAVAILABLE"
+    XCTRACE_REASON="xcrun xctrace record failed or required permissions."
+  fi
+}
+
 cleanup_measurement_app() {
   if [[ -n "$MEASUREMENT_APP_PID" ]]; then
     terminate_launched_pid "$MEASUREMENT_APP_PID"
@@ -440,10 +503,17 @@ write_json_report() {
     },
     "frame_pacing": {
       "status": "$FRAME_PACING_STATUS",
-      "observed": null,
+      "observed": $FRAME_PACING_MS_OBSERVED,
+      "pulse_count": $FRAME_PACING_PULSE_COUNT,
       "marker": "$PHASE9_FRAME_PACING",
       "marker_payload": $(marker_payload_json_value "$FRAME_PACING_MARKER_PATH"),
-      "notes": "Fixture smoke result; xctrace/frame-pacing summary is pending until Plan 09-03."
+      "xctrace": {
+        "status": "$XCTRACE_STATUS",
+        "reason": "$(json_quote "$XCTRACE_REASON")",
+        "trace_path": $(json_nullable_string "$XCTRACE_TRACE_PATH"),
+        "toc_path": $(json_nullable_string "$XCTRACE_TOC_PATH")
+      },
+      "notes": "Active-pulse marker and optional Animation Hitches xctrace summary."
     }
   },
   "misses": $(misses_json_value)
@@ -459,7 +529,7 @@ write_markdown_report() {
 
 ## Phase 9 final gate
 
-Status: fixture smoke ready. Live threshold measurements are added in later Phase 9 plans.
+Status: quick benchmark captured. Full xctrace capture is skipped in --quick mode.
 
 ## Benchmark invocation
 
@@ -533,6 +603,18 @@ Outputs:
 - **Command:** \`gridOS --phase9-heavy-output-smoke\`
 - **Notes:** Synthetic terminal markers only; no user shell output captured.
 
+## Frame pacing
+
+- **Target:** ${TARGET_FRAME_PACING}
+- **Observed:** ${FRAME_PACING_MS_OBSERVED} ms, ${FRAME_PACING_PULSE_COUNT} render pulses
+- **Status:** ${FRAME_PACING_STATUS}
+- **Command:** \`gridOS --phase9-frame-pacing-smoke\`
+- **xctrace status:** ${XCTRACE_STATUS}
+- **xctrace detail:** ${XCTRACE_REASON}
+- **Trace path:** ${XCTRACE_TRACE_PATH}
+- **TOC path:** ${XCTRACE_TOC_PATH}
+- **Notes:** Full mode attempts \`xcrun xctrace record --template 'Animation Hitches'\` and \`xcrun xctrace export\`; raw trace bundles may be excluded from commits if too large or private.
+
 ## Misses and mitigations
 
 | Metric | Status | Owner | Mitigation |
@@ -541,9 +623,9 @@ $(misses_markdown_rows)
 
 ## Known limitations
 
-- This report contains fixture smoke status only until Plan 09-03 adds measured scenarios.
+- This quick report captures local Debug benchmark evidence; full xctrace capture is skipped in --quick mode.
 - No private shell history, terminal transcripts, environment variables, API keys, screenshots, or raw Instruments traces are captured.
-- Full xctrace/profile behavior is added after deterministic app-side benchmark markers exist.
+- Full xctrace/profile behavior records summary availability; raw trace bundles may be excluded from commits if too large or private.
 EOF
 }
 
@@ -572,7 +654,8 @@ main() {
   cleanup_measurement_app
   measure_input_latency
   measure_heavy_output
-  run_frame_pacing_smoke
+  measure_frame_pacing
+  capture_xctrace_summary
   write_json_report
   write_markdown_report
 

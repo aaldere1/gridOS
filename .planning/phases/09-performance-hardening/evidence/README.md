@@ -2,7 +2,7 @@
 
 ## Phase 9 final gate
 
-Status: fixture smoke ready. Live threshold measurements are added in later Phase 9 plans.
+Status: quick benchmark captured. Full xctrace capture is skipped in --quick mode.
 
 ## Benchmark invocation
 
@@ -39,7 +39,7 @@ Outputs:
 ## Cold start
 
 - **Target:** < 500 ms
-- **Observed:** 87.424 ms
+- **Observed:** 94.273 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-ready-smoke`
 - **Notes:** App launch to Phase 9 ready marker.
@@ -47,7 +47,7 @@ Outputs:
 ## Resident memory
 
 - **Target:** < 100 MB
-- **Observed:** 110.42 MB
+- **Observed:** 110.53 MB
 - **Status:** MISS
 - **Command:** `ps -o rss= -p <gridOS pid>`
 - **Notes:** RSS sampled after a short startup settle window.
@@ -55,7 +55,7 @@ Outputs:
 ## Idle CPU
 
 - **Target:** < 0.5%
-- **Observed:** 99.360%
+- **Observed:** 98.980%
 - **Status:** MISS
 - **Command:** `ps -o %cpu= -p <gridOS pid>`
 - **Notes:** Average of five quiet-window samples.
@@ -76,6 +76,18 @@ Outputs:
 - **Command:** `gridOS --phase9-heavy-output-smoke`
 - **Notes:** Synthetic terminal markers only; no user shell output captured.
 
+## Frame pacing
+
+- **Target:** active-pulse pacing evidence
+- **Observed:** null ms, null render pulses
+- **Status:** MISS
+- **Command:** `gridOS --phase9-frame-pacing-smoke`
+- **xctrace status:** UNAVAILABLE
+- **xctrace detail:** Skipped in --quick mode.
+- **Trace path:** null
+- **TOC path:** null
+- **Notes:** Full mode attempts `xcrun xctrace record --template 'Animation Hitches'` and `xcrun xctrace export`; raw trace bundles may be excluded from commits if too large or private.
+
 ## Misses and mitigations
 
 | Metric | Status | Owner | Mitigation |
@@ -88,6 +100,6 @@ Outputs:
 
 ## Known limitations
 
-- This report contains fixture smoke status only until Plan 09-03 adds measured scenarios.
+- This quick report captures local Debug benchmark evidence; full xctrace capture is skipped in --quick mode.
 - No private shell history, terminal transcripts, environment variables, API keys, screenshots, or raw Instruments traces are captured.
-- Full xctrace/profile behavior is added after deterministic app-side benchmark markers exist.
+- Full xctrace/profile behavior records summary availability; raw trace bundles may be excluded from commits if too large or private.

@@ -1,6 +1,6 @@
 {
   "report": "PHASE9_PERFORMANCE_REPORT",
-  "generated_at": "2026-05-21T08:53:31Z",
+  "generated_at": "2026-05-21T08:55:27Z",
   "configuration": {
     "mode": "quick",
     "build_configuration": "Debug",
@@ -17,21 +17,21 @@
   "results": {
     "cold_start_ms": {
       "status": "PASS",
-      "observed": 87.424,
+      "observed": 94.273,
       "target": 500,
       "marker": "PHASE9_READY",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353586.446091,\n  \"finished_at\": 1779353586.446092,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353702.811725,\n  \"finished_at\": 1779353702.811725,\n  \"elapsed_ms\": 0.000,\n  \"result\": \"PASS\"\n}",
       "notes": "App launch to Phase 9 ready marker."
     },
     "rss_mb": {
       "status": "MISS",
-      "observed": 110.42,
+      "observed": 110.53,
       "target": 100,
       "notes": "Resident set size sampled from ps after startup settle."
     },
     "idle_cpu_percent": {
       "status": "MISS",
-      "observed": 99.360,
+      "observed": 98.980,
       "target": 0.5,
       "notes": "Average of five ps CPU samples during a quiet window."
     },
@@ -54,9 +54,16 @@
     "frame_pacing": {
       "status": "MISS",
       "observed": null,
+      "pulse_count": null,
       "marker": "PHASE9_FRAME_PACING",
       "marker_payload": null,
-      "notes": "Fixture smoke result; xctrace/frame-pacing summary is pending until Plan 09-03."
+      "xctrace": {
+        "status": "UNAVAILABLE",
+        "reason": "Skipped in --quick mode.",
+        "trace_path": null,
+        "toc_path": null
+      },
+      "notes": "Active-pulse marker and optional Animation Hitches xctrace summary."
     }
   },
   "misses": [
