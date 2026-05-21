@@ -320,6 +320,7 @@ Primary references:
 - `.planning/phases/11-alpha/ALPHA-UAT.md` is the daily-driver UAT checklist and signoff log.
 - `.planning/phases/11-alpha/run-alpha-uat.sh` writes sanitized command-availability and fast output evidence to `.planning/phases/11-alpha/evidence/alpha-uat-summary.md`.
 - `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
+- `.planning/phases/11-alpha/DIAGNOSTICS.md` is the Phase 11 Alpha Diagnostics Policy.
 
 Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
 
@@ -374,6 +375,8 @@ Daily-driver Alpha UAT:
 Then complete the manual checklist in `.planning/phases/11-alpha/ALPHA-UAT.md` against the signed internal Alpha build when signing prerequisites are available. The helper records only command names, PASS/FAIL status, timestamps, and source commit; it does not capture terminal transcripts, shell history, raw command output, environment variables, API keys, prompts, generated commands, provider responses, screenshots, traces, or private file paths.
 
 Alpha issue triage uses `.planning/phases/11-alpha/ALPHA-FEEDBACK.md` for intake and `.planning/phases/11-alpha/KNOWN-ISSUES.md` for confirmed issues with severity, Alpha/Beta/Production blocker status, owner, target phase, status, and sanitized evidence. The release rule is: critical/high terminal correctness issues block Alpha signoff.
+
+The Phase 11 Alpha Diagnostics Policy keeps diagnostics local and sanitized. Phase 11 does not add telemetry, crash reporting, automatic diagnostics upload, or support portal functionality.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 

@@ -2,6 +2,10 @@
 
 This directory records sanitized text evidence for the internal Alpha lane. It is not a build-output directory and must not contain private terminal data.
 
+## Diagnostics policy
+
+The Phase 11 Alpha Diagnostics Policy lives in `../DIAGNOSTICS.md`. It defines allowed diagnostic metadata, data excluded from diagnostics, evidence storage rules, manual collection boundaries, and future product-work requirements.
+
 ## Signing preflight
 
 Run `scripts/alpha-signing-preflight.sh --dry-run` for local smoke, then run `scripts/alpha-signing-preflight.sh` when evidence should be written. The report is presence-only: it may state whether Xcode tools, hardened runtime, signing identities, `GRIDOS_DEVELOPMENT_TEAM`, `GRIDOS_SIGNING_IDENTITY`, and optional `GRIDOS_EXPORT_METHOD` are present, but it must not echo signing variable values or raw Keychain output.
