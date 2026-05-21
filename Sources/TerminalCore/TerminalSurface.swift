@@ -3,24 +3,32 @@ import SwiftTerm
 import SwiftUI
 
 public struct TerminalSurface: NSViewRepresentable {
-    public typealias ActivityHandler = @MainActor (TerminalActivityEvent) -> Void
+    public typealias ActivityHandler = @MainActor (TerminalPaneID, TerminalActivityEvent) -> Void
 
+    private let paneID: TerminalPaneID
     private let configuration: TerminalSessionConfiguration
     private let onActivity: ActivityHandler
     private let interactionController: TerminalInteractionController?
 
     public init(
+        paneID: TerminalPaneID = "primary",
         configuration: TerminalSessionConfiguration = .default,
         interactionController: TerminalInteractionController? = nil,
-        onActivity: @escaping ActivityHandler = { _ in }
+        onActivity: @escaping ActivityHandler = { _, _ in }
     ) {
+        self.paneID = paneID
         self.configuration = configuration
         self.interactionController = interactionController
         self.onActivity = onActivity
     }
 
     @MainActor public func makeCoordinator() -> Coordinator {
-        Coordinator(configuration: configuration, interactionController: interactionController, onActivity: onActivity)
+        Coordinator(
+            paneID: paneID,
+            configuration: configuration,
+            interactionController: interactionController,
+            onActivity: onActivity
+        )
     }
 
     @MainActor public func makeNSView(context: Context) -> NSView {
@@ -37,6 +45,7 @@ public struct TerminalSurface: NSViewRepresentable {
 
     @MainActor
     public final class Coordinator: NSObject, @MainActor LocalProcessTerminalViewDelegate {
+        private let paneID: TerminalPaneID
         private let configuration: TerminalSessionConfiguration
         private let interactionController: TerminalInteractionController?
         private let onActivity: ActivityHandler
@@ -46,15 +55,16 @@ public struct TerminalSurface: NSViewRepresentable {
         private weak var terminalView: LocalProcessTerminalView?
 
         init(
+            paneID: TerminalPaneID,
             configuration: TerminalSessionConfiguration,
             interactionController: TerminalInteractionController?,
             onActivity: @escaping ActivityHandler
         ) {
+            self.paneID = paneID
             self.configuration = configuration
             self.interactionController = interactionController
             self.onActivity = onActivity
             super.init()
-            registerCommandObservers()
         }
 
         func attach(_ terminalView: LocalProcessTerminalView) {
@@ -78,7 +88,6 @@ public struct TerminalSurface: NSViewRepresentable {
             }
             terminalView?.terminate()
             state = .terminated(exitCode: nil)
-            removeCommandObservers()
         }
 
         public func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {
@@ -154,24 +163,13 @@ public struct TerminalSurface: NSViewRepresentable {
             return .monospacedSystemFont(ofSize: configuration.fontSize, weight: .regular)
         }
 
-        private func registerCommandObservers() {
-            NotificationCenter.default.addObserver(self, selector: #selector(copyCommand), name: .gridOSTerminalCopy, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(pasteCommand), name: .gridOSTerminalPaste, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(clearCommand), name: .gridOSTerminalClear, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(resetCommand), name: .gridOSTerminalReset, object: nil)
-        }
-
-        private func removeCommandObservers() {
-            NotificationCenter.default.removeObserver(self)
-        }
-
         private func recordActivity(_ event: TerminalActivityEvent) {
             switch event {
             case .output(let byteCount):
                 pendingOutputBytes += byteCount
                 scheduleOutputFlush()
             default:
-                onActivity(event)
+                onActivity(paneID, event)
             }
         }
 
@@ -195,24 +193,7 @@ public struct TerminalSurface: NSViewRepresentable {
                 return
             }
 
-            onActivity(.output(byteCount: byteCount))
-        }
-
-        @objc private func copyCommand() {
-            terminalView?.copy(self)
-        }
-
-        @objc private func pasteCommand() {
-            terminalView?.paste(self)
-        }
-
-        @objc private func clearCommand() {
-            terminalView?.sendControlByte(12)
-        }
-
-        @objc private func resetCommand() {
-            terminalView?.getTerminal().resetToInitialState()
-            terminalView?.needsDisplay = true
+            onActivity(paneID, .output(byteCount: byteCount))
         }
     }
 }
@@ -264,5 +245,26 @@ extension LocalProcessTerminalView: TerminalInteractionControllingTerminal {
 
     func focusTerminal() {
         window?.makeFirstResponder(self)
+    }
+
+    func copySelection() {
+        copy(self)
+    }
+
+    func paste() {
+        paste(self)
+    }
+
+    func clear() {
+        sendControlByte(12)
+    }
+
+    func reset() {
+        getTerminal().resetToInitialState()
+        needsDisplay = true
+    }
+
+    func isProcessRunning() -> Bool {
+        process.running
     }
 }

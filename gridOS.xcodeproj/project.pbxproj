@@ -68,6 +68,7 @@
 		A28AF910A66839B6646D0588 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		A507D5731F9C853B20011905 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A59CD739DBCB9CA929E924F4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
+		AC2C8B80AC7A3DBE1144570C /* TerminalWorkspaceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A1C141CFDD52F5AC081052 /* TerminalWorkspaceControllerTests.swift */; };
 		B0B3B9349739E3480450C8CE /* SecretRedactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC16CEB528CC0915A90E16D /* SecretRedactorTests.swift */; };
 		B2F8D3CB5D35C40D394E942D /* CommandContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4993E53068E1B90C511DF /* CommandContextPreview.swift */; };
 		B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
@@ -78,6 +79,7 @@
 		C1BBDF3D7132FAD7F129C13D /* TerminalWorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476AF8D84F277F3E626B5926 /* TerminalWorkspaceModel.swift */; };
 		C36CC27EA6470E140C89AC44 /* TerminalInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */; };
 		C9E2C4D43DFE37DA0D06030F /* TerminalCoreStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */; };
+		CA01825378EC466C26E092DE /* TerminalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1AFCC68E97C8CFBF4F446 /* TerminalWorkspaceController.swift */; };
 		CCCC1BC0EC101F9B31383EDF /* ProceduralSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */; };
 		CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
 		D11853FE3BA3A5804DA36906 /* CommandContextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */; };
@@ -271,6 +273,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03A1C141CFDD52F5AC081052 /* TerminalWorkspaceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceControllerTests.swift; sourceTree = "<group>"; };
 		043C3B9DFC96A003656A3A70 /* CommandIntelligenceFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFlowTests.swift; sourceTree = "<group>"; };
 		04603B4F1C7F884B938E1F08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -312,6 +315,7 @@
 		57E1DD37EF7424775DE825D1 /* SystemMetricsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsModelTests.swift; sourceTree = "<group>"; };
 		5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCommandCredentialStore.swift; sourceTree = "<group>"; };
 		614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceCommandCenter.swift; sourceTree = "<group>"; };
+		68B1AFCC68E97C8CFBF4F446 /* TerminalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceController.swift; sourceTree = "<group>"; };
 		6922304D1FF56546CD96CE28 /* AnthropicCommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicCommandProvider.swift; sourceTree = "<group>"; };
 		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -452,6 +456,7 @@
 				CBECCF1F82B155BC5EDCDBD0 /* TerminalSessionConfiguration.swift */,
 				44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */,
 				AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */,
+				68B1AFCC68E97C8CFBF4F446 /* TerminalWorkspaceController.swift */,
 				476AF8D84F277F3E626B5926 /* TerminalWorkspaceModel.swift */,
 			);
 			path = TerminalCore;
@@ -510,6 +515,7 @@
 			children = (
 				D558F2F8D06CFAE784CAB06B /* TerminalInteractionControllerTests.swift */,
 				1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */,
+				03A1C141CFDD52F5AC081052 /* TerminalWorkspaceControllerTests.swift */,
 				414683704F2D9DED2FD12FA6 /* TerminalWorkspaceModelTests.swift */,
 			);
 			path = TerminalCoreTests;
@@ -953,6 +959,7 @@
 			files = (
 				BA8B8EB3621B9DC432815FE3 /* TerminalInteractionControllerTests.swift in Sources */,
 				D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */,
+				AC2C8B80AC7A3DBE1144570C /* TerminalWorkspaceControllerTests.swift in Sources */,
 				82FE12326A704ABB68E2A558 /* TerminalWorkspaceModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1019,6 +1026,7 @@
 				43D28347C40C309F7F2EE032 /* TerminalSessionConfiguration.swift in Sources */,
 				70834CB4225B77F676925F08 /* TerminalSessionState.swift in Sources */,
 				5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */,
+				CA01825378EC466C26E092DE /* TerminalWorkspaceController.swift in Sources */,
 				C1BBDF3D7132FAD7F129C13D /* TerminalWorkspaceModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

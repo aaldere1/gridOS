@@ -50,16 +50,87 @@ final class TerminalInteractionControllerTests: XCTestCase {
 
         XCTAssertEqual(terminal.focusRequestCount, 1)
     }
+
+    func testCopySelectionTargetsAttachedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.copySelection()
+
+        XCTAssertEqual(terminal.copySelectionCount, 1)
+    }
+
+    func testPasteTargetsAttachedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.paste()
+
+        XCTAssertEqual(terminal.pasteCount, 1)
+    }
+
+    func testClearSendsControlL() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.clear()
+
+        XCTAssertEqual(terminal.clearCount, 1)
+    }
+
+    func testResetTargetsAttachedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.reset()
+
+        XCTAssertEqual(terminal.resetCount, 1)
+    }
+
+    func testTerminateTargetsAttachedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.terminate()
+
+        XCTAssertEqual(terminal.terminateCount, 1)
+    }
+
+    func testIsProcessRunningReflectsAttachedTerminal() {
+        let runningTerminal = TerminalInteractionTerminalSpy(isRunning: true)
+        let stoppedTerminal = TerminalInteractionTerminalSpy(isRunning: false)
+        let controller = TerminalInteractionController()
+
+        XCTAssertFalse(controller.isProcessRunning())
+
+        controller.attach(runningTerminal)
+        XCTAssertTrue(controller.isProcessRunning())
+
+        controller.attach(stoppedTerminal)
+        XCTAssertFalse(controller.isProcessRunning())
+    }
 }
 
 @MainActor
 private final class TerminalInteractionTerminalSpy: TerminalInteractionControllingTerminal {
     private let selection: String?
+    private let isRunning: Bool
     private(set) var sentTexts: [String] = []
     private(set) var focusRequestCount = 0
+    private(set) var copySelectionCount = 0
+    private(set) var pasteCount = 0
+    private(set) var clearCount = 0
+    private(set) var resetCount = 0
+    private(set) var terminateCount = 0
 
-    init(selection: String? = nil) {
+    init(selection: String? = nil, isRunning: Bool = false) {
         self.selection = selection
+        self.isRunning = isRunning
     }
 
     func getSelection() -> String? {
@@ -72,5 +143,29 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
 
     func focusTerminal() {
         focusRequestCount += 1
+    }
+
+    func copySelection() {
+        copySelectionCount += 1
+    }
+
+    func paste() {
+        pasteCount += 1
+    }
+
+    func clear() {
+        clearCount += 1
+    }
+
+    func reset() {
+        resetCount += 1
+    }
+
+    func terminate() {
+        terminateCount += 1
+    }
+
+    func isProcessRunning() -> Bool {
+        isRunning
     }
 }

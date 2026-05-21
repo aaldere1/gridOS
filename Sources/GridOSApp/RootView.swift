@@ -264,7 +264,7 @@ struct RootView: View {
         return AnthropicCommandProvider()
     }
 
-    private func handleTerminalActivity(_ activity: TerminalActivityEvent) {
+    private func handleTerminalActivity(_ _: TerminalPaneID, _ activity: TerminalActivityEvent) {
         if case .workingDirectoryChanged(let directory) = activity {
             currentWorkingDirectory = directory
         }

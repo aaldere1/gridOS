@@ -6,6 +6,12 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
     func getSelection() -> String?
     func sendText(_ text: String)
     func focusTerminal()
+    func copySelection()
+    func paste()
+    func clear()
+    func reset()
+    func terminate()
+    func isProcessRunning() -> Bool
 }
 
 @MainActor
@@ -33,6 +39,30 @@ public final class TerminalInteractionController: ObservableObject {
 
     public func focusTerminal() {
         terminal?.focusTerminal()
+    }
+
+    public func copySelection() {
+        terminal?.copySelection()
+    }
+
+    public func paste() {
+        terminal?.paste()
+    }
+
+    public func clear() {
+        terminal?.clear()
+    }
+
+    public func reset() {
+        terminal?.reset()
+    }
+
+    public func terminate() {
+        terminal?.terminate()
+    }
+
+    public func isProcessRunning() -> Bool {
+        terminal?.isProcessRunning() ?? false
     }
 
     func attach(_ terminal: any TerminalInteractionControllingTerminal) {
