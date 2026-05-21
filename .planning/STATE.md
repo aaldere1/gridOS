@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 11
-last_updated: "2026-05-21T13:06:42.951Z"
+last_updated: "2026-05-21T13:13:47.799Z"
 progress:
   total_phases: 12
   completed_phases: 11
   total_plans: 38
-  completed_plans: 35
+  completed_plans: 36
 ---
 
 # gridOS state
@@ -19,7 +19,7 @@ Phase 11 - Alpha (in progress)
 
 ## Current status
 
-Phase 11 Plan 02 is complete. Alpha execution has three pending plans covering daily-driver terminal UAT, feedback/known-issues/diagnostics policy, and final Alpha verification. Internal artifact build and verification scripts are in place; signed artifact creation remains dependent on local Apple signing prerequisites. Phase 10 security/privacy guarantees remain the baseline for execution.
+Phase 11 Plan 03 is complete. Alpha execution has two pending plans covering feedback/known-issues/diagnostics policy and final Alpha verification. DEBUG alpha smoke markers, the daily-driver UAT checklist, and sanitized UAT helper are in place. Signed artifact creation remains dependent on local Apple signing prerequisites. Phase 10 security/privacy guarantees remain the baseline for execution.
 
 ## Decisions made
 
@@ -102,6 +102,9 @@ Phase 11 Plan 02 is complete. Alpha execution has three pending plans covering d
 - [Phase 11-alpha]: Alpha artifacts are written only to local output directories; committed evidence remains sanitized text.
 - [Phase 11-alpha]: Missing signing prerequisites stop in signing preflight before archive creation.
 - [Phase 11-alpha]: Artifact verification records codesign, checksum, bundle metadata, pass/fail status, and Phase 12 notarization deferral.
+- [Phase 11-alpha]: DEBUG alpha smoke uses deterministic /tmp marker files and never records terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
+- [Phase 11-alpha]: Daily-driver UAT separates manual interactive terminal checks from a sanitized noninteractive command-availability helper.
+- [Phase 11-alpha]: The generated Xcode project is regenerated from project.yml when new GridOSApp source files are added.
 
 ## Decisions still open
 
@@ -241,10 +244,11 @@ Phase 11 Plan 02 is complete. Alpha execution has three pending plans covering d
 | Phase 10 total | 22min | 10 tasks | 23 files |
 | Phase 11 P01 | 2min | 2 tasks | 3 files |
 | Phase 11-alpha P02 | 3 min | 2 tasks | 4 files |
+| Phase 11-alpha P03 | 3 min | 2 tasks | 6 files |
 
 ## Next target
 
-Phase 11 Plan 03 - Daily-driver terminal correctness UAT
+Phase 11 Plan 04 - Feedback, known issues, and diagnostics policy
 
 ## Session handoff
 
@@ -377,4 +381,6 @@ Phase 11 Plan 03 - Daily-driver terminal correctness UAT
 - Summary file: `.planning/phases/11-alpha/11-01-SUMMARY.md`.
 - 2026-05-21: Phase 11 Plan 02 executed and verified with signed alpha build scripting, artifact verification scripting, release/evidence docs, and final syntax/source gates.
 - Summary file: `.planning/phases/11-alpha/11-02-SUMMARY.md`.
-- Stopped at: Completed 11-alpha-02-PLAN.md; execute `.planning/phases/11-alpha/11-03-PLAN.md` next.
+- 2026-05-21: Phase 11 Plan 03 executed and verified with DEBUG alpha terminal/workspace/privacy smoke, daily-driver UAT checklist, sanitized helper script, and final build/test plus syntax/source gates.
+- Summary file: `.planning/phases/11-alpha/11-03-SUMMARY.md`.
+- Stopped at: Completed 11-alpha-03-PLAN.md; execute `.planning/phases/11-alpha/11-04-PLAN.md` next.
