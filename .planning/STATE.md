@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 07 complete
-last_updated: "2026-05-21T00:35:25.105Z"
+status: Phase 08 planned
+last_updated: "2026-05-21T01:34:48.000Z"
 progress:
   total_phases: 15
   completed_phases: 8
-  total_plans: 20
+  total_plans: 24
   completed_plans: 20
 ---
 
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 8 - macOS integrations (context gathered; planning next)
+Phase 8 - macOS integrations (planned; execution next)
 
 ## Current status
 
-Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 context is gathered for Mac-native integrations: menu bar extra, local notifications, reusable Keychain-backed secret storage, and optional metadata-only indexing/preview foundations under the existing privacy and terminal-focus constraints. Phase 8 planning is next.
+Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 is planned across four executable waves for Mac-native integrations: reusable integration models/preferences and Keychain primitives, a lightweight menu bar companion plus Settings controls, explicit local notifications with deterministic smoke, and optional metadata-only indexing plus final evidence. Execution is next.
 
 ## Decisions made
 
@@ -79,6 +79,10 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 context is ga
 - [Phase 07-multi-pane-session-management]: Route Terminal menu actions, focus restoration, and Command Intelligence selected-text/insert/run behavior to the active pane only.
 - [Phase 07-multi-pane-session-management]: Restore layout, active pane, profile metadata, and last known working directories on relaunch, but never attempt to resurrect running shell processes.
 - [Phase 07-multi-pane-session-management]: Treat pane close/app quit process cleanup as a required evidence item; no orphaned shell processes after pane close or app quit.
+- [Phase 08-macos-integrations]: Implement the menu bar extra as a lightweight companion to the normal gridOS window, not a menu-bar-only replacement app.
+- [Phase 08-macos-integrations]: Keep notification permission explicit and local-only; do not prompt on first launch.
+- [Phase 08-macos-integrations]: Generalize reusable Keychain primitives in GridOSKit while keeping API keys out of AppStorage/UserDefaults/logs/snapshots/notifications/indexing.
+- [Phase 08-macos-integrations]: Treat Spotlight/preview work as optional metadata-only foundation; do not index terminal output, command history, prompts, secrets, environment variables, process args, or full paths.
 
 ## Decisions still open
 
@@ -160,6 +164,7 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 context is ga
 - 2026-05-20: Phase 07 Plan 05 executed and verified with DEBUG multi-pane/session smoke fixture, release launch helpers, final evidence log, full build/test, source gates, privacy checks, and diff check.
 - 2026-05-20: Phase 07 verification passed with 12/12 must-haves verified after live DEBUG multi-pane and session-restore smoke wrote all markers and left no gridOS process after quit.
 - 2026-05-20: Phase 08 context gathered for Mac-native integrations, with recommended defaults for lightweight menu bar companion, opt-in local notifications, reusable Keychain credential boundaries, optional metadata-only indexing/preview, and privacy-preserving verification.
+- 2026-05-21: Phase 08 research, validation strategy, UI design contract, and four executable plans created for macOS integrations.
 
 ## Performance metrics
 
@@ -183,7 +188,7 @@ Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 context is ga
 
 ## Next target
 
-Plan Phase 08: macOS integrations.
+Execute Phase 08: macOS integrations.
 
 ## Session handoff
 

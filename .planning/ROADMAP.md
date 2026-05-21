@@ -129,6 +129,13 @@ Exit criteria:
 
 - Menu bar extra, notifications, Keychain-backed secrets, and optional indexing/preview integrations are stable.
 
+Plans: 4 plans
+
+- [ ] 08-01-PLAN.md - Integration models, preferences, and Keychain foundation.
+- [ ] 08-02-PLAN.md - Menu bar extra and macOS Integrations Settings.
+- [ ] 08-03-PLAN.md - Local notifications and deterministic smoke.
+- [ ] 08-04-PLAN.md - Metadata-only indexing foundation and final evidence.
+
 ## Phase 9 - Performance hardening
 
 Status: pending
