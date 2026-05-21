@@ -373,6 +373,8 @@ Daily-driver Alpha UAT:
 
 Then complete the manual checklist in `.planning/phases/11-alpha/ALPHA-UAT.md` against the signed internal Alpha build when signing prerequisites are available. The helper records only command names, PASS/FAIL status, timestamps, and source commit; it does not capture terminal transcripts, shell history, raw command output, environment variables, API keys, prompts, generated commands, provider responses, screenshots, traces, or private file paths.
 
+Alpha issue triage uses `.planning/phases/11-alpha/ALPHA-FEEDBACK.md` for intake and `.planning/phases/11-alpha/KNOWN-ISSUES.md` for confirmed issues with severity, Alpha/Beta/Production blocker status, owner, target phase, status, and sanitized evidence. The release rule is: critical/high terminal correctness issues block Alpha signoff.
+
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
 ## Production distribution target

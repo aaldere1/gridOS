@@ -13,6 +13,10 @@
 
 Use the signed internal Alpha artifact when signing prerequisites are present. If signing is blocked, record `SIGNING_BLOCKED` and use the unsigned Debug build only for terminal correctness investigation.
 
+## Feedback loop
+
+Record raw internal tester observations in `ALPHA-FEEDBACK.md`, then promote confirmed items to `KNOWN-ISSUES.md` with severity, blocker status, owner, target phase, status, and sanitized evidence. Critical/high terminal correctness issues block Alpha signoff.
+
 ## Terminal correctness
 
 | Check | Steps | Result | Notes |
@@ -65,6 +69,8 @@ Run the noninteractive helper for command availability and fast output summary e
 The helper writes `.planning/phases/11-alpha/evidence/alpha-uat-summary.md`. Commit only sanitized text summaries. Do not commit screenshots, traces, raw terminal output, terminal transcripts, shell history, environment variables, API keys, prompts, generated commands, provider responses, private file paths, or build artifacts.
 
 ## Known issues
+
+Use `KNOWN-ISSUES.md` as the durable issue tracker. The table below is only a quick UAT signoff snapshot for issues discovered during this checklist.
 
 | ID | Severity | Alpha blocker | Description | Evidence |
 | --- | --- | --- | --- | --- |
