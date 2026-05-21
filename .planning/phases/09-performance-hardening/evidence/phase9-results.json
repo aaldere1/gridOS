@@ -1,6 +1,6 @@
 {
   "report": "PHASE9_PERFORMANCE_REPORT",
-  "generated_at": "2026-05-21T08:51:51Z",
+  "generated_at": "2026-05-21T08:53:31Z",
   "configuration": {
     "mode": "quick",
     "build_configuration": "Debug",
@@ -17,37 +17,39 @@
   "results": {
     "cold_start_ms": {
       "status": "PASS",
-      "observed": 88.373,
+      "observed": 87.424,
       "target": 500,
       "marker": "PHASE9_READY",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353486.362066,\n  \"finished_at\": 1779353486.362067,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353586.446091,\n  \"finished_at\": 1779353586.446092,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
       "notes": "App launch to Phase 9 ready marker."
     },
     "rss_mb": {
       "status": "MISS",
-      "observed": 110.12,
+      "observed": 110.42,
       "target": 100,
       "notes": "Resident set size sampled from ps after startup settle."
     },
     "idle_cpu_percent": {
       "status": "MISS",
-      "observed": 99.000,
+      "observed": 99.360,
       "target": 0.5,
       "notes": "Average of five ps CPU samples during a quiet window."
     },
     "input_latency_ms": {
       "status": "MISS",
       "observed": null,
+      "target": 5,
       "marker": "PHASE9_INPUT_LATENCY",
       "marker_payload": null,
-      "notes": "Fixture smoke result; measured latency is pending until Plan 09-03."
+      "notes": "Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured."
     },
     "heavy_output": {
       "status": "MISS",
       "observed": null,
+      "line_count": null,
       "marker": "PHASE9_HEAVY_OUTPUT_DONE",
       "marker_payload": null,
-      "notes": "Fixture smoke result; measured heavy-output stress is pending until Plan 09-03."
+      "notes": "Synthetic terminal markers only; no user shell output captured."
     },
     "frame_pacing": {
       "status": "MISS",

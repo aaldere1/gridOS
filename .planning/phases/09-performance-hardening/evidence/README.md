@@ -39,7 +39,7 @@ Outputs:
 ## Cold start
 
 - **Target:** < 500 ms
-- **Observed:** 88.373 ms
+- **Observed:** 87.424 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-ready-smoke`
 - **Notes:** App launch to Phase 9 ready marker.
@@ -47,7 +47,7 @@ Outputs:
 ## Resident memory
 
 - **Target:** < 100 MB
-- **Observed:** 110.12 MB
+- **Observed:** 110.42 MB
 - **Status:** MISS
 - **Command:** `ps -o rss= -p <gridOS pid>`
 - **Notes:** RSS sampled after a short startup settle window.
@@ -55,10 +55,26 @@ Outputs:
 ## Idle CPU
 
 - **Target:** < 0.5%
-- **Observed:** 99.000%
+- **Observed:** 99.360%
 - **Status:** MISS
 - **Command:** `ps -o %cpu= -p <gridOS pid>`
 - **Notes:** Average of five quiet-window samples.
+
+## Input latency
+
+- **Target:** < 5 ms
+- **Observed:** null ms
+- **Status:** MISS
+- **Command:** `gridOS --phase9-input-latency-smoke`
+- **Notes:** Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured.
+
+## Heavy output
+
+- **Target:** synthetic marker completes and writes PHASE9_HEAVY_OUTPUT_DONE
+- **Observed:** null ms, null synthetic lines
+- **Status:** MISS
+- **Command:** `gridOS --phase9-heavy-output-smoke`
+- **Notes:** Synthetic terminal markers only; no user shell output captured.
 
 ## Misses and mitigations
 

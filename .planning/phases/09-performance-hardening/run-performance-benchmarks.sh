@@ -33,6 +33,9 @@ FRAME_PACING_STATUS="pending"
 COLD_START_MS_OBSERVED="null"
 RSS_MB_OBSERVED="null"
 IDLE_CPU_PERCENT_OBSERVED="null"
+INPUT_LATENCY_MS_OBSERVED="null"
+HEAVY_OUTPUT_MS_OBSERVED="null"
+HEAVY_OUTPUT_LINE_COUNT="null"
 RSS_STATUS="pending"
 IDLE_CPU_STATUS="pending"
 MEASUREMENT_APP_PID=""
@@ -116,6 +119,24 @@ marker_payload_json_value() {
   fi
 
   printf '"%s"' "$(json_quote "$(cat "$marker_path")")"
+}
+
+json_number_field() {
+  local path="$1"
+  local field="$2"
+
+  if [[ ! -f "$path" ]]; then
+    printf 'null'
+    return 0
+  fi
+
+  local value
+  value="$(/usr/bin/perl -ne 'BEGIN { $field = shift @ARGV } if (/"\Q$field\E": ([0-9.]+)/) { print $1; exit }' "$field" "$path")"
+  if [[ -n "$value" ]]; then
+    printf "%s" "$value"
+  else
+    printf 'null'
+  fi
 }
 
 resolved_app_binary_json_value() {
@@ -274,6 +295,25 @@ measure_idle_cpu() {
   IDLE_CPU_STATUS="$(status_for_numeric_target "$IDLE_CPU_PERCENT_OBSERVED" "$TARGET_IDLE_CPU_PERCENT")"
 }
 
+measure_input_latency() {
+  INPUT_LATENCY_STATUS="$(run_app_marker_smoke "--phase9-input-latency-smoke" "$INPUT_LATENCY_MARKER_PATH" 8)"
+  INPUT_LATENCY_MS_OBSERVED="$(json_number_field "$INPUT_LATENCY_MARKER_PATH" "elapsed_ms")"
+
+  if [[ "$INPUT_LATENCY_STATUS" == "PASS" ]]; then
+    INPUT_LATENCY_STATUS="$(status_for_numeric_target "$INPUT_LATENCY_MS_OBSERVED" "$TARGET_INPUT_LATENCY_MS")"
+  fi
+}
+
+measure_heavy_output() {
+  HEAVY_OUTPUT_STATUS="$(run_app_marker_smoke "--phase9-heavy-output-smoke" "$HEAVY_OUTPUT_MARKER_PATH" 10)"
+  HEAVY_OUTPUT_MS_OBSERVED="$(json_number_field "$HEAVY_OUTPUT_MARKER_PATH" "elapsed_ms")"
+  HEAVY_OUTPUT_LINE_COUNT="$(json_number_field "$HEAVY_OUTPUT_MARKER_PATH" "line_count")"
+
+  if [[ "$HEAVY_OUTPUT_STATUS" == "PASS" ]] && ! grep -q "$PHASE9_HEAVY_OUTPUT_DONE" "$HEAVY_OUTPUT_MARKER_PATH"; then
+    HEAVY_OUTPUT_STATUS="MISS"
+  fi
+}
+
 cleanup_measurement_app() {
   if [[ -n "$MEASUREMENT_APP_PID" ]]; then
     terminate_launched_pid "$MEASUREMENT_APP_PID"
@@ -384,17 +424,19 @@ write_json_report() {
     },
     "input_latency_ms": {
       "status": "$INPUT_LATENCY_STATUS",
-      "observed": null,
+      "observed": $INPUT_LATENCY_MS_OBSERVED,
+      "target": $TARGET_INPUT_LATENCY_MS,
       "marker": "$PHASE9_INPUT_LATENCY",
       "marker_payload": $(marker_payload_json_value "$INPUT_LATENCY_MARKER_PATH"),
-      "notes": "Fixture smoke result; measured latency is pending until Plan 09-03."
+      "notes": "Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured."
     },
     "heavy_output": {
       "status": "$HEAVY_OUTPUT_STATUS",
-      "observed": null,
+      "observed": $HEAVY_OUTPUT_MS_OBSERVED,
+      "line_count": $HEAVY_OUTPUT_LINE_COUNT,
       "marker": "$PHASE9_HEAVY_OUTPUT_DONE",
       "marker_payload": $(marker_payload_json_value "$HEAVY_OUTPUT_MARKER_PATH"),
-      "notes": "Fixture smoke result; measured heavy-output stress is pending until Plan 09-03."
+      "notes": "Synthetic terminal markers only; no user shell output captured."
     },
     "frame_pacing": {
       "status": "$FRAME_PACING_STATUS",
@@ -475,6 +517,22 @@ Outputs:
 - **Command:** \`ps -o %cpu= -p <gridOS pid>\`
 - **Notes:** Average of five quiet-window samples.
 
+## Input latency
+
+- **Target:** < ${TARGET_INPUT_LATENCY_MS} ms
+- **Observed:** ${INPUT_LATENCY_MS_OBSERVED} ms
+- **Status:** ${INPUT_LATENCY_STATUS}
+- **Command:** \`gridOS --phase9-input-latency-smoke\`
+- **Notes:** Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured.
+
+## Heavy output
+
+- **Target:** synthetic marker completes and writes ${PHASE9_HEAVY_OUTPUT_DONE}
+- **Observed:** ${HEAVY_OUTPUT_MS_OBSERVED} ms, ${HEAVY_OUTPUT_LINE_COUNT} synthetic lines
+- **Status:** ${HEAVY_OUTPUT_STATUS}
+- **Command:** \`gridOS --phase9-heavy-output-smoke\`
+- **Notes:** Synthetic terminal markers only; no user shell output captured.
+
 ## Misses and mitigations
 
 | Metric | Status | Owner | Mitigation |
@@ -512,8 +570,8 @@ main() {
   measure_resident_memory
   measure_idle_cpu
   cleanup_measurement_app
-  run_input_latency_smoke
-  run_heavy_output_smoke
+  measure_input_latency
+  measure_heavy_output
   run_frame_pacing_smoke
   write_json_report
   write_markdown_report
