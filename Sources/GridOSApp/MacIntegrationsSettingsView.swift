@@ -23,9 +23,9 @@ struct MacIntegrationsSettingsView: View {
 
     var body: some View {
         Section("macOS Integrations") {
-            Toggle("Show Menu Bar Extra", isOn: $showMenuBarExtra)
-                .accessibilityLabel("Show Menu Bar Extra")
-                .accessibilityValue(showMenuBarExtra ? "On" : "Off")
+            if GridOSAppPreferences.menuBarExtraAvailable {
+                menuBarExtraToggle
+            }
 
             Toggle("Notify when long-running work finishes", isOn: $notificationsEnabled)
                 .accessibilityLabel("Notify when long-running work finishes")
@@ -62,6 +62,12 @@ struct MacIntegrationsSettingsView: View {
         .task {
             await refreshNotificationStatus()
         }
+    }
+
+    private var menuBarExtraToggle: some View {
+        Toggle("Show Menu Bar Extra", isOn: $showMenuBarExtra)
+            .accessibilityLabel("Show Menu Bar Extra")
+            .accessibilityValue(showMenuBarExtra ? "On" : "Off")
     }
 
     private var notificationStatusText: String {

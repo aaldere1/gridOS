@@ -6,11 +6,6 @@ import TerminalCore
 
 @main
 struct GridOSApplication: App {
-    @AppStorage(GridOSAppPreferences.showMenuBarExtraStorageKey)
-    private var showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
-
-    @StateObject private var macIntegrationsController = MacIntegrationsController()
-
     #if DEBUG
     init() {
         let arguments = ProcessInfo.processInfo.arguments
@@ -46,10 +41,7 @@ struct GridOSApplication: App {
             SettingsView()
         }
 
-        MenuBarExtra("gridOS", systemImage: "terminal", isInserted: $showMenuBarExtra) {
-            MenuBarExtraView(controller: macIntegrationsController)
-        }
-        .menuBarExtraStyle(.menu)
+        // Alpha launch stability: keep MenuBarExtra out of the scene graph until the SwiftUI scene loop is fixed.
     }
 }
 

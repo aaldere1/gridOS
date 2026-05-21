@@ -66,7 +66,8 @@ project_setting() {
       print
       exit
     }
-  ' "$ROOT_DIR/project.yml" | sed -E 's/^"?(.*?)"?$/\1/'
+  ' "$ROOT_DIR/project.yml" |
+    sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//; s/^"//; s/"$//'
 }
 
 plist_value() {

@@ -3,10 +3,10 @@ import GridOSKit
 @testable import Integrations
 
 final class MacIntegrationModelsTests: XCTestCase {
-    func testDefaultPreferencesEnableMenuBarOnly() {
+    func testDefaultPreferencesStartWithOptInIntegrationsDisabled() {
         let preferences = MacIntegrationPreferences.defaultValue
 
-        XCTAssertTrue(preferences.showMenuBarExtra)
+        XCTAssertFalse(preferences.showMenuBarExtra)
         XCTAssertFalse(preferences.notificationsEnabled)
         XCTAssertFalse(preferences.indexWorkspaceMetadata)
         XCTAssertEqual(GridOSAppPreferences.showMenuBarExtraStorageKey, "integrations.showMenuBarExtra")

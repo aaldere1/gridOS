@@ -131,7 +131,8 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.showMenuBarExtraStorageKey, "integrations.showMenuBarExtra")
         XCTAssertEqual(GridOSAppPreferences.notificationsEnabledStorageKey, "integrations.notificationsEnabled")
         XCTAssertEqual(GridOSAppPreferences.indexWorkspaceMetadataStorageKey, "integrations.indexWorkspaceMetadata")
-        XCTAssertTrue(GridOSAppPreferences.defaultShowMenuBarExtra)
+        XCTAssertFalse(GridOSAppPreferences.menuBarExtraAvailable)
+        XCTAssertFalse(GridOSAppPreferences.defaultShowMenuBarExtra)
         XCTAssertFalse(GridOSAppPreferences.defaultNotificationsEnabled)
         XCTAssertFalse(GridOSAppPreferences.defaultIndexWorkspaceMetadata)
 

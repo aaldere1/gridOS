@@ -18,8 +18,15 @@ struct WindowFrameController: NSViewRepresentable {
 @MainActor
 final class WindowFrameHostView: NSView {
     private var autosaveName: String?
+    private weak var configuredWindow: NSWindow?
+    private var configuredAutosaveName: String?
 
     func configure(autosaveName: String) {
+        guard self.autosaveName != autosaveName else {
+            configureWindowIfAvailable()
+            return
+        }
+
         self.autosaveName = autosaveName
 
         DispatchQueue.main.async { [weak self] in
@@ -37,6 +44,10 @@ final class WindowFrameHostView: NSView {
             return
         }
 
+        if configuredWindow === window, configuredAutosaveName == autosaveName {
+            return
+        }
+
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
         window.minSize = NSSize(width: 960, height: 640)
@@ -45,5 +56,8 @@ final class WindowFrameHostView: NSView {
         } else {
             window.setFrameAutosaveName(autosaveName)
         }
+
+        configuredWindow = window
+        configuredAutosaveName = autosaveName
     }
 }

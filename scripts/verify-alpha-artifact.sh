@@ -172,19 +172,19 @@ mkdir -p "$EVIDENCE_DIR"
 
 {
   printf '# Alpha artifact verification\n\n'
-  printf '- Timestamp UTC: %s\n' "$TIMESTAMP_UTC"
-  printf '- Alpha artifact manifest: %s\n' "$MANIFEST_FILE"
-  printf '- Artifact basename: %s\n' "$ARTIFACT_BASENAME"
-  printf '- Input type: %s\n' "$INPUT_TYPE"
-  printf '- ZIP SHA-256: %s\n' "$ZIP_CHECKSUM"
-  printf '- App bundle SHA-256: %s\n' "$APP_CHECKSUM"
-  printf '- Verification command: codesign --verify --deep --strict --verbose=2\n'
-  printf '- codesign status: %s\n' "$CODESIGN_STATUS"
-  printf '- Bundle ID: %s\n' "$BUNDLE_ID"
-  printf '- Version: %s\n' "$VERSION"
-  printf '- Build: %s\n' "$BUILD"
-  printf '- Notarization: deferred to Phase 12\n'
-  printf '- Result: %s\n\n' "$RESULT"
+  printf -- '- Timestamp UTC: %s\n' "$TIMESTAMP_UTC"
+  printf -- '- Alpha artifact manifest: %s\n' "$MANIFEST_FILE"
+  printf -- '- Artifact basename: %s\n' "$ARTIFACT_BASENAME"
+  printf -- '- Input type: %s\n' "$INPUT_TYPE"
+  printf -- '- ZIP SHA-256: %s\n' "$ZIP_CHECKSUM"
+  printf -- '- App bundle SHA-256: %s\n' "$APP_CHECKSUM"
+  printf -- '- Verification command: codesign --verify --deep --strict --verbose=2\n'
+  printf -- '- codesign status: %s\n' "$CODESIGN_STATUS"
+  printf -- '- Bundle ID: %s\n' "$BUNDLE_ID"
+  printf -- '- Version: %s\n' "$VERSION"
+  printf -- '- Build: %s\n' "$BUILD"
+  printf -- '- Notarization: deferred to Phase 12\n'
+  printf -- '- Result: %s\n\n' "$RESULT"
   printf '## Sanitized codesign -dv metadata\n\n'
   printf '```text\n'
   printf '%s\n' "$CODESIGN_METADATA"

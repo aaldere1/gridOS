@@ -15,7 +15,8 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultInstallSeedRawValue = ""
     public static let defaultCommandIntelligenceProviderID = "anthropic"
     public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-6"
-    public static let defaultShowMenuBarExtra = true
+    public static let menuBarExtraAvailable = false
+    public static let defaultShowMenuBarExtra = false
     public static let defaultNotificationsEnabled = false
     public static let defaultIndexWorkspaceMetadata = false
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
