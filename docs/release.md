@@ -455,8 +455,10 @@ scripts/build-beta.sh
 
 The build script writes ZIP and DMG artifacts under `build/beta` by default and
 writes `.planning/phases/12-beta/evidence/beta-artifact-manifest.md` with
-artifact basenames, checksums, version/build, source commit, signing presence,
-hardened-runtime status, and next commands.
+artifact basenames, pre-notarization checksums, version/build, source commit,
+signing presence, hardened-runtime status, and next commands. The final
+distribution checksum after stapling is recorded in
+`.planning/phases/12-beta/beta-release-manifest.json`.
 
 Beta notarization:
 

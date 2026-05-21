@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Beta blocked; notary Keychain profile missing
-last_updated: "2026-05-21T21:37:12Z"
+status: Phase 12 Beta blocked; clean-Mac and update-flow proof pending
+last_updated: "2026-05-21T22:02:33Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 12 - Beta (blocked pending notary Keychain profile)
+Phase 12 - Beta (blocked pending clean-Mac and update-flow proof)
 
 ## Current status
 
-Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, release scripts, manual update docs, first-run privacy UI, feedback/known-issues flow, and unsigned Xcode build/test gates pass. External Beta cannot ship because notarization is blocked until a notary credential mode is configured, so no notarized/stapled artifact or clean-Mac Gatekeeper UAT proof exists. Local Developer ID signing is available and Beta scripts now resolve signing identity/team from the local codesigning identity when env overrides are absent. The remaining blocker is the missing `gridOS-beta` notarytool Keychain profile, recorded in `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` as `BLOCKER=notarytool_keychain_profile_missing`. The unblock path is `docs/notarization-setup.md`, `scripts/setup-beta-notary-profile.sh`, and `scripts/check-beta-notary-profile.sh`. See `.planning/phases/12-beta/12-VERIFICATION.md`, `.planning/phases/12-beta/BETA-UAT.md`, and `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
+Phase 12 execution produced a signed, notarized, stapled, locally Gatekeeper-verified Beta DMG: `build/beta/gridOS-0.1.0-1-20b35f0.dmg`, SHA-256 `253467b61b934d633a4d3f703532e7fdf1f59a4ff2636df5fc79289384b7967a`. Notary profile check, Beta preflight, notarization, stapling, artifact verification, release manifest generation, and local notarized launch smoke pass. External Beta signoff remains `BLOCKED` until clean-Mac Finder/Gatekeeper UAT and a Beta N to Beta N+1 update-flow proof are completed. See `.planning/phases/12-beta/12-VERIFICATION.md`, `.planning/phases/12-beta/BETA-UAT.md`, `.planning/phases/12-beta/evidence/beta-notarization.md`, `.planning/phases/12-beta/evidence/beta-artifact-verification.md`, `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md`, and `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
 
 ## Decisions made
 
@@ -224,6 +224,7 @@ Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, relea
 - 2026-05-21: Phase 12 Plan 03 executed and verified with Beta release manifest writer, placeholder manifest, distribution/update/rollback guide, and clean-Mac Gatekeeper UAT checklist.
 - 2026-05-21: Phase 12 Plan 04 executed and verified with first-run Beta privacy disclosure, Settings review/support copy, feedback template, known-issues tracker, privacy docs, and full unsigned Xcode tests.
 - 2026-05-21: Phase 12 Plan 05 executed with final Beta verification status `BLOCKED`; source gates pass, but notarization, stapling, clean-Mac Gatekeeper UAT, and update-flow proof require a notary credential mode and notarized artifacts.
+- 2026-05-21: Phase 12 notary blocker cleared; `gridOS-0.1.0-1-20b35f0.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Remaining blockers are clean-Mac Finder/Gatekeeper UAT and Beta N to N+1 update proof.
 
 ## Performance metrics
 
@@ -271,7 +272,7 @@ Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, relea
 
 ## Next target
 
-Create the `gridOS-beta` notarytool Keychain profile with `scripts/setup-beta-notary-profile.sh`, confirm it with `scripts/check-beta-notary-profile.sh`, then rerun Beta build/notarize/verify and clean-Mac Gatekeeper UAT.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-1-20b35f0.dmg`, then produce a second notarized Beta artifact and verify the Beta N to N+1 update flow.
 
 ## Session handoff
 
@@ -434,4 +435,7 @@ Create the `gridOS-beta` notarytool Keychain profile with `scripts/setup-beta-no
 - Phase 12 notary profile helpers: `scripts/setup-beta-notary-profile.sh`, `scripts/check-beta-notary-profile.sh`.
 - Phase 12 notary profile check evidence: `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt`.
 - Phase 12 signing discovery: Beta scripts resolve `GRIDOS_SIGNING_IDENTITY` from the local Developer ID Application identity and derive `GRIDOS_DEVELOPMENT_TEAM` from that identity when env overrides are absent.
-- Stopped at: Phase 12 Beta blocked because the `gridOS-beta` notarytool Keychain profile is not stored in Keychain.
+- Phase 12 notarization evidence: `.planning/phases/12-beta/evidence/beta-notarization.md`.
+- Phase 12 artifact verification evidence: `.planning/phases/12-beta/evidence/beta-artifact-verification.md`.
+- Phase 12 local launch smoke evidence: `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md`.
+- Stopped at: Phase 12 Beta blocked pending clean-Mac Finder/Gatekeeper UAT and Beta N to N+1 update-flow proof.

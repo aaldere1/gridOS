@@ -201,8 +201,9 @@ Exit criteria:
 
 - Developer ID signed, hardened, notarized distribution and update flow work on a clean Mac.
 
-Blocked: source work is complete, but Beta cannot pass until a notary credential
-mode is configured and clean-Mac Gatekeeper UAT passes. See
+Blocked: signed/notarized/stapled artifact verification passes, but Beta cannot
+pass until clean-Mac Finder/Gatekeeper UAT and Beta N to N+1 update-flow proof
+are complete. See
 `.planning/phases/12-beta/12-VERIFICATION.md`.
 
 Plans: 5 plans

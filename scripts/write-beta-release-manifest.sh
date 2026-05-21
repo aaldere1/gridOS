@@ -63,6 +63,15 @@ file_checksum() {
   shasum -a 256 "$path" | awk '{ print $1 }'
 }
 
+evidence_status() {
+  local path="$1"
+  if [[ -f "$path" ]] && grep -q -- '- Result: PASS' "$path"; then
+    printf 'pass'
+  else
+    printf 'pending'
+  fi
+}
+
 bundle_checksum() {
   local app_path="$1"
   find "$app_path" -type f -print |
@@ -99,7 +108,7 @@ extract_single_gridos_app() {
     exit 1
   fi
 
-  printf '%s\n' "$TMP_EXTRACT_DIR/gridOS.app"
+  APP_PATH="$TMP_EXTRACT_DIR/gridOS.app"
 }
 
 mount_single_gridos_app() {
@@ -116,8 +125,7 @@ mount_single_gridos_app() {
     exit 1
   fi
 
-  app_path="$(find "$DMG_MOUNT_POINT" -maxdepth 1 -name 'gridOS.app' -type d -print | head -1)"
-  printf '%s\n' "$app_path"
+  APP_PATH="$(find "$DMG_MOUNT_POINT" -maxdepth 1 -name 'gridOS.app' -type d -print | head -1)"
 }
 
 json_escape() {
@@ -141,12 +149,12 @@ case "$INPUT_ABS" in
   *.zip)
     ARTIFACT_TYPE="zip"
     ARTIFACT_SHA256="$(file_checksum "$INPUT_ABS")"
-    APP_PATH="$(extract_single_gridos_app "$INPUT_ABS")"
+    extract_single_gridos_app "$INPUT_ABS"
     ;;
   *.dmg)
     ARTIFACT_TYPE="dmg"
     ARTIFACT_SHA256="$(file_checksum "$INPUT_ABS")"
-    APP_PATH="$(mount_single_gridos_app "$INPUT_ABS")"
+    mount_single_gridos_app "$INPUT_ABS"
     ;;
   *)
     echo "BETA_MANIFEST_BLOCKED: pass a .app bundle, .zip artifact, or .dmg artifact" >&2
@@ -166,6 +174,8 @@ VERSION="$(plist_value "$INFO_PLIST" CFBundleShortVersionString)"
 BUILD="$(plist_value "$INFO_PLIST" CFBundleVersion)"
 SOURCE_COMMIT="$(git -C "$ROOT_DIR" rev-parse --short HEAD)"
 GENERATED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+NOTARIZATION_STATUS="$(evidence_status "$ROOT_DIR/.planning/phases/12-beta/evidence/beta-notarization.md")"
+GATEKEEPER_STATUS="$(evidence_status "$ROOT_DIR/.planning/phases/12-beta/evidence/beta-artifact-verification.md")"
 
 mkdir -p "$(dirname "$MANIFEST_FILE")"
 
@@ -184,11 +194,11 @@ cat > "$MANIFEST_FILE" <<EOF
   "sourceCommit": "$(json_escape "$SOURCE_COMMIT")",
   "generatedAt": "$(json_escape "$GENERATED_AT")",
   "notarization": {
-    "status": "pending",
+    "status": "$(json_escape "$NOTARIZATION_STATUS")",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
-    "status": "pending",
+    "status": "$(json_escape "$GATEKEEPER_STATUS")",
     "evidence": ".planning/phases/12-beta/evidence/beta-artifact-verification.md"
   },
   "releaseNotes": "docs/beta-distribution.md",

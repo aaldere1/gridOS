@@ -101,7 +101,7 @@ extract_single_gridos_app() {
     exit 1
   fi
 
-  printf '%s\n' "$TMP_EXTRACT_DIR/gridOS.app"
+  APP_PATH="$TMP_EXTRACT_DIR/gridOS.app"
 }
 
 mount_single_gridos_app() {
@@ -118,8 +118,7 @@ mount_single_gridos_app() {
     exit 1
   fi
 
-  app_path="$(find "$DMG_MOUNT_POINT" -maxdepth 1 -name 'gridOS.app' -type d -print | head -1)"
-  printf '%s\n' "$app_path"
+  APP_PATH="$(find "$DMG_MOUNT_POINT" -maxdepth 1 -name 'gridOS.app' -type d -print | head -1)"
 }
 
 sanitized_codesign_metadata() {
@@ -159,13 +158,13 @@ case "$INPUT_ABS" in
   *.zip)
     INPUT_TYPE="zip"
     ARTIFACT_CHECKSUM="$(file_checksum "$INPUT_ABS")"
-    APP_PATH="$(extract_single_gridos_app "$INPUT_ABS")"
+    extract_single_gridos_app "$INPUT_ABS"
     STAPLER_TARGET="$APP_PATH"
     ;;
   *.dmg)
     INPUT_TYPE="dmg"
     ARTIFACT_CHECKSUM="$(file_checksum "$INPUT_ABS")"
-    APP_PATH="$(mount_single_gridos_app "$INPUT_ABS")"
+    mount_single_gridos_app "$INPUT_ABS"
     STAPLER_TARGET="$INPUT_ABS"
     ;;
   *)
