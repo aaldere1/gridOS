@@ -155,7 +155,7 @@ Plans: 4 plans
 
 ## Phase 10 - Security and privacy hardening
 
-Status: in-progress
+Status: complete
 
 Goal: make a terminal plus LLM app trustworthy.
 
@@ -169,7 +169,7 @@ Plans: 5 plans
 - [x] 10-02-PLAN.md - LLM context, redaction, provider-boundary, and failure privacy hardening.
 - [x] 10-03-PLAN.md - Command-risk classifier and app run-policy hardening.
 - [x] 10-04-PLAN.md - Keychain, preference, persistence, indexing, notification, and evidence privacy gates.
-- [ ] 10-05-PLAN.md - Dependency/license review, hardened runtime compatibility, final evidence, and phase signoff.
+- [x] 10-05-PLAN.md - Dependency/license review, hardened runtime compatibility, final evidence, and phase signoff.
 
 ## Phase 11 - Alpha
 
