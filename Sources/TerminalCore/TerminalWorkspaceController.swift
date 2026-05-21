@@ -103,6 +103,10 @@ public final class TerminalWorkspaceController: ObservableObject {
         controller(for: activePaneID).focusTerminal()
     }
 
+    public func isActivePaneProcessRunning() -> Bool {
+        controller(for: activePaneID).isProcessRunning()
+    }
+
     public func copyActivePaneSelection() {
         controller(for: activePaneID).copySelection()
     }

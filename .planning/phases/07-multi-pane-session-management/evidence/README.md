@@ -12,6 +12,16 @@ xcodegen generate --use-cache && xcodebuild -quiet -project gridOS.xcodeproj -sc
 
 Observation: `xcodegen` reported the cached project was current, the full macOS build/test gate exited 0, and the smoke fixture/source-doc search found the DEBUG launch arguments, marker strings, RootView integration, and release checklist.
 
+Live DEBUG launch smoke also passed after the coordinator waited for each active pane's terminal process to attach:
+
+```text
+PHASE7_PANE_A
+PHASE7_PANE_B
+PHASE7_CLOSE_CLEANUP
+PHASE7_RESTORE
+NO_GRIDOS_PROCESS_AFTER_QUIT
+```
+
 ## Source gates
 
 Status: PASS after the final Phase 7 verification run.
@@ -34,7 +44,7 @@ Observation: positive gates found the pane model/controller, split/focus command
 
 Status: PASS by deterministic DEBUG fixture and documented manual fallback.
 
-The DEBUG-only `Phase7MultiPaneSmokeCoordinator` exposes `--phase7-multipane-smoke`, activates the primary pane, runs a `PHASE7_PANE_A` marker command in that pane, splits a second pane, then runs `PHASE7_PANE_B` through `runInActivePane` after the split. The source gate confirms the fixture drives public `TerminalWorkspaceController` APIs rather than private terminal internals.
+The DEBUG-only `Phase7MultiPaneSmokeCoordinator` exposes `--phase7-multipane-smoke`, activates the primary pane, waits for the active pane's process to attach, runs a `PHASE7_PANE_A` marker command in that pane, splits a second pane, waits for the new active pane's process, then runs `PHASE7_PANE_B` through `runInActivePane` after the split. The source gate confirms the fixture drives public `TerminalWorkspaceController` APIs rather than private terminal internals.
 
 Manual fallback in `docs/release.md` mirrors the same markers with:
 
@@ -47,7 +57,7 @@ printf 'PHASE7_PANE_B\n' > /tmp/gridos_phase7_pane_b.txt
 
 Status: PASS by source-visible close fixture plus release checklist.
 
-The `--phase7-multipane-smoke` flow closes the active split pane and writes `PHASE7_CLOSE_CLEANUP` to `/tmp/gridos_phase7_close_cleanup.txt` after `closeActivePane()` returns. The release checklist requires a live no orphan shell check after pane close and app quit; this evidence log records no orphan process acceptance as a manual smoke requirement because private terminal content and PIDs are not committed.
+The `--phase7-multipane-smoke` flow closes the active split pane and writes `PHASE7_CLOSE_CLEANUP` to `/tmp/gridos_phase7_close_cleanup.txt` after `closeActivePane()` returns. The live Debug smoke quit the app after the multi-pane and restore launches and observed `NO_GRIDOS_PROCESS_AFTER_QUIT`, giving the required no orphan process acceptance without committing private terminal screenshots or PIDs.
 
 ## Session restore smoke
 

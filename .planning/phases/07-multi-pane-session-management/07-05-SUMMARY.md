@@ -57,6 +57,7 @@ completed: 2026-05-21T00:30:30Z
 - Added `Phase7MultiPaneSmokeCoordinator`, compiled only under `#if DEBUG`, with `--phase7-multipane-smoke` and `--phase7-session-restore-smoke` launch arguments.
 - Wired `RootView` to start the smoke coordinator only when the DEBUG launch arguments are present.
 - Added marker coverage for `PHASE7_PANE_A`, `PHASE7_PANE_B`, `PHASE7_CLOSE_CLEANUP`, and `PHASE7_RESTORE`.
+- Added active-pane process readiness waiting so the live Debug smoke does not race a newly split pane before SwiftUI mounts its terminal surface.
 - Updated `docs/release.md` with exact DEBUG launch commands and a manual fallback for pane targeting, close cleanup, relaunch restore, and no orphan shell checks.
 - Added `.planning/phases/07-multi-pane-session-management/evidence/README.md` with automated gate, source gates, active-pane smoke, process cleanup smoke, session restore smoke, Command Intelligence smoke, and known limitations.
 
@@ -94,11 +95,23 @@ git diff --check
 
 ## Deviations from Plan
 
-None.
+### Auto-fixed Issues
+
+**1. [Rule 1 - Bug] Waited for the new pane terminal before writing the second smoke marker**
+- **Found during:** Live `--phase7-multipane-smoke` launch.
+- **Issue:** The source-visible fixture split pane B and immediately called `runInActivePane`, which could happen before SwiftUI mounted the pane's `TerminalSurface`; `PHASE7_PANE_B` was missing while pane A, close cleanup, and restore markers passed.
+- **Fix:** Added `TerminalWorkspaceController.isActivePaneProcessRunning()` and made the DEBUG smoke coordinator wait for each active pane process before sending marker commands.
+- **Files modified:** `Sources/TerminalCore/TerminalWorkspaceController.swift`, `Sources/GridOSApp/Phase7MultiPaneSmokeCoordinator.swift`, `Tests/TerminalCoreTests/TerminalWorkspaceControllerTests.swift`.
+- **Verification:** Focused `TerminalWorkspaceControllerTests`, full `xcodebuild ... build test`, live multi-pane smoke, live restore smoke, and no-process-after-quit check passed.
+
+---
+
+**Total deviations:** 1 auto-fixed (Rule 1)
+**Impact on plan:** Improved deterministic live smoke reliability without changing Release behavior.
 
 ## Issues Encountered
 
-None.
+The initial live multi-pane launch wrote `PHASE7_PANE_A` and `PHASE7_CLOSE_CLEANUP` but missed `PHASE7_PANE_B` due to the pane-attachment race described above. The follow-up live launch wrote all expected markers.
 
 ## User Setup Required
 

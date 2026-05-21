@@ -118,6 +118,22 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(secondary.focusRequestCount, 0)
     }
 
+    func testActivePaneProcessRunningReflectsAttachedTerminal() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        XCTAssertFalse(workspace.isActivePaneProcessRunning())
+
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        XCTAssertTrue(workspace.isActivePaneProcessRunning())
+
+        workspace.terminateActivePane()
+
+        XCTAssertFalse(workspace.isActivePaneProcessRunning())
+    }
+
     func testResizeActivePaneAdjustsMatchingSplitFraction() {
         let workspace = fixtureWorkspace()
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")

@@ -41,10 +41,13 @@ struct Phase7MultiPaneSmokeCoordinator {
 
     private func runMultiPaneSmoke() async {
         workspaceController.activatePane("primary")
+        await waitForActivePaneProcess()
         workspaceController.runInActivePane(markerCommand(Self.paneAMarker, path: "/tmp/gridos_phase7_pane_a.txt"))
         await pauseForShell()
 
         workspaceController.splitActivePane(axis: .horizontal, newPaneID: "phase7-pane-b")
+        await waitForActivePaneProcess()
+        workspaceController.focusActivePane()
         workspaceController.runInActivePane(markerCommand(Self.paneBMarker, path: "/tmp/gridos_phase7_pane_b.txt"))
         await pauseForShell()
 
@@ -54,6 +57,7 @@ struct Phase7MultiPaneSmokeCoordinator {
     }
 
     private func runSessionRestoreSmoke() async {
+        await waitForActivePaneProcess()
         workspaceController.runInActivePane(markerCommand(Self.restoreMarker, path: "/tmp/gridos_phase7_restore.txt"))
         await pauseForShell()
         saveWorkspace()
@@ -69,6 +73,16 @@ struct Phase7MultiPaneSmokeCoordinator {
 
     private func pauseForShell() async {
         try? await Task.sleep(nanoseconds: 700_000_000)
+    }
+
+    private func waitForActivePaneProcess() async {
+        for _ in 0..<24 {
+            if workspaceController.isActivePaneProcessRunning() {
+                return
+            }
+
+            try? await Task.sleep(nanoseconds: 250_000_000)
+        }
     }
 }
 #endif
