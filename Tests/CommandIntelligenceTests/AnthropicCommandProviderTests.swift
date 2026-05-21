@@ -25,12 +25,62 @@ final class AnthropicCommandProviderTests: XCTestCase {
         XCTAssertEqual(payload?["model"] as? String, "claude-sonnet-4-6")
         XCTAssertEqual(payload?["max_tokens"] as? Int, 1200)
 
-        let messages = try XCTUnwrap(payload?["messages"] as? [[String: Any]])
-        XCTAssertEqual(messages.first?["role"] as? String, "user")
-        let content = try XCTUnwrap(messages.first?["content"] as? String)
+        let content = try Self.userMessageContent(from: payload)
         XCTAssertTrue(content.contains("approvedPreview"))
         XCTAssertTrue(content.contains("List Swift files"))
         XCTAssertFalse(content.contains("raw shell context"))
+    }
+
+    func testAnthropicRequestUsesApprovedPreviewWithoutRawInputFields() async throws {
+        let transport = MockAnthropicHTTPTransport(
+            result: .success(Self.validAnthropicResponse())
+        )
+        let provider = AnthropicCommandProvider(transport: transport)
+        let request = LLMCommandRequest(
+            providerID: .anthropic,
+            flow: .failedCommandHelp,
+            approvedPreview: ApprovedCommandContextPayload(
+                redactedBlocks: [
+                    ApprovedCommandContextBlock(
+                        source: .prompt,
+                        label: "User Prompt",
+                        redactedText: "Explain deployment failure with [REDACTED API KEY]",
+                        characterCount: "Explain deployment failure with sk-ant-raw-input-secret".count
+                    ),
+                    ApprovedCommandContextBlock(
+                        source: .selectedOutput,
+                        label: "Selected or Pasted Output",
+                        redactedText: "Authorization: Bearer [REDACTED BEARER TOKEN]",
+                        characterCount: "Authorization: Bearer sk-ant-should-not-leak".count
+                    )
+                ],
+                includedContextSourceLabels: ["User Prompt", "Selected or Pasted Output"],
+                redactionSummaries: [
+                    CommandRedactionSummary(label: "API key", count: 1),
+                    CommandRedactionSummary(label: "Bearer token", count: 1)
+                ],
+                blockedReasons: []
+            )
+        )
+
+        _ = try await provider.complete(request, apiKey: "sk-ant-should-not-leak")
+
+        let requests = await transport.recordedRequests()
+        let sentRequest = try XCTUnwrap(requests.first)
+        let body = try XCTUnwrap(sentRequest.httpBody)
+        let payload = try JSONSerialization.jsonObject(with: body) as? [String: Any]
+        let content = try Self.userMessageContent(from: payload)
+
+        XCTAssertTrue(content.contains("approvedPreview"))
+        XCTAssertTrue(content.contains("Use only the approvedPreview payload above"))
+        XCTAssertTrue(content.contains("[REDACTED API KEY]"))
+        XCTAssertTrue(content.contains("[REDACTED BEARER TOKEN]"))
+        XCTAssertFalse(content.contains("CommandAssistanceInput"))
+        XCTAssertFalse(content.contains("userPrompt"))
+        XCTAssertFalse(content.contains("selectedOrPastedOutput"))
+        XCTAssertFalse(content.contains("failedCommandOutput"))
+        XCTAssertFalse(content.contains("sk-ant-raw-input-secret"))
+        XCTAssertFalse(content.contains("sk-ant-should-not-leak"))
     }
 
     func testSuccessfulResponseDecodesStructuredJSON() async throws {
@@ -92,7 +142,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
             XCTFail("Expected offline failure")
         } catch let failure as CommandIntelligenceFailure {
             XCTAssertEqual(failure.title, "Provider unreachable")
-            XCTAssertFalse(String(describing: failure).contains("sk-ant-offline-secret"))
+            Self.assertFailure(failure, doesNotLeak: "sk-ant-offline-secret")
         } catch {
             XCTFail("Unexpected error: \(error)")
         }
@@ -129,10 +179,33 @@ final class AnthropicCommandProviderTests: XCTestCase {
             XCTFail("Expected provider failure", file: file, line: line)
         } catch let failure as CommandIntelligenceFailure {
             XCTAssertEqual(failure.title, expectedTitle, file: file, line: line)
-            XCTAssertFalse(String(describing: failure).contains(apiKey), file: file, line: line)
+            Self.assertFailure(failure, doesNotLeak: apiKey, file: file, line: line)
         } catch {
             XCTFail("Unexpected error: \(error)", file: file, line: line)
         }
+    }
+
+    private static func assertFailure(
+        _ failure: CommandIntelligenceFailure,
+        doesNotLeak secret: String,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        XCTAssertFalse(failure.title.contains(secret), file: file, line: line)
+        XCTAssertFalse(failure.message.contains(secret), file: file, line: line)
+        XCTAssertFalse(failure.recoveryAction?.contains(secret) ?? false, file: file, line: line)
+        XCTAssertFalse(failure.requestID?.contains(secret) ?? false, file: file, line: line)
+        XCTAssertFalse(String(describing: failure).contains(secret), file: file, line: line)
+    }
+
+    private static func userMessageContent(
+        from payload: [String: Any]?,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) throws -> String {
+        let messages = try XCTUnwrap(payload?["messages"] as? [[String: Any]], file: file, line: line)
+        XCTAssertEqual(messages.first?["role"] as? String, "user", file: file, line: line)
+        return try XCTUnwrap(messages.first?["content"] as? String, file: file, line: line)
     }
 
     private static func request() -> LLMCommandRequest {
