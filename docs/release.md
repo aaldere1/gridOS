@@ -316,7 +316,7 @@ Primary references:
 - `.planning/phases/11-alpha/evidence/README.md` defines the Phase 11 alpha evidence policy, privacy boundaries, and blocker policy.
 - `scripts/alpha-signing-preflight.sh` checks Xcode tooling, hardened-runtime settings, signing identity presence, and required signing environment variables without printing private values.
 - `scripts/build-alpha.sh` is the internal artifact build entrypoint.
-- `scripts/verify-alpha-artifact.sh` is the future signed artifact verification entrypoint.
+- `scripts/verify-alpha-artifact.sh` is the signed artifact verification entrypoint.
 - `.planning/phases/11-alpha/ALPHA-UAT.md` is the future daily-driver UAT checklist and signoff log.
 - `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
 
@@ -335,6 +335,16 @@ The build script runs `scripts/alpha-signing-preflight.sh`, regenerates the proj
 `GRIDOS_ALPHA_OUTPUT_DIR` may point to another local output directory, but artifact paths must remain local-output paths only. Do not place `.app`, `.xcarchive`, `.dmg`, `.zip`, `.pkg`, traces, screenshots, or private logs under `.planning`.
 
 Successful builds write `.planning/phases/11-alpha/evidence/alpha-artifact-manifest.md` with source commit, version/build, artifact basename, checksum, signing presence, hardened-runtime status, and the verification command to run next.
+
+Alpha artifact verification:
+
+```sh
+scripts/verify-alpha-artifact.sh build/alpha/gridOS-version-build-commit.zip
+```
+
+The verifier accepts a generated ZIP or an extracted `gridOS.app`, rejects artifacts under `.planning`, computes `shasum -a 256` checksums, runs `codesign --verify --deep --strict --verbose=2`, records sanitized `codesign -dv` metadata, and writes `.planning/phases/11-alpha/evidence/alpha-artifact-verification.md`.
+
+The verification report includes `Alpha artifact manifest`, bundle ID, version, build, checksum, pass/fail status, and `Notarization: deferred to Phase 12`.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 

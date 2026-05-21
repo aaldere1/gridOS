@@ -22,7 +22,15 @@ The build command runs `scripts/alpha-signing-preflight.sh`, regenerates the Xco
 
 Successful builds write `alpha-artifact-manifest.md` here with timestamp, source commit, version/build, artifact basename, checksum, signing identity presence, hardened runtime setting, and the verification command to run next.
 
-Future Alpha artifact verification must record sanitized codesign status, version/build metadata, checksum status, and whether notarization was intentionally deferred. Build products stay outside git.
+Verify the generated ZIP or extracted app with:
+
+```sh
+scripts/verify-alpha-artifact.sh build/alpha/gridOS-version-build-commit.zip
+```
+
+The verifier rejects artifacts under `.planning`, computes `shasum -a 256` checksums, runs `codesign --verify --deep --strict --verbose=2`, captures sanitized `codesign -dv` metadata, and writes `alpha-artifact-verification.md`.
+
+Alpha artifact verification must record `Alpha artifact manifest`, sanitized codesign status, bundle ID, version/build metadata, checksum status, pass/fail status, and `Notarization: deferred to Phase 12`. Build products stay outside git.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
