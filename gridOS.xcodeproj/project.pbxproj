@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0126CA717B72999CD58ADEAF /* CommandIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */; };
 		05B712D68962F483935AA5E0 /* SystemMetricsSamplingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */; };
+		0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */; };
 		0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */; };
 		0DCFAE80292DB2164073C9F1 /* RenderCoreModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092B6E00EC7B185D73364DA6 /* RenderCoreModelTests.swift */; };
 		10A1B0308C4E12577B416528 /* AnthropicCommandProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB475B378FBA76F24A5472D /* AnthropicCommandProviderTests.swift */; };
@@ -327,6 +328,7 @@
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
 		844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCredentialStoreTests.swift; sourceTree = "<group>"; };
+		881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase7MultiPaneSmokeCoordinator.swift; sourceTree = "<group>"; };
 		895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModels.swift; sourceTree = "<group>"; };
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -566,6 +568,7 @@
 				4868AA4E14E1784614141472 /* CommandPaletteView.swift */,
 				3320B2947DC731EEFE381700 /* GridOSApp.swift */,
 				ACBE83C91B238DA23848EE62 /* Info.plist */,
+				881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
 				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
@@ -1013,6 +1016,7 @@
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
 				FC204FD49753AAB080DC4B1B /* CommandPaletteView.swift in Sources */,
 				8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */,
+				0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
 				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,

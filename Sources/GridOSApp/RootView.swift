@@ -149,6 +149,9 @@ struct RootView: View {
         }
         .task {
             ensureInstallSeed()
+            #if DEBUG
+            startPhase7SmokeIfNeeded()
+            #endif
             await runMetricsLoop()
         }
     }
@@ -398,6 +401,16 @@ struct RootView: View {
         try? snapshotStore.saveSnapshot(snapshot)
         try? snapshotStore.saveRecentDirectories(recentDirectories)
     }
+
+    #if DEBUG
+    @MainActor private func startPhase7SmokeIfNeeded() {
+        Phase7MultiPaneSmokeCoordinator(
+            workspaceController: workspaceController,
+            saveWorkspace: saveWorkspaceNow
+        )
+        .startIfRequested()
+    }
+    #endif
 }
 
 private struct AppFrameHeader: View {

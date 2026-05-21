@@ -189,6 +189,18 @@ rg 'Pane layout and directories are restored on relaunch.|Running shell processe
 
 Manual smoke checklist:
 
+DEBUG launch helpers:
+
+```sh
+rm -f /tmp/gridos_phase7_pane_a.txt /tmp/gridos_phase7_pane_b.txt /tmp/gridos_phase7_close_cleanup.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --phase7-multipane-smoke
+cat /tmp/gridos_phase7_pane_a.txt /tmp/gridos_phase7_pane_b.txt /tmp/gridos_phase7_close_cleanup.txt
+
+rm -f /tmp/gridos_phase7_restore.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --phase7-session-restore-smoke
+cat /tmp/gridos_phase7_restore.txt
+```
+
 1. Launch the Debug app and focus the terminal.
 2. Use `Command-D` for `Split Right` and `Command-Shift-D` for `Split Down`; verify at least two panes are visible and readable.
 3. Click or cycle pane focus with `Command-]` and `Command-[`; verify the active pane indicator changes and typed shell input goes to the intended pane.
@@ -196,6 +208,8 @@ Manual smoke checklist:
 5. Use `Command-W` to close one pane; verify only that pane's shell terminates and the remaining pane stays usable.
 6. Quit and relaunch; verify pane layout and directories restore with fresh shell processes.
 7. Confirm no orphan shell processes remain after pane close and app quit.
+
+Manual fallback if UI automation is unavailable: create two panes with the shortcuts above, run `printf 'PHASE7_PANE_A\n' > /tmp/gridos_phase7_pane_a.txt` in the first pane, run `printf 'PHASE7_PANE_B\n' > /tmp/gridos_phase7_pane_b.txt` in the second pane, close the second pane, quit and relaunch with `--phase7-session-restore-smoke`, then verify the marker files exist and no orphan shell processes remain.
 
 ## Production distribution target
 
