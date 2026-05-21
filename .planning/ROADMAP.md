@@ -173,7 +173,9 @@ Plans: 5 plans
 
 ## Phase 11 - Alpha
 
-Status: in progress (4/5 plans complete)
+Status: blocked
+
+Blocker: Alpha final verification is blocked by `SIGNING_BLOCKED` for missing `GRIDOS_DEVELOPMENT_TEAM` and `GRIDOS_SIGNING_IDENTITY`, no signed internal artifact, missing DEBUG alpha smoke markers, and an overbroad final privacy command. See `.planning/phases/11-alpha/11-VERIFICATION.md` and `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
 
 Goal: internal daily-driver validation.
 
@@ -187,7 +189,7 @@ Plans: 5 plans
 - [x] 11-02-PLAN.md - Internal alpha artifact build and verification.
 - [x] 11-03-PLAN.md - Daily-driver terminal correctness UAT.
 - [x] 11-04-PLAN.md - Feedback, known issues, and diagnostics policy.
-- [ ] 11-05-PLAN.md - Alpha final verification and Phase 12 handoff.
+- [x] 11-05-PLAN.md - Alpha final verification and blocked handoff.
 
 ## Phase 12 - Beta
 

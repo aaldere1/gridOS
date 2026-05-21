@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Executing Phase 11
-last_updated: "2026-05-21T13:20:54.521Z"
+status: Phase 11 blocked
+last_updated: "2026-05-21T13:29:30Z"
 progress:
   total_phases: 12
   completed_phases: 11
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 11 - Alpha (in progress)
+Phase 11 - Alpha (blocked)
 
 ## Current status
 
-Phase 11 Plan 04 is complete. Alpha execution has one pending plan covering final Alpha verification. DEBUG alpha smoke markers, the daily-driver UAT checklist, sanitized UAT helper, known-issues tracker, feedback log, and diagnostics policy are in place. Signed artifact creation remains dependent on local Apple signing prerequisites. Phase 10 security/privacy guarantees remain the baseline for execution.
+Phase 11 blocked. Plan 05 final verification executed with unsigned build/test and sanitized UAT helper passing, but Alpha cannot pass because signing inputs are missing, no signed internal artifact exists, final DEBUG alpha smoke markers did not appear, and the exact broad privacy command overmatches legitimate source/docs references. See `11-VERIFICATION.md`, `ALPHA-UAT.md`, `KNOWN-ISSUES.md`, and `evidence/README.md`.
 
 ## Decisions made
 
@@ -108,6 +108,7 @@ Phase 11 Plan 04 is complete. Alpha execution has one pending plan covering fina
 - [Phase 11-alpha]: Critical/high terminal correctness issues block Alpha signoff through the known-issues triage loop.
 - [Phase 11-alpha]: Phase 11 diagnostics remain local and sanitized; telemetry, crash reporting, automatic diagnostics upload, and support portal functionality are deferred.
 - [Phase 11-alpha]: Diagnostics source gating scans Phase 11 docs, evidence policy, and scripts while excluding generated artifacts.
+- [Phase 11-alpha]: Final Alpha verification remains blocked unless `11-VERIFICATION.md` is updated to PASS after signing inputs, signed artifact verification, DEBUG smoke markers, daily-driver UAT, known issues, diagnostics, and privacy gates are coherent.
 
 ## Decisions still open
 
@@ -249,10 +250,11 @@ Phase 11 Plan 04 is complete. Alpha execution has one pending plan covering fina
 | Phase 11-alpha P02 | 3 min | 2 tasks | 4 files |
 | Phase 11-alpha P03 | 3 min | 2 tasks | 6 files |
 | Phase 11-alpha P04 | 4 min | 2 tasks | 6 files |
+| Phase 11-alpha P05 | 6 min | 2 tasks | 7 files |
 
 ## Next target
 
-Phase 11 Plan 05 - Final Alpha verification and signoff
+Resolve Phase 11 Alpha blockers before Beta handoff.
 
 ## Session handoff
 
@@ -389,4 +391,9 @@ Phase 11 Plan 05 - Final Alpha verification and signoff
 - Summary file: `.planning/phases/11-alpha/11-03-SUMMARY.md`.
 - 2026-05-21: Phase 11 Plan 04 executed and verified with Alpha known-issues tracking, feedback intake, sanitized diagnostics policy, release/evidence links, and final source gates.
 - Summary file: `.planning/phases/11-alpha/11-04-SUMMARY.md`.
-- Stopped at: Completed 11-alpha-04-PLAN.md; execute `.planning/phases/11-alpha/11-05-PLAN.md` next.
+- 2026-05-21: Phase 11 Plan 05 final verification executed. Unsigned build/test and sanitized UAT helper passed, but Alpha is blocked by `SIGNING_BLOCKED`, absent signed artifact verification, missing DEBUG alpha smoke markers, and the broad privacy command overmatching legitimate source/docs references.
+- Verification file: `.planning/phases/11-alpha/11-VERIFICATION.md`.
+- Known issues: `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
+- UAT file: `.planning/phases/11-alpha/ALPHA-UAT.md`.
+- Evidence README: `.planning/phases/11-alpha/evidence/README.md`.
+- Stopped at: Phase 11 Alpha blocked; resolve ALPHA-001, ALPHA-002, and ALPHA-003 before Beta handoff.

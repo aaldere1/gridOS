@@ -26,7 +26,7 @@ git diff --check
 | Artifact verification | BLOCKED | `scripts/verify-alpha-artifact.sh path/to/gridOS.app` reported `ALPHA_VERIFY_BLOCKED: artifact does not exist` because no signed artifact was available. |
 | DEBUG alpha smoke | BLOCKED | Direct Debug smoke attempt with `--phase11-alpha-smoke` did not produce `PHASE11_ALPHA_TERMINAL_READY`, `PHASE11_ALPHA_WORKSPACE_READY`, or `PHASE11_ALPHA_PRIVACY_READY` markers within the final wait window. |
 | Daily-driver UAT | BLOCKED | `.planning/phases/11-alpha/run-alpha-uat.sh` wrote `evidence/alpha-uat-summary.md` with noninteractive `PASS`, but manual daily-driver UAT against a signed internal artifact remains blocked by signing. |
-| Known-issues triage | BLOCKED | `KNOWN-ISSUES.md` is the tracker for Alpha blockers. The final state must include the signing blocker and DEBUG alpha smoke marker blocker before Phase 11 can move forward. |
+| Known-issues triage | BLOCKED | `KNOWN-ISSUES.md` records ALPHA-001 for signing inputs, ALPHA-002 for DEBUG alpha smoke markers, and ALPHA-003 for the broad privacy gate overmatch. |
 | Diagnostics policy | PASS | `DIAGNOSTICS.md` defines local, sanitized diagnostics only and defers telemetry, crash reporting, uploads, and support portal work. |
 | Privacy gates | BLOCKED | Evidence files remain sanitized text. The exact broad privacy command above currently matches legitimate source and release-doc artifact references, so it cannot be used as a clean PASS signal without a narrower gate. |
 | Phase 12 - Beta handoff | BLOCKED | Phase 12 handoff is not active. Phase 11 must remain blocked until signing, signed artifact verification, DEBUG alpha smoke, and UAT evidence are coherent. |
@@ -50,7 +50,7 @@ git diff --check
 
 ## Known issues
 
-Use `KNOWN-ISSUES.md` as the durable tracker. Terminal correctness issues at critical or high severity continue to block Alpha signoff.
+Use `KNOWN-ISSUES.md` as the durable tracker. Current Alpha blockers are ALPHA-001, ALPHA-002, and ALPHA-003. Terminal correctness issues at critical or high severity continue to block Alpha signoff.
 
 ## Decision
 
