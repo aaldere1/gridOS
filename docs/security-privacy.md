@@ -10,6 +10,11 @@ gridOS is a terminal, system monitor, and optional LLM-assisted command surface.
 - API keys and install identity secrets must use Keychain once implemented.
 - Generated command execution must be gated, with stronger confirmation for destructive commands.
 
+Phase 10 source-of-truth documents:
+
+- `docs/security-threat-model.md` — current-app assets, trust boundaries, abuse cases, mitigations, and verification gates.
+- `docs/privacy-data-inventory.md` — stored, sent, indexed, notified, displayed, and evidence-captured data classes.
+
 ## Procedural identity
 
 The visual identity system must not expose raw machine identifiers.
@@ -64,8 +69,8 @@ Mac App Store distribution remains a later evaluation because sandboxing may int
 
 ## Open security tasks
 
-- Write a threat model before beta.
-- Add redaction tests with realistic shell output.
-- Add Keychain tests.
+- Keep the Phase 10 threat model and privacy data inventory current as implementation changes.
+- Add and maintain redaction tests with realistic shell output.
+- Maintain Keychain tests.
 - Review every dependency license and update policy.
 - Define diagnostics export format before collecting support bundles.

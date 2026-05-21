@@ -284,6 +284,24 @@ Full benchmark mode may attempt `xcrun xctrace` for Instruments/profile summarie
 
 Phase 9 benchmark evidence uses synthetic terminal markers and must not commit private shell history, terminal transcripts, environment variables, API keys, or screenshots containing user content.
 
+## Phase 10 security and privacy hardening
+
+Phase 10 release-readiness evidence is anchored by:
+
+- `docs/security-threat-model.md`
+- `docs/privacy-data-inventory.md`
+- `docs/dependency-security-review.md`
+- `.planning/phases/10-security-and-privacy-hardening/evidence/README.md`
+
+The final Phase 10 gate must cover the threat model, privacy inventory, redaction tests, provider-boundary tests, command-risk tests, Keychain tests, persistence/indexing/notification privacy tests, dependency review, hardened runtime check, and privacy gates.
+
+Representative privacy gates:
+
+```sh
+rg 'gridOS Threat Model|gridOS Privacy Data Inventory|gridOS Dependency and License Review|Phase 10 security and privacy hardening' docs .planning/phases/10-security-and-privacy-hardening
+! rg 'apiKey.*AppStorage|UserDefaults.*api|shellHistory|terminalTranscript|environmentVariables|commandOutput|selectedOutput.*write|prompt.*write|\\.png|\\.trace' Sources Tests docs .planning/phases/10-security-and-privacy-hardening/evidence
+```
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
