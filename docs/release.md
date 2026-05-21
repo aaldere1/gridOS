@@ -307,6 +307,23 @@ FORBIDDEN="api""Key.*AppStorage|User""Defaults.*api|shell""History|terminal""Tra
 ! rg "$FORBIDDEN" Sources docs .planning/phases/10-security-and-privacy-hardening/evidence
 ```
 
+## Phase 11 alpha
+
+Phase 11 alpha is the internal daily-driver lane. It starts with signing preflight evidence, then moves through internal build artifact creation, artifact verification, daily-driver UAT, known-issues triage, and final Alpha signoff.
+
+Primary references:
+
+- `.planning/phases/11-alpha/evidence/README.md` defines the Phase 11 alpha evidence policy, privacy boundaries, and blocker policy.
+- `scripts/alpha-signing-preflight.sh` checks Xcode tooling, hardened-runtime settings, signing identity presence, and required signing environment variables without printing private values.
+- `scripts/build-alpha.sh` is the future internal artifact build entrypoint.
+- `scripts/verify-alpha-artifact.sh` is the future signed artifact verification entrypoint.
+- `.planning/phases/11-alpha/ALPHA-UAT.md` is the future daily-driver UAT checklist and signoff log.
+- `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
+
+Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
+
+No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
