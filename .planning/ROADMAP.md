@@ -165,7 +165,7 @@ Exit criteria:
 
 Plans: 5 plans
 
-- [ ] 10-01-PLAN.md - Threat model, privacy data inventory, and release/security doc links.
+- [x] 10-01-PLAN.md - Threat model, privacy data inventory, and release/security doc links.
 - [ ] 10-02-PLAN.md - LLM context, redaction, provider-boundary, and failure privacy hardening.
 - [ ] 10-03-PLAN.md - Command-risk classifier and app run-policy hardening.
 - [ ] 10-04-PLAN.md - Keychain, preference, persistence, indexing, notification, and evidence privacy gates.
