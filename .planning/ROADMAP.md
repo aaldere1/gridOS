@@ -114,7 +114,7 @@ Exit criteria:
 Plans: 5 plans
 
 - [x] 07-01-PLAN.md - TerminalCore pane and session model foundation.
-- [ ] 07-02-PLAN.md - Active-pane routing and process lifecycle.
+- [x] 07-02-PLAN.md - Active-pane routing and process lifecycle.
 - [ ] 07-03-PLAN.md - Multi-pane SwiftUI workspace and native commands.
 - [ ] 07-04-PLAN.md - Session persistence, restore copy, recent directories, and docs.
 - [ ] 07-05-PLAN.md - Smoke fixture, evidence, and final verification.
