@@ -173,9 +173,9 @@ Plans: 5 plans
 
 ## Phase 11 - Alpha
 
-Status: blocked
+Status: complete
 
-Blocker: Alpha final verification is blocked only by pending manual signed-artifact daily-driver UAT. Signing preflight, signed artifact build, artifact verification, signed-app launch responsiveness, DEBUG alpha smoke, known-issues triage, and focused evidence privacy gates now pass. See `.planning/phases/11-alpha/11-VERIFICATION.md` and `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
+Completed: Signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip` passed signing preflight, artifact verification, signed daily-driver UAT, known-issues triage, diagnostics, and privacy gates. See `.planning/phases/11-alpha/11-VERIFICATION.md`, `.planning/phases/11-alpha/ALPHA-UAT.md`, and `.planning/phases/11-alpha/evidence/signed-artifact-uat.md`.
 
 Goal: internal daily-driver validation.
 
@@ -189,7 +189,7 @@ Plans: 5 plans
 - [x] 11-02-PLAN.md - Internal alpha artifact build and verification.
 - [x] 11-03-PLAN.md - Daily-driver terminal correctness UAT.
 - [x] 11-04-PLAN.md - Feedback, known issues, and diagnostics policy.
-- [x] 11-05-PLAN.md - Alpha final verification and blocked handoff.
+- [x] 11-05-PLAN.md - Alpha final verification and Phase 12 handoff.
 
 ## Phase 12 - Beta
 

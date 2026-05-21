@@ -1,11 +1,11 @@
 # Alpha artifact verification
 
-- Timestamp UTC: 2026-05-21T14:52:32Z
+- Timestamp UTC: 2026-05-21T15:38:21Z
 - Alpha artifact manifest: .planning/phases/11-alpha/evidence/alpha-artifact-manifest.md
-- Artifact basename: gridOS-0.1.0-1-ba71322.zip
+- Artifact basename: gridOS-0.1.0-1-69e8518.zip
 - Input type: zip
-- ZIP SHA-256: 8a7f3c3cba290c194a6bbf75828702cc34f89cd3f5b18bcad6e8b6310e1336d2
-- App bundle SHA-256: b2bd0ad61517011ab4020b32da8440cd4533d3517e2cfedee6c54e1c4715383b
+- ZIP SHA-256: 9dafeb56e53b866df423a1f6e5ade671a0a9500baaac1f33b7e59edf48ce0ce0
+- App bundle SHA-256: e80d250641005aecf47d4b4e81b0bcbb1c54f4fcedfa7810dd91ec9783b2e18b
 - Verification command: codesign --verify --deep --strict --verbose=2
 - codesign status: PASS
 - Bundle ID: com.aaldere1.gridos
@@ -19,6 +19,6 @@
 ```text
 Identifier=com.aaldere1.gridos
 Format=app bundle with Mach-O universal (x86_64 arm64)
-Timestamp=May 21, 2026 at 10:49:15 AM
+Timestamp=May 21, 2026 at 11:38:12 AM
 TeamIdentifier=JFE428WL4Z
 ```

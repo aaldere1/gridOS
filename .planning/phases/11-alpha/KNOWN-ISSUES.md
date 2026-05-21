@@ -15,10 +15,11 @@ Critical/high Terminal correctness issues block Alpha signoff. Terminal correctn
 
 | ID | Title | Severity | Alpha blocker | Beta blocker | Production blocker | Owner | Target phase | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ALPHA-001 | Local signing inputs are absent | critical | yes | yes | yes | release owner | Phase 11 | resolved | `evidence/signing-preflight.txt` now reports `SIGNING_READY`; `evidence/alpha-artifact-manifest.md` records signed artifact `gridOS-0.1.0-1-ba71322.zip`. |
+| ALPHA-001 | Local signing inputs are absent | critical | yes | yes | yes | release owner | Phase 11 | resolved | `evidence/signing-preflight.txt` now reports `SIGNING_READY`; `evidence/alpha-artifact-manifest.md` records signed artifact `gridOS-0.1.0-1-69e8518.zip`. |
 | ALPHA-002 | DEBUG alpha smoke markers did not appear in final verification | high | no | no | no | app owner | Phase 11 | resolved | `evidence/local-blocker-recheck.md`; direct Debug launch with `--phase11-alpha-smoke` now writes terminal, workspace, and privacy marker files with explicit `app-launch-fallback` metadata. |
 | ALPHA-003 | Final broad privacy command overmatches legitimate source and docs | medium | no | no | no | release owner | Phase 11 | resolved | `evidence/local-blocker-recheck.md`; the broad source/docs command is replaced for signoff by a focused Phase 11 evidence leak scan, which passed with no matches. |
 | ALPHA-004 | Signed Alpha app beachballs on launch | critical | yes | yes | yes | app owner | Phase 11 | resolved | Signed app sample isolated the launch loop to the SwiftUI `MenuBarExtra` scene. Commit `ba71322` disables that scene for Alpha, keeps the preference off/unavailable, and verified the archived signed app opens one window with a live shell and settles to `3.4%` CPU after 15 seconds. |
+| ALPHA-005 | Signed multi-pane split/close leaked duplicate shell children | high | yes | yes | yes | app owner | Phase 11 | resolved | Commit `69e8518` reuses controller-owned terminal views across SwiftUI split-layout rebuilds and hardens child-process termination. Signed UAT in `evidence/signed-artifact-uat.md` verifies child shell counts `1 -> 2 -> 3 -> 2`, two-pane relaunch restore, and zero child shells after quit. |
 
 ## Status values
 

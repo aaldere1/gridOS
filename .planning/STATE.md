@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 11 blocked pending manual signed-artifact UAT
-last_updated: "2026-05-21T14:52:00Z"
+status: Phase 11 verification passed; Phase 12 Beta ready
+last_updated: "2026-05-21T15:45:00Z"
 progress:
-  total_phases: 12
-  completed_phases: 11
+  total_phases: 15
+  completed_phases: 12
   total_plans: 38
-  completed_plans: 37
+  completed_plans: 38
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 11 - Alpha (blocked pending manual signed-artifact UAT)
+Phase 12 - Beta (pending planning)
 
 ## Current status
 
-Phase 11 blocked only on manual signed-artifact daily-driver UAT. Signing preflight, signed artifact build, artifact verification, signed-app launch responsiveness, DEBUG alpha smoke, known-issues triage, diagnostics policy, noninteractive UAT helper, and focused evidence privacy gates now pass. The signed Alpha artifact is `build/alpha/gridOS-0.1.0-1-ba71322.zip`; complete `ALPHA-UAT.md` against that artifact before updating `11-VERIFICATION.md` to `PASS` or activating Phase 12. See `11-VERIFICATION.md`, `ALPHA-UAT.md`, `KNOWN-ISSUES.md`, and `evidence/README.md`.
+Phase 11 Alpha verification passed. Signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip` passed signing preflight, artifact verification, signed daily-driver UAT, known-issues triage, diagnostics policy, noninteractive UAT helper, and focused evidence privacy gates. Phase 12 Beta is ready to plan notarization, stapling, clean-Mac Gatekeeper proof, external packaging, and feedback flow work. See `11-VERIFICATION.md`, `ALPHA-UAT.md`, `KNOWN-ISSUES.md`, and `evidence/signed-artifact-uat.md`.
 
 ## Decisions made
 
@@ -108,8 +108,9 @@ Phase 11 blocked only on manual signed-artifact daily-driver UAT. Signing prefli
 - [Phase 11-alpha]: Critical/high terminal correctness issues block Alpha signoff through the known-issues triage loop.
 - [Phase 11-alpha]: Phase 11 diagnostics remain local and sanitized; telemetry, crash reporting, automatic diagnostics upload, and support portal functionality are deferred.
 - [Phase 11-alpha]: Diagnostics source gating scans Phase 11 docs, evidence policy, and scripts while excluding generated artifacts.
-- [Phase 11-alpha]: Final Alpha verification remains blocked unless `11-VERIFICATION.md` is updated to PASS after signing inputs, signed artifact verification, signed-artifact daily-driver UAT, known issues, diagnostics, and privacy gates are coherent.
+- [Phase 11-alpha]: Final Alpha verification passed only after signing inputs, signed artifact verification, signed-artifact daily-driver UAT, known issues, diagnostics, and privacy gates were coherent.
 - [Phase 11-alpha]: MenuBarExtra is disabled for Alpha after a signed-app launch loop in SwiftUI's status-item scene; re-enable only after the scene can launch without beachballing.
+- [Phase 11-alpha]: Controller-owned terminal views are reused across SwiftUI split layout rebuilds so pane reconstruction does not spawn duplicate shell processes.
 
 ## Decisions still open
 
@@ -215,7 +216,8 @@ Phase 11 blocked only on manual signed-artifact daily-driver UAT. Signing prefli
 - 2026-05-21: Phase 11 context, research, validation strategy, and five executable plans created for Alpha signing preflight, internal artifact build/verification, daily-driver UAT, feedback/diagnostics, and final verification.
 - 2026-05-21: Phase 11 signing was unblocked with local Developer ID inputs, `scripts/build-alpha.sh` produced signed artifact `build/alpha/gridOS-0.1.0-1-ba71322.zip`, and `scripts/verify-alpha-artifact.sh` passed.
 - 2026-05-21: Resolved signed Alpha launch beachball ALPHA-004 by disabling the SwiftUI `MenuBarExtra` scene for Alpha; archived signed app launch proof showed one window, a live shell child, and settled CPU of `3.4%` after 15 seconds.
-- 2026-05-21: Phase 11 remains blocked only on manual signed-artifact UAT in `ALPHA-UAT.md`; all current known issues are resolved.
+- 2026-05-21: Resolved signed Alpha multi-pane shell lifecycle issue ALPHA-005 in `69e8518`; signed UAT proved split/close child shell counts `1 -> 2 -> 3 -> 2`, two-pane restore, and zero child shells after quit.
+- 2026-05-21: Phase 11 Alpha passed with signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip`; `11-VERIFICATION.md`, `ALPHA-UAT.md`, and `evidence/signed-artifact-uat.md` record the handoff to Phase 12 Beta.
 
 ## Performance metrics
 
@@ -258,7 +260,7 @@ Phase 11 blocked only on manual signed-artifact daily-driver UAT. Signing prefli
 
 ## Next target
 
-Resolve Phase 11 Alpha blockers before Beta handoff.
+Plan Phase 12 - Beta: notarization, stapling, clean-Mac Gatekeeper proof, external packaging, and feedback readiness.
 
 ## Session handoff
 
@@ -398,8 +400,11 @@ Resolve Phase 11 Alpha blockers before Beta handoff.
 - 2026-05-21: Phase 11 Plan 05 final verification executed. Unsigned build/test and sanitized UAT helper passed, but Alpha is blocked by `SIGNING_BLOCKED`, absent signed artifact verification, missing DEBUG alpha smoke markers, and the broad privacy command overmatching legitimate source/docs references.
 - 2026-05-21: Phase 11 local blocker recheck resolved ALPHA-002 and ALPHA-003 with passing DEBUG alpha smoke markers, a focused evidence privacy leak scan, and sanitized evidence in `local-blocker-recheck.md`.
 - 2026-05-21: User-provided app icon assets were incorporated into the reproducible XcodeGen/project setup; the Debug bundle now contains `AppIcon.icns` and `Assets.car`.
+- 2026-05-21: Phase 11 signed artifact `gridOS-0.1.0-1-69e8518.zip` built and verified with Developer ID signing evidence.
+- 2026-05-21: Phase 11 signed daily-driver UAT passed, including terminal launch, keyboard, paste, copy, clear/reset, split/close process cleanup, relaunch restore, command availability, Command Intelligence policy, and macOS integration privacy/default checks.
 - Verification file: `.planning/phases/11-alpha/11-VERIFICATION.md`.
 - Known issues: `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
 - UAT file: `.planning/phases/11-alpha/ALPHA-UAT.md`.
+- Signed UAT evidence: `.planning/phases/11-alpha/evidence/signed-artifact-uat.md`.
 - Evidence README: `.planning/phases/11-alpha/evidence/README.md`.
-- Stopped at: Phase 11 Alpha blocked; resolve ALPHA-001, build and verify a signed internal artifact, and complete signed-artifact daily-driver UAT before Beta handoff.
+- Stopped at: Phase 12 Beta ready to plan.

@@ -10,7 +10,7 @@ The Phase 11 Alpha Diagnostics Policy lives in `../DIAGNOSTICS.md`. It defines a
 
 The final Alpha verification report lives in `../11-VERIFICATION.md`. That report is the source of truth for whether Phase 11 is `PASS`, `BLOCKED`, or `FAIL`; it summarizes signing preflight, artifact verification, DEBUG alpha smoke, daily-driver UAT, known-issues triage, diagnostics, privacy gates, and Phase 12 handoff readiness.
 
-`local-blocker-recheck.md` records the 2026-05-21 local recheck that resolved the non-signing DEBUG alpha smoke and overbroad privacy-gate blockers. `alpha-artifact-manifest.md` and `alpha-artifact-verification.md` record the signed artifact evidence for source commit `ba71322`. None of these replace manual daily-driver UAT.
+`local-blocker-recheck.md` records the 2026-05-21 local recheck that resolved the non-signing DEBUG alpha smoke and overbroad privacy-gate blockers. `alpha-artifact-manifest.md` and `alpha-artifact-verification.md` record the signed artifact evidence for source commit `69e8518`. `signed-artifact-uat.md` records the signed daily-driver UAT that closed the remaining Phase 11 blocker.
 
 ## Signing preflight
 

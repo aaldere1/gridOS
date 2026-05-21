@@ -323,7 +323,7 @@ Primary references:
 - `.planning/phases/11-alpha/DIAGNOSTICS.md` is the Phase 11 Alpha Diagnostics Policy.
 - `.planning/phases/11-alpha/11-VERIFICATION.md` is the final Alpha verification report and Phase 12 handoff gate.
 
-Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Current Phase 11 evidence has signing unblocked and artifact verification passing for `build/alpha/gridOS-0.1.0-1-ba71322.zip`, but Alpha cannot be marked complete until manual signed-artifact UAT passes. Alpha also cannot be marked complete with a high-severity terminal correctness blocker.
+Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Current Phase 11 evidence has signing unblocked, artifact verification passing for `build/alpha/gridOS-0.1.0-1-69e8518.zip`, and signed daily-driver UAT passing in `.planning/phases/11-alpha/evidence/signed-artifact-uat.md`. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
 
 Final Alpha signoff must use `.planning/phases/11-alpha/11-VERIFICATION.md` as the source of truth. If the report is `BLOCKED`, do not mark Phase 11 complete or move the active target to Phase 12.
 

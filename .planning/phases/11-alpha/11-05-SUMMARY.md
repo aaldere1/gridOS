@@ -123,11 +123,13 @@ On 2026-05-21, ALPHA-002 and ALPHA-003 were rechecked locally and resolved:
 
 On 2026-05-21, ALPHA-001 was also resolved by local Developer ID signing inputs. The signed artifact `build/alpha/gridOS-0.1.0-1-ba71322.zip` was built and verified, and ALPHA-004 resolved the signed-app beachball by disabling the SwiftUI `MenuBarExtra` scene for Alpha.
 
-Phase 11 now remains blocked only by pending manual signed-artifact daily-driver UAT.
+On 2026-05-21, ALPHA-005 was resolved by commit `69e8518`, which reuses controller-owned terminal views across SwiftUI split-layout rebuilds and hardens child-process termination. The signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip` was built, verified, and passed signed daily-driver UAT in `evidence/signed-artifact-uat.md`.
+
+Phase 11 is now complete.
 
 ## Next Phase Readiness
 
-Not ready for Beta handoff. Complete signed-artifact UAT, then update `11-VERIFICATION.md` from `BLOCKED` to `PASS` only after evidence supports it.
+Ready for Beta handoff. `11-VERIFICATION.md` is `PASS`; Phase 12 should plan notarization, stapling, clean-Mac Gatekeeper proof, external packaging, and feedback readiness.
 
 ## Self-Check: PASSED
 
