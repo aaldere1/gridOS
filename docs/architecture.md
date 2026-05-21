@@ -202,6 +202,25 @@ Current abstractions:
 
 `TerminalWorkspaceSnapshotStore` persists `session-v1.json` and `recent-directories-v1.json` under Application Support `gridOS`. It restores pane layout, active pane, shell/profile metadata, and last known directories as fresh shell launches. It does not restore live processes, shell output, shell history, environment variables, or process IDs.
 
+## Phase 8 architecture target
+
+Phase 8 starts the Mac-native integration layer without changing gridOS into a background-only utility.
+
+Current abstractions:
+
+- `MacIntegrationPreferences`
+- `MenuBarStatusSnapshot`
+- `MenuBarRecentDirectory`
+- `MenuBarAction`
+- `MacIntegrationsController`
+- `MenuBarExtraView`
+
+`Integrations` owns pure integration-facing models for preferences, menu bar state/actions, and notification/indexing contracts. `GridOSApp` composes those models into native SwiftUI/AppKit surfaces.
+
+`GridOSApplication` keeps the normal `WindowGroup`, Settings scene, and command menus, then adds a SwiftUI `MenuBarExtra("gridOS", systemImage: "terminal", isInserted: $showMenuBarExtra)` as a companion surface. It is not an `LSUIElement` menu-bar-only app.
+
+`MacIntegrationsController` adapts existing app data into menu content. It loads recent directories from `TerminalWorkspaceSnapshotStore`, displays directory basenames in the menu, and uses coarse `SystemMetricsSnapshot` values for `Host Status`. Menu bar actions are limited to app activation, Settings activation, Finder directory opening, and app quit. They do not insert terminal text, run shell commands, create panes, or bypass the active-pane focus boundary.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.

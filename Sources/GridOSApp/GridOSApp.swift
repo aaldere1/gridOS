@@ -1,9 +1,16 @@
+import AppKit
 import GridOSKit
+import Integrations
 import SwiftUI
 import TerminalCore
 
 @main
 struct GridOSApplication: App {
+    @AppStorage(GridOSAppPreferences.showMenuBarExtraStorageKey)
+    private var showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
+
+    @StateObject private var macIntegrationsController = MacIntegrationsController()
+
     var body: some Scene {
         WindowGroup {
             RootView()
@@ -19,6 +26,11 @@ struct GridOSApplication: App {
         Settings {
             SettingsView()
         }
+
+        MenuBarExtra("gridOS", systemImage: "terminal", isInserted: $showMenuBarExtra) {
+            MenuBarExtraView(controller: macIntegrationsController)
+        }
+        .menuBarExtraStyle(.menu)
     }
 }
 

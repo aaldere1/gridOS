@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0126CA717B72999CD58ADEAF /* CommandIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */; };
+		03F7A808E4C047CB7D56F06E /* MenuBarExtraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DAEB9B7BB40FBA72EC1820 /* MenuBarExtraView.swift */; };
 		05B712D68962F483935AA5E0 /* SystemMetricsSamplingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */; };
 		0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */; };
 		0CF7AB9C7C6AA89CA2FE004A /* CommandIntelligenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */; };
@@ -67,6 +68,7 @@
 		8E67097DD922BB61316E90F7 /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8E870C9CF11957939FA24108 /* TerminalCommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */; };
 		8F801B514F765712A694EB78 /* CommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D840427A9B6B3B8EF4F73188 /* CommandCredentialStore.swift */; };
+		909DC42EC6A30DCD6B811DA0 /* MacIntegrationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E3F9AA95207C3E4261E39C /* MacIntegrationsController.swift */; };
 		916AC219B79FFC1BBA20325A /* NativeSystemMetricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */; };
 		9290380486D013E75E87EAC1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
 		95F5CC5AAB47F96D4AFB0FFA /* KeychainCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */; };
@@ -334,6 +336,7 @@
 		174EF9F9D687DF34A3D4B95E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreStatus.swift; sourceTree = "<group>"; };
 		201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModuleStatus.swift; sourceTree = "<group>"; };
+		21DAEB9B7BB40FBA72EC1820 /* MenuBarExtraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarExtraView.swift; sourceTree = "<group>"; };
 		233FBC5D701469255971E5ED /* LLMCommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMCommandProvider.swift; sourceTree = "<group>"; };
 		25C37F947C0B5BEFF82ADFC2 /* SystemMetricsSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSnapshot.swift; sourceTree = "<group>"; };
 		27A4993E53068E1B90C511DF /* CommandContextPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextPreview.swift; sourceTree = "<group>"; };
@@ -407,6 +410,7 @@
 		DA1F8B3FFD0F89D8849F0EA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProductTests.swift; sourceTree = "<group>"; };
 		DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSamplingPolicy.swift; sourceTree = "<group>"; };
+		E0E3F9AA95207C3E4261E39C /* MacIntegrationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIntegrationsController.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
 		F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistence.swift; sourceTree = "<group>"; };
 		F0B59E04CD3F342827CCC045 /* TerminalCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminalCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -644,6 +648,8 @@
 				4868AA4E14E1784614141472 /* CommandPaletteView.swift */,
 				3320B2947DC731EEFE381700 /* GridOSApp.swift */,
 				ACBE83C91B238DA23848EE62 /* Info.plist */,
+				E0E3F9AA95207C3E4261E39C /* MacIntegrationsController.swift */,
+				21DAEB9B7BB40FBA72EC1820 /* MenuBarExtraView.swift */,
 				881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
@@ -1147,6 +1153,8 @@
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
 				FC204FD49753AAB080DC4B1B /* CommandPaletteView.swift in Sources */,
 				8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */,
+				909DC42EC6A30DCD6B811DA0 /* MacIntegrationsController.swift in Sources */,
+				03F7A808E4C047CB7D56F06E /* MenuBarExtraView.swift in Sources */,
 				0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,

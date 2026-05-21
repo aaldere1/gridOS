@@ -144,6 +144,11 @@ struct RootView: View {
         .onReceive(NotificationCenter.default.publisher(for: .gridOSWorkspaceSessionReset)) { _ in
             workspaceSaveTask?.cancel()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .gridOSMenuBarOpenGridOS)) { _ in
+            DispatchQueue.main.async {
+                workspaceController.focusActivePane()
+            }
+        }
         .onDisappear {
             saveWorkspaceNow()
         }
