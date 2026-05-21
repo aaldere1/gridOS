@@ -122,7 +122,14 @@ public struct SecretRedactor: Sendable {
             ),
             Rule(
                 kind: .envValue,
-                pattern: #"\b((?:token|api[_-]?key|secret|client_secret|access_token|refresh_token)\s*=\s*)(?:"[^"\n]*"|'[^'\n]*'|[^\s#]+)"#,
+                pattern: #"\b((?:[A-Z0-9_]*(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)[A-Z0-9_]*|token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)\s*=\s*)(?:"[^"\n]*"|'[^'\n]*'|[^\s#]+)"#,
+                options: [.caseInsensitive, .anchorsMatchLines],
+                preservesFirstCapture: true,
+                blockedReason: nil
+            ),
+            Rule(
+                kind: .envValue,
+                pattern: #"((?:"(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)"|(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token))\s*:\s*)(?:"[^"\n]*"|'[^'\n]*'|[^\s#]+)"#,
                 options: [.caseInsensitive, .anchorsMatchLines],
                 preservesFirstCapture: true,
                 blockedReason: nil
