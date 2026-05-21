@@ -39,7 +39,7 @@ Outputs:
 ## Cold start
 
 - **Target:** < 500 ms
-- **Observed:** 92.689 ms
+- **Observed:** 84.244 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-ready-smoke`
 - **Notes:** App launch to Phase 9 ready marker.
@@ -47,7 +47,7 @@ Outputs:
 ## Resident memory
 
 - **Target:** < 100 MB
-- **Observed:** 110.64 MB
+- **Observed:** 111.12 MB
 - **Status:** MISS
 - **Command:** `ps -o rss= -p <gridOS pid>`
 - **Notes:** RSS sampled after a short startup settle window.
@@ -55,7 +55,7 @@ Outputs:
 ## Idle CPU
 
 - **Target:** < 0.5%
-- **Observed:** 99.040%
+- **Observed:** 98.700%
 - **Status:** MISS
 - **Command:** `ps -o %cpu= -p <gridOS pid>`
 - **Notes:** Average of five quiet-window samples.
@@ -97,6 +97,12 @@ Outputs:
 | Input latency | MISS | Phase 09 | Validate terminal-bound fixture availability and measure controller-to-PTY latency. |
 | Heavy output | MISS | Phase 09 | Validate terminal-bound heavy-output fixture and inspect UI/output batching. |
 | Frame pacing | MISS | Phase 09 | Validate render-pulse fixture and capture frame-pacing summary. |
+
+## Privacy proof
+
+- Evidence is limited to synthetic DEBUG markers, process samples, benchmark status, and sanitized summary metadata.
+- The committed report labels the app binary as `gridOS.app/Contents/MacOS/gridOS` instead of recording the local DerivedData path.
+- The benchmark does not capture private shell history, terminal transcripts, environment variables, API keys, screenshots, or raw Instruments traces.
 
 ## Known limitations
 

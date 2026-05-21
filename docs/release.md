@@ -278,7 +278,9 @@ Outputs:
 - `.planning/phases/09-performance-hardening/evidence/phase9-results.json`
 - `.planning/phases/09-performance-hardening/evidence/README.md`
 
-Full benchmark mode may attempt `xcrun xctrace` for Instruments/profile summaries after deterministic Phase 9 app fixtures exist. The `--quick` path keeps local smoke lightweight and writes the report schema without long stress runs or profile capture.
+Final Phase 9 evidence lives in `.planning/phases/09-performance-hardening/evidence/README.md` with the machine-readable report in `.planning/phases/09-performance-hardening/evidence/phase9-results.json`.
+
+Full benchmark mode may attempt `xcrun xctrace` for Instruments/profile summaries after deterministic Phase 9 app fixtures exist. The `--quick` path keeps local smoke lightweight and writes measured quick evidence without long stress runs or profile capture.
 
 Phase 9 benchmark evidence uses synthetic terminal markers and must not commit private shell history, terminal transcripts, environment variables, API keys, or screenshots containing user content.
 

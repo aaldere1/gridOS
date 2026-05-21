@@ -621,6 +621,12 @@ Outputs:
 | --- | --- | --- | --- |
 $(misses_markdown_rows)
 
+## Privacy proof
+
+- Evidence is limited to synthetic DEBUG markers, process samples, benchmark status, and sanitized summary metadata.
+- The committed report labels the app binary as \`gridOS.app/Contents/MacOS/gridOS\` instead of recording the local DerivedData path.
+- The benchmark does not capture private shell history, terminal transcripts, environment variables, API keys, screenshots, or raw Instruments traces.
+
 ## Known limitations
 
 - This quick report captures local Debug benchmark evidence; full xctrace capture is skipped in --quick mode.

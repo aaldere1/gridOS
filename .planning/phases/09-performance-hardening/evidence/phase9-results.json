@@ -1,6 +1,6 @@
 {
   "report": "PHASE9_PERFORMANCE_REPORT",
-  "generated_at": "2026-05-21T08:56:06Z",
+  "generated_at": "2026-05-21T09:00:08Z",
   "configuration": {
     "mode": "quick",
     "build_configuration": "Debug",
@@ -17,21 +17,21 @@
   "results": {
     "cold_start_ms": {
       "status": "PASS",
-      "observed": 92.689,
+      "observed": 84.244,
       "target": 500,
       "marker": "PHASE9_READY",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353740.926914,\n  \"finished_at\": 1779353740.926915,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353983.394743,\n  \"finished_at\": 1779353983.394744,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
       "notes": "App launch to Phase 9 ready marker."
     },
     "rss_mb": {
       "status": "MISS",
-      "observed": 110.64,
+      "observed": 111.12,
       "target": 100,
       "notes": "Resident set size sampled from ps after startup settle."
     },
     "idle_cpu_percent": {
       "status": "MISS",
-      "observed": 99.040,
+      "observed": 98.700,
       "target": 0.5,
       "notes": "Average of five ps CPU samples during a quiet window."
     },
