@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 08 complete
-last_updated: "2026-05-21T02:03:00.000Z"
+status: Phase 09 context gathered
+last_updated: "2026-05-21T02:12:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 9 - Performance hardening (planning next)
+Phase 9 - Performance hardening (context gathered; planning next)
 
 ## Current status
 
-Phase 08 verification passed with 11/11 must-haves verified. gridOS now has reusable macOS integration models/preferences, shared Keychain primitives, a lightweight menu bar companion, macOS Integration Settings, explicit local notifications with deterministic smoke, and opt-in metadata-only Core Spotlight indexing. Plan Phase 09: Performance hardening is next.
+Phase 09 context is gathered for performance hardening. The context locks a measurement-first approach: build repeatable local benchmarks, capture cold start, memory, idle CPU, terminal input latency, heavy output, and frame-pacing evidence, and document any target miss with owner and mitigation. Plan Phase 09: Performance hardening is next.
 
 ## Decisions made
 
@@ -85,6 +85,10 @@ Phase 08 verification passed with 11/11 must-haves verified. gridOS now has reus
 - [Phase 08-macos-integrations]: Treat Spotlight/preview work as optional metadata-only foundation; do not index terminal output, command history, prompts, secrets, environment variables, process args, or full paths.
 - [Phase 08-macos-integrations]: Defer Quick Look/Finder preview work until gridOS has a stable saved workspace document type.
 - [Phase 08-macos-integrations]: Keep deterministic DEBUG smoke markers sanitized and independent of terminal screenshots.
+- [Phase 09-performance-hardening]: Start with repeatable measurements and evidence before optimizing.
+- [Phase 09-performance-hardening]: Use roadmap targets as the scorecard; any miss must be documented with owner, severity, likely cause, and mitigation.
+- [Phase 09-performance-hardening]: Keep benchmark evidence synthetic and privacy-safe; do not capture real shell history, private output, environment variables, or screenshots containing user content.
+- [Phase 09-performance-hardening]: Prefer targeted module-owned fixes over broad rewrites, preserving Phase 1-8 terminal, privacy, metrics, visual, Command Intelligence, and integration guarantees.
 
 ## Decisions still open
 
@@ -172,6 +176,7 @@ Phase 08 verification passed with 11/11 must-haves verified. gridOS now has reus
 - 2026-05-21: Phase 08 Plan 03 executed and verified with injectable local notifications, explicit `Enable Notifications` permission flow, and deterministic sanitized notification smoke support.
 - 2026-05-21: Phase 08 Plan 04 executed and verified with metadata-only Core Spotlight indexing, path-stripping tests, Quick Look deferral, final evidence, and a stabilized notification smoke marker.
 - 2026-05-21: Phase 08 verification passed with final build/test, menu bar, notification, Keychain, Spotlight, privacy, whitespace, and smoke gates green.
+- 2026-05-21: Phase 09 context gathered for performance hardening, with measurement-first benchmark strategy, privacy-safe synthetic evidence, cold-start/readiness scope, settled memory/idle CPU scope, frame-pacing direction, terminal latency/heavy-output direction, and preservation rules.
 
 ## Performance metrics
 
@@ -285,4 +290,7 @@ Plan Phase 09: Performance hardening.
 - Evidence file: `.planning/phases/08-macos-integrations/evidence/README.md`.
 - 2026-05-21: Phase 08 verification passed.
 - Verification file: `.planning/phases/08-macos-integrations/08-VERIFICATION.md`.
-- Stopped at: Phase 08 complete; Plan Phase 09: Performance hardening next.
+- 2026-05-21: Phase 09 context gathered.
+- Resume file: `.planning/phases/09-performance-hardening/09-CONTEXT.md`.
+- Discussion log: `.planning/phases/09-performance-hardening/09-DISCUSSION-LOG.md`.
+- Stopped at: Phase 09 context gathered; Plan Phase 09: Performance hardening next.
