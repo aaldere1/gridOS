@@ -10,6 +10,18 @@ If local Apple signing configuration is missing, record the blocker as `SIGNING_
 
 ## Artifact verification
 
+Build a signed internal artifact with:
+
+```sh
+GRIDOS_DEVELOPMENT_TEAM=team-id \
+GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
+scripts/build-alpha.sh
+```
+
+The build command runs `scripts/alpha-signing-preflight.sh`, regenerates the Xcode project with `xcodegen generate --use-cache`, and uses `xcodebuild archive` for the signed Release archive. `GRIDOS_ALPHA_OUTPUT_DIR` may redirect build products, but artifact paths must be local-output paths only. Build products must not be written under `.planning`.
+
+Successful builds write `alpha-artifact-manifest.md` here with timestamp, source commit, version/build, artifact basename, checksum, signing identity presence, hardened runtime setting, and the verification command to run next.
+
 Future Alpha artifact verification must record sanitized codesign status, version/build metadata, checksum status, and whether notarization was intentionally deferred. Build products stay outside git.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.

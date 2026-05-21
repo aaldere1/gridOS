@@ -315,12 +315,26 @@ Primary references:
 
 - `.planning/phases/11-alpha/evidence/README.md` defines the Phase 11 alpha evidence policy, privacy boundaries, and blocker policy.
 - `scripts/alpha-signing-preflight.sh` checks Xcode tooling, hardened-runtime settings, signing identity presence, and required signing environment variables without printing private values.
-- `scripts/build-alpha.sh` is the future internal artifact build entrypoint.
+- `scripts/build-alpha.sh` is the internal artifact build entrypoint.
 - `scripts/verify-alpha-artifact.sh` is the future signed artifact verification entrypoint.
 - `.planning/phases/11-alpha/ALPHA-UAT.md` is the future daily-driver UAT checklist and signoff log.
 - `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
 
 Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
+
+Signed internal alpha build:
+
+```sh
+GRIDOS_DEVELOPMENT_TEAM=team-id \
+GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
+scripts/build-alpha.sh
+```
+
+The build script runs `scripts/alpha-signing-preflight.sh`, regenerates the project with `xcodegen generate --use-cache`, then performs an `xcodebuild archive` with manual signing. If signing variables or local signing identities are missing, it stops before archiving and preserves the preflight blocker evidence.
+
+`GRIDOS_ALPHA_OUTPUT_DIR` may point to another local output directory, but artifact paths must remain local-output paths only. Do not place `.app`, `.xcarchive`, `.dmg`, `.zip`, `.pkg`, traces, screenshots, or private logs under `.planning`.
+
+Successful builds write `.planning/phases/11-alpha/evidence/alpha-artifact-manifest.md` with source commit, version/build, artifact basename, checksum, signing presence, hardened-runtime status, and the verification command to run next.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
