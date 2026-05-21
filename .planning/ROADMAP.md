@@ -173,7 +173,7 @@ Plans: 5 plans
 
 ## Phase 11 - Alpha
 
-Status: planned
+Status: in progress (2/5 plans complete)
 
 Goal: internal daily-driver validation.
 
@@ -184,7 +184,7 @@ Exit criteria:
 Plans: 5 plans
 
 - [x] 11-01-PLAN.md - Signing preflight and alpha evidence policy.
-- [ ] 11-02-PLAN.md - Internal alpha artifact build and verification.
+- [x] 11-02-PLAN.md - Internal alpha artifact build and verification.
 - [ ] 11-03-PLAN.md - Daily-driver terminal correctness UAT.
 - [ ] 11-04-PLAN.md - Feedback, known issues, and diagnostics policy.
 - [ ] 11-05-PLAN.md - Alpha final verification and Phase 12 handoff.
