@@ -8,10 +8,16 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let installSeedStorageKey = "appearance.installSeed"
     public static let commandIntelligenceProviderStorageKey = "commandIntelligence.providerID"
     public static let commandIntelligenceModelStorageKey = "commandIntelligence.modelID"
+    public static let showMenuBarExtraStorageKey = "integrations.showMenuBarExtra"
+    public static let notificationsEnabledStorageKey = "integrations.notificationsEnabled"
+    public static let indexWorkspaceMetadataStorageKey = "integrations.indexWorkspaceMetadata"
     public static let defaultVisualModeRawValue = "tron"
     public static let defaultInstallSeedRawValue = ""
     public static let defaultCommandIntelligenceProviderID = "anthropic"
     public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-6"
+    public static let defaultShowMenuBarExtra = true
+    public static let defaultNotificationsEnabled = false
+    public static let defaultIndexWorkspaceMetadata = false
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
     public static let supportedCommandIntelligenceProviderIDs = [defaultCommandIntelligenceProviderID]
     public static let supportedCommandIntelligenceModelIDs = [defaultCommandIntelligenceModelID]

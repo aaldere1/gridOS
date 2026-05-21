@@ -114,4 +114,29 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID(""), "claude-sonnet-4-6")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("unknown"), "claude-sonnet-4-6")
     }
+
+    func testMacIntegrationPreferencesDoNotStoreSecrets() {
+        XCTAssertEqual(GridOSAppPreferences.showMenuBarExtraStorageKey, "integrations.showMenuBarExtra")
+        XCTAssertEqual(GridOSAppPreferences.notificationsEnabledStorageKey, "integrations.notificationsEnabled")
+        XCTAssertEqual(GridOSAppPreferences.indexWorkspaceMetadataStorageKey, "integrations.indexWorkspaceMetadata")
+        XCTAssertTrue(GridOSAppPreferences.defaultShowMenuBarExtra)
+        XCTAssertFalse(GridOSAppPreferences.defaultNotificationsEnabled)
+        XCTAssertFalse(GridOSAppPreferences.defaultIndexWorkspaceMetadata)
+
+        let storageKeys = [
+            GridOSAppPreferences.showMenuBarExtraStorageKey,
+            GridOSAppPreferences.notificationsEnabledStorageKey,
+            GridOSAppPreferences.indexWorkspaceMetadataStorageKey
+        ]
+
+        for key in storageKeys {
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("api"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("key"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("secret"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("prompt"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("output"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("history"))
+            XCTAssertFalse(key.localizedCaseInsensitiveContains("transcript"))
+        }
+    }
 }

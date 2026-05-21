@@ -32,6 +32,7 @@ targets:
       - target: RenderCore
       - target: SystemMetrics
       - target: CommandIntelligence
+      - target: Integrations
     info:
       path: Sources/GridOSApp/Info.plist
       properties:
@@ -187,6 +188,38 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.CommandIntelligenceTests
 
+  Integrations:
+    type: framework
+    platform: macOS
+    sources:
+      - path: Sources/Integrations
+    dependencies:
+      - target: GridOSKit
+    info:
+      path: Sources/Integrations/Info.plist
+      properties:
+        CFBundleDisplayName: Integrations
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+    settings:
+      base:
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: NO
+        MARKETING_VERSION: 0.1.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.Integrations
+
+  IntegrationsTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/IntegrationsTests
+    dependencies:
+      - target: Integrations
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.aaldere1.gridos.IntegrationsTests
+
   GridOSKitTests:
     type: bundle.unit-test
     platform: macOS
@@ -218,6 +251,7 @@ schemes:
         gridOS: all
         CommandIntelligenceTests: [test]
         GridOSKitTests: [test]
+        IntegrationsTests: [test]
         RenderCoreTests: [test]
         SystemMetricsTests: [test]
         TerminalCoreTests: [test]
@@ -226,6 +260,7 @@ schemes:
       targets:
         - CommandIntelligenceTests
         - GridOSKitTests
+        - IntegrationsTests
         - RenderCoreTests
         - SystemMetricsTests
         - TerminalCoreTests
