@@ -31,7 +31,7 @@ key-files:
     - docs/release.md
 
 key-decisions:
-  - "Keep Phase 11 Alpha blocked until signing inputs, signed artifact verification, DEBUG smoke markers, UAT, known issues, diagnostics, and privacy gates are coherent."
+  - "Keep Phase 11 Alpha blocked until signing inputs, signed artifact verification, signed-artifact UAT, known issues, diagnostics, and privacy gates are coherent."
   - "Do not advance the active target to Beta while 11-VERIFICATION.md is BLOCKED."
   - "Track final Alpha blockers in KNOWN-ISSUES.md instead of treating blocked verification as a pass."
 
@@ -113,9 +113,19 @@ None. Stub scan only matched historical progress-log wording in `STATE.md`, not 
 
 Signing setup is required to unblock Alpha: provide `GRIDOS_DEVELOPMENT_TEAM` and `GRIDOS_SIGNING_IDENTITY`, then rerun the signing, artifact, smoke, UAT, and privacy gates.
 
+## Post-summary blocker recheck
+
+On 2026-05-21, ALPHA-002 and ALPHA-003 were rechecked locally and resolved:
+
+- DEBUG alpha smoke now writes terminal, workspace, and privacy marker files during direct Debug launch through explicit `app-launch-fallback` metadata.
+- The overbroad source/docs privacy command is replaced for signoff by a focused Phase 11 evidence leak scan, which passed with no matches.
+- The sanitized recheck evidence lives in `.planning/phases/11-alpha/evidence/local-blocker-recheck.md`.
+
+Phase 11 remains blocked by ALPHA-001 and the downstream absence of a signed internal artifact plus signed-artifact daily-driver UAT.
+
 ## Next Phase Readiness
 
-Not ready for Beta handoff. Resolve ALPHA-001, ALPHA-002, and ALPHA-003, then update `11-VERIFICATION.md` from `BLOCKED` to `PASS` only after evidence supports it.
+Not ready for Beta handoff. Resolve ALPHA-001, produce and verify the signed internal artifact, complete signed-artifact UAT, then update `11-VERIFICATION.md` from `BLOCKED` to `PASS` only after evidence supports it.
 
 ## Self-Check: PASSED
 

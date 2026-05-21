@@ -16,8 +16,8 @@ Critical/high Terminal correctness issues block Alpha signoff. Terminal correctn
 | ID | Title | Severity | Alpha blocker | Beta blocker | Production blocker | Owner | Target phase | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ALPHA-001 | Local signing inputs are absent | critical | yes | yes | yes | release owner | Phase 11 | blocked | `11-VERIFICATION.md`; `evidence/signing-preflight.txt` reports `SIGNING_BLOCKED GRIDOS_DEVELOPMENT_TEAM GRIDOS_SIGNING_IDENTITY`. |
-| ALPHA-002 | DEBUG alpha smoke markers did not appear in final verification | high | yes | yes | yes | app owner | Phase 11 | new | `11-VERIFICATION.md`; final direct Debug attempt with `--phase11-alpha-smoke` did not create terminal, workspace, or privacy marker files. |
-| ALPHA-003 | Final broad privacy command overmatches legitimate source and docs | medium | yes | yes | no | release owner | Phase 11 | accepted | `11-VERIFICATION.md`; exact plan command matches artifact references and Swift path APIs instead of only unsafe evidence capture. |
+| ALPHA-002 | DEBUG alpha smoke markers did not appear in final verification | high | no | no | no | app owner | Phase 11 | resolved | `evidence/local-blocker-recheck.md`; direct Debug launch with `--phase11-alpha-smoke` now writes terminal, workspace, and privacy marker files with explicit `app-launch-fallback` metadata. |
+| ALPHA-003 | Final broad privacy command overmatches legitimate source and docs | medium | no | no | no | release owner | Phase 11 | resolved | `evidence/local-blocker-recheck.md`; the broad source/docs command is replaced for signoff by a focused Phase 11 evidence leak scan, which passed with no matches. |
 
 ## Status values
 

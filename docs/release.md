@@ -367,7 +367,7 @@ PHASE11_ALPHA_WORKSPACE_READY
 PHASE11_ALPHA_PRIVACY_READY
 ```
 
-The smoke uses deterministic local marker commands through the app workspace controller. It does not use live provider credentials, screenshots, terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
+The smoke uses deterministic local marker commands through the app workspace controller when a terminal view is attached. If a headless/debug launch cannot attach the terminal view, the app writes the same marker files with `source=app-launch-fallback` or `source=app-smoke-fallback` metadata so the smoke reports that the app, workspace model, and privacy-safe marker path ran without pretending to be full terminal UAT. It does not use live provider credentials, screenshots, terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
 
 Daily-driver Alpha UAT:
 

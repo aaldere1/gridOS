@@ -23,6 +23,10 @@ struct GridOSApplication: App {
             Phase9PerformanceSmokeCoordinator()
                 .startIfRequested(arguments: arguments)
         }
+
+        if arguments.contains("--phase11-alpha-smoke") {
+            Phase11AlphaSmokeCoordinator.writeHeadlessFallbackIfRequested(arguments: arguments)
+        }
     }
     #endif
 

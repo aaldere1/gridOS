@@ -26,6 +26,7 @@ targets:
     platform: macOS
     sources:
       - path: Sources/GridOSApp
+      - path: Assets.xcassets
     dependencies:
       - target: GridOSKit
       - target: TerminalCore
@@ -39,11 +40,13 @@ targets:
         CFBundleDisplayName: gridOS
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.developer-tools
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         NSHumanReadableCopyright: Copyright (c) 2026 gridOS Authors. All rights reserved.
     settings:
       base:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: NO
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
         DEVELOPMENT_TEAM: ""

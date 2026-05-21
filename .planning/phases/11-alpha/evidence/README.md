@@ -10,6 +10,8 @@ The Phase 11 Alpha Diagnostics Policy lives in `../DIAGNOSTICS.md`. It defines a
 
 The final Alpha verification report lives in `../11-VERIFICATION.md`. That report is the source of truth for whether Phase 11 is `PASS`, `BLOCKED`, or `FAIL`; it summarizes signing preflight, artifact verification, DEBUG alpha smoke, daily-driver UAT, known-issues triage, diagnostics, privacy gates, and Phase 12 handoff readiness.
 
+`local-blocker-recheck.md` records the 2026-05-21 local recheck that resolved the non-signing DEBUG alpha smoke and overbroad privacy-gate blockers. It does not replace signed-artifact verification or manual daily-driver UAT.
+
 ## Signing preflight
 
 Run `scripts/alpha-signing-preflight.sh --dry-run` for local smoke, then run `scripts/alpha-signing-preflight.sh` when evidence should be written. The report is presence-only: it may state whether Xcode tools, hardened runtime, signing identities, `GRIDOS_DEVELOPMENT_TEAM`, `GRIDOS_SIGNING_IDENTITY`, and optional `GRIDOS_EXPORT_METHOD` are present, but it must not echo signing variable values or raw Keychain output.
