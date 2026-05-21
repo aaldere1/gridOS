@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 09 context gathered
-last_updated: "2026-05-21T02:12:00.000Z"
+status: Phase 09 planned
+last_updated: "2026-05-21T08:36:32.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
-  total_plans: 24
+  total_plans: 28
   completed_plans: 24
 ---
 
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 9 - Performance hardening (context gathered; planning next)
+Phase 9 - Performance hardening (planned; execution next)
 
 ## Current status
 
-Phase 09 context is gathered for performance hardening. The context locks a measurement-first approach: build repeatable local benchmarks, capture cold start, memory, idle CPU, terminal input latency, heavy output, and frame-pacing evidence, and document any target miss with owner and mitigation. Plan Phase 09: Performance hardening is next.
+Phase 09 is planned for performance hardening. Research, validation, and four executable plans now cover benchmark harness foundation, deterministic app fixtures, measured benchmark scenarios, and final evidence/signoff. Execute Phase 09: Performance hardening next.
 
 ## Decisions made
 
@@ -89,6 +89,9 @@ Phase 09 context is gathered for performance hardening. The context locks a meas
 - [Phase 09-performance-hardening]: Use roadmap targets as the scorecard; any miss must be documented with owner, severity, likely cause, and mitigation.
 - [Phase 09-performance-hardening]: Keep benchmark evidence synthetic and privacy-safe; do not capture real shell history, private output, environment variables, or screenshots containing user content.
 - [Phase 09-performance-hardening]: Prefer targeted module-owned fixes over broad rewrites, preserving Phase 1-8 terminal, privacy, metrics, visual, Command Intelligence, and integration guarantees.
+- [Phase 09-performance-hardening]: Use `/usr/bin/perl -MTime::HiRes=time` or app-side marker timestamps for sub-second benchmark timing; do not rely on `date +%s%N` on macOS.
+- [Phase 09-performance-hardening]: Commit benchmark summaries and small sanitized exports by default; do not commit large/raw `.trace` bundles unless intentionally scrubbed and size-acceptable.
+- [Phase 09-performance-hardening]: Treat terminal input latency as a documented controller-to-PTY marker proxy until deeper accessibility or rendering instrumentation is justified.
 
 ## Decisions still open
 
@@ -177,6 +180,7 @@ Phase 09 context is gathered for performance hardening. The context locks a meas
 - 2026-05-21: Phase 08 Plan 04 executed and verified with metadata-only Core Spotlight indexing, path-stripping tests, Quick Look deferral, final evidence, and a stabilized notification smoke marker.
 - 2026-05-21: Phase 08 verification passed with final build/test, menu bar, notification, Keychain, Spotlight, privacy, whitespace, and smoke gates green.
 - 2026-05-21: Phase 09 context gathered for performance hardening, with measurement-first benchmark strategy, privacy-safe synthetic evidence, cold-start/readiness scope, settled memory/idle CPU scope, frame-pacing direction, terminal latency/heavy-output direction, and preservation rules.
+- 2026-05-21: Phase 09 research, validation strategy, and four executable plans created for benchmark harness foundation, app-side smoke fixtures, measured scenarios, and final evidence/signoff.
 
 ## Performance metrics
 
@@ -204,7 +208,7 @@ Phase 09 context is gathered for performance hardening. The context locks a meas
 
 ## Next target
 
-Plan Phase 09: Performance hardening.
+Execute Phase 09 Plan 01: Benchmark harness foundation.
 
 ## Session handoff
 
@@ -293,4 +297,8 @@ Plan Phase 09: Performance hardening.
 - 2026-05-21: Phase 09 context gathered.
 - Resume file: `.planning/phases/09-performance-hardening/09-CONTEXT.md`.
 - Discussion log: `.planning/phases/09-performance-hardening/09-DISCUSSION-LOG.md`.
-- Stopped at: Phase 09 context gathered; Plan Phase 09: Performance hardening next.
+- 2026-05-21: Phase 09 research, validation strategy, and executable plans created.
+- Research file: `.planning/phases/09-performance-hardening/09-RESEARCH.md`.
+- Validation strategy: `.planning/phases/09-performance-hardening/09-VALIDATION.md`.
+- Plan files: `.planning/phases/09-performance-hardening/09-01-PLAN.md` through `.planning/phases/09-performance-hardening/09-04-PLAN.md`.
+- Stopped at: Phase 09 planned; Execute Phase 09 Plan 01: Benchmark harness foundation next.

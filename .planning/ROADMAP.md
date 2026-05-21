@@ -146,6 +146,13 @@ Exit criteria:
 
 - Cold start, memory, idle CPU, input latency, heavy output, and frame pacing evidence exists.
 
+Plans: 4 plans
+
+- [ ] 09-01-PLAN.md - Benchmark harness foundation.
+- [ ] 09-02-PLAN.md - Deterministic benchmark app fixtures.
+- [ ] 09-03-PLAN.md - Benchmark scenarios and measured report.
+- [ ] 09-04-PLAN.md - Final evidence, docs, and phase signoff.
+
 ## Phase 10 - Security and privacy hardening
 
 Status: pending
