@@ -110,6 +110,18 @@ final class CommandCredentialStoreTests: XCTestCase {
             XCTAssertEqual(failure.title, "Provider not configured")
         }
     }
+
+    func testKeychainStoreMapsUnexpectedStatusesToProviderError() async throws {
+        let client = RecordingKeychainSecItemClient(addStatuses: [errSecAuthFailed])
+        let store = KeychainCommandCredentialStore(client: client)
+
+        do {
+            try await store.saveAPIKey("sk-ant-test-value", for: .anthropic)
+            XCTFail("Expected provider error")
+        } catch let failure as CommandIntelligenceFailure {
+            XCTAssertEqual(failure, .providerError())
+        }
+    }
 }
 
 private enum RecordedKeychainOperation: Equatable {

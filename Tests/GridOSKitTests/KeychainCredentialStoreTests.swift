@@ -108,6 +108,43 @@ final class KeychainCredentialStoreTests: XCTestCase {
         }
     }
 
+    func testStoreMapsUnexpectedStatuses() async throws {
+        let readStore = KeychainCredentialStore(
+            client: RecordingKeychainSecItemClient(
+                copyResult: KeychainSecItemCopyResult(status: errSecAuthFailed, data: nil)
+            )
+        )
+        do {
+            _ = try await readStore.secret(for: descriptor)
+            XCTFail("Expected read status failure")
+        } catch let error as KeychainCredentialStoreError {
+            XCTAssertEqual(error, .unexpectedStatus(errSecAuthFailed))
+        }
+
+        let updateStore = KeychainCredentialStore(
+            client: RecordingKeychainSecItemClient(
+                addStatuses: [errSecDuplicateItem],
+                updateStatus: errSecAuthFailed
+            )
+        )
+        do {
+            try await updateStore.saveSecret("replacement-secret", for: descriptor)
+            XCTFail("Expected update status failure")
+        } catch let error as KeychainCredentialStoreError {
+            XCTAssertEqual(error, .unexpectedStatus(errSecAuthFailed))
+        }
+
+        let deleteStore = KeychainCredentialStore(
+            client: RecordingKeychainSecItemClient(deleteStatus: errSecAuthFailed)
+        )
+        do {
+            try await deleteStore.deleteSecret(for: descriptor)
+            XCTFail("Expected delete status failure")
+        } catch let error as KeychainCredentialStoreError {
+            XCTAssertEqual(error, .unexpectedStatus(errSecAuthFailed))
+        }
+    }
+
     private var descriptor: KeychainCredentialDescriptor {
         KeychainCredentialDescriptor(
             service: "com.aaldere1.gridos.test",

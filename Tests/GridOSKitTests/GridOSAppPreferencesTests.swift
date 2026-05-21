@@ -91,10 +91,22 @@ final class GridOSAppPreferencesTests: XCTestCase {
             GridOSAppPreferences.commandIntelligenceProviderStorageKey,
             GridOSAppPreferences.commandIntelligenceModelStorageKey
         ]
-        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("api") })
-        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("key") })
-        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("prompt") })
-        XCTAssertFalse(persistedKeys.contains { $0.localizedCaseInsensitiveContains("generated") })
+        let forbiddenStorageNames = [
+            "apiKey",
+            "secret",
+            "token",
+            "prompt",
+            "selectedOutput",
+            "commandOutput",
+            "generated"
+        ]
+
+        for forbiddenName in forbiddenStorageNames {
+            XCTAssertFalse(
+                persistedKeys.contains { $0.localizedCaseInsensitiveContains(forbiddenName) },
+                "Preference keys must not store \(forbiddenName)"
+            )
+        }
     }
 
     func testCommandIntelligenceRawValuesNormalizeToSupportedDefaults() {
