@@ -156,6 +156,7 @@ struct RootView: View {
             ensureInstallSeed()
             #if DEBUG
             startPhase7SmokeIfNeeded()
+            startPhase8SmokeIfNeeded()
             #endif
             await runMetricsLoop()
         }
@@ -414,6 +415,11 @@ struct RootView: View {
             saveWorkspace: saveWorkspaceNow
         )
         .startIfRequested()
+    }
+
+    @MainActor private func startPhase8SmokeIfNeeded() {
+        Phase8MacIntegrationsSmokeCoordinator()
+            .startIfRequested()
     }
     #endif
 }

@@ -211,6 +211,46 @@ cat /tmp/gridos_phase7_restore.txt
 
 Manual fallback if UI automation is unavailable: create two panes with the shortcuts above, run `printf 'PHASE7_PANE_A\n' > /tmp/gridos_phase7_pane_a.txt` in the first pane, run `printf 'PHASE7_PANE_B\n' > /tmp/gridos_phase7_pane_b.txt` in the second pane, close the second pane, quit and relaunch with `--phase7-session-restore-smoke`, then verify the marker files exist and no orphan shell processes remain.
 
+## Phase 8 macOS integrations smoke
+
+Phase 8 adds a native menu bar companion, explicit local notification permission flow, shared Keychain primitives, and metadata-only indexing foundations.
+
+Automated gate:
+
+```sh
+xcodegen generate --use-cache
+xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
+git diff --check
+rg 'MenuBarExtra|showMenuBarExtra|Open gridOS|Host Status|Recent Directories' Sources Tests docs .planning
+rg 'UNUserNotificationCenter|UNNotificationRequest|NotificationAuthorizationState|Enable Notifications|gridOS work finished' Sources Tests docs .planning
+rg 'Keychain|kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly|Manage Stored Secrets' Sources Tests docs .planning
+```
+
+Notification smoke:
+
+```sh
+rm -f /tmp/gridos_phase8_notification_smoke.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --phase8-notification-smoke
+cat /tmp/gridos_phase8_notification_smoke.txt
+```
+
+Expected marker content includes:
+
+```text
+PHASE8_NOTIFICATION_SMOKE
+gridOS work finished
+A long-running task completed in your workspace.
+```
+
+Manual smoke checklist:
+
+1. Launch the Debug app and confirm the `gridOS` menu bar extra is present when `Show Menu Bar Extra` is on.
+2. Open the menu and verify `Open gridOS`, `Active workspace`, `Host Status`, `Recent Directories`, `Settings`, and `Quit gridOS`.
+3. Choose `Open gridOS` and verify the main window activates without typing or running anything in the active pane.
+4. Open Settings, use `Enable Notifications`, and verify the macOS permission prompt appears only after this explicit action.
+5. Verify default notification content uses `gridOS work finished` and `A long-running task completed in your workspace.`
+6. Verify `Manage Stored Secrets` scrolls/focuses the existing Command Intelligence credential section without revealing stored values.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
