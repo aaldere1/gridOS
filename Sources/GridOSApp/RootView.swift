@@ -24,6 +24,8 @@ struct RootView: View {
     private var commandIntelligenceProviderRawValue = GridOSAppPreferences.defaultCommandIntelligenceProviderID
     @AppStorage(GridOSAppPreferences.commandIntelligenceModelStorageKey)
     private var commandIntelligenceModelRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID
+    @AppStorage(GridOSAppPreferences.betaPrivacyDisclosureAcceptedStorageKey)
+    private var betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
 
     @State private var renderSequence: UInt64 = 0
     @StateObject private var workspaceController: TerminalWorkspaceController
@@ -138,6 +140,17 @@ struct RootView: View {
             }
         }
         .background(WindowFrameController(autosaveName: "gridOS.main"))
+        .sheet(isPresented: betaPrivacyDisclosurePresented) {
+            BetaPrivacyDisclosureView(
+                onContinue: {
+                    betaPrivacyDisclosureAccepted = true
+                },
+                onOpenPrivacySettings: {
+                    betaPrivacyDisclosureAccepted = true
+                    openSettingsWindow()
+                }
+            )
+        }
         .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
             isCommandPalettePresented = true
         }
@@ -187,7 +200,8 @@ struct RootView: View {
             shellPath: shellPath,
             terminalFontSize: terminalFontSize,
             visualIntensity: visualIntensity,
-            reducedMotion: reducedMotion
+            reducedMotion: reducedMotion,
+            betaPrivacyDisclosureAccepted: betaPrivacyDisclosureAccepted
         )
     }
 
@@ -253,6 +267,19 @@ struct RootView: View {
         return .opacity.combined(with: .scale(scale: 0.98))
     }
 
+    private var betaPrivacyDisclosurePresented: Binding<Bool> {
+        Binding(
+            get: {
+                !betaPrivacyDisclosureAccepted
+            },
+            set: { isPresented in
+                if !isPresented {
+                    betaPrivacyDisclosureAccepted = true
+                }
+            }
+        )
+    }
+
     @MainActor private func ensureInstallSeed() {
         guard GridOSAppPreferences.normalizedInstallSeedRawValue(installSeedRawValue).isEmpty else {
             return
@@ -268,14 +295,14 @@ struct RootView: View {
 
     @MainActor private func openCommandIntelligenceSettingsFromPalette() {
         CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
-        openCommandIntelligenceSettingsWindow()
+        openSettingsWindow()
         DispatchQueue.main.async {
             CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
         }
         dismissCommandPalette()
     }
 
-    @MainActor private func openCommandIntelligenceSettingsWindow() {
+    @MainActor private func openSettingsWindow() {
         NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         NSApp.activate(ignoringOtherApps: true)
     }

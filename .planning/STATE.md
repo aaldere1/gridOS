@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Plan 03 complete; Plan 04 ready
-last_updated: "2026-05-21T21:08:43Z"
+status: Phase 12 Plan 04 complete; Plan 05 ready
+last_updated: "2026-05-21T21:11:31Z"
 progress:
   total_phases: 15
   completed_phases: 12
   total_plans: 43
-  completed_plans: 41
+  completed_plans: 42
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 12 - Beta (Plan 03 complete; Plan 04 ready)
+Phase 12 - Beta (Plan 04 complete; Plan 05 ready)
 
 ## Current status
 
-Phase 12 Plan 03 is complete. `scripts/write-beta-release-manifest.sh`, `.planning/phases/12-beta/beta-release-manifest.json`, `docs/beta-distribution.md`, and `.planning/phases/12-beta/BETA-UAT.md` now define the manual Beta install, update, rollback, clean-Mac Gatekeeper UAT, and manifest path. The manifest is a sanitized placeholder until a notarized artifact exists. Plan 04 is ready to implement first-run privacy, support, feedback, and known-issues surfaces.
+Phase 12 Plan 04 is complete. The app now has a first-run Beta privacy disclosure, a persistent `betaPrivacyDisclosureAccepted` preference, Settings review/support copy, and tests. `.planning/phases/12-beta/BETA-FEEDBACK.md` and `.planning/phases/12-beta/KNOWN-ISSUES.md` now define the sanitized feedback and issue triage loop. Full unsigned `xcodebuild ... test` passed. Plan 05 is ready for clean-Mac Gatekeeper UAT and final Beta signoff, but live Beta artifact creation remains blocked until a notary credential mode is provided.
 
 ## Decisions made
 
@@ -222,6 +222,7 @@ Phase 12 Plan 03 is complete. `scripts/write-beta-release-manifest.sh`, `.planni
 - 2026-05-21: Phase 12 Plan 01 executed and verified with Beta notarization preflight, evidence policy, release-doc links, and sanitized `BETA_NOTARIZATION_BLOCKED` evidence for missing notary credential mode.
 - 2026-05-21: Phase 12 Plan 02 executed and verified with Beta build, notarization, stapling, and artifact verification scripts plus release/evidence docs; live artifact creation remains blocked until a notary credential mode is provided.
 - 2026-05-21: Phase 12 Plan 03 executed and verified with Beta release manifest writer, placeholder manifest, distribution/update/rollback guide, and clean-Mac Gatekeeper UAT checklist.
+- 2026-05-21: Phase 12 Plan 04 executed and verified with first-run Beta privacy disclosure, Settings review/support copy, feedback template, known-issues tracker, privacy docs, and full unsigned Xcode tests.
 
 ## Performance metrics
 
@@ -264,10 +265,11 @@ Phase 12 Plan 03 is complete. `scripts/write-beta-release-manifest.sh`, `.planni
 | Phase 12-beta P01 | 4 min | 2 tasks | 5 files |
 | Phase 12-beta P02 | 5 min | 2 tasks | 5 files |
 | Phase 12-beta P03 | 3 min | 2 tasks | 5 files |
+| Phase 12-beta P04 | 6 min | 2 tasks | 9 files |
 
 ## Next target
 
-Execute Phase 12 Plan 04: first-run privacy, support, and feedback loop.
+Execute Phase 12 Plan 05: clean-Mac Gatekeeper UAT and Beta signoff.
 
 ## Session handoff
 
@@ -420,4 +422,7 @@ Execute Phase 12 Plan 04: first-run privacy, support, and feedback loop.
 - Phase 12 Plan 02 scripts: `scripts/build-beta.sh`, `scripts/notarize-beta-artifact.sh`, `scripts/verify-beta-artifact.sh`.
 - Phase 12 Plan 03 summary: `.planning/phases/12-beta/12-03-SUMMARY.md`.
 - Phase 12 Plan 03 docs: `docs/beta-distribution.md`, `.planning/phases/12-beta/BETA-UAT.md`, `.planning/phases/12-beta/beta-release-manifest.json`.
-- Stopped at: Phase 12 Plan 04 ready to execute.
+- Phase 12 Plan 04 summary: `.planning/phases/12-beta/12-04-SUMMARY.md`.
+- Phase 12 Plan 04 UI: `Sources/GridOSApp/BetaPrivacyDisclosureView.swift`, `Sources/GridOSApp/RootView.swift`, `Sources/GridOSApp/SettingsView.swift`.
+- Phase 12 Plan 04 feedback docs: `.planning/phases/12-beta/BETA-FEEDBACK.md`, `.planning/phases/12-beta/KNOWN-ISSUES.md`.
+- Stopped at: Phase 12 Plan 05 ready to execute.

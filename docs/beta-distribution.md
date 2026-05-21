@@ -77,10 +77,10 @@ back:
 
 ## Feedback
 
-Use `.planning/phases/12-beta/BETA-FEEDBACK.md` for tester reports once it
-exists. Reports should include app version/build, artifact basename, macOS
-version, hardware class, install path category, sanitized steps, expected
-result, actual result, and blocker category.
+Use `.planning/phases/12-beta/BETA-FEEDBACK.md` for tester reports. Reports
+should include app version/build, artifact basename, macOS version, hardware
+class, install path category, sanitized steps, expected result, actual result,
+and blocker category.
 
 ## Privacy boundaries
 

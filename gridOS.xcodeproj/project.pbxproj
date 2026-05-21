@@ -78,7 +78,7 @@
 		9AAC3AC26B613C98063BC536 /* RenderCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */; };
 		9F209C190D88B74D78CA4C00 /* CommandContextPreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F27AE737BB7C044D95638F /* CommandContextPreviewTests.swift */; };
-		A1B2C3D4E5F60718293A4B5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16E66CB82FBF4379007272EA /* Assets.xcassets */; };
+		9FAA4AFA3C0A7F46CFA1D657 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B646E1ECB9E202A845AA597A /* Assets.xcassets */; };
 		A28AF910A66839B6646D0588 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		A39F66F51995D30D8F581F4B /* Phase11AlphaSmokeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34D523B4C906C7EA8D015FF /* Phase11AlphaSmokeCoordinator.swift */; };
 		A468A57AE84BF625F6309AB1 /* Integrations.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBAE6B02785B5CE061673F88 /* Integrations.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -109,6 +109,7 @@
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
 		D5BF7058DF72D1F375C48B04 /* WorkspaceMetadataIndexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C56A46784A6E758D2C5E8D /* WorkspaceMetadataIndexerTests.swift */; };
+		D5E267C675726379A1956BFB /* BetaPrivacyDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */; };
 		DE0D1D9F0438C61F74B71160 /* LocalNotificationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
 		E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */; };
@@ -343,7 +344,6 @@
 		1456C0B22F5C1822B36E194E /* SystemMetrics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SystemMetrics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalInteractionController.swift; sourceTree = "<group>"; };
 		160BDAF3AD28F9242ECB70BC /* ProceduralSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralSeed.swift; sourceTree = "<group>"; };
-		16E66CB82FBF4379007272EA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		174EF9F9D687DF34A3D4B95E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		184EB1AA50C82CA308534D69 /* RenderCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreStatus.swift; sourceTree = "<group>"; };
 		201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationModuleStatus.swift; sourceTree = "<group>"; };
@@ -388,6 +388,7 @@
 		70CF1DEA37B6516F9EB2DD6F /* WorkspaceMetadataIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceMetadataIndexer.swift; sourceTree = "<group>"; };
 		7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStore.swift; sourceTree = "<group>"; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
+		74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaPrivacyDisclosureView.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
 		834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase9PerformanceSmokeCoordinator.swift; sourceTree = "<group>"; };
@@ -409,6 +410,7 @@
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
 		B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandRiskClassifier.swift; sourceTree = "<group>"; };
 		B3F7BA762527CE7828A92C7A /* KeychainCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStoreTests.swift; sourceTree = "<group>"; };
+		B646E1ECB9E202A845AA597A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
 		BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFailureTests.swift; sourceTree = "<group>"; };
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 		87615F4D27FC71110D22D43F /* GridOSApp */ = {
 			isa = PBXGroup;
 			children = (
+				74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */,
 				614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */,
 				CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */,
 				4868AA4E14E1784614141472 /* CommandPaletteView.swift */,
@@ -746,8 +749,8 @@
 			children = (
 				540D1FB513E2C88707D754BC /* Sources */,
 				451C19E6CC0E44AE9C8DEEC0 /* Tests */,
+				B646E1ECB9E202A845AA597A /* Assets.xcassets */,
 				F0770DE1E78CD71D7A56BDAA /* Products */,
-				16E66CB82FBF4379007272EA /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -865,8 +868,8 @@
 			buildConfigurationList = 800DF5ADDF65002F86955C6C /* Build configuration list for PBXNativeTarget "gridOS" */;
 			buildPhases = (
 				8EE1D12FEE1ED289FDCA5A97 /* Sources */,
+				1534471E1C150C7584CD448D /* Resources */,
 				A290C1F1A25AEE6C65BBD817 /* Frameworks */,
-				A1B2C3D4E5F60718293A4B5D /* Resources */,
 				6A326CB775C97A82A0C1B823 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -1093,11 +1096,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A1B2C3D4E5F60718293A4B5D /* Resources */ = {
+		1534471E1C150C7584CD448D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1B2C3D4E5F60718293A4B5C /* Assets.xcassets in Resources */,
+				9FAA4AFA3C0A7F46CFA1D657 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1188,6 +1191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5E267C675726379A1956BFB /* BetaPrivacyDisclosureView.swift in Sources */,
 				155FFF38595C51FAC5171A25 /* CommandIntelligenceCommandCenter.swift in Sources */,
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
 				FC204FD49753AAB080DC4B1B /* CommandPaletteView.swift in Sources */,
@@ -1438,8 +1442,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/GridOSApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = gridOS;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1595,8 +1597,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/GridOSApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = gridOS;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1691,12 +1691,10 @@
 		574B2ED1D1C94400067D4701 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JFE428WL4Z;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1709,7 +1707,6 @@
 				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1833,12 +1830,10 @@
 		941C5B31F1B60EE3FDCF2F83 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = JFE428WL4Z;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1851,7 +1846,6 @@
 				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";

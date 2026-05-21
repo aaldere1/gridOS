@@ -401,8 +401,8 @@ Primary references:
 - `scripts/verify-beta-artifact.sh` is the Beta artifact verification entrypoint.
 - `.planning/phases/12-beta/BETA-UAT.md` is the clean-Mac Gatekeeper UAT checklist.
 - `.planning/phases/12-beta/beta-release-manifest.json` is the manual Beta update manifest.
-- `.planning/phases/12-beta/BETA-FEEDBACK.md` is the future sanitized Beta feedback template.
-- `.planning/phases/12-beta/KNOWN-ISSUES.md` is the future Beta known-issues workflow.
+- `.planning/phases/12-beta/BETA-FEEDBACK.md` is the sanitized Beta feedback template.
+- `.planning/phases/12-beta/KNOWN-ISSUES.md` is the Beta known-issues workflow.
 
 Signing or notary absence is recorded as `BETA_NOTARIZATION_BLOCKED` with
 missing input names only. Clean-Mac access absence is recorded as

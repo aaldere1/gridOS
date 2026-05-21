@@ -67,6 +67,16 @@ Direct distribution is the initial recommendation:
 
 Mac App Store distribution remains a later evaluation because sandboxing may interfere with expected terminal and system-monitor behavior.
 
+## Beta feedback and diagnostics
+
+Phase 12 Beta feedback uses `.planning/phases/12-beta/BETA-FEEDBACK.md`.
+Reports must be sanitized before sharing or committing. Do not include shell
+history, terminal transcripts, raw command output, environment variables, API
+keys, prompts, generated commands, provider responses, screenshots with secrets,
+or private file paths.
+
+No telemetry, crash upload, or automatic diagnostics upload is added in Phase 12.
+
 ## Open security tasks
 
 - Keep the Phase 10 threat model and privacy data inventory current as implementation changes.

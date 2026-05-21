@@ -16,8 +16,11 @@ struct SettingsView: View {
     private var notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
     @AppStorage(GridOSAppPreferences.indexWorkspaceMetadataStorageKey)
     private var indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
+    @AppStorage(GridOSAppPreferences.betaPrivacyDisclosureAcceptedStorageKey)
+    private var betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
 
     @State private var commandIntelligenceSettingsHighlighted = false
+    @State private var isBetaPrivacyDisclosurePresented = false
     @FocusState private var commandIntelligenceSettingsFocused: Bool
 
     var body: some View {
@@ -79,6 +82,38 @@ struct SettingsView: View {
                         }
                     }
 
+                Section("Beta Privacy") {
+                    Text("Terminal sessions stay local to this Mac.")
+                        .foregroundStyle(.secondary)
+
+                    Text("Command Intelligence is opt-in and sends context only after preview approval.")
+                        .foregroundStyle(.secondary)
+
+                    Text("API keys are stored in Keychain.")
+                        .foregroundStyle(.secondary)
+
+                    Text("Risky commands are inserted for review instead of run automatically.")
+                        .foregroundStyle(.secondary)
+
+                    Text("Notifications and workspace indexing are off until you enable them.")
+                        .foregroundStyle(.secondary)
+
+                    Text("Diagnostics are local, sanitized, and user-reviewed.")
+                        .foregroundStyle(.secondary)
+
+                    Text("Support: support@example.com")
+                        .foregroundStyle(.secondary)
+
+                    Text("Feedback template: .planning/phases/12-beta/BETA-FEEDBACK.md")
+                        .foregroundStyle(.secondary)
+
+                    Button("Review Beta Privacy") {
+                        isBetaPrivacyDisclosurePresented = true
+                    }
+                    .accessibilityLabel("Review Beta Privacy")
+                    .accessibilityValue(betaPrivacyDisclosureAccepted ? "Reviewed" : "Not reviewed")
+                }
+
                 Section("Recovery") {
                     Text("Pane layout and directories are restored on relaunch.")
                         .foregroundStyle(.secondary)
@@ -108,6 +143,18 @@ struct SettingsView: View {
             .onReceive(NotificationCenter.default.publisher(for: Notification.Name("gridOS.commandIntelligence.openSettings"))) { _ in
                 focusCommandIntelligenceSettings(proxy)
             }
+            .sheet(isPresented: $isBetaPrivacyDisclosurePresented) {
+                BetaPrivacyDisclosureView(
+                    onContinue: {
+                        betaPrivacyDisclosureAccepted = true
+                        isBetaPrivacyDisclosurePresented = false
+                    },
+                    onOpenPrivacySettings: {
+                        betaPrivacyDisclosureAccepted = true
+                        isBetaPrivacyDisclosurePresented = false
+                    }
+                )
+            }
         }
     }
 
@@ -126,6 +173,7 @@ struct SettingsView: View {
         showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
         notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
         indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
+        betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
     }
 
     private func resetSavedSession() {
