@@ -71,6 +71,22 @@ public final class TerminalWorkspaceController: ObservableObject {
         focusActivePane()
     }
 
+    public func resizeActivePaneLeft() {
+        resizeActivePane(axis: .horizontal, direction: .negative)
+    }
+
+    public func resizeActivePaneRight() {
+        resizeActivePane(axis: .horizontal, direction: .positive)
+    }
+
+    public func resizeActivePaneUp() {
+        resizeActivePane(axis: .vertical, direction: .negative)
+    }
+
+    public func resizeActivePaneDown() {
+        resizeActivePane(axis: .vertical, direction: .positive)
+    }
+
     public func selectedTextInActivePane() -> String? {
         controller(for: activePaneID).selectedText()
     }
@@ -123,5 +139,83 @@ public final class TerminalWorkspaceController: ObservableObject {
 
     public func snapshot() -> TerminalWorkspaceSnapshot {
         state.snapshot()
+    }
+
+    private func resizeActivePane(axis: TerminalSplitAxis, direction: SplitResizeDirection) {
+        state.layout = state.layout.resizingSplit(
+            containing: activePaneID,
+            axis: axis,
+            direction: direction
+        )
+    }
+}
+
+private enum SplitResizeDirection {
+    case negative
+    case positive
+
+    var delta: Double {
+        switch self {
+        case .negative:
+            return -0.05
+        case .positive:
+            return 0.05
+        }
+    }
+}
+
+private extension TerminalPaneLayout {
+    func resizingSplit(
+        containing paneID: TerminalPaneID,
+        axis targetAxis: TerminalSplitAxis,
+        direction: SplitResizeDirection
+    ) -> TerminalPaneLayout {
+        resizedSplit(containing: paneID, axis: targetAxis, direction: direction).layout
+    }
+
+    func resizedSplit(
+        containing paneID: TerminalPaneID,
+        axis targetAxis: TerminalSplitAxis,
+        direction: SplitResizeDirection
+    ) -> (layout: TerminalPaneLayout, didResize: Bool) {
+        switch self {
+        case .pane:
+            return (self, false)
+        case .split(let axis, let fraction, let first, let second):
+            if first.contains(paneID) {
+                let resizedFirst = first.resizedSplit(containing: paneID, axis: targetAxis, direction: direction)
+                if resizedFirst.didResize {
+                    return (
+                        .split(axis: axis, fraction: fraction, first: resizedFirst.layout, second: second),
+                        true
+                    )
+                }
+            }
+
+            if second.contains(paneID) {
+                let resizedSecond = second.resizedSplit(containing: paneID, axis: targetAxis, direction: direction)
+                if resizedSecond.didResize {
+                    return (
+                        .split(axis: axis, fraction: fraction, first: first, second: resizedSecond.layout),
+                        true
+                    )
+                }
+            }
+
+            guard axis == targetAxis,
+                  contains(paneID) else {
+                return (self, false)
+            }
+
+            return (
+                .split(
+                    axis: axis,
+                    fraction: TerminalPaneLayout.clampedFraction(fraction + direction.delta),
+                    first: first,
+                    second: second
+                ),
+                true
+            )
+        }
     }
 }

@@ -118,6 +118,19 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(secondary.focusRequestCount, 0)
     }
 
+    func testResizeActivePaneAdjustsMatchingSplitFraction() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        workspace.resizeActivePaneRight()
+
+        guard case .split(.horizontal, let fraction, _, _) = workspace.state.layout else {
+            return XCTFail("Expected horizontal split")
+        }
+
+        XCTAssertEqual(fraction, 0.55, accuracy: 0.001)
+    }
+
     private func fixtureWorkspace() -> TerminalWorkspaceController {
         TerminalWorkspaceController(
             state: TerminalWorkspaceState(

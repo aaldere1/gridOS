@@ -24,9 +24,10 @@ struct RootView: View {
     private var commandIntelligenceModelRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID
 
     @State private var renderSequence: UInt64 = 0
-    @StateObject private var terminalInteractionController = TerminalInteractionController()
+    @StateObject private var workspaceController = TerminalWorkspaceController(
+        state: TerminalWorkspaceState(defaultConfiguration: TerminalSessionConfiguration.fromProcessArguments())
+    )
     @State private var isCommandPalettePresented = false
-    @State private var currentWorkingDirectory: String?
     @State private var renderEvent = RenderEvent(
         sequence: 0,
         kind: .startup,
@@ -63,10 +64,11 @@ struct RootView: View {
                     VStack(spacing: 12) {
                         SystemStripView(snapshot: systemSnapshot, theme: visualTheme)
                         TerminalWorkspaceView(
-                            configuration: terminalConfiguration,
+                            workspaceController: workspaceController,
                             theme: visualTheme,
-                            interactionController: terminalInteractionController,
-                            onActivity: handleTerminalActivity
+                            onActivity: { paneID, activity in
+                                handleTerminalActivity(activity, from: paneID)
+                            }
                         )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -89,10 +91,11 @@ struct RootView: View {
                         dismissCommandPalette()
                     }
 
+                // Phase 7 routes palette actions to the current active pane at action time.
                 CommandPaletteView(
                     theme: visualTheme,
                     selectedTextProvider: {
-                        terminalInteractionController.selectedText()
+                        workspaceController.selectedTextInActivePane()
                     },
                     workingDirectoryProvider: {
                         commandPaletteWorkingDirectory
@@ -100,10 +103,10 @@ struct RootView: View {
                     onClose: dismissCommandPalette,
                     onOpenCommandIntelligenceSettings: openCommandIntelligenceSettingsFromPalette,
                     onInsertCommand: { command in
-                        terminalInteractionController.insert(command)
+                        workspaceController.insertInActivePane(command)
                     },
                     onRunCommand: { command in
-                        terminalInteractionController.run(command)
+                        workspaceController.runInActivePane(command)
                     },
                     onSendRequest: { preview in
                         await completeCommandIntelligenceRequest(preview)
@@ -164,7 +167,8 @@ struct RootView: View {
     }
 
     private var commandPaletteWorkingDirectory: String? {
-        currentWorkingDirectory ?? terminalConfiguration.workingDirectory
+        let activePane = workspaceController.state.panesByID[workspaceController.activePaneID]
+        return activePane?.lastWorkingDirectory ?? activePane?.configuration.workingDirectory ?? terminalConfiguration.workingDirectory
     }
 
     private var commandIntelligenceProviderID: LLMProviderID {
@@ -220,7 +224,7 @@ struct RootView: View {
 
     @MainActor private func dismissCommandPalette() {
         isCommandPalettePresented = false
-        terminalInteractionController.focusTerminal()
+        workspaceController.focusActivePane()
     }
 
     @MainActor private func openCommandIntelligenceSettingsFromPalette() {
@@ -264,11 +268,8 @@ struct RootView: View {
         return AnthropicCommandProvider()
     }
 
-    private func handleTerminalActivity(_ _: TerminalPaneID, _ activity: TerminalActivityEvent) {
-        if case .workingDirectoryChanged(let directory) = activity {
-            currentWorkingDirectory = directory
-        }
-
+    private func handleTerminalActivity(_ activity: TerminalActivityEvent, from paneID: TerminalPaneID) {
+        workspaceController.handleActivity(activity, from: paneID)
         guard let parameters = renderEventParameters(for: activity) else {
             return
         }
@@ -595,30 +596,6 @@ private struct TopProcessRow: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(process.name)
         .accessibilityValue("\(percentText(process.cpuPercent)) CPU, \(byteCountText(process.residentMemoryBytes)) memory")
-    }
-}
-
-private struct TerminalWorkspaceView: View {
-    let configuration: TerminalSessionConfiguration
-    let theme: VisualTheme
-    let interactionController: TerminalInteractionController
-    let onActivity: TerminalSurface.ActivityHandler
-
-    var body: some View {
-        TerminalSurface(
-            configuration: configuration,
-            interactionController: interactionController,
-            onActivity: onActivity
-        )
-            .background(Color(theme.palette.background).opacity(theme.terminal.backgroundOpacity))
-            .clipShape(RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous)
-                    .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
-                    .accessibilityHidden(true)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .accessibilityLabel("Terminal workspace")
     }
 }
 

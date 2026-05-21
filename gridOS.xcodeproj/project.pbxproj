@@ -15,6 +15,7 @@
 		12470C6D2E91B548FD969A17 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB3C2745E118FBDDDBE306E /* SwiftTerm */; };
 		12962474B93F90CD00A8BFB4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		155FFF38595C51FAC5171A25 /* CommandIntelligenceCommandCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */; };
+		167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */; };
 		179190E8DE52E79B2F0E2744 /* SecretRedactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */; };
 		188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201AF68E81053412B8C4471C /* FoundationModuleStatus.swift */; };
 		1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */; };
@@ -48,6 +49,7 @@
 		6F3EF1C785DD8FDC54969161 /* SystemMetricsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */; };
 		70834CB4225B77F676925F08 /* TerminalSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */; };
 		74B576482AEF9B090E901202 /* SystemMetricsSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6FB4ADEFD81AEFF49FE48 /* SystemMetricsSampler.swift */; };
+		77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */; };
 		791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1127428923C1991E7539 /* RootView.swift */; };
 		7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E76722893B0C28248B49F /* GridOSAppPreferences.swift */; };
@@ -329,8 +331,10 @@
 		9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSystemMetricsProvider.swift; sourceTree = "<group>"; };
 		9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectConfiguration.swift; sourceTree = "<group>"; };
 		9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCommandIntelligenceFixtureProvider.swift; sourceTree = "<group>"; };
+		A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceView.swift; sourceTree = "<group>"; };
 		A243302A878294B594542C4D /* SystemMetricsDeltaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsDeltaTests.swift; sourceTree = "<group>"; };
 		A58649F5A9018C2BA4E5CC93 /* VisualTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTheme.swift; sourceTree = "<group>"; };
+		A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceCommands.swift; sourceTree = "<group>"; };
 		AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBackgroundView.swift; sourceTree = "<group>"; };
 		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
@@ -558,6 +562,8 @@
 				ACBE83C91B238DA23848EE62 /* Info.plist */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
+				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
+				A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */,
 				C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */,
 			);
 			path = GridOSApp;
@@ -1002,6 +1008,8 @@
 				8B1C4E1CA92E223DB392B8CC /* GridOSApp.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
+				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,
+				77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */,
 				558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
