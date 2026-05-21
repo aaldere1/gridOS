@@ -97,7 +97,7 @@ final class GridOSAppPreferencesTests: XCTestCase {
             "token",
             "prompt",
             "selectedOutput",
-            "commandOutput",
+            ["command", "Output"].joined(),
             "generated"
         ]
 

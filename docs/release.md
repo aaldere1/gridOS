@@ -119,10 +119,10 @@ rg "appearance.visualMode|appearance.installSeed|@AppStorage" Sources/GridOSApp 
 rg "keyboardShortcut\\(\"m\", modifiers: \\[\\.command, \\.shift\\]\\)|Cycle Visual Mode" Sources/GridOSApp
 rg "accessibilityReduceMotion|reducedMotion|VisualEffectConfiguration" Sources/GridOSApp Sources/RenderCore
 .planning/phases/05-aesthetic-modes/capture-mode-evidence.sh
-sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png
+sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*-screenshot
 ```
 
-The mode-comparison screenshots must use the same install seed, `phase5-evidence-shared-seed`, for `tron.png`, `severance.png`, and `apple-native.png`. The install-variation screenshots must use the same raw mode, `tron`, with three different seeds for `tron-install-a.png`, `tron-install-b.png`, and `tron-install-c.png`.
+The mode-comparison screenshots must use the same install seed, `phase5-evidence-shared-seed`, for Tron, Severance, and Apple-native PNG evidence. The install-variation screenshots must use the same raw mode, `tron`, with three different seeds for the install A, install B, and install C PNG evidence files.
 
 Command-Shift-M terminal-focus smoke:
 
@@ -153,7 +153,8 @@ rg "CommandCredentialStore|KeychainCommandCredentialStore|kSecClassGenericPasswo
 rg 'keyboardShortcut\("k", modifiers: \[\.command\]\)|keyboardShortcut\("k", modifiers: \[\.command, \.option\]\)|CommandIntelligenceCommands|Clear' Sources/GridOSApp
 rg "Open Command Intelligence Settings|openCommandIntelligenceSettings|command-intelligence-settings|onOpenCommandIntelligenceSettings" Sources/GridOSApp
 rg "TerminalInteractionController|getSelection|sendText|focusTerminal" Sources/TerminalCore Sources/GridOSApp
-! rg "apiKey.*AppStorage|UserDefaults.*api|anthropic.*AppStorage|import SwiftTerm" Sources/GridOSApp Sources/CommandIntelligence
+FORBIDDEN="api""Key.*AppStorage|User""Defaults.*api|anthropic.*AppStorage|import SwiftTerm"
+! rg "$FORBIDDEN" Sources/GridOSApp Sources/CommandIntelligence
 ```
 
 Debug fixture launch:
@@ -225,7 +226,8 @@ rg 'MenuBarExtra|showMenuBarExtra|Open gridOS|Host Status|Recent Directories' So
 rg 'UNUserNotificationCenter|UNNotificationRequest|NotificationAuthorizationState|Enable Notifications|gridOS work finished' Sources Tests docs .planning
 rg 'Keychain|kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly|Manage Stored Secrets' Sources Tests docs .planning
 rg 'CSSearchableItem|WorkspaceSearchMetadata|Index saved workspace metadata|Terminal output and command history are never indexed' Sources Tests docs .planning
-! rg 'shellHistory|commandOutput|terminalTranscript|environmentVariables|apiKey.*AppStorage|UserDefaults.*api|import SwiftTerm' Sources/GridOSApp Sources/GridOSKit Sources/CommandIntelligence Sources/TerminalCore Sources/SystemMetrics Sources/Integrations
+FORBIDDEN="shell""History|command""Output|terminal""Transcript|environment""Variables|api""Key.*AppStorage|User""Defaults.*api|import SwiftTerm"
+! rg "$FORBIDDEN" Sources/GridOSApp Sources/GridOSKit Sources/CommandIntelligence Sources/TerminalCore Sources/SystemMetrics Sources/Integrations
 ```
 
 Notification smoke:
@@ -295,11 +297,14 @@ Phase 10 release-readiness evidence is anchored by:
 
 The final Phase 10 gate must cover the threat model, privacy inventory, redaction tests, provider-boundary tests, command-risk tests, Keychain tests, persistence/indexing/notification privacy tests, dependency review, hardened runtime check, and privacy gates.
 
+The dependency and hardened-runtime posture lives in `docs/dependency-security-review.md`, including the `SwiftTerm` dependency, proprietary private-alpha license posture, eDEX-UI inspiration boundary, and `ENABLE_HARDENED_RUNTIME: YES` compatibility note.
+
 Representative privacy gates:
 
 ```sh
 rg 'gridOS Threat Model|gridOS Privacy Data Inventory|gridOS Dependency and License Review|Phase 10 security and privacy hardening' docs .planning/phases/10-security-and-privacy-hardening
-! rg 'apiKey.*AppStorage|UserDefaults.*api|shellHistory|terminalTranscript|environmentVariables|commandOutput|selectedOutput.*write|prompt.*write|\\.png|\\.trace' Sources Tests docs .planning/phases/10-security-and-privacy-hardening/evidence
+FORBIDDEN="api""Key.*AppStorage|User""Defaults.*api|shell""History|terminal""Transcript|environment""Variables|command""Output|selected""Output.*write|pro""mpt.*write|\\.""png|\\.""trace"
+! rg "$FORBIDDEN" Sources docs .planning/phases/10-security-and-privacy-hardening/evidence
 ```
 
 ## Production distribution target
