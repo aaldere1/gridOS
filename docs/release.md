@@ -394,12 +394,13 @@ signoff.
 Primary references:
 
 - `.planning/phases/12-beta/evidence/README.md` defines the Phase 12 beta evidence policy, privacy boundaries, and blocker policy.
+- `docs/beta-distribution.md` defines the manual Beta install, update, rollback, feedback, and privacy flow.
 - `scripts/beta-notarization-preflight.sh` checks Xcode tooling, Developer ID signing input presence, hardened-runtime settings, notary tool presence, stapler presence, and notary credential mode presence without printing private values.
 - `scripts/build-beta.sh` is the Beta artifact build entrypoint.
 - `scripts/notarize-beta-artifact.sh` is the notary submission and stapling entrypoint.
 - `scripts/verify-beta-artifact.sh` is the Beta artifact verification entrypoint.
-- `.planning/phases/12-beta/BETA-UAT.md` is the future clean-Mac Gatekeeper UAT checklist.
-- `.planning/phases/12-beta/beta-release-manifest.json` is the future manual Beta update manifest.
+- `.planning/phases/12-beta/BETA-UAT.md` is the clean-Mac Gatekeeper UAT checklist.
+- `.planning/phases/12-beta/beta-release-manifest.json` is the manual Beta update manifest.
 - `.planning/phases/12-beta/BETA-FEEDBACK.md` is the future sanitized Beta feedback template.
 - `.planning/phases/12-beta/KNOWN-ISSUES.md` is the future Beta known-issues workflow.
 

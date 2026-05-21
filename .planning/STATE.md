@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Plan 02 complete; Plan 03 ready
-last_updated: "2026-05-21T21:06:27Z"
+status: Phase 12 Plan 03 complete; Plan 04 ready
+last_updated: "2026-05-21T21:08:43Z"
 progress:
   total_phases: 15
   completed_phases: 12
   total_plans: 43
-  completed_plans: 40
+  completed_plans: 41
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 12 - Beta (Plan 02 complete; Plan 03 ready)
+Phase 12 - Beta (Plan 03 complete; Plan 04 ready)
 
 ## Current status
 
-Phase 12 Plan 02 is complete. `scripts/build-beta.sh`, `scripts/notarize-beta-artifact.sh`, and `scripts/verify-beta-artifact.sh` now define the Beta build, notary submission/stapling, and Gatekeeper verification lane. Source/syntax gates passed, and `scripts/build-beta.sh` correctly stops before archiving while notary credentials are absent. `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt` records `BETA_NOTARIZATION_BLOCKED` with missing notary input names only. Plan 03 is ready to implement the Beta release manifest and manual update/distribution docs.
+Phase 12 Plan 03 is complete. `scripts/write-beta-release-manifest.sh`, `.planning/phases/12-beta/beta-release-manifest.json`, `docs/beta-distribution.md`, and `.planning/phases/12-beta/BETA-UAT.md` now define the manual Beta install, update, rollback, clean-Mac Gatekeeper UAT, and manifest path. The manifest is a sanitized placeholder until a notarized artifact exists. Plan 04 is ready to implement first-run privacy, support, feedback, and known-issues surfaces.
 
 ## Decisions made
 
@@ -221,6 +221,7 @@ Phase 12 Plan 02 is complete. `scripts/build-beta.sh`, `scripts/notarize-beta-ar
 - 2026-05-21: Phase 12 planned with context, research, validation, UI spec, and five executable Beta plans.
 - 2026-05-21: Phase 12 Plan 01 executed and verified with Beta notarization preflight, evidence policy, release-doc links, and sanitized `BETA_NOTARIZATION_BLOCKED` evidence for missing notary credential mode.
 - 2026-05-21: Phase 12 Plan 02 executed and verified with Beta build, notarization, stapling, and artifact verification scripts plus release/evidence docs; live artifact creation remains blocked until a notary credential mode is provided.
+- 2026-05-21: Phase 12 Plan 03 executed and verified with Beta release manifest writer, placeholder manifest, distribution/update/rollback guide, and clean-Mac Gatekeeper UAT checklist.
 
 ## Performance metrics
 
@@ -262,10 +263,11 @@ Phase 12 Plan 02 is complete. `scripts/build-beta.sh`, `scripts/notarize-beta-ar
 | Phase 11-alpha P05 | 8 min | 2 tasks | 8 files |
 | Phase 12-beta P01 | 4 min | 2 tasks | 5 files |
 | Phase 12-beta P02 | 5 min | 2 tasks | 5 files |
+| Phase 12-beta P03 | 3 min | 2 tasks | 5 files |
 
 ## Next target
 
-Execute Phase 12 Plan 03: Beta update channel and distribution manifest.
+Execute Phase 12 Plan 04: first-run privacy, support, and feedback loop.
 
 ## Session handoff
 
@@ -416,4 +418,6 @@ Execute Phase 12 Plan 03: Beta update channel and distribution manifest.
 - Phase 12 Plan 01 evidence: `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt`.
 - Phase 12 Plan 02 summary: `.planning/phases/12-beta/12-02-SUMMARY.md`.
 - Phase 12 Plan 02 scripts: `scripts/build-beta.sh`, `scripts/notarize-beta-artifact.sh`, `scripts/verify-beta-artifact.sh`.
-- Stopped at: Phase 12 Plan 03 ready to execute.
+- Phase 12 Plan 03 summary: `.planning/phases/12-beta/12-03-SUMMARY.md`.
+- Phase 12 Plan 03 docs: `docs/beta-distribution.md`, `.planning/phases/12-beta/BETA-UAT.md`, `.planning/phases/12-beta/beta-release-manifest.json`.
+- Stopped at: Phase 12 Plan 04 ready to execute.

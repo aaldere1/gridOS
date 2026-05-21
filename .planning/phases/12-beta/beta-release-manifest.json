@@ -1,0 +1,25 @@
+{
+  "channel": "beta",
+  "artifact": {
+    "name": "pending-local-artifact",
+    "type": "pending",
+    "sha256": "pending"
+  },
+  "sha256": "pending",
+  "bundleIdentifier": "com.aaldere1.gridos",
+  "version": "0.1.0",
+  "build": "1",
+  "sourceCommit": "pending",
+  "generatedAt": "pending",
+  "notarization": {
+    "status": "pending",
+    "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
+  },
+  "gatekeeper": {
+    "status": "pending",
+    "evidence": ".planning/phases/12-beta/evidence/beta-artifact-verification.md"
+  },
+  "releaseNotes": "docs/beta-distribution.md",
+  "updateInstructions": "docs/beta-distribution.md#update-from-beta-n-to-beta-n1",
+  "rollback": "docs/beta-distribution.md#rollback"
+}
