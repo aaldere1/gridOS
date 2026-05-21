@@ -1,0 +1,66 @@
+{
+  "report": "PHASE9_PERFORMANCE_REPORT",
+  "generated_at": "2026-05-21T08:51:51Z",
+  "configuration": {
+    "mode": "quick",
+    "build_configuration": "Debug",
+    "app_binary": "gridOS.app/Contents/MacOS/gridOS",
+    "phase": "09-performance-hardening"
+  },
+  "targets": {
+    "cold_start_ms": 500,
+    "rss_mb": 100,
+    "idle_cpu_percent": 0.5,
+    "input_latency_ms": 5,
+    "frame_pacing": "active-pulse pacing evidence"
+  },
+  "results": {
+    "cold_start_ms": {
+      "status": "PASS",
+      "observed": 88.373,
+      "target": 500,
+      "marker": "PHASE9_READY",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1779353486.362066,\n  \"finished_at\": 1779353486.362067,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
+      "notes": "App launch to Phase 9 ready marker."
+    },
+    "rss_mb": {
+      "status": "MISS",
+      "observed": 110.12,
+      "target": 100,
+      "notes": "Resident set size sampled from ps after startup settle."
+    },
+    "idle_cpu_percent": {
+      "status": "MISS",
+      "observed": 99.000,
+      "target": 0.5,
+      "notes": "Average of five ps CPU samples during a quiet window."
+    },
+    "input_latency_ms": {
+      "status": "MISS",
+      "observed": null,
+      "marker": "PHASE9_INPUT_LATENCY",
+      "marker_payload": null,
+      "notes": "Fixture smoke result; measured latency is pending until Plan 09-03."
+    },
+    "heavy_output": {
+      "status": "MISS",
+      "observed": null,
+      "marker": "PHASE9_HEAVY_OUTPUT_DONE",
+      "marker_payload": null,
+      "notes": "Fixture smoke result; measured heavy-output stress is pending until Plan 09-03."
+    },
+    "frame_pacing": {
+      "status": "MISS",
+      "observed": null,
+      "marker": "PHASE9_FRAME_PACING",
+      "marker_payload": null,
+      "notes": "Fixture smoke result; xctrace/frame-pacing summary is pending until Plan 09-03."
+    }
+  },
+  "misses": [
+    {"metric": "rss_mb", "status": "MISS", "owner": "Phase 09", "mitigation": "Profile resident memory and reduce baseline allocations or document release exception."},
+    {"metric": "idle_cpu_percent", "status": "MISS", "owner": "Phase 09", "mitigation": "Profile idle run loop, metrics sampler, and render lifecycle."},
+    {"metric": "input_latency_ms", "status": "MISS", "owner": "Phase 09", "mitigation": "Validate terminal-bound fixture availability and measure controller-to-PTY latency."},
+    {"metric": "heavy_output", "status": "MISS", "owner": "Phase 09", "mitigation": "Validate terminal-bound heavy-output fixture and inspect UI/output batching."},
+    {"metric": "frame_pacing", "status": "MISS", "owner": "Phase 09", "mitigation": "Validate render-pulse fixture and capture frame-pacing summary."}]
+}

@@ -30,6 +30,13 @@ READY_STATUS="pending"
 INPUT_LATENCY_STATUS="pending"
 HEAVY_OUTPUT_STATUS="pending"
 FRAME_PACING_STATUS="pending"
+COLD_START_MS_OBSERVED="null"
+RSS_MB_OBSERVED="null"
+IDLE_CPU_PERCENT_OBSERVED="null"
+RSS_STATUS="pending"
+IDLE_CPU_STATUS="pending"
+MEASUREMENT_APP_PID=""
+MEASUREMENT_APP_BIN=""
 
 usage() {
   cat <<EOF
@@ -112,9 +119,8 @@ marker_payload_json_value() {
 }
 
 resolved_app_binary_json_value() {
-  local app_bin
-  if app_bin="$(resolve_app_binary)"; then
-    printf '"%s"' "$app_bin"
+  if resolve_app_binary >/dev/null; then
+    printf '"gridOS.app/Contents/MacOS/gridOS"'
   else
     printf 'null'
   fi
@@ -177,6 +183,161 @@ run_fixture_smokes() {
   run_frame_pacing_smoke
 }
 
+status_for_numeric_target() {
+  local observed="$1"
+  local target="$2"
+
+  if [[ "$observed" == "null" ]]; then
+    printf "UNAVAILABLE"
+    return 0
+  fi
+
+  if /usr/bin/perl -e 'exit(($ARGV[0] <= $ARGV[1]) ? 0 : 1)' "$observed" "$target"; then
+    printf "PASS"
+  else
+    printf "MISS"
+  fi
+}
+
+measure_cold_start() {
+  if ! MEASUREMENT_APP_BIN="$(resolve_app_binary)"; then
+    READY_STATUS="UNAVAILABLE"
+    COLD_START_MS_OBSERVED="null"
+    return 0
+  fi
+
+  rm -f "$READY_MARKER_PATH"
+  local started
+  started="$(now_seconds)"
+  "$MEASUREMENT_APP_BIN" "--phase9-ready-smoke" >/dev/null 2>&1 &
+  MEASUREMENT_APP_PID=$!
+
+  if wait_for_file "$READY_MARKER_PATH" 3; then
+    local finished
+    finished="$(now_seconds)"
+    COLD_START_MS_OBSERVED=$(/usr/bin/perl -e 'printf "%.3f\n", ($ARGV[1] - $ARGV[0]) * 1000' "$started" "$finished")
+    READY_STATUS="$(status_for_numeric_target "$COLD_START_MS_OBSERVED" "$TARGET_COLD_START_MS")"
+  else
+    READY_STATUS="MISS"
+    COLD_START_MS_OBSERVED="null"
+  fi
+}
+
+measure_resident_memory() {
+  if [[ -z "$MEASUREMENT_APP_PID" ]] || ! kill -0 "$MEASUREMENT_APP_PID" 2>/dev/null; then
+    RSS_MB_OBSERVED="null"
+    RSS_STATUS="UNAVAILABLE"
+    return 0
+  fi
+
+  sleep 1
+  local rss_kib
+  rss_kib="$(ps -o rss= -p "$MEASUREMENT_APP_PID" | awk 'NF >= 1 { print $1; exit }')"
+
+  if [[ -z "$rss_kib" ]]; then
+    RSS_MB_OBSERVED="null"
+    RSS_STATUS="UNAVAILABLE"
+    return 0
+  fi
+
+  RSS_MB_OBSERVED="$(awk -v rss_kib="$rss_kib" 'BEGIN { printf "%.2f", rss_kib / 1024 }')"
+  RSS_STATUS="$(status_for_numeric_target "$RSS_MB_OBSERVED" "$TARGET_RSS_MB")"
+}
+
+measure_idle_cpu() {
+  if [[ -z "$MEASUREMENT_APP_PID" ]] || ! kill -0 "$MEASUREMENT_APP_PID" 2>/dev/null; then
+    IDLE_CPU_PERCENT_OBSERVED="null"
+    IDLE_CPU_STATUS="UNAVAILABLE"
+    return 0
+  fi
+
+  local sample_count=0
+  local sample_sum="0"
+  local cpu_sample
+
+  for _ in 1 2 3 4 5; do
+    cpu_sample="$(ps -o %cpu= -p "$MEASUREMENT_APP_PID" | awk 'NF >= 1 { print $1; exit }')"
+    if [[ -n "$cpu_sample" ]]; then
+      sample_sum="$(awk -v sum="$sample_sum" -v sample="$cpu_sample" 'BEGIN { printf "%.4f", sum + sample }')"
+      sample_count=$((sample_count + 1))
+    fi
+    sleep 0.2
+  done
+
+  if [[ "$sample_count" -eq 0 ]]; then
+    IDLE_CPU_PERCENT_OBSERVED="null"
+    IDLE_CPU_STATUS="UNAVAILABLE"
+    return 0
+  fi
+
+  IDLE_CPU_PERCENT_OBSERVED="$(awk -v sum="$sample_sum" -v count="$sample_count" 'BEGIN { printf "%.3f", sum / count }')"
+  IDLE_CPU_STATUS="$(status_for_numeric_target "$IDLE_CPU_PERCENT_OBSERVED" "$TARGET_IDLE_CPU_PERCENT")"
+}
+
+cleanup_measurement_app() {
+  if [[ -n "$MEASUREMENT_APP_PID" ]]; then
+    terminate_launched_pid "$MEASUREMENT_APP_PID"
+  fi
+  MEASUREMENT_APP_PID=""
+}
+
+misses_json_value() {
+  local first=1
+
+  printf '['
+  append_miss_json "cold_start_ms" "$READY_STATUS" "Optimize launch/readiness path or document release exception."
+  append_miss_json "rss_mb" "$RSS_STATUS" "Profile resident memory and reduce baseline allocations or document release exception."
+  append_miss_json "idle_cpu_percent" "$IDLE_CPU_STATUS" "Profile idle run loop, metrics sampler, and render lifecycle."
+  append_miss_json "input_latency_ms" "$INPUT_LATENCY_STATUS" "Validate terminal-bound fixture availability and measure controller-to-PTY latency."
+  append_miss_json "heavy_output" "$HEAVY_OUTPUT_STATUS" "Validate terminal-bound heavy-output fixture and inspect UI/output batching."
+  append_miss_json "frame_pacing" "$FRAME_PACING_STATUS" "Validate render-pulse fixture and capture frame-pacing summary."
+  printf ']'
+}
+
+append_miss_json() {
+  local metric="$1"
+  local status="$2"
+  local mitigation="$3"
+
+  if [[ "$status" != "MISS" ]]; then
+    return 0
+  fi
+
+  if [[ "${first}" -eq 0 ]]; then
+    printf ','
+  fi
+
+  first=0
+  printf '\n    {"metric": "%s", "status": "MISS", "owner": "Phase 09", "mitigation": "%s"}' "$metric" "$(json_quote "$mitigation")"
+}
+
+misses_markdown_rows() {
+  local rows=""
+
+  append_miss_markdown "Cold start" "$READY_STATUS" "Optimize launch/readiness path or document release exception."
+  append_miss_markdown "Resident memory" "$RSS_STATUS" "Profile resident memory and reduce baseline allocations or document release exception."
+  append_miss_markdown "Idle CPU" "$IDLE_CPU_STATUS" "Profile idle run loop, metrics sampler, and render lifecycle."
+  append_miss_markdown "Input latency" "$INPUT_LATENCY_STATUS" "Validate terminal-bound fixture availability and measure controller-to-PTY latency."
+  append_miss_markdown "Heavy output" "$HEAVY_OUTPUT_STATUS" "Validate terminal-bound heavy-output fixture and inspect UI/output batching."
+  append_miss_markdown "Frame pacing" "$FRAME_PACING_STATUS" "Validate render-pulse fixture and capture frame-pacing summary."
+
+  if [[ -z "$rows" ]]; then
+    printf "| None | PASS | n/a | n/a |\n"
+  else
+    printf "%s" "$rows"
+  fi
+}
+
+append_miss_markdown() {
+  local metric="$1"
+  local status="$2"
+  local mitigation="$3"
+
+  if [[ "$status" == "MISS" ]]; then
+    rows="${rows}| ${metric} | MISS | Phase 09 | ${mitigation} |"$'\n'
+  fi
+}
+
 write_json_report() {
   mkdir -p "$EVIDENCE_DIR"
 
@@ -203,20 +364,23 @@ write_json_report() {
   "results": {
     "cold_start_ms": {
       "status": "$READY_STATUS",
-      "observed": null,
+      "observed": $COLD_START_MS_OBSERVED,
+      "target": $TARGET_COLD_START_MS,
       "marker": "$PHASE9_READY",
       "marker_payload": $(marker_payload_json_value "$READY_MARKER_PATH"),
-      "notes": "Fixture smoke result; threshold measurements are pending until Plan 09-03."
+      "notes": "App launch to Phase 9 ready marker."
     },
     "rss_mb": {
-      "status": "pending",
-      "observed": null,
-      "notes": "Live measurements are pending until Plans 09-02 and 09-03."
+      "status": "$RSS_STATUS",
+      "observed": $RSS_MB_OBSERVED,
+      "target": $TARGET_RSS_MB,
+      "notes": "Resident set size sampled from ps after startup settle."
     },
     "idle_cpu_percent": {
-      "status": "pending",
-      "observed": null,
-      "notes": "Live measurements are pending until Plans 09-02 and 09-03."
+      "status": "$IDLE_CPU_STATUS",
+      "observed": $IDLE_CPU_PERCENT_OBSERVED,
+      "target": $TARGET_IDLE_CPU_PERCENT,
+      "notes": "Average of five ps CPU samples during a quiet window."
     },
     "input_latency_ms": {
       "status": "$INPUT_LATENCY_STATUS",
@@ -240,7 +404,7 @@ write_json_report() {
       "notes": "Fixture smoke result; xctrace/frame-pacing summary is pending until Plan 09-03."
     }
   },
-  "misses": []
+  "misses": $(misses_json_value)
 }
 EOF
 }
@@ -280,18 +444,42 @@ Outputs:
 
 | Scenario | Status | Marker |
 | --- | --- | --- |
-| Ready smoke | ${READY_STATUS} | ${PHASE9_READY} |
+| Cold start | ${READY_STATUS} | ${PHASE9_READY} |
+| Resident memory | ${RSS_STATUS} | ps rss |
+| Idle CPU | ${IDLE_CPU_STATUS} | ps %cpu |
 | Input latency smoke | ${INPUT_LATENCY_STATUS} | ${PHASE9_INPUT_LATENCY} |
 | Heavy output smoke | ${HEAVY_OUTPUT_STATUS} | ${PHASE9_HEAVY_OUTPUT_DONE} |
 | Frame pacing smoke | ${FRAME_PACING_STATUS} | ${PHASE9_FRAME_PACING} |
 
-Threshold measurements are pending until Plan 09-03.
+## Cold start
+
+- **Target:** < ${TARGET_COLD_START_MS} ms
+- **Observed:** ${COLD_START_MS_OBSERVED} ms
+- **Status:** ${READY_STATUS}
+- **Command:** \`gridOS --phase9-ready-smoke\`
+- **Notes:** App launch to Phase 9 ready marker.
+
+## Resident memory
+
+- **Target:** < ${TARGET_RSS_MB} MB
+- **Observed:** ${RSS_MB_OBSERVED} MB
+- **Status:** ${RSS_STATUS}
+- **Command:** \`ps -o rss= -p <gridOS pid>\`
+- **Notes:** RSS sampled after a short startup settle window.
+
+## Idle CPU
+
+- **Target:** < ${TARGET_IDLE_CPU_PERCENT}%
+- **Observed:** ${IDLE_CPU_PERCENT_OBSERVED}%
+- **Status:** ${IDLE_CPU_STATUS}
+- **Command:** \`ps -o %cpu= -p <gridOS pid>\`
+- **Notes:** Average of five quiet-window samples.
 
 ## Misses and mitigations
 
 | Metric | Status | Owner | Mitigation |
 | --- | --- | --- | --- |
-| Live measurements | pending | Phase 09 | Add measured scenarios in Plan 09-03. |
+$(misses_markdown_rows)
 
 ## Known limitations
 
@@ -320,7 +508,13 @@ main() {
     esac
   done
 
-  run_fixture_smokes
+  measure_cold_start
+  measure_resident_memory
+  measure_idle_cpu
+  cleanup_measurement_app
+  run_input_latency_smoke
+  run_heavy_output_smoke
+  run_frame_pacing_smoke
   write_json_report
   write_markdown_report
 

@@ -2,7 +2,7 @@
 
 ## Phase 9 final gate
 
-Status: pending live measurements. The benchmark harness and report schema are present; app-side fixtures and measured scenarios are added in later Phase 9 plans.
+Status: fixture smoke ready. Live threshold measurements are added in later Phase 9 plans.
 
 ## Benchmark invocation
 
@@ -27,16 +27,51 @@ Outputs:
 
 ## Results
 
-Live measurements are pending until Plans 09-02 and 09-03.
+| Scenario | Status | Marker |
+| --- | --- | --- |
+| Cold start | PASS | PHASE9_READY |
+| Resident memory | MISS | ps rss |
+| Idle CPU | MISS | ps %cpu |
+| Input latency smoke | MISS | PHASE9_INPUT_LATENCY |
+| Heavy output smoke | MISS | PHASE9_HEAVY_OUTPUT_DONE |
+| Frame pacing smoke | MISS | PHASE9_FRAME_PACING |
+
+## Cold start
+
+- **Target:** < 500 ms
+- **Observed:** 88.373 ms
+- **Status:** PASS
+- **Command:** `gridOS --phase9-ready-smoke`
+- **Notes:** App launch to Phase 9 ready marker.
+
+## Resident memory
+
+- **Target:** < 100 MB
+- **Observed:** 110.12 MB
+- **Status:** MISS
+- **Command:** `ps -o rss= -p <gridOS pid>`
+- **Notes:** RSS sampled after a short startup settle window.
+
+## Idle CPU
+
+- **Target:** < 0.5%
+- **Observed:** 99.000%
+- **Status:** MISS
+- **Command:** `ps -o %cpu= -p <gridOS pid>`
+- **Notes:** Average of five quiet-window samples.
 
 ## Misses and mitigations
 
 | Metric | Status | Owner | Mitigation |
 | --- | --- | --- | --- |
-| Live measurements | pending | Phase 09 | Add app fixtures and measured scenarios in Plans 09-02 and 09-03. |
+| Resident memory | MISS | Phase 09 | Profile resident memory and reduce baseline allocations or document release exception. |
+| Idle CPU | MISS | Phase 09 | Profile idle run loop, metrics sampler, and render lifecycle. |
+| Input latency | MISS | Phase 09 | Validate terminal-bound fixture availability and measure controller-to-PTY latency. |
+| Heavy output | MISS | Phase 09 | Validate terminal-bound heavy-output fixture and inspect UI/output batching. |
+| Frame pacing | MISS | Phase 09 | Validate render-pulse fixture and capture frame-pacing summary. |
 
 ## Known limitations
 
-- This initial report is a schema and quick-smoke placeholder.
+- This report contains fixture smoke status only until Plan 09-03 adds measured scenarios.
 - No private shell history, terminal transcripts, environment variables, API keys, screenshots, or raw Instruments traces are captured.
 - Full xctrace/profile behavior is added after deterministic app-side benchmark markers exist.
