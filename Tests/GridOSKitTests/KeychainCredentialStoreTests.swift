@@ -1,55 +1,47 @@
 import XCTest
 import Security
-import GridOSKit
-@testable import CommandIntelligence
+@testable import GridOSKit
 
-final class CommandCredentialStoreTests: XCTestCase {
-    func testInMemoryStoreReturnsNilWhenNoKeyIsSaved() async throws {
-        let store = InMemoryCommandCredentialStore()
+final class KeychainCredentialStoreTests: XCTestCase {
+    func testDescriptorBuildsGenericPasswordQuery() {
+        let descriptor = KeychainCredentialDescriptor(
+            service: "com.aaldere1.gridos.test",
+            account: "anthropic"
+        )
 
-        let apiKey = try await store.apiKey(for: .anthropic)
+        let query = descriptor.baseQuery()
 
-        XCTAssertNil(apiKey)
+        XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword as String))
+        XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.test"))
+        XCTAssertEqual(query[kSecAttrAccount], .string("anthropic"))
+        XCTAssertEqual(query[kSecUseDataProtectionKeychain], .bool(true))
+        XCTAssertNil(query[kSecValueData])
     }
 
-    func testInMemoryStoreSavesReadsAndDeletesProviderKeys() async throws {
-        let store = InMemoryCommandCredentialStore()
-        let provider: LLMProviderID = "anthropic"
-
-        try await store.saveAPIKey("sk-test-value", for: provider)
-        let savedAPIKey = try await store.apiKey(for: provider)
-        XCTAssertEqual(savedAPIKey, "sk-test-value")
-
-        try await store.deleteAPIKey(for: provider)
-        let deletedAPIKey = try await store.apiKey(for: provider)
-        XCTAssertNil(deletedAPIKey)
-    }
-
-    func testKeychainStoreUsesExpectedServiceClassAccountAndAccessibility() async throws {
+    func testStoreSavesSecretWithAccessibilityAndTrimmedData() async throws {
         let client = RecordingKeychainSecItemClient(addStatuses: [errSecSuccess])
-        let store = KeychainCommandCredentialStore(client: client)
+        let store = KeychainCredentialStore(client: client)
 
-        try await store.saveAPIKey("  sk-ant-test-value  ", for: .anthropic)
+        try await store.saveSecret("  stored-secret  ", for: descriptor)
 
         let operations = await client.recordedOperations()
-        let operation = try XCTUnwrap(operations.first)
-        guard case let .add(query) = operation else {
+        guard case let .add(query) = operations.first else {
             return XCTFail("Expected add operation")
         }
 
         XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword as String))
-        XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.command-intelligence"))
+        XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.test"))
         XCTAssertEqual(query[kSecAttrAccount], .string("anthropic"))
         XCTAssertEqual(query[kSecAttrAccessible], .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly as String))
         XCTAssertEqual(query[kSecUseDataProtectionKeychain], .bool(true))
-        XCTAssertEqual(query[kSecValueData], .data(Data("sk-ant-test-value".utf8)))
+        XCTAssertEqual(query[kSecValueData], .data(Data("stored-secret".utf8)))
     }
 
-    func testKeychainStoreUpdatesExistingItemInsteadOfDuplicating() async throws {
+    func testStoreUpdatesDuplicateItem() async throws {
         let client = RecordingKeychainSecItemClient(addStatuses: [errSecDuplicateItem], updateStatus: errSecSuccess)
-        let store = KeychainCommandCredentialStore(client: client)
+        let store = KeychainCredentialStore(client: client)
 
-        try await store.saveAPIKey("sk-ant-replacement", for: .anthropic)
+        try await store.saveSecret("replacement-secret", for: descriptor)
 
         let operations = await client.recordedOperations()
         XCTAssertEqual(operations.count, 2)
@@ -61,27 +53,27 @@ final class CommandCredentialStoreTests: XCTestCase {
         }
 
         XCTAssertEqual(query[kSecClass], .securityConstant(kSecClassGenericPassword as String))
-        XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.command-intelligence"))
+        XCTAssertEqual(query[kSecAttrService], .string("com.aaldere1.gridos.test"))
         XCTAssertEqual(query[kSecAttrAccount], .string("anthropic"))
         XCTAssertNil(query[kSecValueData])
-        XCTAssertEqual(attributesToUpdate[kSecValueData], .data(Data("sk-ant-replacement".utf8)))
+        XCTAssertEqual(attributesToUpdate[kSecValueData], .data(Data("replacement-secret".utf8)))
         XCTAssertEqual(
             attributesToUpdate[kSecAttrAccessible],
             .securityConstant(kSecAttrAccessibleWhenUnlockedThisDeviceOnly as String)
         )
     }
 
-    func testKeychainStoreReadsAndDeletesWithoutRealKeychainAccess() async throws {
+    func testStoreReadsSecretAndDeletes() async throws {
         let client = RecordingKeychainSecItemClient(
-            copyResult: KeychainSecItemCopyResult(status: errSecSuccess, data: Data("sk-ant-saved".utf8)),
-            deleteStatus: errSecItemNotFound
+            copyResult: KeychainSecItemCopyResult(status: errSecSuccess, data: Data("stored-secret".utf8)),
+            deleteStatus: errSecSuccess
         )
-        let store = KeychainCommandCredentialStore(client: client)
+        let store = KeychainCredentialStore(client: client)
 
-        let savedKey = try await store.apiKey(for: .anthropic)
-        try await store.deleteAPIKey(for: .anthropic)
+        let secret = try await store.secret(for: descriptor)
+        try await store.deleteSecret(for: descriptor)
 
-        XCTAssertEqual(savedKey, "sk-ant-saved")
+        XCTAssertEqual(secret, "stored-secret")
         let operations = await client.recordedOperations()
         XCTAssertEqual(operations.count, 2)
         guard case let .copyMatching(copyQuery) = operations[0],
@@ -94,21 +86,33 @@ final class CommandCredentialStoreTests: XCTestCase {
         XCTAssertEqual(deleteQuery[kSecUseDataProtectionKeychain], .bool(true))
     }
 
-    func testKeychainStoreReturnsNilForMissingItemAndRejectsEmptyKeys() async throws {
+    func testStoreReturnsNilForMissingItem() async throws {
         let client = RecordingKeychainSecItemClient(
             copyResult: KeychainSecItemCopyResult(status: errSecItemNotFound, data: nil)
         )
-        let store = KeychainCommandCredentialStore(client: client)
+        let store = KeychainCredentialStore(client: client)
 
-        let missingKey = try await store.apiKey(for: .anthropic)
-        XCTAssertNil(missingKey)
+        let secret = try await store.secret(for: descriptor)
+
+        XCTAssertNil(secret)
+    }
+
+    func testStoreRejectsEmptySecret() async throws {
+        let store = KeychainCredentialStore(client: RecordingKeychainSecItemClient())
 
         do {
-            try await store.saveAPIKey("   ", for: .anthropic)
-            XCTFail("Expected human-readable empty key failure")
-        } catch let failure as CommandIntelligenceFailure {
-            XCTAssertEqual(failure.title, "Provider not configured")
+            try await store.saveSecret("   ", for: descriptor)
+            XCTFail("Expected empty secret failure")
+        } catch let error as KeychainCredentialStoreError {
+            XCTAssertEqual(error, .emptySecret)
         }
+    }
+
+    private var descriptor: KeychainCredentialDescriptor {
+        KeychainCredentialDescriptor(
+            service: "com.aaldere1.gridos.test",
+            account: "anthropic"
+        )
     }
 }
 

@@ -24,6 +24,7 @@
 		257A3E64AF4B5A755C7B3671 /* RenderCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; };
 		2AD53518AD65CB2C036A58F0 /* RenderCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; };
 		2B7E718D24E234871A82E257 /* CommandIntelligenceModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */; };
+		2BCFBA292A4BE2CF8632CF60 /* KeychainCredentialStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F7BA762527CE7828A92C7A /* KeychainCredentialStoreTests.swift */; };
 		2F6D8EE63CDAA7EF96514B5A /* Integrations.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBAE6B02785B5CE061673F88 /* Integrations.framework */; };
 		3071E6307B2FF85C5C043069 /* VisualTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58649F5A9018C2BA4E5CC93 /* VisualTheme.swift */; };
 		3770BCD312A15B0DCA26E074 /* GridOSKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -68,6 +69,7 @@
 		8F801B514F765712A694EB78 /* CommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D840427A9B6B3B8EF4F73188 /* CommandCredentialStore.swift */; };
 		916AC219B79FFC1BBA20325A /* NativeSystemMetricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */; };
 		9290380486D013E75E87EAC1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
+		95F5CC5AAB47F96D4AFB0FFA /* KeychainCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */; };
 		9AAC3AC26B613C98063BC536 /* RenderCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9135D79F52087818F7CA8C70 /* RenderCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */; };
 		9F209C190D88B74D78CA4C00 /* CommandContextPreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F27AE737BB7C044D95638F /* CommandContextPreviewTests.swift */; };
@@ -366,6 +368,7 @@
 		6922304D1FF56546CD96CE28 /* AnthropicCommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicCommandProvider.swift; sourceTree = "<group>"; };
 		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStore.swift; sourceTree = "<group>"; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
@@ -386,6 +389,7 @@
 		ACBE83C91B238DA23848EE62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSurface.swift; sourceTree = "<group>"; };
 		B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandRiskClassifier.swift; sourceTree = "<group>"; };
+		B3F7BA762527CE7828A92C7A /* KeychainCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStoreTests.swift; sourceTree = "<group>"; };
 		B8DD4AB79D02FD94D2793EB3 /* CommandIntelligenceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceStatus.swift; sourceTree = "<group>"; };
 		BE86E735DFFB69361650A7B3 /* CommandIntelligenceFailureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFailureTests.swift; sourceTree = "<group>"; };
 		C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalActivityEvent.swift; sourceTree = "<group>"; };
@@ -700,6 +704,7 @@
 				741E76722893B0C28248B49F /* GridOSAppPreferences.swift */,
 				ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */,
 				4A9A68DD08D77B219E090A4D /* Info.plist */,
+				7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */,
 			);
 			path = GridOSKit;
 			sourceTree = "<group>";
@@ -738,6 +743,7 @@
 			children = (
 				D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */,
 				DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */,
+				B3F7BA762527CE7828A92C7A /* KeychainCredentialStoreTests.swift */,
 			);
 			path = GridOSKitTests;
 			sourceTree = "<group>";
@@ -1164,6 +1170,7 @@
 			files = (
 				D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */,
 				4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */,
+				2BCFBA292A4BE2CF8632CF60 /* KeychainCredentialStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,6 +1211,7 @@
 				188D55835F163DA5FA964A4C /* FoundationModuleStatus.swift in Sources */,
 				7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */,
 				4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */,
+				95F5CC5AAB47F96D4AFB0FFA /* KeychainCredentialStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
