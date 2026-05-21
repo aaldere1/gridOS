@@ -158,6 +158,7 @@ struct RootView: View {
             startPhase7SmokeIfNeeded()
             startPhase8SmokeIfNeeded()
             startPhase9SmokeIfNeeded()
+            startPhase11SmokeIfNeeded()
             #endif
             await runMetricsLoop()
         }
@@ -429,6 +430,14 @@ struct RootView: View {
             renderPulse: {
                 handleTerminalActivity(.output(byteCount: 4_096), from: workspaceController.activePaneID)
             }
+        )
+        .startIfRequested()
+    }
+
+    @MainActor private func startPhase11SmokeIfNeeded() {
+        Phase11AlphaSmokeCoordinator(
+            workspaceController: workspaceController,
+            saveWorkspace: saveWorkspaceNow
         )
         .startIfRequested()
     }

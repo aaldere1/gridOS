@@ -346,6 +346,24 @@ The verifier accepts a generated ZIP or an extracted `gridOS.app`, rejects artif
 
 The verification report includes `Alpha artifact manifest`, bundle ID, version, build, checksum, pass/fail status, and `Notarization: deferred to Phase 12`.
 
+DEBUG alpha daily-driver smoke:
+
+```sh
+rm -f /tmp/gridos_phase11_alpha_terminal_ready.txt /tmp/gridos_phase11_alpha_workspace_ready.txt /tmp/gridos_phase11_alpha_privacy_ready.txt
+open -n ~/Library/Developer/Xcode/DerivedData/gridOS-*/Build/Products/Debug/gridOS.app --args --phase11-alpha-smoke
+cat /tmp/gridos_phase11_alpha_terminal_ready.txt /tmp/gridos_phase11_alpha_workspace_ready.txt /tmp/gridos_phase11_alpha_privacy_ready.txt
+```
+
+Expected marker content:
+
+```text
+PHASE11_ALPHA_TERMINAL_READY
+PHASE11_ALPHA_WORKSPACE_READY
+PHASE11_ALPHA_PRIVACY_READY
+```
+
+The smoke uses deterministic local marker commands through the app workspace controller. It does not use live provider credentials, screenshots, terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
+
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
 ## Production distribution target
