@@ -403,6 +403,7 @@ Primary references:
 - `.planning/phases/12-beta/beta-release-manifest.json` is the manual Beta update manifest.
 - `.planning/phases/12-beta/BETA-FEEDBACK.md` is the sanitized Beta feedback template.
 - `.planning/phases/12-beta/KNOWN-ISSUES.md` is the Beta known-issues workflow.
+- `.planning/phases/12-beta/12-VERIFICATION.md` is the source of truth for Beta signoff.
 
 Signing or notary absence is recorded as `BETA_NOTARIZATION_BLOCKED` with
 missing input names only. Clean-Mac access absence is recorded as
