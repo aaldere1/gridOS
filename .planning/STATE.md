@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 11 blocked
-last_updated: "2026-05-21T13:59:31Z"
+status: Phase 11 blocked pending manual signed-artifact UAT
+last_updated: "2026-05-21T14:52:00Z"
 progress:
   total_phases: 12
   completed_phases: 11
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 11 - Alpha (blocked)
+Phase 11 - Alpha (blocked pending manual signed-artifact UAT)
 
 ## Current status
 
-Phase 11 blocked. Plan 05 final verification executed with unsigned build/test and sanitized UAT helper passing. The local blocker recheck resolved DEBUG alpha smoke markers and the overbroad privacy-gate blocker, but Alpha still cannot pass because signing inputs are missing, no signed internal artifact exists, and signed-artifact daily-driver UAT is not complete. See `11-VERIFICATION.md`, `ALPHA-UAT.md`, `KNOWN-ISSUES.md`, and `evidence/README.md`.
+Phase 11 blocked only on manual signed-artifact daily-driver UAT. Signing preflight, signed artifact build, artifact verification, signed-app launch responsiveness, DEBUG alpha smoke, known-issues triage, diagnostics policy, noninteractive UAT helper, and focused evidence privacy gates now pass. The signed Alpha artifact is `build/alpha/gridOS-0.1.0-1-ba71322.zip`; complete `ALPHA-UAT.md` against that artifact before updating `11-VERIFICATION.md` to `PASS` or activating Phase 12. See `11-VERIFICATION.md`, `ALPHA-UAT.md`, `KNOWN-ISSUES.md`, and `evidence/README.md`.
 
 ## Decisions made
 
@@ -109,6 +109,7 @@ Phase 11 blocked. Plan 05 final verification executed with unsigned build/test a
 - [Phase 11-alpha]: Phase 11 diagnostics remain local and sanitized; telemetry, crash reporting, automatic diagnostics upload, and support portal functionality are deferred.
 - [Phase 11-alpha]: Diagnostics source gating scans Phase 11 docs, evidence policy, and scripts while excluding generated artifacts.
 - [Phase 11-alpha]: Final Alpha verification remains blocked unless `11-VERIFICATION.md` is updated to PASS after signing inputs, signed artifact verification, signed-artifact daily-driver UAT, known issues, diagnostics, and privacy gates are coherent.
+- [Phase 11-alpha]: MenuBarExtra is disabled for Alpha after a signed-app launch loop in SwiftUI's status-item scene; re-enable only after the scene can launch without beachballing.
 
 ## Decisions still open
 
@@ -212,6 +213,9 @@ Phase 11 blocked. Plan 05 final verification executed with unsigned build/test a
 - 2026-05-21: Phase 10 Plan 05 executed with dependency/license review, hardened-runtime posture, and final security/privacy verification.
 - 2026-05-21: Phase 10 verification passed with 11/11 must-haves verified and handoff to Phase 11 - Alpha.
 - 2026-05-21: Phase 11 context, research, validation strategy, and five executable plans created for Alpha signing preflight, internal artifact build/verification, daily-driver UAT, feedback/diagnostics, and final verification.
+- 2026-05-21: Phase 11 signing was unblocked with local Developer ID inputs, `scripts/build-alpha.sh` produced signed artifact `build/alpha/gridOS-0.1.0-1-ba71322.zip`, and `scripts/verify-alpha-artifact.sh` passed.
+- 2026-05-21: Resolved signed Alpha launch beachball ALPHA-004 by disabling the SwiftUI `MenuBarExtra` scene for Alpha; archived signed app launch proof showed one window, a live shell child, and settled CPU of `3.4%` after 15 seconds.
+- 2026-05-21: Phase 11 remains blocked only on manual signed-artifact UAT in `ALPHA-UAT.md`; all current known issues are resolved.
 
 ## Performance metrics
 

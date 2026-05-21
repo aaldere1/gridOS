@@ -323,7 +323,7 @@ Primary references:
 - `.planning/phases/11-alpha/DIAGNOSTICS.md` is the Phase 11 Alpha Diagnostics Policy.
 - `.planning/phases/11-alpha/11-VERIFICATION.md` is the final Alpha verification report and Phase 12 handoff gate.
 
-Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
+Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Current Phase 11 evidence has signing unblocked and artifact verification passing for `build/alpha/gridOS-0.1.0-1-ba71322.zip`, but Alpha cannot be marked complete until manual signed-artifact UAT passes. Alpha also cannot be marked complete with a high-severity terminal correctness blocker.
 
 Final Alpha signoff must use `.planning/phases/11-alpha/11-VERIFICATION.md` as the source of truth. If the report is `BLOCKED`, do not mark Phase 11 complete or move the active target to Phase 12.
 
@@ -375,7 +375,7 @@ Daily-driver Alpha UAT:
 .planning/phases/11-alpha/run-alpha-uat.sh
 ```
 
-Then complete the manual checklist in `.planning/phases/11-alpha/ALPHA-UAT.md` against the signed internal Alpha build when signing prerequisites are available. The helper records only command names, PASS/FAIL status, timestamps, and source commit; it does not capture terminal transcripts, shell history, raw command output, environment variables, API keys, prompts, generated commands, provider responses, screenshots, traces, or private file paths.
+Then complete the manual checklist in `.planning/phases/11-alpha/ALPHA-UAT.md` against the signed internal Alpha build. The helper records only command names, PASS/FAIL status, timestamps, and source commit; it does not capture terminal transcripts, shell history, raw command output, environment variables, API keys, prompts, generated commands, provider responses, screenshots, traces, or private file paths.
 
 Alpha issue triage uses `.planning/phases/11-alpha/ALPHA-FEEDBACK.md` for intake and `.planning/phases/11-alpha/KNOWN-ISSUES.md` for confirmed issues with severity, Alpha/Beta/Production blocker status, owner, target phase, status, and sanitized evidence. The release rule is: critical/high terminal correctness issues block Alpha signoff.
 

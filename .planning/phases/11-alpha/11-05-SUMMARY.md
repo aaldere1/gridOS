@@ -121,11 +121,13 @@ On 2026-05-21, ALPHA-002 and ALPHA-003 were rechecked locally and resolved:
 - The overbroad source/docs privacy command is replaced for signoff by a focused Phase 11 evidence leak scan, which passed with no matches.
 - The sanitized recheck evidence lives in `.planning/phases/11-alpha/evidence/local-blocker-recheck.md`.
 
-Phase 11 remains blocked by ALPHA-001 and the downstream absence of a signed internal artifact plus signed-artifact daily-driver UAT.
+On 2026-05-21, ALPHA-001 was also resolved by local Developer ID signing inputs. The signed artifact `build/alpha/gridOS-0.1.0-1-ba71322.zip` was built and verified, and ALPHA-004 resolved the signed-app beachball by disabling the SwiftUI `MenuBarExtra` scene for Alpha.
+
+Phase 11 now remains blocked only by pending manual signed-artifact daily-driver UAT.
 
 ## Next Phase Readiness
 
-Not ready for Beta handoff. Resolve ALPHA-001, produce and verify the signed internal artifact, complete signed-artifact UAT, then update `11-VERIFICATION.md` from `BLOCKED` to `PASS` only after evidence supports it.
+Not ready for Beta handoff. Complete signed-artifact UAT, then update `11-VERIFICATION.md` from `BLOCKED` to `PASS` only after evidence supports it.
 
 ## Self-Check: PASSED
 

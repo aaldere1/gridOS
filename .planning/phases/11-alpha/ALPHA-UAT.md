@@ -55,7 +55,7 @@ Record raw internal tester observations in `ALPHA-FEEDBACK.md`, then promote con
 | Check | Steps | Result | Notes |
 | --- | --- | --- | --- |
 | Notification opt-in | Open Settings, choose Enable Notifications, and confirm permission is requested only after the explicit action. |  |  |
-| Menu bar | Confirm the gridOS menu bar extra appears when enabled and exposes sanitized host/workspace status only. |  |  |
+| Menu bar paused for Alpha | Confirm the signed app launches without a beach ball and no gridOS menu bar extra appears by default. |  | MenuBarExtra is disabled for Alpha after ALPHA-004; re-enable only after launch stability is proven. |
 | Spotlight metadata privacy | Confirm workspace metadata indexing is off by default, and when enabled it uses metadata/basename-only behavior. |  |  |
 
 ## Evidence

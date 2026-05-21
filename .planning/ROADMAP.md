@@ -175,7 +175,7 @@ Plans: 5 plans
 
 Status: blocked
 
-Blocker: Alpha final verification is blocked by `SIGNING_BLOCKED` for missing `GRIDOS_DEVELOPMENT_TEAM` and `GRIDOS_SIGNING_IDENTITY`, no signed internal artifact, and no signed-artifact daily-driver UAT. DEBUG alpha smoke and the focused evidence privacy gate now pass. See `.planning/phases/11-alpha/11-VERIFICATION.md` and `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
+Blocker: Alpha final verification is blocked only by pending manual signed-artifact daily-driver UAT. Signing preflight, signed artifact build, artifact verification, signed-app launch responsiveness, DEBUG alpha smoke, known-issues triage, and focused evidence privacy gates now pass. See `.planning/phases/11-alpha/11-VERIFICATION.md` and `.planning/phases/11-alpha/KNOWN-ISSUES.md`.
 
 Goal: internal daily-driver validation.
 

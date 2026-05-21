@@ -10,7 +10,7 @@ The Phase 11 Alpha Diagnostics Policy lives in `../DIAGNOSTICS.md`. It defines a
 
 The final Alpha verification report lives in `../11-VERIFICATION.md`. That report is the source of truth for whether Phase 11 is `PASS`, `BLOCKED`, or `FAIL`; it summarizes signing preflight, artifact verification, DEBUG alpha smoke, daily-driver UAT, known-issues triage, diagnostics, privacy gates, and Phase 12 handoff readiness.
 
-`local-blocker-recheck.md` records the 2026-05-21 local recheck that resolved the non-signing DEBUG alpha smoke and overbroad privacy-gate blockers. It does not replace signed-artifact verification or manual daily-driver UAT.
+`local-blocker-recheck.md` records the 2026-05-21 local recheck that resolved the non-signing DEBUG alpha smoke and overbroad privacy-gate blockers. `alpha-artifact-manifest.md` and `alpha-artifact-verification.md` record the signed artifact evidence for source commit `ba71322`. None of these replace manual daily-driver UAT.
 
 ## Signing preflight
 
@@ -58,7 +58,7 @@ Known issues must include severity, owner, target phase, blocker status, and cur
 
 Alpha cannot be marked complete with a high-severity terminal correctness blocker. Terminal correctness includes shell startup, input, paste, output rendering, TUI usability, pane routing, close/quit process cleanup, and relaunch behavior.
 
-Signing absence is recorded as `SIGNING_BLOCKED`. A signed artifact may remain blocked if local Apple signing prerequisites are unavailable, but that status must be explicit in Alpha evidence and follow-up planning.
+Signing absence is recorded as `SIGNING_BLOCKED`. Current Phase 11 evidence has signing and artifact verification unblocked; any future regression must be explicit in Alpha evidence and follow-up planning.
 
 ## Privacy boundaries
 
