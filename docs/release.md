@@ -317,7 +317,8 @@ Primary references:
 - `scripts/alpha-signing-preflight.sh` checks Xcode tooling, hardened-runtime settings, signing identity presence, and required signing environment variables without printing private values.
 - `scripts/build-alpha.sh` is the internal artifact build entrypoint.
 - `scripts/verify-alpha-artifact.sh` is the signed artifact verification entrypoint.
-- `.planning/phases/11-alpha/ALPHA-UAT.md` is the future daily-driver UAT checklist and signoff log.
+- `.planning/phases/11-alpha/ALPHA-UAT.md` is the daily-driver UAT checklist and signoff log.
+- `.planning/phases/11-alpha/run-alpha-uat.sh` writes sanitized command-availability and fast output evidence to `.planning/phases/11-alpha/evidence/alpha-uat-summary.md`.
 - `.planning/phases/11-alpha/KNOWN-ISSUES.md` is the future Alpha known-issues workflow.
 
 Signing absence is recorded as `SIGNING_BLOCKED` with missing input names only. Alpha cannot be marked complete with a high-severity terminal correctness blocker.
@@ -363,6 +364,14 @@ PHASE11_ALPHA_PRIVACY_READY
 ```
 
 The smoke uses deterministic local marker commands through the app workspace controller. It does not use live provider credentials, screenshots, terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
+
+Daily-driver Alpha UAT:
+
+```sh
+.planning/phases/11-alpha/run-alpha-uat.sh
+```
+
+Then complete the manual checklist in `.planning/phases/11-alpha/ALPHA-UAT.md` against the signed internal Alpha build when signing prerequisites are available. The helper records only command names, PASS/FAIL status, timestamps, and source commit; it does not capture terminal transcripts, shell history, raw command output, environment variables, API keys, prompts, generated commands, provider responses, screenshots, traces, or private file paths.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
