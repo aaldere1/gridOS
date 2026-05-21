@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 8 - macOS integrations (next; discussion/planning pending)
+Phase 8 - macOS integrations (context gathered; planning next)
 
 ## Current status
 
-Phase 7 is verified complete with 12/12 must-haves passed. It delivered pure TerminalCore pane/session models, active-pane routing/process lifecycle control, recursive split-pane SwiftUI workspace, focused native commands, active-pane Command Intelligence wiring, local workspace persistence, restore copy, DEBUG smoke fixtures, release checklist, live marker/no-process smoke evidence, and final verification docs. Phase 8 macOS integrations is next.
+Phase 7 is verified complete with 12/12 must-haves passed. Phase 8 context is gathered for Mac-native integrations: menu bar extra, local notifications, reusable Keychain-backed secret storage, and optional metadata-only indexing/preview foundations under the existing privacy and terminal-focus constraints. Phase 8 planning is next.
 
 ## Decisions made
 
@@ -159,6 +159,7 @@ Phase 7 is verified complete with 12/12 must-haves passed. It delivered pure Ter
 - 2026-05-20: Phase 07 Plan 04 executed and verified with Application Support JSON snapshots, recent-directory persistence, RootView restore/save wiring, Settings recovery copy, reset saved session, and architecture/release docs.
 - 2026-05-20: Phase 07 Plan 05 executed and verified with DEBUG multi-pane/session smoke fixture, release launch helpers, final evidence log, full build/test, source gates, privacy checks, and diff check.
 - 2026-05-20: Phase 07 verification passed with 12/12 must-haves verified after live DEBUG multi-pane and session-restore smoke wrote all markers and left no gridOS process after quit.
+- 2026-05-20: Phase 08 context gathered for Mac-native integrations, with recommended defaults for lightweight menu bar companion, opt-in local notifications, reusable Keychain credential boundaries, optional metadata-only indexing/preview, and privacy-preserving verification.
 
 ## Performance metrics
 
@@ -182,7 +183,7 @@ Phase 7 is verified complete with 12/12 must-haves passed. It delivered pure Ter
 
 ## Next target
 
-Discuss and plan Phase 08: macOS integrations.
+Plan Phase 08: macOS integrations.
 
 ## Session handoff
 
@@ -249,4 +250,7 @@ Discuss and plan Phase 08: macOS integrations.
 - Evidence file: `.planning/phases/07-multi-pane-session-management/evidence/README.md`.
 - 2026-05-20: Phase 07 verification passed.
 - Verification file: `.planning/phases/07-multi-pane-session-management/07-VERIFICATION.md`.
-- Stopped at: Phase 07 complete; Phase 08 discussion/planning next.
+- 2026-05-20: Phase 08 context gathered.
+- Resume file: `.planning/phases/08-macos-integrations/08-CONTEXT.md`.
+- Discussion log: `.planning/phases/08-macos-integrations/08-DISCUSSION-LOG.md`.
+- Stopped at: Phase 08 context complete; Phase 08 research/planning next.
