@@ -9,10 +9,12 @@ Creates a signed Beta archive, ZIP, and DMG artifact when local signing and
 notary configuration are present. Build products are written only to the local
 output directory, which defaults to build/beta.
 
-Required environment:
+Required configuration:
+  One notary credential mode accepted by scripts/beta-notarization-preflight.sh
+
+Optional signing overrides:
   GRIDOS_DEVELOPMENT_TEAM   Apple development team identifier
   GRIDOS_SIGNING_IDENTITY   Local Developer ID Application identity name
-  One notary credential mode accepted by scripts/beta-notarization-preflight.sh
 
 Optional environment:
   GRIDOS_BETA_OUTPUT_DIR    Local artifact output directory (default: build/beta)
@@ -85,6 +87,16 @@ plist_value() {
   /usr/libexec/PlistBuddy -c "Print :$key" "$plist"
 }
 
+developer_id_identity() {
+  security find-identity -v -p codesigning 2>/dev/null |
+    awk -F\" '/"Developer ID Application:/ { print $2; exit }'
+}
+
+team_id_from_identity() {
+  local identity="$1"
+  sed -nE 's/.*\(([A-Z0-9]{10})\)$/\1/p' <<< "$identity"
+}
+
 file_checksum() {
   local path="$1"
   shasum -a 256 "$path" | awk '{ print $1 }'
@@ -95,6 +107,10 @@ mkdir -p "$OUTPUT_DIR" "$EVIDENCE_DIR"
 
 # The Beta lane requires both signing and a notary credential mode before
 # archiving, so missing external release inputs stop before artifacts are built.
+GRIDOS_SIGNING_IDENTITY="${GRIDOS_SIGNING_IDENTITY:-$(developer_id_identity || true)}"
+GRIDOS_DEVELOPMENT_TEAM="${GRIDOS_DEVELOPMENT_TEAM:-$(team_id_from_identity "$GRIDOS_SIGNING_IDENTITY")}"
+export GRIDOS_DEVELOPMENT_TEAM
+export GRIDOS_SIGNING_IDENTITY
 "$PREFLIGHT_SCRIPT"
 
 cd "$ROOT_DIR"

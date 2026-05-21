@@ -13,7 +13,9 @@ Gatekeeper UAT.
 xcodegen generate --use-cache
 xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
 scripts/beta-notarization-preflight.sh --dry-run
-GRIDOS_DEVELOPMENT_TEAM=JFE428WL4Z GRIDOS_SIGNING_IDENTITY='Developer ID Application: CineConcerts LLC (JFE428WL4Z)' scripts/build-beta.sh
+GRIDOS_NOTARY_PROFILE=gridOS-beta scripts/check-beta-notary-profile.sh
+GRIDOS_NOTARY_PROFILE=gridOS-beta scripts/beta-notarization-preflight.sh --dry-run
+GRIDOS_NOTARY_PROFILE=gridOS-beta scripts/build-beta.sh
 rg 'Phase 12: Beta Verification Report|Beta status:|Notarization|Clean Mac Gatekeeper UAT|Update flow|Phase 13' .planning/phases/12-beta/12-VERIFICATION.md
 rg '12-VERIFICATION.md' .planning/STATE.md docs/release.md
 git diff --check
@@ -25,15 +27,20 @@ are missing.
 Notary credential setup is documented in `docs/notarization-setup.md`.
 `scripts/setup-beta-notary-profile.sh` creates a Keychain profile, and
 `scripts/check-beta-notary-profile.sh` verifies it with sanitized evidence.
-Current profile-check evidence records `BLOCKER=GRIDOS_NOTARY_PROFILE`.
+Current profile-check evidence records
+`BLOCKER=notarytool_keychain_profile_missing`.
+
+Signing is locally available: `scripts/beta-notarization-preflight.sh --dry-run`
+resolves `GRIDOS_DEVELOPMENT_TEAM_SOURCE=codesigning_identity` and
+`GRIDOS_SIGNING_IDENTITY_SOURCE=keychain`.
 
 ## Must-have checklist
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
 | Source build/test | PASS | `xcodegen generate --use-cache && xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test` exited 0. |
-| Beta preflight | BLOCKED | `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt` records `BETA_NOTARIZATION_BLOCKED` with missing notary credential mode names only. |
-| Notarization | BLOCKED | `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` records `BLOCKER=GRIDOS_NOTARY_PROFILE`. |
+| Beta preflight | BLOCKED | `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt` records signing auto-resolution and `BETA_NOTARIZATION_BLOCKED notarytool_keychain_profile_missing`. |
+| Notarization | BLOCKED | `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` records `BLOCKER=notarytool_keychain_profile_missing`. |
 | Stapling | BLOCKED | No accepted notarization ticket exists. |
 | Artifact verification | BLOCKED | No notarized Beta artifact exists for `scripts/verify-beta-artifact.sh`. |
 | Clean Mac Gatekeeper UAT | BLOCKED | `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md` records `BETA_CLEAN_MAC_BLOCKED notarized_beta_artifact`. |

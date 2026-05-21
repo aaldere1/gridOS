@@ -46,9 +46,12 @@ The check writes presence-only evidence to
 
 ## Rerun the Beta lane
 
+The Beta build script can derive the Developer ID signing identity and team from
+the local Keychain identity when `GRIDOS_DEVELOPMENT_TEAM` and
+`GRIDOS_SIGNING_IDENTITY` are not exported. Use those variables only when you
+need to override the auto-detected identity.
+
 ```sh
-export GRIDOS_DEVELOPMENT_TEAM=JFE428WL4Z
-export GRIDOS_SIGNING_IDENTITY='Developer ID Application: CineConcerts LLC (JFE428WL4Z)'
 export GRIDOS_NOTARY_PROFILE=gridOS-beta
 
 scripts/beta-notarization-preflight.sh

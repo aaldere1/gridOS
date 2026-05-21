@@ -37,6 +37,7 @@ report_lines=()
 missing_tools=()
 missing_inputs=()
 missing_notary_inputs=()
+development_team=""
 
 add_line() {
   report_lines+=("$1")
@@ -119,6 +120,44 @@ notary_api_key_mode_present() {
   [[ -n "${GRIDOS_NOTARY_KEY_ID:-}" && -n "${GRIDOS_NOTARY_ISSUER_ID:-}" && -n "${GRIDOS_NOTARY_KEY_PATH:-}" ]]
 }
 
+developer_id_identity() {
+  if ! tool_present security; then
+    return 1
+  fi
+
+  security find-identity -v -p codesigning 2>/dev/null |
+    awk -F\" '/"Developer ID Application:/ { print $2; exit }'
+}
+
+team_id_from_identity() {
+  local identity="$1"
+  sed -nE 's/.*\(([A-Z0-9]{10})\)$/\1/p' <<< "$identity"
+}
+
+notary_profile_status() {
+  local profile_name="$1"
+  local tmp_output
+  local tmp_error
+
+  tmp_output="$(mktemp "${TMPDIR:-/tmp}/gridos-beta-notary-profile.XXXXXX.json")"
+  tmp_error="$(mktemp "${TMPDIR:-/tmp}/gridos-beta-notary-profile.XXXXXX.err")"
+
+  if xcrun notarytool history --keychain-profile "$profile_name" --output-format json --no-progress > "$tmp_output" 2>"$tmp_error"; then
+    rm -f "$tmp_output" "$tmp_error"
+    printf 'present'
+    return
+  fi
+
+  if grep -q 'No Keychain password item found for profile' "$tmp_error"; then
+    rm -f "$tmp_output" "$tmp_error"
+    printf 'missing'
+    return
+  fi
+
+  rm -f "$tmp_output" "$tmp_error"
+  printf 'unavailable'
+}
+
 add_line "GRIDOS_BETA_PREFLIGHT"
 add_line "MODE=$([[ "$DRY_RUN" -eq 1 ]] && printf 'dry-run' || printf 'write-evidence')"
 add_line "TIMESTAMP_UTC=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
@@ -173,8 +212,41 @@ else
   missing_inputs+=("project.yml")
 fi
 
-required_env_present GRIDOS_DEVELOPMENT_TEAM
-required_env_present GRIDOS_SIGNING_IDENTITY
+resolved_signing_identity="${GRIDOS_SIGNING_IDENTITY:-}"
+signing_identity_source="env"
+if [[ -z "$resolved_signing_identity" ]]; then
+  resolved_signing_identity="$(developer_id_identity || true)"
+  signing_identity_source="keychain"
+fi
+
+resolved_development_team="${GRIDOS_DEVELOPMENT_TEAM:-}"
+development_team_source="env"
+if [[ -z "$resolved_development_team" && -n "${development_team:-}" ]]; then
+  resolved_development_team="$development_team"
+  development_team_source="project"
+fi
+if [[ -z "$resolved_development_team" && -n "$resolved_signing_identity" ]]; then
+  resolved_development_team="$(team_id_from_identity "$resolved_signing_identity")"
+  development_team_source="codesigning_identity"
+fi
+
+if [[ -n "$resolved_development_team" ]]; then
+  add_line "GRIDOS_DEVELOPMENT_TEAM=present"
+  add_line "GRIDOS_DEVELOPMENT_TEAM_SOURCE=$development_team_source"
+else
+  add_line "GRIDOS_DEVELOPMENT_TEAM=missing"
+  add_line "GRIDOS_DEVELOPMENT_TEAM_SOURCE=missing"
+  missing_inputs+=("GRIDOS_DEVELOPMENT_TEAM")
+fi
+
+if [[ -n "$resolved_signing_identity" ]]; then
+  add_line "GRIDOS_SIGNING_IDENTITY=present"
+  add_line "GRIDOS_SIGNING_IDENTITY_SOURCE=$signing_identity_source"
+else
+  add_line "GRIDOS_SIGNING_IDENTITY=missing"
+  add_line "GRIDOS_SIGNING_IDENTITY_SOURCE=missing"
+  missing_inputs+=("GRIDOS_SIGNING_IDENTITY")
+fi
 
 env_presence_line GRIDOS_NOTARY_PROFILE missing_optional
 env_presence_line GRIDOS_NOTARY_APPLE_ID missing_optional
@@ -185,7 +257,12 @@ env_presence_line GRIDOS_NOTARY_ISSUER_ID missing_optional
 env_presence_line GRIDOS_NOTARY_KEY_PATH missing_optional
 
 if notary_profile_present; then
+  keychain_profile_status="$(notary_profile_status "$GRIDOS_NOTARY_PROFILE")"
   add_line "NOTARY_CREDENTIAL_MODE=keychain-profile"
+  add_line "NOTARY_KEYCHAIN_PROFILE=$keychain_profile_status"
+  if [[ "$keychain_profile_status" != "present" ]]; then
+    missing_notary_inputs+=("notarytool_keychain_profile_$keychain_profile_status")
+  fi
 elif notary_apple_id_mode_present; then
   add_line "NOTARY_CREDENTIAL_MODE=apple-id"
 elif notary_api_key_mode_present; then

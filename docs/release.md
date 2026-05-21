@@ -419,11 +419,14 @@ critical or high-severity Beta blocker.
 Beta notarization preflight:
 
 ```sh
-GRIDOS_DEVELOPMENT_TEAM=team-id \
-GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
 GRIDOS_NOTARY_PROFILE=notarytool-profile \
 scripts/beta-notarization-preflight.sh
 ```
+
+If `GRIDOS_DEVELOPMENT_TEAM` and `GRIDOS_SIGNING_IDENTITY` are not exported,
+the Beta scripts derive them from the first local `Developer ID Application`
+codesigning identity. Export those variables only when a specific override is
+needed.
 
 `GRIDOS_NOTARY_PROFILE` is the preferred credential mode and should name a
 notarytool Keychain profile created outside this repo. Apple ID/app-specific
@@ -446,8 +449,6 @@ setup modes.
 Signed and packaged Beta build:
 
 ```sh
-GRIDOS_DEVELOPMENT_TEAM=team-id \
-GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
 GRIDOS_NOTARY_PROFILE=notarytool-profile \
 scripts/build-beta.sh
 ```
