@@ -2,6 +2,7 @@ import CommandIntelligence
 import GridOSKit
 import RenderCore
 import SwiftUI
+import TerminalCore
 
 struct SettingsView: View {
     @AppStorage("terminal.shellPath") private var shellPath = GridOSAppPreferences.defaultShellPath
@@ -71,8 +72,20 @@ struct SettingsView: View {
                     }
 
                 Section("Recovery") {
+                    Text("Pane layout and directories are restored on relaunch.")
+                        .foregroundStyle(.secondary)
+
                     Text("Running shell processes are not restored after relaunch.")
                         .foregroundStyle(.secondary)
+
+                    Text("Directory unavailable. Starting in your default directory.")
+                        .foregroundStyle(.secondary)
+
+                    Button("Reset Saved Session") {
+                        resetSavedSession()
+                    }
+                    .accessibilityLabel("Reset Saved Session")
+                    .accessibilityValue("Deletes saved pane layout and recent directory files")
 
                     Button("Reset to Defaults") {
                         resetToDefaults()
@@ -102,6 +115,11 @@ struct SettingsView: View {
         visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
         reducedMotion = defaults.reducedMotion
         visualIntensity = defaults.visualIntensity
+    }
+
+    private func resetSavedSession() {
+        try? TerminalWorkspaceSnapshotStore().deleteStoredSession()
+        NotificationCenter.default.post(name: .gridOSWorkspaceSessionReset, object: nil)
     }
 
     private func focusCommandIntelligenceSettings(_ proxy: ScrollViewProxy) {

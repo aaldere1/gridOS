@@ -7,6 +7,7 @@ struct TerminalWorkspaceView: View {
 
     let theme: VisualTheme
     let onActivity: TerminalSurface.ActivityHandler
+    let onWorkspaceChange: @MainActor () -> Void
 
     var body: some View {
         render(workspaceController.state.layout)
@@ -21,37 +22,47 @@ struct TerminalWorkspaceView: View {
             splitRight: {
                 workspaceController.splitActivePane(axis: .horizontal)
                 workspaceController.focusActivePane()
+                onWorkspaceChange()
             },
             splitDown: {
                 workspaceController.splitActivePane(axis: .vertical)
                 workspaceController.focusActivePane()
+                onWorkspaceChange()
             },
             duplicatePane: {
                 workspaceController.duplicateActivePane()
                 workspaceController.focusActivePane()
+                onWorkspaceChange()
             },
             closePane: {
                 if workspaceController.closeActivePane() {
                     workspaceController.focusActivePane()
+                    onWorkspaceChange()
                 }
             },
             focusNextPane: {
                 workspaceController.focusNextPane()
+                onWorkspaceChange()
             },
             focusPreviousPane: {
                 workspaceController.focusPreviousPane()
+                onWorkspaceChange()
             },
             resizePaneLeft: {
                 workspaceController.resizeActivePaneLeft()
+                onWorkspaceChange()
             },
             resizePaneRight: {
                 workspaceController.resizeActivePaneRight()
+                onWorkspaceChange()
             },
             resizePaneUp: {
                 workspaceController.resizeActivePaneUp()
+                onWorkspaceChange()
             },
             resizePaneDown: {
                 workspaceController.resizeActivePaneDown()
+                onWorkspaceChange()
             },
             copy: {
                 workspaceController.copyActivePaneSelection()
@@ -104,6 +115,7 @@ struct TerminalWorkspaceView: View {
             .onTapGesture {
                 workspaceController.activatePane(paneID)
                 workspaceController.focusActivePane()
+                onWorkspaceChange()
             }
             .overlay {
                 RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous)

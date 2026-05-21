@@ -8,8 +8,10 @@ import SystemMetrics
 import TerminalCore
 
 struct RootView: View {
-    private let processConfiguration = TerminalSessionConfiguration.fromProcessArguments()
-    private let metricsSampler: any SystemMetricsSampler = LiveSystemMetricsSampler()
+    private let processConfiguration: TerminalSessionConfiguration
+    private let metricsSampler: any SystemMetricsSampler
+    private let snapshotStore: TerminalWorkspaceSnapshotStore
+    private let workspaceSaveDelaySeconds = 0.5
 
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @AppStorage("terminal.shellPath") private var shellPath = GridOSAppPreferences.defaultShellPath
@@ -24,9 +26,7 @@ struct RootView: View {
     private var commandIntelligenceModelRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID
 
     @State private var renderSequence: UInt64 = 0
-    @StateObject private var workspaceController = TerminalWorkspaceController(
-        state: TerminalWorkspaceState(defaultConfiguration: TerminalSessionConfiguration.fromProcessArguments())
-    )
+    @StateObject private var workspaceController: TerminalWorkspaceController
     @State private var isCommandPalettePresented = false
     @State private var renderEvent = RenderEvent(
         sequence: 0,
@@ -34,6 +34,26 @@ struct RootView: View {
         magnitude: 0.26
     )
     @State private var systemSnapshot: SystemMetricsSnapshot = SystemMetricsPreviewData.snapshot
+    @State private var workspaceSaveTask: Task<Void, Never>?
+
+    init(
+        processConfiguration: TerminalSessionConfiguration = .fromProcessArguments(),
+        metricsSampler: any SystemMetricsSampler = LiveSystemMetricsSampler(),
+        snapshotStore: TerminalWorkspaceSnapshotStore = TerminalWorkspaceSnapshotStore()
+    ) {
+        self.processConfiguration = processConfiguration
+        self.metricsSampler = metricsSampler
+        self.snapshotStore = snapshotStore
+
+        _workspaceController = StateObject(
+            wrappedValue: TerminalWorkspaceController(
+                state: Self.initialWorkspaceState(
+                    fallbackConfiguration: processConfiguration,
+                    snapshotStore: snapshotStore
+                )
+            )
+        )
+    }
 
     var body: some View {
         ZStack {
@@ -68,7 +88,8 @@ struct RootView: View {
                             theme: visualTheme,
                             onActivity: { paneID, activity in
                                 handleTerminalActivity(activity, from: paneID)
-                            }
+                            },
+                            onWorkspaceChange: scheduleWorkspaceSave
                         )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -119,6 +140,12 @@ struct RootView: View {
         .background(WindowFrameController(autosaveName: "gridOS.main"))
         .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
             isCommandPalettePresented = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .gridOSWorkspaceSessionReset)) { _ in
+            workspaceSaveTask?.cancel()
+        }
+        .onDisappear {
+            saveWorkspaceNow()
         }
         .task {
             ensureInstallSeed()
@@ -270,6 +297,10 @@ struct RootView: View {
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent, from paneID: TerminalPaneID) {
         workspaceController.handleActivity(activity, from: paneID)
+        if case .workingDirectoryChanged = activity {
+            scheduleWorkspaceSave()
+        }
+
         guard let parameters = renderEventParameters(for: activity) else {
             return
         }
@@ -308,6 +339,64 @@ struct RootView: View {
             let nanoseconds = UInt64(refreshInterval * 1_000_000_000)
             try? await Task.sleep(nanoseconds: nanoseconds)
         }
+    }
+
+    private static func initialWorkspaceState(
+        fallbackConfiguration: TerminalSessionConfiguration,
+        snapshotStore: TerminalWorkspaceSnapshotStore
+    ) -> TerminalWorkspaceState {
+        if let snapshot = try? snapshotStore.loadSnapshot(
+            fallbackConfiguration: fallbackConfiguration,
+            directoryExists: directoryExists
+        ) {
+            var state = TerminalWorkspaceState(
+                snapshot: snapshot,
+                fallbackConfiguration: fallbackConfiguration,
+                directoryExists: directoryExists
+            )
+            if let recentDirectories = try? snapshotStore.loadRecentDirectories(), !recentDirectories.isEmpty {
+                state.recentDirectories = recentDirectories
+            }
+            return state
+        }
+
+        var state = TerminalWorkspaceState(defaultConfiguration: fallbackConfiguration)
+        if let recentDirectories = try? snapshotStore.loadRecentDirectories(), !recentDirectories.isEmpty {
+            state.recentDirectories = recentDirectories
+        }
+        return state
+    }
+
+    private static func directoryExists(_ path: String) -> Bool {
+        var isDirectory: ObjCBool = false
+        return FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory) && isDirectory.boolValue
+    }
+
+    @MainActor private func scheduleWorkspaceSave() {
+        workspaceSaveTask?.cancel()
+
+        let snapshot = workspaceController.snapshot()
+        let recentDirectories = workspaceController.state.recentDirectories
+        let snapshotStore = snapshotStore
+        let delayNanoseconds = UInt64(workspaceSaveDelaySeconds * 1_000_000_000)
+
+        workspaceSaveTask = Task {
+            try? await Task.sleep(nanoseconds: delayNanoseconds)
+            guard !Task.isCancelled else {
+                return
+            }
+
+            try? snapshotStore.saveSnapshot(snapshot)
+            try? snapshotStore.saveRecentDirectories(recentDirectories)
+        }
+    }
+
+    @MainActor private func saveWorkspaceNow() {
+        workspaceSaveTask?.cancel()
+        let snapshot = workspaceController.snapshot()
+        let recentDirectories = workspaceController.state.recentDirectories
+        try? snapshotStore.saveSnapshot(snapshot)
+        try? snapshotStore.saveRecentDirectories(recentDirectories)
     }
 }
 
@@ -643,4 +732,8 @@ private extension Color {
             opacity: visualColor.alpha
         )
     }
+}
+
+extension Notification.Name {
+    static let gridOSWorkspaceSessionReset = Notification.Name("gridOS.workspaceSession.reset")
 }

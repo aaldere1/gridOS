@@ -178,6 +178,30 @@ Current abstractions:
 
 `TerminalInteractionController` remains the only app-facing terminal interaction boundary for selected text, `insert`, `run`, and focus restoration. `GridOSApp` composes the palette, settings routing, provider choice, service call, and terminal insertion/run closures; `CommandIntelligenceService` does not import `TerminalCore` and never executes shell text.
 
+## Phase 7 architecture target
+
+Phase 7 expands the terminal from one shell into a local multi-pane workspace while keeping SwiftTerm and process lifecycle details inside `TerminalCore`.
+
+Current abstractions:
+
+- `TerminalPaneID`
+- `TerminalPaneLayout`
+- `TerminalWorkspaceState`
+- `TerminalWorkspaceController`
+- `TerminalWorkspaceSnapshotStore`
+- `TerminalWorkspaceView`
+- `TerminalWorkspaceCommandsValue`
+
+`TerminalPaneID`, `TerminalPaneLayout`, and `TerminalWorkspaceState` form the pure model for pane identity, recursive split layout, active pane, descriptors, snapshots, and recent directories. They are Codable/Equatable/Sendable and intentionally contain no live process identifiers.
+
+`TerminalWorkspaceController` owns one `TerminalInteractionController` per pane and routes selected text, insert, run, focus, copy, paste, clear, reset, split, duplicate, close, resize, and terminate behavior through the active pane. Closing a pane terminates only that pane's registered controller; app-level cleanup can call `terminateAllPanes()`.
+
+`TerminalSurface` is pane-scoped through `TerminalPaneID` and emits `(TerminalPaneID, TerminalActivityEvent)` so `RootView` can update only the source pane's working directory and aggregate activity into `RenderCore` without coupling rendering to terminal internals.
+
+`TerminalWorkspaceView` renders the recursive layout with native `HSplitView` and `VSplitView`, provides a subtle active-pane indicator, and publishes `TerminalWorkspaceCommandsValue` through focused values. `GridOSApp` menu commands consume that focused value instead of static terminal notifications.
+
+`TerminalWorkspaceSnapshotStore` persists `session-v1.json` and `recent-directories-v1.json` under Application Support `gridOS`. It restores pane layout, active pane, shell/profile metadata, and last known directories as fresh shell launches. It does not restore live processes, shell output, shell history, environment variables, or process IDs.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.

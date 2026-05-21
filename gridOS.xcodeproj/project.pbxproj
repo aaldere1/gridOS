@@ -77,6 +77,8 @@
 		B98B6B9680CF966BFD642CB2 /* VisualEffectConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */; };
 		BA8B8EB3621B9DC432815FE3 /* TerminalInteractionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558F2F8D06CFAE784CAB06B /* TerminalInteractionControllerTests.swift */; };
 		BD8EBC693438F1B6B43CEDAD /* MetalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */; };
+		BF3D41884B3FA8BA56F5D88A /* TerminalWorkspacePersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E6E316EAFB23C1930C7A7F /* TerminalWorkspacePersistenceTests.swift */; };
+		C0D6EB0C82E050BBBD861F87 /* TerminalWorkspacePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */; };
 		C0DD8F6B430B64D503ECB5CC /* SystemMetricsDeltaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A243302A878294B594542C4D /* SystemMetricsDeltaTests.swift */; };
 		C1BBDF3D7132FAD7F129C13D /* TerminalWorkspaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476AF8D84F277F3E626B5926 /* TerminalWorkspaceModel.swift */; };
 		C36CC27EA6470E140C89AC44 /* TerminalInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AF6C0EDA4962B45224E7E7 /* TerminalInteractionController.swift */; };
@@ -355,8 +357,10 @@
 		DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProductTests.swift; sourceTree = "<group>"; };
 		DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSamplingPolicy.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
+		F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistence.swift; sourceTree = "<group>"; };
 		F0B59E04CD3F342827CCC045 /* TerminalCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminalCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretRedactor.swift; sourceTree = "<group>"; };
+		F9E6E316EAFB23C1930C7A7F /* TerminalWorkspacePersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistenceTests.swift; sourceTree = "<group>"; };
 		FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCoreStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -462,6 +466,7 @@
 				AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */,
 				68B1AFCC68E97C8CFBF4F446 /* TerminalWorkspaceController.swift */,
 				476AF8D84F277F3E626B5926 /* TerminalWorkspaceModel.swift */,
+				F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */,
 			);
 			path = TerminalCore;
 			sourceTree = "<group>";
@@ -521,6 +526,7 @@
 				1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */,
 				03A1C141CFDD52F5AC081052 /* TerminalWorkspaceControllerTests.swift */,
 				414683704F2D9DED2FD12FA6 /* TerminalWorkspaceModelTests.swift */,
+				F9E6E316EAFB23C1930C7A7F /* TerminalWorkspacePersistenceTests.swift */,
 			);
 			path = TerminalCoreTests;
 			sourceTree = "<group>";
@@ -967,6 +973,7 @@
 				D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */,
 				AC2C8B80AC7A3DBE1144570C /* TerminalWorkspaceControllerTests.swift in Sources */,
 				82FE12326A704ABB68E2A558 /* TerminalWorkspaceModelTests.swift in Sources */,
+				BF3D41884B3FA8BA56F5D88A /* TerminalWorkspacePersistenceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1036,6 +1043,7 @@
 				5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */,
 				CA01825378EC466C26E092DE /* TerminalWorkspaceController.swift in Sources */,
 				C1BBDF3D7132FAD7F129C13D /* TerminalWorkspaceModel.swift in Sources */,
+				C0D6EB0C82E050BBBD861F87 /* TerminalWorkspacePersistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -172,6 +172,31 @@ Manual smoke checklist:
 6. Try `Explain Output` with selected output; if terminal selection is unavailable, verify `Selection unavailable` and the paste fallback.
 7. Record pass/fail details in `.planning/phases/06-llm-command-palette/evidence/README.md`.
 
+## Phase 7 multi-pane/session smoke
+
+Phase 7 adds recursive split panes, active-pane command routing, local workspace persistence, and honest fresh-shell restore. The automated gate is:
+
+```sh
+xcodegen generate --use-cache
+xcodebuild -quiet -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
+git diff --check
+rg 'TerminalWorkspaceView|TerminalPaneLayout|HSplitView|VSplitView|Active pane' Sources/GridOSApp
+rg 'Split Right|Split Down|Duplicate Pane|Close Pane|Focus Next Pane|Focus Previous Pane|TerminalWorkspaceCommandsValue|@FocusedValue' Sources/GridOSApp
+rg 'TerminalWorkspaceSnapshotStore|session-v1.json|recent-directories-v1.json|Application Support|loadSnapshot|saveSnapshot' Sources/TerminalCore Sources/GridOSApp Tests/TerminalCoreTests
+rg 'Pane layout and directories are restored on relaunch.|Running shell processes are not restored after relaunch.|Directory unavailable. Starting in your default directory.' Sources
+! rg 'TerminalCommandCenter\.copy|TerminalCommandCenter\.paste|TerminalCommandCenter\.clear|TerminalCommandCenter\.reset|import SwiftTerm' Sources/GridOSApp
+```
+
+Manual smoke checklist:
+
+1. Launch the Debug app and focus the terminal.
+2. Use `Command-D` for `Split Right` and `Command-Shift-D` for `Split Down`; verify at least two panes are visible and readable.
+3. Click or cycle pane focus with `Command-]` and `Command-[`; verify the active pane indicator changes and typed shell input goes to the intended pane.
+4. Use Copy, Paste, Clear, Reset, and Command Intelligence from the Terminal menu/palette; verify each targets only the active pane.
+5. Use `Command-W` to close one pane; verify only that pane's shell terminates and the remaining pane stays usable.
+6. Quit and relaunch; verify pane layout and directories restore with fresh shell processes.
+7. Confirm no orphan shell processes remain after pane close and app quit.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
