@@ -168,7 +168,7 @@ Plans: 5 plans
 - [x] 10-01-PLAN.md - Threat model, privacy data inventory, and release/security doc links.
 - [x] 10-02-PLAN.md - LLM context, redaction, provider-boundary, and failure privacy hardening.
 - [x] 10-03-PLAN.md - Command-risk classifier and app run-policy hardening.
-- [ ] 10-04-PLAN.md - Keychain, preference, persistence, indexing, notification, and evidence privacy gates.
+- [x] 10-04-PLAN.md - Keychain, preference, persistence, indexing, notification, and evidence privacy gates.
 - [ ] 10-05-PLAN.md - Dependency/license review, hardened runtime compatibility, final evidence, and phase signoff.
 
 ## Phase 11 - Alpha
