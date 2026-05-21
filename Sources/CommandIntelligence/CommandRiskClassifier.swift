@@ -59,6 +59,14 @@ public struct CommandRiskClassifier: Sendable {
     }
 
     private func unknownShellReason(for command: String) -> String? {
+        if matches(#"\bbase64\s+(?:-[^\s]*d|--decode)\b.*\|.*\b(?:sh|bash|zsh)\b"#, in: command) {
+            return "Encoded shell payload is hard to review."
+        }
+
+        if matches(#"\b(?:python3?|ruby|perl|node)\s+(?:-c|-e)\b"#, in: command) {
+            return "Inline interpreter snippet is hard to review."
+        }
+
         if command.contains(";") || command.contains("&&") || command.contains("||") {
             return "Command chaining is hard to review."
         }
@@ -106,6 +114,7 @@ private enum CommandRiskRule {
     case credentialAccess
     case privilegeEscalation
     case processTermination
+    case systemAutomation
     case networkPipeToShell
     case packageInstall
     case remoteServiceMutation
@@ -120,6 +129,8 @@ private enum CommandRiskRule {
             "Privilege escalation request."
         case .processTermination:
             "Process termination command."
+        case .systemAutomation:
+            "System automation command."
         case .networkPipeToShell:
             "Network transfer piped into shell."
         case .packageInstall:
@@ -144,6 +155,11 @@ private enum CommandRiskRule {
 
         if matches(#"\b(?:kill|killall|pkill)\b"#, in: command) {
             return .processTermination
+        }
+
+        if matches(#"\blaunchctl\s+(?:load|unload|bootstrap|bootout|kickstart)\b"#, in: command)
+            || matches(#"\bosascript\s+-e\b"#, in: command) {
+            return .systemAutomation
         }
 
         if matches(#"\b(?:curl|wget)\b.*\|.*\b(?:sh|bash|zsh)\b"#, in: command) {

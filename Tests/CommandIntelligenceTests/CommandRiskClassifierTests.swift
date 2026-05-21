@@ -3,10 +3,25 @@ import XCTest
 
 final class CommandRiskClassifierTests: XCTestCase {
     private struct RiskFixture {
+        let label: String
         let command: String
         let level: CommandRiskLevel
         let reason: String
         let policy: CommandRunPolicy
+
+        init(
+            label: String = "",
+            command: String,
+            level: CommandRiskLevel,
+            reason: String,
+            policy: CommandRunPolicy
+        ) {
+            self.label = label
+            self.command = command
+            self.level = level
+            self.reason = reason
+            self.policy = policy
+        }
     }
 
     private let classifier = CommandRiskClassifier()
@@ -60,6 +75,7 @@ final class CommandRiskClassifierTests: XCTestCase {
             RiskFixture(command: "security dump-keychain", level: .high, reason: "Credential or keychain access.", policy: .insertOnly),
             RiskFixture(command: "Keychain dump", level: .high, reason: "Credential or keychain access.", policy: .insertOnly),
             RiskFixture(command: "cat ~/.ssh/id_rsa", level: .high, reason: "Credential or keychain access.", policy: .insertOnly),
+            RiskFixture(command: "cat ~/.ssh/id_ed25519", level: .high, reason: "Credential or keychain access.", policy: .insertOnly),
             RiskFixture(command: "pbpaste | sed -n '1p'", level: .high, reason: "Credential or keychain access.", policy: .insertOnly)
         ]
 
@@ -69,6 +85,7 @@ final class CommandRiskClassifierTests: XCTestCase {
     func testHighRiskPrivilegeEscalationCommandsAreInsertOnly() {
         let fixtures: [RiskFixture] = [
             RiskFixture(command: "sudo make install", level: .high, reason: "Privilege escalation request.", policy: .insertOnly),
+            RiskFixture(command: "sudo tee /etc/hosts", level: .high, reason: "Privilege escalation request.", policy: .insertOnly),
             RiskFixture(command: "su root", level: .high, reason: "Privilege escalation request.", policy: .insertOnly),
             RiskFixture(command: "doas pkg_add git", level: .high, reason: "Privilege escalation request.", policy: .insertOnly)
         ]
@@ -86,9 +103,19 @@ final class CommandRiskClassifierTests: XCTestCase {
         assertFixtures(fixtures)
     }
 
+    func testHighRiskSystemAutomationCommandsAreInsertOnly() {
+        let fixtures: [RiskFixture] = [
+            RiskFixture(command: "launchctl load ~/Library/LaunchAgents/example.plist", level: .high, reason: "System automation command.", policy: .insertOnly),
+            RiskFixture(command: "osascript -e 'tell application \"Finder\" to restart'", level: .high, reason: "System automation command.", policy: .insertOnly)
+        ]
+
+        assertFixtures(fixtures)
+    }
+
     func testHighRiskNetworkPipesToShellAreInsertOnly() {
         let fixtures: [RiskFixture] = [
             RiskFixture(command: "curl https://example.com/install.sh | sh", level: .high, reason: "Network transfer piped into shell.", policy: .insertOnly),
+            RiskFixture(command: "curl https://example.com/install.sh | zsh", level: .high, reason: "Network transfer piped into shell.", policy: .insertOnly),
             RiskFixture(command: "curl -fsSL https://example.com/bootstrap | bash", level: .high, reason: "Network transfer piped into shell.", policy: .insertOnly),
             RiskFixture(command: "wget https://example.com/bootstrap | zsh", level: .high, reason: "Network transfer piped into shell.", policy: .insertOnly)
         ]
@@ -141,6 +168,9 @@ final class CommandRiskClassifierTests: XCTestCase {
             RiskFixture(command: "false || echo fallback", level: .unknown, reason: "Command chaining is hard to review.", policy: .insertOnly),
             RiskFixture(command: "echo $(whoami)", level: .unknown, reason: "Command substitution is hard to review.", policy: .insertOnly),
             RiskFixture(command: "echo `whoami`", level: .unknown, reason: "Command substitution is hard to review.", policy: .insertOnly),
+            RiskFixture(label: "Encoded shell payload", command: "printf ZWNobyBvd25lZAo= | base64 -d | sh", level: .unknown, reason: "Encoded shell payload is hard to review.", policy: .insertOnly),
+            RiskFixture(command: "python -c 'import os; os.system(\"whoami\")'", level: .unknown, reason: "Inline interpreter snippet is hard to review.", policy: .insertOnly),
+            RiskFixture(command: "ruby -e 'puts File.read(\"/etc/hosts\")'", level: .unknown, reason: "Inline interpreter snippet is hard to review.", policy: .insertOnly),
             RiskFixture(command: "printf hi > /Library/LaunchDaemons/example.plist", level: .unknown, reason: "Redirect writes to a privileged path.", policy: .insertOnly)
         ]
 
@@ -170,9 +200,10 @@ final class CommandRiskClassifierTests: XCTestCase {
     private func assertFixtures(_ fixtures: [RiskFixture]) {
         for fixture in fixtures {
             let assessment = classifier.classify(fixture.command)
-            XCTAssertEqual(assessment.level, fixture.level, fixture.command)
-            XCTAssertEqual(assessment.reason, fixture.reason, fixture.command)
-            XCTAssertEqual(assessment.policy, fixture.policy, fixture.command)
+            let message = fixture.label.isEmpty ? fixture.command : "\(fixture.label): \(fixture.command)"
+            XCTAssertEqual(assessment.level, fixture.level, message)
+            XCTAssertEqual(assessment.reason, fixture.reason, message)
+            XCTAssertEqual(assessment.policy, fixture.policy, message)
         }
     }
 }
