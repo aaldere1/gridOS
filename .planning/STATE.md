@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Executing Phase 11
-last_updated: "2026-05-21T13:13:47.799Z"
+last_updated: "2026-05-21T13:20:54.521Z"
 progress:
   total_phases: 12
   completed_phases: 11
   total_plans: 38
-  completed_plans: 36
+  completed_plans: 37
 ---
 
 # gridOS state
@@ -19,7 +19,7 @@ Phase 11 - Alpha (in progress)
 
 ## Current status
 
-Phase 11 Plan 03 is complete. Alpha execution has two pending plans covering feedback/known-issues/diagnostics policy and final Alpha verification. DEBUG alpha smoke markers, the daily-driver UAT checklist, and sanitized UAT helper are in place. Signed artifact creation remains dependent on local Apple signing prerequisites. Phase 10 security/privacy guarantees remain the baseline for execution.
+Phase 11 Plan 04 is complete. Alpha execution has one pending plan covering final Alpha verification. DEBUG alpha smoke markers, the daily-driver UAT checklist, sanitized UAT helper, known-issues tracker, feedback log, and diagnostics policy are in place. Signed artifact creation remains dependent on local Apple signing prerequisites. Phase 10 security/privacy guarantees remain the baseline for execution.
 
 ## Decisions made
 
@@ -105,6 +105,9 @@ Phase 11 Plan 03 is complete. Alpha execution has two pending plans covering fee
 - [Phase 11-alpha]: DEBUG alpha smoke uses deterministic /tmp marker files and never records terminal transcripts, selected output, prompts, generated commands, environment variables, or shell history.
 - [Phase 11-alpha]: Daily-driver UAT separates manual interactive terminal checks from a sanitized noninteractive command-availability helper.
 - [Phase 11-alpha]: The generated Xcode project is regenerated from project.yml when new GridOSApp source files are added.
+- [Phase 11-alpha]: Critical/high terminal correctness issues block Alpha signoff through the known-issues triage loop.
+- [Phase 11-alpha]: Phase 11 diagnostics remain local and sanitized; telemetry, crash reporting, automatic diagnostics upload, and support portal functionality are deferred.
+- [Phase 11-alpha]: Diagnostics source gating scans Phase 11 docs, evidence policy, and scripts while excluding generated artifacts.
 
 ## Decisions still open
 
@@ -245,10 +248,11 @@ Phase 11 Plan 03 is complete. Alpha execution has two pending plans covering fee
 | Phase 11 P01 | 2min | 2 tasks | 3 files |
 | Phase 11-alpha P02 | 3 min | 2 tasks | 4 files |
 | Phase 11-alpha P03 | 3 min | 2 tasks | 6 files |
+| Phase 11-alpha P04 | 4 min | 2 tasks | 6 files |
 
 ## Next target
 
-Phase 11 Plan 04 - Feedback, known issues, and diagnostics policy
+Phase 11 Plan 05 - Final Alpha verification and signoff
 
 ## Session handoff
 
@@ -383,4 +387,6 @@ Phase 11 Plan 04 - Feedback, known issues, and diagnostics policy
 - Summary file: `.planning/phases/11-alpha/11-02-SUMMARY.md`.
 - 2026-05-21: Phase 11 Plan 03 executed and verified with DEBUG alpha terminal/workspace/privacy smoke, daily-driver UAT checklist, sanitized helper script, and final build/test plus syntax/source gates.
 - Summary file: `.planning/phases/11-alpha/11-03-SUMMARY.md`.
-- Stopped at: Completed 11-alpha-03-PLAN.md; execute `.planning/phases/11-alpha/11-04-PLAN.md` next.
+- 2026-05-21: Phase 11 Plan 04 executed and verified with Alpha known-issues tracking, feedback intake, sanitized diagnostics policy, release/evidence links, and final source gates.
+- Summary file: `.planning/phases/11-alpha/11-04-SUMMARY.md`.
+- Stopped at: Completed 11-alpha-04-PLAN.md; execute `.planning/phases/11-alpha/11-05-PLAN.md` next.
