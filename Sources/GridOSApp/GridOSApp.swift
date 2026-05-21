@@ -11,6 +11,15 @@ struct GridOSApplication: App {
 
     @StateObject private var macIntegrationsController = MacIntegrationsController()
 
+    #if DEBUG
+    init() {
+        if ProcessInfo.processInfo.arguments.contains("--phase8-notification-smoke") {
+            Phase8MacIntegrationsSmokeCoordinator()
+                .startIfRequested()
+        }
+    }
+    #endif
+
     var body: some Scene {
         WindowGroup {
             RootView()

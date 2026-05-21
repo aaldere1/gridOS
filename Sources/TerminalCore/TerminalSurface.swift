@@ -1,5 +1,7 @@
 import AppKit
-import SwiftTerm
+import class SwiftTerm.LocalProcessTerminalView
+import protocol SwiftTerm.LocalProcessTerminalViewDelegate
+import class SwiftTerm.TerminalView
 import SwiftUI
 
 public struct TerminalSurface: NSViewRepresentable {

@@ -2,7 +2,6 @@
 import Foundation
 import Integrations
 
-@MainActor
 struct Phase8MacIntegrationsSmokeCoordinator {
     static let notificationSmokeArgument = "--phase8-notification-smoke"
     static let notificationSmokeMarker = "PHASE8_NOTIFICATION_SMOKE"
@@ -21,6 +20,7 @@ struct Phase8MacIntegrationsSmokeCoordinator {
             return
         }
 
+        writeNotificationSmokeMarker(resultMessage: "Notification smoke scheduled.")
         Task {
             await runNotificationSmoke()
         }
@@ -32,12 +32,34 @@ struct Phase8MacIntegrationsSmokeCoordinator {
             title: Self.notificationSmokeTitle,
             body: Self.notificationSmokeBody
         )
-        let result = await notificationClient.deliver(request)
+        let result = await deliverWithTimeout(request)
+        writeNotificationSmokeMarker(resultMessage: result.message)
+    }
+
+    private func deliverWithTimeout(_ request: NotificationDeliveryRequest) async -> NotificationDeliveryResult {
+        let notificationClient = notificationClient
+
+        return await withTaskGroup(of: NotificationDeliveryResult.self) { group in
+            group.addTask {
+                await notificationClient.deliver(request)
+            }
+            group.addTask {
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                return .failed("Notification smoke timed out before macOS returned delivery status.")
+            }
+
+            let result = await group.next() ?? .failed("Notification smoke did not return a delivery status.")
+            group.cancelAll()
+            return result
+        }
+    }
+
+    private func writeNotificationSmokeMarker(resultMessage: String) {
         let markerBody = [
             Self.notificationSmokeMarker,
-            request.title,
-            request.body,
-            result.message
+            Self.notificationSmokeTitle,
+            Self.notificationSmokeBody,
+            resultMessage
         ].joined(separator: "\n") + "\n"
 
         try? markerBody.write(
