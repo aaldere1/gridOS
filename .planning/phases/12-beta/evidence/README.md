@@ -14,6 +14,11 @@ with missing input names only.
 
 ## Artifact build
 
+`scripts/build-beta.sh` is the Beta build entrypoint. It runs
+`scripts/beta-notarization-preflight.sh`, regenerates the project with
+`xcodegen generate --use-cache`, archives `gridOS`, creates a ZIP and DMG, and
+writes `.planning/phases/12-beta/evidence/beta-artifact-manifest.md`.
+
 Beta build products must be written only to ignored local output directories,
 normally `build/beta`.
 
@@ -23,6 +28,11 @@ Committed evidence must not include raw build logs or private local paths.
 
 ## Notarization and stapling
 
+`scripts/notarize-beta-artifact.sh` submits a local Beta artifact with
+`xcrun notarytool submit --wait`, staples supported artifact types with
+`xcrun stapler staple`, validates with `xcrun stapler validate`, and writes
+`.planning/phases/12-beta/evidence/beta-notarization.md`.
+
 Beta notarization evidence should record the submitted artifact basename,
 submission status, notary status, stapling status, validation command names, and
 sanitized failure categories.
@@ -31,6 +41,11 @@ Notary credentials, app-specific passwords, API keys, private keys, profile
 contents, and keychain item contents must never be committed.
 
 ## Gatekeeper UAT
+
+`scripts/verify-beta-artifact.sh` verifies Beta artifacts with
+`codesign --verify --deep --strict --verbose=2`, `xcrun stapler validate`, and
+`spctl --assess --type execute --verbose=4`, then writes
+`.planning/phases/12-beta/evidence/beta-artifact-verification.md`.
 
 Clean-Mac Gatekeeper UAT evidence must record a quarantined artifact install and
 Finder launch result, plus `xcrun stapler validate` and `spctl --assess`

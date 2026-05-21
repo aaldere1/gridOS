@@ -395,9 +395,9 @@ Primary references:
 
 - `.planning/phases/12-beta/evidence/README.md` defines the Phase 12 beta evidence policy, privacy boundaries, and blocker policy.
 - `scripts/beta-notarization-preflight.sh` checks Xcode tooling, Developer ID signing input presence, hardened-runtime settings, notary tool presence, stapler presence, and notary credential mode presence without printing private values.
-- `scripts/build-beta.sh` is the future Beta artifact build entrypoint.
-- `scripts/notarize-beta-artifact.sh` is the future notary submission and stapling entrypoint.
-- `scripts/verify-beta-artifact.sh` is the future Beta artifact verification entrypoint.
+- `scripts/build-beta.sh` is the Beta artifact build entrypoint.
+- `scripts/notarize-beta-artifact.sh` is the notary submission and stapling entrypoint.
+- `scripts/verify-beta-artifact.sh` is the Beta artifact verification entrypoint.
 - `.planning/phases/12-beta/BETA-UAT.md` is the future clean-Mac Gatekeeper UAT checklist.
 - `.planning/phases/12-beta/beta-release-manifest.json` is the future manual Beta update manifest.
 - `.planning/phases/12-beta/BETA-FEEDBACK.md` is the future sanitized Beta feedback template.
@@ -423,6 +423,43 @@ scripts/beta-notarization-preflight.sh
 notarytool Keychain profile created outside this repo. Apple ID/app-specific
 password/team and App Store Connect API key modes may be supported by later
 scripts, but private values must never be committed or printed.
+
+Signed and packaged Beta build:
+
+```sh
+GRIDOS_DEVELOPMENT_TEAM=team-id \
+GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
+GRIDOS_NOTARY_PROFILE=notarytool-profile \
+scripts/build-beta.sh
+```
+
+The build script writes ZIP and DMG artifacts under `build/beta` by default and
+writes `.planning/phases/12-beta/evidence/beta-artifact-manifest.md` with
+artifact basenames, checksums, version/build, source commit, signing presence,
+hardened-runtime status, and next commands.
+
+Beta notarization:
+
+```sh
+GRIDOS_NOTARY_PROFILE=notarytool-profile \
+scripts/notarize-beta-artifact.sh build/beta/gridOS-version-build-commit.dmg
+```
+
+The notarization script uses `xcrun notarytool submit --wait`, staples supported
+artifact types with `xcrun stapler staple`, validates with
+`xcrun stapler validate`, and records sanitized evidence in
+`.planning/phases/12-beta/evidence/beta-notarization.md`.
+
+Beta artifact verification:
+
+```sh
+scripts/verify-beta-artifact.sh build/beta/gridOS-version-build-commit.dmg
+```
+
+The verifier checks `codesign --verify --deep --strict --verbose=2`,
+`xcrun stapler validate`, `spctl --assess --type execute --verbose=4`, bundle
+metadata, and SHA-256 checksums, then writes
+`.planning/phases/12-beta/evidence/beta-artifact-verification.md`.
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
