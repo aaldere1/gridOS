@@ -395,7 +395,11 @@ Primary references:
 
 - `.planning/phases/12-beta/evidence/README.md` defines the Phase 12 beta evidence policy, privacy boundaries, and blocker policy.
 - `docs/beta-distribution.md` defines the manual Beta install, update, rollback, feedback, and privacy flow.
+- `docs/notarization-setup.md` defines the notarytool Keychain profile setup and check flow.
 - `scripts/beta-notarization-preflight.sh` checks Xcode tooling, Developer ID signing input presence, hardened-runtime settings, notary tool presence, stapler presence, and notary credential mode presence without printing private values.
+- `scripts/setup-beta-notary-profile.sh` creates a notarytool Keychain profile without committing secrets.
+- `scripts/check-beta-notary-profile.sh` checks a stored notarytool profile and writes sanitized evidence.
+- `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` records the current profile-check result without account values.
 - `scripts/build-beta.sh` is the Beta artifact build entrypoint.
 - `scripts/notarize-beta-artifact.sh` is the notary submission and stapling entrypoint.
 - `scripts/verify-beta-artifact.sh` is the Beta artifact verification entrypoint.
@@ -425,6 +429,19 @@ scripts/beta-notarization-preflight.sh
 notarytool Keychain profile created outside this repo. Apple ID/app-specific
 password/team and App Store Connect API key modes may be supported by later
 scripts, but private values must never be committed or printed.
+
+Create and check a notarytool profile:
+
+```sh
+export GRIDOS_NOTARY_PROFILE=gridOS-beta
+export GRIDOS_NOTARY_APPLE_ID='apple-id@example.com'
+export GRIDOS_NOTARY_TEAM_ID='JFE428WL4Z'
+scripts/setup-beta-notary-profile.sh "$GRIDOS_NOTARY_PROFILE"
+GRIDOS_NOTARY_PROFILE="$GRIDOS_NOTARY_PROFILE" scripts/check-beta-notary-profile.sh
+```
+
+See `docs/notarization-setup.md` for Apple ID and App Store Connect API key
+setup modes.
 
 Signed and packaged Beta build:
 

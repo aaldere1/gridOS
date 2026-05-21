@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Beta blocked pending notary credential mode
-last_updated: "2026-05-21T21:16:00Z"
+status: Phase 12 Beta blocked; notary profile setup path ready
+last_updated: "2026-05-21T21:19:55Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 12 - Beta (blocked pending notary credential mode)
 
 ## Current status
 
-Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, release scripts, manual update docs, first-run privacy UI, feedback/known-issues flow, and unsigned Xcode build/test gates pass. External Beta cannot ship because notarization is blocked until a notary credential mode is configured, so no notarized/stapled artifact or clean-Mac Gatekeeper UAT proof exists. See `.planning/phases/12-beta/12-VERIFICATION.md`, `.planning/phases/12-beta/BETA-UAT.md`, and `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
+Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, release scripts, manual update docs, first-run privacy UI, feedback/known-issues flow, and unsigned Xcode build/test gates pass. External Beta cannot ship because notarization is blocked until a notary credential mode is configured, so no notarized/stapled artifact or clean-Mac Gatekeeper UAT proof exists. The unblock path now exists in `docs/notarization-setup.md`, `scripts/setup-beta-notary-profile.sh`, and `scripts/check-beta-notary-profile.sh`; the current missing-profile proof is `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt`. See `.planning/phases/12-beta/12-VERIFICATION.md`, `.planning/phases/12-beta/BETA-UAT.md`, and `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
 
 ## Decisions made
 
@@ -271,7 +271,7 @@ Phase 12 execution is complete but Beta signoff is `BLOCKED`. Source work, relea
 
 ## Next target
 
-Provide a notary credential mode, then rerun Beta build/notarize/verify and clean-Mac Gatekeeper UAT.
+Create a notarytool Keychain profile with `scripts/setup-beta-notary-profile.sh`, confirm it with `scripts/check-beta-notary-profile.sh`, then rerun Beta build/notarize/verify and clean-Mac Gatekeeper UAT.
 
 ## Session handoff
 
@@ -430,4 +430,7 @@ Provide a notary credential mode, then rerun Beta build/notarize/verify and clea
 - Phase 12 Plan 05 summary: `.planning/phases/12-beta/12-05-SUMMARY.md`.
 - Phase 12 verification: `.planning/phases/12-beta/12-VERIFICATION.md`.
 - Phase 12 clean-Mac evidence: `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
-- Stopped at: Phase 12 Beta blocked pending notary credential mode.
+- Phase 12 notary setup docs: `docs/notarization-setup.md`.
+- Phase 12 notary profile helpers: `scripts/setup-beta-notary-profile.sh`, `scripts/check-beta-notary-profile.sh`.
+- Phase 12 notary profile check evidence: `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt`.
+- Stopped at: Phase 12 Beta blocked pending configured notarytool Keychain profile.

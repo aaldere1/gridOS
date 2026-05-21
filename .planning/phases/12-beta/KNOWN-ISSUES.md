@@ -18,7 +18,7 @@ update, or data-safety issues block Beta signoff.
 
 | ID | Title | Severity | Beta blocker | Production blocker | Owner | Target phase | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| BETA-001 | Notary credential mode is not configured | critical | yes | yes | release owner | Phase 12 | blocked | `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt` records `BETA_NOTARIZATION_BLOCKED`. |
+| BETA-001 | Notary credential mode is not configured | critical | yes | yes | release owner | Phase 12 | blocked | `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` records `BLOCKER=GRIDOS_NOTARY_PROFILE`; `docs/notarization-setup.md` and `scripts/setup-beta-notary-profile.sh` define the unblock path. |
 
 ## Status values
 
