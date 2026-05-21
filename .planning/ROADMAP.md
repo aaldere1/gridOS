@@ -183,7 +183,7 @@ Exit criteria:
 
 Plans: 5 plans
 
-- [ ] 11-01-PLAN.md - Signing preflight and alpha evidence policy.
+- [x] 11-01-PLAN.md - Signing preflight and alpha evidence policy.
 - [ ] 11-02-PLAN.md - Internal alpha artifact build and verification.
 - [ ] 11-03-PLAN.md - Daily-driver terminal correctness UAT.
 - [ ] 11-04-PLAN.md - Feedback, known issues, and diagnostics policy.

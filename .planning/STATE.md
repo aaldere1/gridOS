@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 11 planned
-last_updated: "2026-05-21T12:42:11.000Z"
+status: Executing Phase 11
+last_updated: "2026-05-21T12:59:56.348Z"
 progress:
-  total_phases: 15
-  completed_phases: 10
+  total_phases: 12
+  completed_phases: 11
   total_plans: 38
-  completed_plans: 33
+  completed_plans: 34
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 11 - Alpha (planned)
+Phase 11 - Alpha (in progress)
 
 ## Current status
 
-Phase 11 planning is complete. Alpha execution has five pending plans covering signing preflight, internal artifact build/verification, daily-driver terminal UAT, feedback/known-issues/diagnostics policy, and final Alpha verification. Phase 10 security/privacy guarantees remain the baseline for execution.
+Phase 11 Plan 01 is complete. Alpha execution has four pending plans covering internal artifact build/verification, daily-driver terminal UAT, feedback/known-issues/diagnostics policy, and final Alpha verification. Phase 10 security/privacy guarantees remain the baseline for execution.
 
 ## Decisions made
 
@@ -96,6 +96,9 @@ Phase 11 planning is complete. Alpha execution has five pending plans covering s
 - [Phase 11-alpha]: Keep Developer ID notarization, stapling, public distribution packaging, and clean-Mac Gatekeeper proof deferred to Phase 12 Beta unless Phase 11 exposes an earlier blocker.
 - [Phase 11-alpha]: Commit sanitized text evidence only; do not commit `.app`, `.xcarchive`, `.dmg`, `.zip`, `.pkg`, `.trace`, screenshots, shell history, terminal transcripts, environment dumps, API keys, prompts, generated commands, raw terminal output, or user-specific paths.
 - [Phase 11-alpha]: Critical or high-severity terminal correctness issues block Alpha signoff.
+- [Phase 11-alpha]: Signing readiness evidence is presence-only: missing local Apple configuration is recorded as SIGNING_BLOCKED without printing private values.
+- [Phase 11-alpha]: Alpha evidence remains text-only and sanitized; build artifacts, traces, screenshots, terminal transcripts, raw output, prompts, generated commands, API keys, environment variables, and user-specific paths stay out of source control.
+- [Phase 11-alpha]: High-severity terminal correctness blockers prevent Alpha completion.
 
 ## Decisions still open
 
@@ -233,10 +236,11 @@ Phase 11 planning is complete. Alpha execution has five pending plans covering s
 | Phase 10 P04 | 5min | 2 tasks | 6 files |
 | Phase 10 P05 | 4min | 2 tasks | 6 files |
 | Phase 10 total | 22min | 10 tasks | 23 files |
+| Phase 11 P01 | 2min | 2 tasks | 3 files |
 
 ## Next target
 
-Phase 11 - Alpha execution
+Phase 11 Plan 02 - Internal alpha artifact build and verification
 
 ## Session handoff
 
@@ -365,4 +369,6 @@ Phase 11 - Alpha execution
 - Validation strategy: `.planning/phases/11-alpha/11-VALIDATION.md`.
 - Context file: `.planning/phases/11-alpha/11-CONTEXT.md`.
 - Plan files: `.planning/phases/11-alpha/11-01-PLAN.md` through `.planning/phases/11-alpha/11-05-PLAN.md`.
-- Stopped at: Phase 11 planned; execute `.planning/phases/11-alpha/11-01-PLAN.md` next.
+- 2026-05-21: Phase 11 Plan 01 executed and verified with signing preflight, Alpha evidence policy, release-doc links, and final dry-run `SIGNING_BLOCKED` evidence for missing local signing env vars.
+- Summary file: `.planning/phases/11-alpha/11-01-SUMMARY.md`.
+- Stopped at: Completed 11-alpha-01-PLAN.md; execute `.planning/phases/11-alpha/11-02-PLAN.md` next.
