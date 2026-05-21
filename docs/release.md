@@ -263,6 +263,25 @@ Manual smoke checklist:
 6. Verify `Manage Stored Secrets` scrolls/focuses the existing Command Intelligence credential section without revealing stored values.
 7. Confirm `Index saved workspace metadata` is off by default, enable it only by explicit user action, and verify Spotlight indexing code references `WorkspaceSearchMetadata` rather than full paths or terminal content.
 
+## Phase 9 performance hardening
+
+Phase 9 adds a repeatable benchmark evidence lane for cold start, resident memory, idle CPU, input latency, heavy output, and frame pacing.
+
+Quick benchmark smoke:
+
+```sh
+.planning/phases/09-performance-hardening/run-performance-benchmarks.sh --quick
+```
+
+Outputs:
+
+- `.planning/phases/09-performance-hardening/evidence/phase9-results.json`
+- `.planning/phases/09-performance-hardening/evidence/README.md`
+
+Full benchmark mode may attempt `xcrun xctrace` for Instruments/profile summaries after deterministic Phase 9 app fixtures exist. The `--quick` path keeps local smoke lightweight and writes the report schema without long stress runs or profile capture.
+
+Phase 9 benchmark evidence uses synthetic terminal markers and must not commit private shell history, terminal transcripts, environment variables, API keys, or screenshots containing user content.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
