@@ -2,24 +2,24 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Beta planned; ready to execute
-last_updated: "2026-05-21T20:59:27Z"
+status: Phase 12 Plan 01 complete; Plan 02 ready
+last_updated: "2026-05-21T21:02:16Z"
 progress:
   total_phases: 15
   completed_phases: 12
   total_plans: 43
-  completed_plans: 38
+  completed_plans: 39
 ---
 
 # gridOS state
 
 ## Active phase
 
-Phase 12 - Beta (planned; ready to execute)
+Phase 12 - Beta (Plan 01 complete; Plan 02 ready)
 
 ## Current status
 
-Phase 11 Alpha verification passed. Signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip` passed signing preflight, artifact verification, signed daily-driver UAT, known-issues triage, diagnostics policy, noninteractive UAT helper, and focused evidence privacy gates. Phase 12 Beta is planned with five execution plans covering notarization preflight, Beta build/notarize/verify scripts, update manifest and distribution docs, first-run privacy/support/feedback, clean-Mac Gatekeeper UAT, and final Beta signoff. See `.planning/phases/12-beta/12-CONTEXT.md`, `.planning/phases/12-beta/12-RESEARCH.md`, `.planning/phases/12-beta/12-VALIDATION.md`, `.planning/phases/12-beta/12-UI-SPEC.md`, and `.planning/phases/12-beta/12-01-PLAN.md` through `.planning/phases/12-beta/12-05-PLAN.md`.
+Phase 12 Plan 01 is complete. `scripts/beta-notarization-preflight.sh` now records sanitized Beta signing/notary tool evidence, `.planning/phases/12-beta/evidence/README.md` defines the Beta evidence policy, and `docs/release.md` links the Phase 12 Beta lane. Local Developer ID signing inputs are present, but notarization is blocked until a notary credential mode is provided; `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt` records `BETA_NOTARIZATION_BLOCKED` with missing notary input names only. Plan 02 is ready to implement Beta build, notarization, stapling, and verification scripts.
 
 ## Decisions made
 
@@ -218,6 +218,8 @@ Phase 11 Alpha verification passed. Signed artifact `build/alpha/gridOS-0.1.0-1-
 - 2026-05-21: Resolved signed Alpha launch beachball ALPHA-004 by disabling the SwiftUI `MenuBarExtra` scene for Alpha; archived signed app launch proof showed one window, a live shell child, and settled CPU of `3.4%` after 15 seconds.
 - 2026-05-21: Resolved signed Alpha multi-pane shell lifecycle issue ALPHA-005 in `69e8518`; signed UAT proved split/close child shell counts `1 -> 2 -> 3 -> 2`, two-pane restore, and zero child shells after quit.
 - 2026-05-21: Phase 11 Alpha passed with signed artifact `build/alpha/gridOS-0.1.0-1-69e8518.zip`; `11-VERIFICATION.md`, `ALPHA-UAT.md`, and `evidence/signed-artifact-uat.md` record the handoff to Phase 12 Beta.
+- 2026-05-21: Phase 12 planned with context, research, validation, UI spec, and five executable Beta plans.
+- 2026-05-21: Phase 12 Plan 01 executed and verified with Beta notarization preflight, evidence policy, release-doc links, and sanitized `BETA_NOTARIZATION_BLOCKED` evidence for missing notary credential mode.
 
 ## Performance metrics
 
@@ -257,10 +259,11 @@ Phase 11 Alpha verification passed. Signed artifact `build/alpha/gridOS-0.1.0-1-
 | Phase 11-alpha P03 | 3 min | 2 tasks | 6 files |
 | Phase 11-alpha P04 | 4 min | 2 tasks | 6 files |
 | Phase 11-alpha P05 | 8 min | 2 tasks | 8 files |
+| Phase 12-beta P01 | 4 min | 2 tasks | 5 files |
 
 ## Next target
 
-Plan Phase 12 - Beta: notarization, stapling, clean-Mac Gatekeeper proof, external packaging, and feedback readiness.
+Execute Phase 12 Plan 02: Beta build, notarization, stapling, and verification scripts.
 
 ## Session handoff
 
@@ -407,4 +410,6 @@ Plan Phase 12 - Beta: notarization, stapling, clean-Mac Gatekeeper proof, extern
 - UAT file: `.planning/phases/11-alpha/ALPHA-UAT.md`.
 - Signed UAT evidence: `.planning/phases/11-alpha/evidence/signed-artifact-uat.md`.
 - Evidence README: `.planning/phases/11-alpha/evidence/README.md`.
-- Stopped at: Phase 12 Beta ready to plan.
+- Phase 12 Plan 01 summary: `.planning/phases/12-beta/12-01-SUMMARY.md`.
+- Phase 12 Plan 01 evidence: `.planning/phases/12-beta/evidence/beta-notarization-preflight.txt`.
+- Stopped at: Phase 12 Plan 02 ready to execute.

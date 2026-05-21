@@ -203,7 +203,7 @@ Exit criteria:
 
 Plans: 5 plans
 
-- [ ] 12-01-PLAN.md - Beta notarization preflight and evidence policy.
+- [x] 12-01-PLAN.md - Beta notarization preflight and evidence policy.
 - [ ] 12-02-PLAN.md - Notarized Beta artifact build, staple, and verification.
 - [ ] 12-03-PLAN.md - Beta update channel and distribution manifest.
 - [ ] 12-04-PLAN.md - First-run privacy, support, and feedback loop.

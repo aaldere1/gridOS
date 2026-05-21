@@ -383,6 +383,49 @@ The Phase 11 Alpha Diagnostics Policy keeps diagnostics local and sanitized. Pha
 
 No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
 
+## Phase 12 beta
+
+Phase 12 beta is the external installability and feedback lane. It starts with
+notarization preflight evidence, then moves through signed Beta artifact
+creation, notarization, stapling or ticket validation, clean-Mac Gatekeeper UAT,
+manual update-flow proof, first-run privacy, feedback triage, and final Beta
+signoff.
+
+Primary references:
+
+- `.planning/phases/12-beta/evidence/README.md` defines the Phase 12 beta evidence policy, privacy boundaries, and blocker policy.
+- `scripts/beta-notarization-preflight.sh` checks Xcode tooling, Developer ID signing input presence, hardened-runtime settings, notary tool presence, stapler presence, and notary credential mode presence without printing private values.
+- `scripts/build-beta.sh` is the future Beta artifact build entrypoint.
+- `scripts/notarize-beta-artifact.sh` is the future notary submission and stapling entrypoint.
+- `scripts/verify-beta-artifact.sh` is the future Beta artifact verification entrypoint.
+- `.planning/phases/12-beta/BETA-UAT.md` is the future clean-Mac Gatekeeper UAT checklist.
+- `.planning/phases/12-beta/beta-release-manifest.json` is the future manual Beta update manifest.
+- `.planning/phases/12-beta/BETA-FEEDBACK.md` is the future sanitized Beta feedback template.
+- `.planning/phases/12-beta/KNOWN-ISSUES.md` is the future Beta known-issues workflow.
+
+Signing or notary absence is recorded as `BETA_NOTARIZATION_BLOCKED` with
+missing input names only. Clean-Mac access absence is recorded as
+`BETA_CLEAN_MAC_BLOCKED` with missing prerequisite names only. Beta cannot be
+marked complete without notarized artifact evidence, Gatekeeper UAT evidence,
+manual update-flow evidence, and a known-issues check showing no current
+critical or high-severity Beta blocker.
+
+Beta notarization preflight:
+
+```sh
+GRIDOS_DEVELOPMENT_TEAM=team-id \
+GRIDOS_SIGNING_IDENTITY='Developer ID Application: Example' \
+GRIDOS_NOTARY_PROFILE=notarytool-profile \
+scripts/beta-notarization-preflight.sh
+```
+
+`GRIDOS_NOTARY_PROFILE` is the preferred credential mode and should name a
+notarytool Keychain profile created outside this repo. Apple ID/app-specific
+password/team and App Store Connect API key modes may be supported by later
+scripts, but private values must never be committed or printed.
+
+No artifacts committed: .app, .xcarchive, .dmg, .zip, .pkg, .trace, and screenshots stay out of source control.
+
 ## Production distribution target
 
 The likely 1.0 path is direct Mac distribution:
