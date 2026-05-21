@@ -151,6 +151,7 @@ struct RootView: View {
         }
         .onDisappear {
             saveWorkspaceNow()
+            workspaceController.terminateAllPanes()
         }
         .task {
             ensureInstallSeed()

@@ -205,6 +205,10 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
         terminateCount += 1
     }
 
+    func terminateEnsuringProcessExit() {
+        terminate()
+    }
+
     func isProcessRunning() -> Bool {
         terminateCount == 0
     }

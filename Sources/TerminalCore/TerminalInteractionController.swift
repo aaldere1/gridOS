@@ -11,12 +11,13 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
     func clear()
     func reset()
     func terminate()
+    func terminateEnsuringProcessExit()
     func isProcessRunning() -> Bool
 }
 
 @MainActor
 public final class TerminalInteractionController: ObservableObject {
-    private weak var terminal: (any TerminalInteractionControllingTerminal)?
+    private var terminal: (any TerminalInteractionControllingTerminal)?
 
     public init() {}
 
@@ -58,14 +59,27 @@ public final class TerminalInteractionController: ObservableObject {
     }
 
     public func terminate() {
-        terminal?.terminate()
+        terminal?.terminateEnsuringProcessExit()
     }
 
     public func isProcessRunning() -> Bool {
         terminal?.isProcessRunning() ?? false
     }
 
+    func attachedTerminal<T: AnyObject>(as type: T.Type) -> T? {
+        terminal as? T
+    }
+
+    func owns(_ terminal: any TerminalInteractionControllingTerminal) -> Bool {
+        self.terminal === terminal
+    }
+
     func attach(_ terminal: any TerminalInteractionControllingTerminal) {
+        if let currentTerminal = self.terminal,
+           currentTerminal !== terminal {
+            currentTerminal.terminateEnsuringProcessExit()
+        }
+
         self.terminal = terminal
     }
 

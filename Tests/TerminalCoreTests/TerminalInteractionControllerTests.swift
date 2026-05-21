@@ -114,6 +114,34 @@ final class TerminalInteractionControllerTests: XCTestCase {
         controller.attach(stoppedTerminal)
         XCTAssertFalse(controller.isProcessRunning())
     }
+
+    func testReplacingAttachedTerminalTerminatesDisplacedTerminal() {
+        let firstTerminal = TerminalInteractionTerminalSpy(isRunning: true)
+        let replacementTerminal = TerminalInteractionTerminalSpy(isRunning: true)
+        let controller = TerminalInteractionController()
+
+        controller.attach(firstTerminal)
+        controller.attach(firstTerminal)
+        controller.attach(replacementTerminal)
+
+        XCTAssertEqual(firstTerminal.terminateCount, 1)
+        XCTAssertEqual(replacementTerminal.terminateCount, 0)
+        controller.run("echo replacement")
+        XCTAssertTrue(firstTerminal.sentTexts.isEmpty)
+        XCTAssertEqual(replacementTerminal.sentTexts, ["echo replacement\n"])
+    }
+
+    func testAttachedTerminalReturnsControllerOwnedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy(isRunning: true)
+        let controller = TerminalInteractionController()
+
+        XCTAssertNil(controller.attachedTerminal(as: TerminalInteractionTerminalSpy.self))
+
+        controller.attach(terminal)
+
+        XCTAssertTrue(controller.owns(terminal))
+        XCTAssertTrue(controller.attachedTerminal(as: TerminalInteractionTerminalSpy.self) === terminal)
+    }
 }
 
 @MainActor
@@ -163,6 +191,10 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
 
     func terminate() {
         terminateCount += 1
+    }
+
+    func terminateEnsuringProcessExit() {
+        terminate()
     }
 
     func isProcessRunning() -> Bool {

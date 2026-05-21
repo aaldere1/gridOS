@@ -109,6 +109,7 @@ struct TerminalWorkspaceView: View {
                 interactionController: workspaceController.controller(for: paneID),
                 onActivity: onActivity
             )
+            .id(paneID.rawValue)
             .background(Color(theme.palette.background).opacity(theme.terminal.backgroundOpacity))
             .clipShape(RoundedRectangle(cornerRadius: theme.panel.cornerRadius, style: .continuous))
             .contentShape(Rectangle())

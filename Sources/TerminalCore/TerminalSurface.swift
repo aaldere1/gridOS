@@ -1,4 +1,5 @@
 import AppKit
+import Darwin
 import class SwiftTerm.LocalProcessTerminalView
 import protocol SwiftTerm.LocalProcessTerminalViewDelegate
 import class SwiftTerm.TerminalView
@@ -34,7 +35,9 @@ public struct TerminalSurface: NSViewRepresentable {
     }
 
     @MainActor public func makeNSView(context: Context) -> NSView {
-        let terminal = GridOSTerminalView(frame: .zero)
+        let terminal = interactionController?.attachedTerminal(as: LocalProcessTerminalView.self)
+            ?? GridOSTerminalView(frame: .zero)
+        terminal.removeFromSuperview()
         context.coordinator.attach(terminal)
         return terminal
     }
@@ -54,7 +57,7 @@ public struct TerminalSurface: NSViewRepresentable {
         private var state = TerminalSessionState.idle
         private var outputFlushScheduled = false
         private var pendingOutputBytes = 0
-        private weak var terminalView: LocalProcessTerminalView?
+        private var terminalView: LocalProcessTerminalView?
 
         init(
             paneID: TerminalPaneID,
@@ -71,6 +74,9 @@ public struct TerminalSurface: NSViewRepresentable {
 
         func attach(_ terminalView: LocalProcessTerminalView) {
             if let currentTerminalView = self.terminalView {
+                if currentTerminalView !== terminalView {
+                    currentTerminalView.terminateEnsuringProcessExit()
+                }
                 interactionController?.detach(currentTerminalView)
             }
             self.terminalView = terminalView
@@ -85,10 +91,27 @@ public struct TerminalSurface: NSViewRepresentable {
         }
 
         func shutdown() {
-            if let terminalView {
-                interactionController?.detach(terminalView)
+            guard let terminalView else {
+                return
             }
-            terminalView?.terminate()
+
+            defer {
+                self.terminalView = nil
+            }
+
+            if let interactionController {
+                let shouldKeepControllerOwnedProcess = interactionController.owns(terminalView)
+                    && terminalView.process.running
+                if !shouldKeepControllerOwnedProcess {
+                    interactionController.detach(terminalView)
+                }
+                if terminalView.processDelegate === self {
+                    terminalView.processDelegate = nil
+                }
+                return
+            }
+
+            terminalView.terminateEnsuringProcessExit()
             state = .terminated(exitCode: nil)
         }
 
@@ -132,6 +155,11 @@ public struct TerminalSurface: NSViewRepresentable {
         }
 
         private func startShell(in terminalView: LocalProcessTerminalView) {
+            guard !terminalView.process.running else {
+                state = .running
+                return
+            }
+
             guard !state.isActive else {
                 return
             }
@@ -264,6 +292,23 @@ extension LocalProcessTerminalView: TerminalInteractionControllingTerminal {
     func reset() {
         getTerminal().resetToInitialState()
         needsDisplay = true
+    }
+
+    func terminateEnsuringProcessExit() {
+        let processIdentifier = process.shellPid
+        terminate()
+
+        guard processIdentifier > 0 else {
+            return
+        }
+
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.5) {
+            guard kill(processIdentifier, 0) == 0 else {
+                return
+            }
+
+            kill(processIdentifier, SIGKILL)
+        }
     }
 
     func isProcessRunning() -> Bool {
