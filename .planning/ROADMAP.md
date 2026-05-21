@@ -193,13 +193,21 @@ Plans: 5 plans
 
 ## Phase 12 - Beta
 
-Status: pending
+Status: planned
 
 Goal: external installability and feedback.
 
 Exit criteria:
 
 - Developer ID signed, hardened, notarized distribution and update flow work on a clean Mac.
+
+Plans: 5 plans
+
+- [ ] 12-01-PLAN.md - Beta notarization preflight and evidence policy.
+- [ ] 12-02-PLAN.md - Notarized Beta artifact build, staple, and verification.
+- [ ] 12-03-PLAN.md - Beta update channel and distribution manifest.
+- [ ] 12-04-PLAN.md - First-run privacy, support, and feedback loop.
+- [ ] 12-05-PLAN.md - Clean-Mac Gatekeeper UAT and Beta signoff.
 
 ## Phase 13 - 1.0 release candidate
 
