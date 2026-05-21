@@ -10,6 +10,12 @@ struct SettingsView: View {
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
     @AppStorage("appearance.visualIntensity") private var visualIntensity = GridOSAppPreferences.defaultVisualIntensity
     @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
+    @AppStorage(GridOSAppPreferences.showMenuBarExtraStorageKey)
+    private var showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
+    @AppStorage(GridOSAppPreferences.notificationsEnabledStorageKey)
+    private var notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
+    @AppStorage(GridOSAppPreferences.indexWorkspaceMetadataStorageKey)
+    private var indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
 
     @State private var commandIntelligenceSettingsHighlighted = false
     @FocusState private var commandIntelligenceSettingsFocused: Bool
@@ -57,6 +63,8 @@ struct SettingsView: View {
                     .accessibilityLabel("Visual intensity")
                     .accessibilityValue("\(Int(visualIntensity * 100)) percent")
                 }
+
+                MacIntegrationsSettingsView()
 
                 CommandIntelligenceSettingsView()
                     .id("command-intelligence-settings")
@@ -115,6 +123,9 @@ struct SettingsView: View {
         visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
         reducedMotion = defaults.reducedMotion
         visualIntensity = defaults.visualIntensity
+        showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
+        notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
+        indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
     }
 
     private func resetSavedSession() {
