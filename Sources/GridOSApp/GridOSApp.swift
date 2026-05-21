@@ -13,9 +13,15 @@ struct GridOSApplication: App {
 
     #if DEBUG
     init() {
-        if ProcessInfo.processInfo.arguments.contains("--phase8-notification-smoke") {
+        let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--phase8-notification-smoke") {
             Phase8MacIntegrationsSmokeCoordinator()
-                .startIfRequested()
+                .startIfRequested(arguments: arguments)
+        }
+
+        if arguments.contains("--phase9-ready-smoke") {
+            Phase9PerformanceSmokeCoordinator()
+                .startIfRequested(arguments: arguments)
         }
     }
     #endif

@@ -157,6 +157,7 @@ struct RootView: View {
             #if DEBUG
             startPhase7SmokeIfNeeded()
             startPhase8SmokeIfNeeded()
+            startPhase9SmokeIfNeeded()
             #endif
             await runMetricsLoop()
         }
@@ -420,6 +421,16 @@ struct RootView: View {
     @MainActor private func startPhase8SmokeIfNeeded() {
         Phase8MacIntegrationsSmokeCoordinator()
             .startIfRequested()
+    }
+
+    @MainActor private func startPhase9SmokeIfNeeded() {
+        Phase9PerformanceSmokeCoordinator(
+            workspaceController: workspaceController,
+            renderPulse: {
+                handleTerminalActivity(.output(byteCount: 4_096), from: workspaceController.activePaneID)
+            }
+        )
+        .startIfRequested()
     }
     #endif
 }

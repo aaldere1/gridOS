@@ -57,6 +57,7 @@
 		77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */; };
 		791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E1127428923C1991E7539 /* RootView.swift */; };
+		7AFBD444EB08C8EE56EAAF12 /* Phase9PerformanceSmokeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */; };
 		7BE13CAC39203473A87744EC /* GridOSAppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741E76722893B0C28248B49F /* GridOSAppPreferences.swift */; };
 		81A4FE4CAFCD98B2B87AB4D3 /* LocalNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6E257F9A24DEBD00DA4BAD /* LocalNotificationClient.swift */; };
 		82FE12326A704ABB68E2A558 /* TerminalWorkspaceModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414683704F2D9DED2FD12FA6 /* TerminalWorkspaceModelTests.swift */; };
@@ -386,6 +387,7 @@
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
+		834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase9PerformanceSmokeCoordinator.swift; sourceTree = "<group>"; };
 		844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCredentialStoreTests.swift; sourceTree = "<group>"; };
 		881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase7MultiPaneSmokeCoordinator.swift; sourceTree = "<group>"; };
 		895A3739128DFB11F0957E2F /* CommandIntelligenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModels.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 				21DAEB9B7BB40FBA72EC1820 /* MenuBarExtraView.swift */,
 				881676A520FED482B6938D7B /* Phase7MultiPaneSmokeCoordinator.swift */,
 				2228C7C53FA5B4AFAD26C3CD /* Phase8MacIntegrationsSmokeCoordinator.swift */,
+				834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
 				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
@@ -1176,6 +1179,7 @@
 				03F7A808E4C047CB7D56F06E /* MenuBarExtraView.swift in Sources */,
 				0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */,
 				B5F03C213EA5921A0C6A985F /* Phase8MacIntegrationsSmokeCoordinator.swift in Sources */,
+				7AFBD444EB08C8EE56EAAF12 /* Phase9PerformanceSmokeCoordinator.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
 				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,
