@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Verifying Phase 07
-last_updated: "2026-05-21T00:30:55.228Z"
+status: Phase 07 complete
+last_updated: "2026-05-21T00:35:25.105Z"
 progress:
   total_phases: 15
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 20
   completed_plans: 20
 ---
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 7 - Multi-pane and session management (plans complete; phase verification next)
+Phase 8 - macOS integrations (next; discussion/planning pending)
 
 ## Current status
 
-Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 has completed all five plans: pure TerminalCore pane/session model, active-pane routing/process lifecycle control, recursive split-pane SwiftUI workspace, focused native commands, active-pane Command Intelligence wiring, local workspace persistence, restore copy, DEBUG smoke fixtures, release checklist, and evidence docs. Phase 7 phase-level verification is next.
+Phase 7 is verified complete with 12/12 must-haves passed. It delivered pure TerminalCore pane/session models, active-pane routing/process lifecycle control, recursive split-pane SwiftUI workspace, focused native commands, active-pane Command Intelligence wiring, local workspace persistence, restore copy, DEBUG smoke fixtures, release checklist, live marker/no-process smoke evidence, and final verification docs. Phase 8 macOS integrations is next.
 
 ## Decisions made
 
@@ -158,6 +158,7 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 has completed
 - 2026-05-20: Phase 07 Plan 03 executed and verified with recursive SwiftUI split-pane rendering, active-pane styling/accessibility, focused terminal menu commands, real split resizing, and active-pane Command Intelligence closures.
 - 2026-05-20: Phase 07 Plan 04 executed and verified with Application Support JSON snapshots, recent-directory persistence, RootView restore/save wiring, Settings recovery copy, reset saved session, and architecture/release docs.
 - 2026-05-20: Phase 07 Plan 05 executed and verified with DEBUG multi-pane/session smoke fixture, release launch helpers, final evidence log, full build/test, source gates, privacy checks, and diff check.
+- 2026-05-20: Phase 07 verification passed with 12/12 must-haves verified after live DEBUG multi-pane and session-restore smoke wrote all markers and left no gridOS process after quit.
 
 ## Performance metrics
 
@@ -181,7 +182,7 @@ Phase 6 is verified complete with 13/13 must-haves passed. Phase 7 has completed
 
 ## Next target
 
-Run Phase 07 phase-level verification and mark Phase 07 complete.
+Discuss and plan Phase 08: macOS integrations.
 
 ## Session handoff
 
@@ -246,4 +247,6 @@ Run Phase 07 phase-level verification and mark Phase 07 complete.
 - 2026-05-20: Phase 07 Plan 05 executed and verified.
 - Summary file: `.planning/phases/07-multi-pane-session-management/07-05-SUMMARY.md`.
 - Evidence file: `.planning/phases/07-multi-pane-session-management/evidence/README.md`.
-- Stopped at: Phase 07 plans complete; phase-level verification next.
+- 2026-05-20: Phase 07 verification passed.
+- Verification file: `.planning/phases/07-multi-pane-session-management/07-VERIFICATION.md`.
+- Stopped at: Phase 07 complete; Phase 08 discussion/planning next.

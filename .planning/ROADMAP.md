@@ -103,7 +103,7 @@ Plans: 6 plans
 
 ## Phase 7 - Multi-pane and session management
 
-Status: in progress
+Status: complete
 
 Goal: support real developer workflows with multiple shells.
 
