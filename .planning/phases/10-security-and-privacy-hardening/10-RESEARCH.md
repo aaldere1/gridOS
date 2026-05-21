@@ -86,7 +86,7 @@ Recommended gates:
 - `rg 'SecretRedactor|RedactionFinding|privateKey|credentialURL|AWS|Authorization: Bearer' Tests/CommandIntelligenceTests Sources/CommandIntelligence`
 - `rg 'CommandRiskClassifier|insertOnly|requiresConfirmation|security dump-keychain|curl .*\\|.*sh|sudo|rm -rf' Tests/CommandIntelligenceTests Sources/CommandIntelligence`
 - `rg 'kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly|kSecUseDataProtectionKeychain' Sources/GridOSKit Tests/GridOSKitTests Sources/CommandIntelligence Tests/CommandIntelligenceTests`
-- `! rg 'apiKey.*AppStorage|UserDefaults.*api|shellHistory|terminalTranscript|environmentVariables|commandOutput|selectedOutput.*write|prompt.*write|\\.png|\\.trace' Sources Tests docs .planning/phases/10-security-and-privacy-hardening`
+- `! rg 'apiKey.*AppStorage|UserDefaults.*api|shellHistory|terminalTranscript|environmentVariables|commandOutput|selectedOutput.*write|prompt.*write|\\.png|\\.trace' Sources Tests docs .planning/phases/10-security-and-privacy-hardening/evidence`
 
 Manual/RC gates:
 
