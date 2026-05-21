@@ -173,13 +173,21 @@ Plans: 5 plans
 
 ## Phase 11 - Alpha
 
-Status: pending
+Status: planned
 
 Goal: internal daily-driver validation.
 
 Exit criteria:
 
 - Signed internal builds are used for real work without terminal correctness blockers.
+
+Plans: 5 plans
+
+- [ ] 11-01-PLAN.md - Signing preflight and alpha evidence policy.
+- [ ] 11-02-PLAN.md - Internal alpha artifact build and verification.
+- [ ] 11-03-PLAN.md - Daily-driver terminal correctness UAT.
+- [ ] 11-04-PLAN.md - Feedback, known issues, and diagnostics policy.
+- [ ] 11-05-PLAN.md - Alpha final verification and Phase 12 handoff.
 
 ## Phase 12 - Beta
 

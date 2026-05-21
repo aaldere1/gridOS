@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 10 verification passed
-last_updated: "2026-05-21T09:42:18.000Z"
+status: Phase 11 planned
+last_updated: "2026-05-21T12:42:11.000Z"
 progress:
   total_phases: 15
   completed_phases: 10
-  total_plans: 33
+  total_plans: 38
   completed_plans: 33
 ---
 
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 11 - Alpha (next)
+Phase 11 - Alpha (planned)
 
 ## Current status
 
-Phase 10 verification passed. Security and privacy hardening is complete with threat model, privacy inventory, dependency review, final evidence, and 11/11 verification must-haves green. Next target is Phase 11 - Alpha.
+Phase 11 planning is complete. Alpha execution has five pending plans covering signing preflight, internal artifact build/verification, daily-driver terminal UAT, feedback/known-issues/diagnostics policy, and final Alpha verification. Phase 10 security/privacy guarantees remain the baseline for execution.
 
 ## Decisions made
 
@@ -92,6 +92,10 @@ Phase 10 verification passed. Security and privacy hardening is complete with th
 - [Phase 09-performance-hardening]: Use `/usr/bin/perl -MTime::HiRes=time` or app-side marker timestamps for sub-second benchmark timing; do not rely on `date +%s%N` on macOS.
 - [Phase 09-performance-hardening]: Commit benchmark summaries and small sanitized exports by default; do not commit large/raw `.trace` bundles unless intentionally scrubbed and size-acceptable.
 - [Phase 09-performance-hardening]: Treat terminal input latency as a documented controller-to-PTY marker proxy until deeper accessibility or rendering instrumentation is justified.
+- [Phase 11-alpha]: Treat missing local Apple signing configuration as an explicit `SIGNING_BLOCKED` alpha blocker, not a false pass or generic build failure.
+- [Phase 11-alpha]: Keep Developer ID notarization, stapling, public distribution packaging, and clean-Mac Gatekeeper proof deferred to Phase 12 Beta unless Phase 11 exposes an earlier blocker.
+- [Phase 11-alpha]: Commit sanitized text evidence only; do not commit `.app`, `.xcarchive`, `.dmg`, `.zip`, `.pkg`, `.trace`, screenshots, shell history, terminal transcripts, environment dumps, API keys, prompts, generated commands, raw terminal output, or user-specific paths.
+- [Phase 11-alpha]: Critical or high-severity terminal correctness issues block Alpha signoff.
 
 ## Decisions still open
 
@@ -194,6 +198,7 @@ Phase 10 verification passed. Security and privacy hardening is complete with th
 - 2026-05-21: Phase 10 Plan 04 executed and verified with Keychain/preference hygiene tests, persistence/indexing/notification privacy gates, and Phase 10 evidence README.
 - 2026-05-21: Phase 10 Plan 05 executed with dependency/license review, hardened-runtime posture, and final security/privacy verification.
 - 2026-05-21: Phase 10 verification passed with 11/11 must-haves verified and handoff to Phase 11 - Alpha.
+- 2026-05-21: Phase 11 context, research, validation strategy, and five executable plans created for Alpha signing preflight, internal artifact build/verification, daily-driver UAT, feedback/diagnostics, and final verification.
 
 ## Performance metrics
 
@@ -231,7 +236,7 @@ Phase 10 verification passed. Security and privacy hardening is complete with th
 
 ## Next target
 
-Phase 11 - Alpha
+Phase 11 - Alpha execution
 
 ## Session handoff
 
@@ -355,4 +360,9 @@ Phase 11 - Alpha
 - Summary file: `.planning/phases/10-security-and-privacy-hardening/10-05-SUMMARY.md`.
 - Verification file: `.planning/phases/10-security-and-privacy-hardening/10-VERIFICATION.md`.
 - Phase 10 status: verification passed with 11/11 must-haves verified.
-- Stopped at: Phase 10 complete; Phase 11 - Alpha next.
+- 2026-05-21: Phase 11 planning completed.
+- Research file: `.planning/phases/11-alpha/11-RESEARCH.md`.
+- Validation strategy: `.planning/phases/11-alpha/11-VALIDATION.md`.
+- Context file: `.planning/phases/11-alpha/11-CONTEXT.md`.
+- Plan files: `.planning/phases/11-alpha/11-01-PLAN.md` through `.planning/phases/11-alpha/11-05-PLAN.md`.
+- Stopped at: Phase 11 planned; execute `.planning/phases/11-alpha/11-01-PLAN.md` next.
