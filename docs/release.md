@@ -224,6 +224,8 @@ git diff --check
 rg 'MenuBarExtra|showMenuBarExtra|Open gridOS|Host Status|Recent Directories' Sources Tests docs .planning
 rg 'UNUserNotificationCenter|UNNotificationRequest|NotificationAuthorizationState|Enable Notifications|gridOS work finished' Sources Tests docs .planning
 rg 'Keychain|kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly|Manage Stored Secrets' Sources Tests docs .planning
+rg 'CSSearchableItem|WorkspaceSearchMetadata|Index saved workspace metadata|Terminal output and command history are never indexed' Sources Tests docs .planning
+! rg 'shellHistory|commandOutput|terminalTranscript|environmentVariables|apiKey.*AppStorage|UserDefaults.*api|import SwiftTerm' Sources/GridOSApp Sources/GridOSKit Sources/CommandIntelligence Sources/TerminalCore Sources/SystemMetrics Sources/Integrations
 ```
 
 Notification smoke:
@@ -250,6 +252,7 @@ Manual smoke checklist:
 4. Open Settings, use `Enable Notifications`, and verify the macOS permission prompt appears only after this explicit action.
 5. Verify default notification content uses `gridOS work finished` and `A long-running task completed in your workspace.`
 6. Verify `Manage Stored Secrets` scrolls/focuses the existing Command Intelligence credential section without revealing stored values.
+7. Confirm `Index saved workspace metadata` is off by default, enable it only by explicit user action, and verify Spotlight indexing code references `WorkspaceSearchMetadata` rather than full paths or terminal content.
 
 ## Production distribution target
 

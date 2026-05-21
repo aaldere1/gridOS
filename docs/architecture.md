@@ -221,6 +221,10 @@ Current abstractions:
 
 `MacIntegrationsController` adapts existing app data into menu content. It loads recent directories from `TerminalWorkspaceSnapshotStore`, displays directory basenames in the menu, and uses coarse `SystemMetricsSnapshot` values for `Host Status`. Menu bar actions are limited to app activation, Settings activation, Finder directory opening, and app quit. They do not insert terminal text, run shell commands, create panes, or bypass the active-pane focus boundary.
 
+`WorkspaceMetadataIndexer` is the optional Core Spotlight foundation. It indexes `WorkspaceSearchMetadata` only after the user opts in through `Index saved workspace metadata`, and the searchable item receives only a stable workspace identifier, a display label, and a directory basename under `com.aaldere1.gridos.workspace-metadata`. Full paths, terminal output, command history, generated commands, prompts, secrets, environment variables, and process arguments stay out of Spotlight.
+
+Quick Look and Finder preview work remains deferred. gridOS does not yet have a saved workspace document type, so Phase 8 intentionally stops at metadata-only indexing rather than adding a document extension without a stable file format.
+
 ## Architecture rule
 
 Every major feature should enter through a small module-owned API first. The app shell composes features; it should not become the place where terminal, rendering, metrics, and LLM details mix.

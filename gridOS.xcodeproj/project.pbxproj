@@ -86,6 +86,7 @@
 		B2F8D3CB5D35C40D394E942D /* CommandContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4993E53068E1B90C511DF /* CommandContextPreview.swift */; };
 		B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		B5F03C213EA5921A0C6A985F /* Phase8MacIntegrationsSmokeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2228C7C53FA5B4AFAD26C3CD /* Phase8MacIntegrationsSmokeCoordinator.swift */; };
+		B95A1F9A8DCBAEAC42D8B3D6 /* WorkspaceMetadataIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF1DEA37B6516F9EB2DD6F /* WorkspaceMetadataIndexer.swift */; };
 		B98B6B9680CF966BFD642CB2 /* VisualEffectConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */; };
 		BA8B8EB3621B9DC432815FE3 /* TerminalInteractionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558F2F8D06CFAE784CAB06B /* TerminalInteractionControllerTests.swift */; };
 		BD8EBC693438F1B6B43CEDAD /* MetalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42EBB16697D5B11FEB5EEF /* MetalBackgroundView.swift */; };
@@ -104,6 +105,7 @@
 		D1EDA2DC1A4B491B57CCACB5 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
+		D5BF7058DF72D1F375C48B04 /* WorkspaceMetadataIndexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C56A46784A6E758D2C5E8D /* WorkspaceMetadataIndexerTests.swift */; };
 		DE0D1D9F0438C61F74B71160 /* LocalNotificationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
 		E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */; };
@@ -369,6 +371,7 @@
 		50936291FA3EA35F038A1261 /* CommandIntelligenceFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFailure.swift; sourceTree = "<group>"; };
 		50D887A88FFD11E28A2F6297 /* CommandIntelligenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommandIntelligenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		512E1127428923C1991E7539 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		52C56A46784A6E758D2C5E8D /* WorkspaceMetadataIndexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceMetadataIndexerTests.swift; sourceTree = "<group>"; };
 		5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsStatus.swift; sourceTree = "<group>"; };
 		5449C18D52D6690542E48A9C /* GridOSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GridOSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E1DD37EF7424775DE825D1 /* SystemMetricsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsModelTests.swift; sourceTree = "<group>"; };
@@ -378,6 +381,7 @@
 		6922304D1FF56546CD96CE28 /* AnthropicCommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicCommandProvider.swift; sourceTree = "<group>"; };
 		6B77156A7CE21A4ACEEB00E9 /* CommandIntelligenceModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceModelTests.swift; sourceTree = "<group>"; };
 		6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CommandIntelligence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70CF1DEA37B6516F9EB2DD6F /* WorkspaceMetadataIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceMetadataIndexer.swift; sourceTree = "<group>"; };
 		7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStore.swift; sourceTree = "<group>"; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
@@ -556,6 +560,7 @@
 			children = (
 				EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */,
 				AB1761DFE017DD86FF3C1E2F /* MacIntegrationModelsTests.swift */,
+				52C56A46784A6E758D2C5E8D /* WorkspaceMetadataIndexerTests.swift */,
 			);
 			path = IntegrationsTests;
 			sourceTree = "<group>";
@@ -677,6 +682,7 @@
 				C1CF7B0DFFB12FB250137D9E /* Info.plist */,
 				0E6E257F9A24DEBD00DA4BAD /* LocalNotificationClient.swift */,
 				08E8FA9F0F03099E536367CA /* MacIntegrationModels.swift */,
+				70CF1DEA37B6516F9EB2DD6F /* WorkspaceMetadataIndexer.swift */,
 			);
 			path = Integrations;
 			sourceTree = "<group>";
@@ -1184,6 +1190,7 @@
 			files = (
 				DE0D1D9F0438C61F74B71160 /* LocalNotificationClientTests.swift in Sources */,
 				CFEE0A5D142E3598ED953258 /* MacIntegrationModelsTests.swift in Sources */,
+				D5BF7058DF72D1F375C48B04 /* WorkspaceMetadataIndexerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,6 +1251,7 @@
 			files = (
 				81A4FE4CAFCD98B2B87AB4D3 /* LocalNotificationClient.swift in Sources */,
 				D0B4934F2123CA465F76F54E /* MacIntegrationModels.swift in Sources */,
+				B95A1F9A8DCBAEAC42D8B3D6 /* WorkspaceMetadataIndexer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
