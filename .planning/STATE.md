@@ -19,7 +19,7 @@ Phase 13 - Product desirability ship pass complete, with App Store readiness pau
 
 ## Current status
 
-Product desirability is now the active lane. App Store readiness is paused until gridOS is worth downloading on its own merits. Phase 13 added a display-only local visual signature derived from the procedural visual seed, surfaced it in first-run Privacy & Safety, the app header, and the right rail, upgraded Command-K with a guarded briefing and example prompts, and captured the product bar in `docs/product-desirability.md`. Full unsigned build/test and `git diff --check` pass. The direct Beta ship-today artifact is `build/beta/ship-today/gridOS-0.1.0-6-e1c7005.dmg`, SHA-256 `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d`; it is signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Clean-Mac Finder/Gatekeeper UAT and clean-Mac Beta N to N+1 update-flow proof remain external blockers for broad Beta signoff.
+gridOS is now on production direct version 1.0.0 build 8. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.0-8-b31bd2a.dmg`, SHA-256 `77ada3e17bc2f59b03b3dbad78692d5ab731cde7a5fbb96c5a1a96dd1a29cb88`; it is signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.0`, visually inspected, and performance-gated. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
 
 ## Decisions made
 
@@ -278,7 +278,7 @@ Product desirability is now the active lane. App Store readiness is paused until
 
 ## Next target
 
-Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-6-e1c7005.dmg`, then prove clean-Mac Beta N to N+1 replacement. In parallel, rerun/fix Phase 9 performance misses before any broad public launch claim.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.0-8-b31bd2a.dmg`, then prove clean-Mac version-to-version replacement/update. Phase 9 performance gates are passing.
 
 ## Session handoff
 

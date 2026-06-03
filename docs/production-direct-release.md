@@ -1,17 +1,17 @@
 # gridOS production direct release
 
-Status: release candidate
+Status: version 1.0.0
 Last updated: 2026-06-03
 
 ## Artifact
 
-- Version: 0.1.0
-- Build: 7
-- Source commit: ebbfd6f
-- DMG: build/release/production/gridOS-0.1.0-7-ebbfd6f.dmg
-- DMG SHA-256: 06dc58f8cc4d4f086aeb2b95b9dce6aa235ab839c4a948ea197204bbf74fa70a
-- ZIP: build/release/production/gridOS-0.1.0-7-ebbfd6f.zip
-- ZIP SHA-256: 77d6abf14d77952d168e454f1cc049a5e087f0e315019088a8720ff13c707cbb
+- Version: 1.0.0
+- Build: 8
+- Source commit: b31bd2a
+- DMG: build/release/production/gridOS-1.0.0-8-b31bd2a.dmg
+- DMG SHA-256: 77ada3e17bc2f59b03b3dbad78692d5ab731cde7a5fbb96c5a1a96dd1a29cb88
+- ZIP: build/release/production/gridOS-1.0.0-8-b31bd2a.zip
+- ZIP SHA-256: 227dd9cff07463d66cf83c6e04d09150d00897170298e7b94f9b5b6b4b038f68
 
 ## Release Positioning
 
@@ -24,7 +24,7 @@ beautiful, private command workspace that helps users think before they run.
 
 The first launch should present the local privacy and safety briefing, then move
 the user straight into the terminal workspace. It should feel like a polished
-tool opening its doors, not a beta disclaimer.
+tool opening its doors, not a pre-release disclaimer.
 
 ## Verification
 
@@ -36,6 +36,7 @@ tool opening its doors, not a beta disclaimer.
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
 | Launch from mounted DMG | PASS |
+| Visible app version v1.0.0 | PASS |
 | Clean quit after launch | PASS |
 | Performance quick gate | PASS |
 

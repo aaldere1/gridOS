@@ -4,24 +4,26 @@ This document starts as a release checklist and should become the operational so
 
 ## Versioning
 
-Initial version:
+Current version:
 
-- Marketing version: `0.1.0`
-- Build number: `1`
+- Marketing version: `1.0.0`
+- Build number: `8`
 
-Before alpha, decide whether the version source of truth lives in `project.yml`, a generated config file, or CI.
+The version source of truth is `project.yml`, regenerated into
+`gridOS.xcodeproj` with XcodeGen.
 
-## Production direct release candidate
+## Production direct version
 
-Build 7 is the current production-facing direct-download candidate:
+Version 1.0.0 build 8 is the current production-facing direct-download version:
 
-- DMG: `build/release/production/gridOS-0.1.0-7-ebbfd6f.dmg`
+- DMG: `build/release/production/gridOS-1.0.0-8-b31bd2a.dmg`
 - Manifest: `.planning/phases/14-production-release/evidence/production-release-manifest.json`
 - Release notes: `docs/production-direct-release.md`
 
 This artifact is signed, notarized, stapled, Gatekeeper-assessed, strict
-codesign-verified, launched from a mounted DMG, and performance-gated locally.
-Run clean-Mac Finder install and update proof before broad public promotion.
+codesign-verified, launched from a mounted DMG, visibly versioned as `v1.0.0`,
+and performance-gated locally. Run clean-Mac Finder install and update proof as
+external validation.
 
 ## Local build
 

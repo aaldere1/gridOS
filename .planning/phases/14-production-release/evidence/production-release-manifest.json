@@ -2,26 +2,26 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "0.1.0",
-  "build": "7",
-  "sourceCommit": "ebbfd6f",
-  "generatedAt": "2026-06-03T12:06:50Z",
+  "version": "1.0.0",
+  "build": "8",
+  "sourceCommit": "b31bd2a",
+  "generatedAt": "2026-06-03T13:05:00Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-0.1.0-7-ebbfd6f.dmg",
-      "sha256": "06dc58f8cc4d4f086aeb2b95b9dce6aa235ab839c4a948ea197204bbf74fa70a"
+      "path": "build/release/production/gridOS-1.0.0-8-b31bd2a.dmg",
+      "sha256": "77ada3e17bc2f59b03b3dbad78692d5ab731cde7a5fbb96c5a1a96dd1a29cb88"
     },
     "zip": {
-      "path": "build/release/production/gridOS-0.1.0-7-ebbfd6f.zip",
-      "sha256": "77d6abf14d77952d168e454f1cc049a5e087f0e315019088a8720ff13c707cbb"
+      "path": "build/release/production/gridOS-1.0.0-8-b31bd2a.zip",
+      "sha256": "227dd9cff07463d66cf83c6e04d09150d00897170298e7b94f9b5b6b4b038f68"
     },
     "appBundle": {
-      "sha256": "4cb3164a59ce63365463465dec809185fc723ece3aba5601a95eb668944c55f9"
+      "sha256": "64e55ddf6dd74c2298300f6bed15c1bebb91e59e66d88917cb4454a2272bc0db"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "b3c9f9c7-32f9-4a1b-baa0-9c4001cbc7f6",
+    "submissionId": "e1aa35b6-8231-4eb1-abc1-1da8a5552c52",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
@@ -31,11 +31,12 @@
   "launchSmoke": {
     "status": "pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
-    "visualFirstLaunchInspection": "pass",
+    "visualVersionInspection": "pass",
+    "visibleVersion": "v1.0.0",
     "cpuPercent": 0.0,
-    "rssKb": 113936,
-    "physicalFootprint": "81.9M",
-    "physicalFootprintPeak": "102.4M"
+    "rssKb": 103360,
+    "physicalFootprint": "84.9M",
+    "physicalFootprintPeak": "106.5M"
   },
   "performanceGate": {
     "status": "pass",
@@ -43,5 +44,5 @@
     "misses": []
   },
   "releaseNotes": "docs/production-direct-release.md",
-  "remainingRisk": "Run clean-Mac Finder install and update proof before broad public promotion."
+  "remainingValidation": "Run Finder install and version-to-version update proof on a clean Mac."
 }

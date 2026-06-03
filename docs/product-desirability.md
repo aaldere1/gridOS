@@ -1,6 +1,6 @@
 # gridOS Product Desirability
 
-Status: release-candidate product pass
+Status: version 1.0.0 product pass
 Last updated: 2026-06-03
 
 App Store readiness remains secondary to product quality. The current bar is
@@ -9,11 +9,11 @@ feel the app is worth opening again tomorrow.
 
 ## Honest Product Read
 
-gridOS is now credible as a direct-download release candidate. It has a working
+gridOS is now credible as a direct-download version. It has a working
 native terminal, memorable per-machine visual identity, multi-pane state,
 calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
-feels like a beta notice wrapped around a terminal.
+feels like pre-release paperwork wrapped around a terminal.
 
 ## What Must Become Obvious
 
@@ -33,13 +33,13 @@ feels like a beta notice wrapped around a terminal.
 - Keep terminal workspace area dominant.
 - Make the right rail feel like a local system signal, not a generic process list.
 - Make Command-K read as a guarded intelligence briefing and result runbook, not a plain provider form.
-- Keep App Store sandbox work staged but inactive while the direct ship build is being prepared.
+- Keep App Store sandbox work staged but inactive while the direct version is being distributed.
 - Keep live metrics on a calmer cadence so the app idles quietly.
 - Use physical footprint, idle CPU, dispatch latency, heavy-output, and frame-pacing evidence as the release performance gate.
 
 ## Next Product Moves
 
-1. Run clean-Mac Finder/Gatekeeper UAT and N-to-N+1 update proof.
+1. Run clean-Mac Finder/Gatekeeper UAT and version-to-version update proof.
 2. Publish download-facing release notes from `docs/production-direct-release.md`.
 3. Expand Command-K provider setup and examples after the direct release is proven.
 4. Add a hosted update lane only after the direct-release install path is boringly reliable.
