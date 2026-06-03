@@ -301,7 +301,7 @@ tell application "Finder"
   set icon size of viewOptions to 96
   set background picture of viewOptions to backgroundFile
   try
-    set position of item ".background" of dmgWindow to {-240, -240}
+    set position of item ".background" of dmgWindow to {1000, 1000}
   end try
   set position of item "gridOS.app" of dmgWindow to {180, 220}
   set position of item "Applications" of dmgWindow to {500, 220}
