@@ -214,21 +214,6 @@ color(0.0, 0.92, 1.0, 0.86).setFill()
 arrowHead.fill()
 
 drawText(
-    "gridOS.app",
-    in: NSRect(x: 80, y: 104, width: 180, height: 22),
-    size: 13,
-    weight: .medium,
-    color: color(0.88, 0.96, 1.0, 0.74)
-)
-drawText(
-    "Applications",
-    in: NSRect(x: 398, y: 104, width: 180, height: 22),
-    size: 13,
-    weight: .medium,
-    color: color(0.88, 0.96, 1.0, 0.74)
-)
-
-drawText(
     "signed and notarized",
     in: NSRect(x: 0, y: 34, width: 660, height: 20),
     size: 11,
