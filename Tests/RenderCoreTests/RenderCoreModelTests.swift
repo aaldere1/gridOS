@@ -180,6 +180,17 @@ final class RenderCoreModelTests: XCTestCase {
         XCTAssertEqual(identity.seed, .installDerived(installSeed: "alpha", mode: .severance))
     }
 
+    func testVisualIdentityDisplaySignatureIsStableAndDisplayOnly() {
+        let first = VisualIdentity(mode: .tron, installSeed: "alpha")
+        let second = VisualIdentity(mode: .tron, installSeed: "alpha")
+        let different = VisualIdentity(mode: .appleNative, installSeed: "alpha")
+
+        XCTAssertEqual(first.displaySignature, second.displaySignature)
+        XCTAssertNotEqual(first.displaySignature, different.displaySignature)
+        XCTAssertTrue(first.displaySignature.range(of: #"^[0-9A-F]{4}-[0-9A-F]{4}$"#, options: .regularExpression) != nil)
+        XCTAssertFalse(first.displaySignature.localizedCaseInsensitiveContains("alpha"))
+    }
+
     func testReducedMotionSuppressesPulseMagnitudeForEveryMode() {
         for mode in VisualMode.allCases {
             XCTAssertEqual(

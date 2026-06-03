@@ -16,6 +16,7 @@
 | System metrics snapshot | Low | In memory only | No | Local sampling only | None beyond app use |
 | Visual install seed | Medium | `@AppStorage` install seed today | No | Generated locally for procedural identity | Reset appearance/settings behavior |
 | Performance evidence | Low if sanitized | `.planning/phases/*/evidence` | Committed to repo | Synthetic markers and process samples only | Developer workflow |
+| App privacy manifest | Low | Staged app bundle `PrivacyInfo.xcprivacy` | Submitted only with an App Store build | Declares no tracking and required-reason API categories | Release workflow |
 
 ## Data That Must Not Be Persisted
 
@@ -56,5 +57,6 @@ The app must not persist these by default:
 rg 'Provider API key|LLM approved preview payload|Spotlight workspace metadata|Performance evidence' docs/privacy-data-inventory.md
 rg 'kSecClassGenericPassword|kSecAttrAccessibleWhenUnlockedThisDeviceOnly|kSecUseDataProtectionKeychain' Sources/GridOSKit Tests/GridOSKitTests Sources/CommandIntelligence Tests/CommandIntelligenceTests
 rg 'WorkspaceSearchMetadata|Terminal output and command history are never indexed|gridOS work finished' Sources/Integrations Tests/IntegrationsTests
+rg 'NSPrivacyTracking|NSPrivacyAccessedAPICategoryUserDefaults|NSPrivacyAccessedAPICategoryDiskSpace' Sources/GridOSApp/PrivacyInfo.xcprivacy
 git diff --check
 ```

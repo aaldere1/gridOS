@@ -77,6 +77,7 @@ struct RootView: View {
                     productName: GridOSProduct.name,
                     shellDisplayName: terminalConfiguration.shellDisplayName,
                     visualModeName: visualIdentity.mode.displayName,
+                    visualSignature: visualIdentity.displaySignature,
                     version: GridOSProduct.version,
                     reducedMotion: effectiveReducedMotion,
                     theme: visualTheme
@@ -96,7 +97,12 @@ struct RootView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                    ActivityContextPanel(snapshot: systemSnapshot, theme: visualTheme)
+                    ActivityContextPanel(
+                        snapshot: systemSnapshot,
+                        visualSignature: visualIdentity.displaySignature,
+                        visualModeName: visualIdentity.mode.displayName,
+                        theme: visualTheme
+                    )
                         .frame(width: 204)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -142,6 +148,8 @@ struct RootView: View {
         .background(WindowFrameController(autosaveName: "gridOS.main"))
         .sheet(isPresented: betaPrivacyDisclosurePresented) {
             BetaPrivacyDisclosureView(
+                visualSignature: visualIdentity.displaySignature,
+                visualModeName: visualIdentity.mode.displayName,
                 onContinue: {
                     betaPrivacyDisclosureAccepted = true
                 },
@@ -150,6 +158,9 @@ struct RootView: View {
                     openSettingsWindow()
                 }
             )
+        }
+        .onAppear {
+            ensureInstallSeed()
         }
         .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
             isCommandPalettePresented = true
@@ -476,19 +487,25 @@ private struct AppFrameHeader: View {
     let productName: String
     let shellDisplayName: String
     let visualModeName: String
+    let visualSignature: String
     let version: String
     let reducedMotion: Bool
     let theme: VisualTheme
 
     var body: some View {
-        HStack(spacing: 12) {
-            Text(productName)
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.92))
+        HStack(spacing: 14) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(productName)
+                    .font(.system(size: 19, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
 
-            Text(shellDisplayName)
-                .font(.system(size: 12, weight: .medium, design: .monospaced))
-                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.78))
+                Text("local signal")
+                    .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.62))
+            }
+
+            HeaderChip(label: "shell", value: shellDisplayName, theme: theme)
+            HeaderChip(label: "sig", value: visualSignature, theme: theme)
 
             Spacer(minLength: 16)
 
@@ -514,6 +531,33 @@ private struct AppFrameHeader: View {
         }
         .padding(.leading, 72)
         .accessibilityElement(children: .combine)
+    }
+}
+
+private struct HeaderChip: View {
+    let label: String
+    let value: String
+    let theme: VisualTheme
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Text(label.uppercased())
+                .font(.system(size: 9, weight: .medium, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.62))
+
+            Text(value)
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.80))
+        }
+        .padding(.horizontal, 9)
+        .padding(.vertical, 5)
+        .background(Color(theme.palette.background).opacity(theme.panel.backgroundOpacity + 0.10))
+        .overlay {
+            Capsule()
+                .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(Capsule())
     }
 }
 
@@ -612,10 +656,26 @@ private struct SystemStripView: View {
 
 private struct ActivityContextPanel: View {
     let snapshot: SystemMetricsSnapshot
+    let visualSignature: String
+    let visualModeName: String
     let theme: VisualTheme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
+            identityReadout
+
+            Rectangle()
+                .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
+                .frame(height: 1)
+                .accessibilityHidden(true)
+
+            systemPulseReadout
+
+            Rectangle()
+                .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
+                .frame(height: 1)
+                .accessibilityHidden(true)
+
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text("Activity")
                     .font(.system(size: 12, weight: .medium, design: .monospaced))
@@ -649,6 +709,64 @@ private struct ActivityContextPanel: View {
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Top processes")
         .accessibilityValue(accessibilityValue)
+    }
+
+    private var systemPulseReadout: some View {
+        VStack(alignment: .leading, spacing: 9) {
+            Text("System pulse")
+                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.74))
+
+            VStack(spacing: 7) {
+                PulseMetricRow(label: "CPU", value: cpuText, theme: theme)
+                PulseMetricRow(label: "MEM", value: memoryText, theme: theme)
+                PulseMetricRow(label: "NET", value: networkText, theme: theme)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("System pulse")
+        .accessibilityValue("CPU \(cpuText), memory \(memoryText), network \(networkText)")
+    }
+
+    private var identityReadout: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center, spacing: 8) {
+                Circle()
+                    .fill(Color(theme.palette.statusAccent).opacity(0.78))
+                    .frame(width: 6, height: 6)
+                    .accessibilityHidden(true)
+
+                Text("Signal")
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.74))
+
+                Spacer(minLength: 4)
+            }
+
+            Text(visualSignature)
+                .font(.system(size: 22, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.92))
+                .lineLimit(1)
+                .minimumScaleFactor(0.72)
+
+            HStack(spacing: 7) {
+                Text(visualModeName)
+                Text("local")
+            }
+            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.66))
+        }
+        .padding(11)
+        .background(Color(theme.palette.primaryAccent).opacity(0.045))
+        .overlay {
+            RoundedRectangle(cornerRadius: max(4, theme.panel.cornerRadius), style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: max(4, theme.panel.cornerRadius), style: .continuous))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Local visual signal")
+        .accessibilityValue("\(visualSignature), \(visualModeName)")
     }
 
     @ViewBuilder
@@ -689,6 +807,76 @@ private struct ActivityContextPanel: View {
         case .unavailable(let reason):
             return reason.isEmpty ? "No process data" : reason
         }
+    }
+
+    private var cpuText: String {
+        availabilityText(snapshot.cpu) { metrics in
+            percentText(metrics.usagePercent)
+        }
+    }
+
+    private var memoryText: String {
+        availabilityText(snapshot.memory) { metrics in
+            percentText(metrics.usagePercent)
+        }
+    }
+
+    private var networkText: String {
+        availabilityText(snapshot.network) { metrics in
+            if metrics.stateText == "Network idle" {
+                return "idle"
+            }
+
+            let totalBytesPerSecond = metrics.receivedBytesPerSecond + metrics.sentBytesPerSecond
+            return "\(byteRateText(totalBytesPerSecond))/s"
+        }
+    }
+}
+
+private struct PulseMetricRow: View {
+    let label: String
+    let value: String
+    let theme: VisualTheme
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(label)
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.62))
+                .frame(width: 28, alignment: .leading)
+
+            GeometryReader { proxy in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(Color(theme.palette.primaryAccent).opacity(0.08))
+
+                    Capsule()
+                        .fill(Color(theme.palette.statusAccent).opacity(0.60))
+                        .frame(width: proxy.size.width * pulseFraction)
+                }
+            }
+            .frame(height: 4)
+            .accessibilityHidden(true)
+
+            Text(value)
+                .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.78))
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+                .frame(width: 56, alignment: .trailing)
+        }
+    }
+
+    private var pulseFraction: Double {
+        let numericPrefix = value.prefix { character in
+            character.isNumber || character == "."
+        }
+
+        guard let percent = Double(numericPrefix) else {
+            return 0.18
+        }
+
+        return min(1, max(0.08, percent / 100))
     }
 }
 

@@ -20,7 +20,7 @@ update, or data-safety issues block Beta signoff.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | BETA-001 | Notary Keychain profile is missing | critical | no | no | release owner | Phase 12 | resolved | `.planning/phases/12-beta/evidence/beta-notary-profile-check.txt` records `RESULT=PASS`; `.planning/phases/12-beta/evidence/beta-notarization.md` records `Result: PASS`. |
 | BETA-002 | Clean-Mac Finder/Gatekeeper UAT not yet run | critical | yes | yes | release owner | Phase 12 | blocked | `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md` records `BETA_CLEAN_MAC_BLOCKED clean_mac_finder_gatekeeper_uat`. |
-| BETA-003 | Beta N to N+1 update proof is not available | critical | yes | yes | release owner | Phase 12 | blocked | `.planning/phases/12-beta/BETA-UAT.md` records `BETA_UPDATE_FLOW_BLOCKED notarized_beta_n_plus_one_artifact`. |
+| BETA-003 | Clean-Mac Beta N to N+1 update proof is not available | critical | yes | yes | release owner | Phase 12 | blocked | `.planning/phases/12-beta/BETA-UAT.md` records `BETA_UPDATE_FLOW_BLOCKED update_flow_record_not_available_clean_mac`. |
 
 ## Status values
 

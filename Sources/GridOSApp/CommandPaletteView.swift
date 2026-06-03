@@ -58,6 +58,8 @@ struct CommandPaletteView: View {
                 .background(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
 
             VStack(alignment: .leading, spacing: 16) {
+                intelligenceBriefing
+
                 Picker("Flow", selection: $selectedFlow) {
                     ForEach(CommandPaletteFlow.allCases) { flow in
                         Text(flow.title)
@@ -80,7 +82,7 @@ struct CommandPaletteView: View {
             }
             .padding(16)
         }
-        .frame(maxWidth: 720, maxHeight: 620)
+        .frame(maxWidth: 780, maxHeight: 660)
         .background(Color(theme.palette.background).opacity(max(0.86, theme.panel.backgroundOpacity)))
         .overlay {
             RoundedRectangle(cornerRadius: min(theme.panel.cornerRadius, 8), style: .continuous)
@@ -119,8 +121,8 @@ struct CommandPaletteView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Command Intelligence")
-                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                Text("Command-K")
+                    .font(.system(size: 18, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
 
                 Text(headerSubtitle)
@@ -129,6 +131,9 @@ struct CommandPaletteView: View {
             }
 
             Spacer(minLength: 16)
+
+            PaletteHeaderBadge(label: "policy", value: "insert-first", theme: theme)
+            PaletteHeaderBadge(label: "context", value: "previewed", theme: theme)
 
             Button {
                 onClose()
@@ -142,6 +147,107 @@ struct CommandPaletteView: View {
             .accessibilityLabel("Close Command Intelligence")
         }
         .padding(16)
+    }
+
+    private var intelligenceBriefing: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text(briefingTitle)
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
+
+                Spacer(minLength: 12)
+
+                Text("LOCAL GUARDRAILS")
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.78))
+            }
+
+            Text(briefingSubtitle)
+                .font(.system(size: 13, weight: .regular))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
+                .fixedSize(horizontal: false, vertical: true)
+
+            if preview == nil && serviceResult == nil && !isSending {
+                examplePromptRow
+            }
+        }
+        .padding(14)
+        .background(Color(theme.palette.primaryAccent).opacity(0.045))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(max(0.18, theme.panel.borderOpacity)), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+    }
+
+    private var briefingTitle: String {
+        switch selectedFlow {
+        case .suggestCommand:
+            "Prepare the next shell move."
+        case .explainOutput:
+            "Turn terminal output into a diagnosis."
+        case .fixFailedCommand:
+            "Repair the failed command path."
+        }
+    }
+
+    private var briefingSubtitle: String {
+        switch selectedFlow {
+        case .suggestCommand:
+            "Describe intent. gridOS previews exactly what context will leave the app before asking a provider."
+        case .explainOutput:
+            "Select or paste output. gridOS summarizes meaning without running anything."
+        case .fixFailedCommand:
+            "Paste the command and failure. gridOS prepares a fix, then local policy decides whether it can run."
+        }
+    }
+
+    private var examplePromptRow: some View {
+        HStack(spacing: 8) {
+            ForEach(examplePrompts, id: \.title) { example in
+                Button(example.title) {
+                    applyExamplePrompt(example)
+                }
+                .buttonStyle(.plain)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.88))
+                .padding(.horizontal, 10)
+                .padding(.vertical, 7)
+                .background(Color(theme.palette.background).opacity(0.42))
+                .overlay {
+                    Capsule()
+                        .stroke(Color(theme.palette.primaryAccent).opacity(0.18), lineWidth: 1)
+                        .accessibilityHidden(true)
+                }
+                .clipShape(Capsule())
+            }
+        }
+        .accessibilityElement(children: .contain)
+    }
+
+    private var examplePrompts: [PaletteExamplePrompt] {
+        switch selectedFlow {
+        case .suggestCommand:
+            [
+                PaletteExamplePrompt(title: "Find large files", value: "Find the largest files in this project without deleting anything."),
+                PaletteExamplePrompt(title: "Explain git state", value: "Show me the safest commands to inspect this repo before committing."),
+                PaletteExamplePrompt(title: "Free a port", value: "Find what is using a local port and prepare a safe stop command.")
+            ]
+        case .explainOutput:
+            [
+                PaletteExamplePrompt(title: "Summarize error", value: "Paste terminal output below and explain the likely cause."),
+                PaletteExamplePrompt(title: "Find blocker", value: "Identify the single most important failure in this output."),
+                PaletteExamplePrompt(title: "Next check", value: "Tell me the next read-only command I should run.")
+            ]
+        case .fixFailedCommand:
+            [
+                PaletteExamplePrompt(title: "Safer retry", value: "Prepare a safer retry for this failed command."),
+                PaletteExamplePrompt(title: "Missing tool", value: "Check whether this failure is a missing tool or a bad path."),
+                PaletteExamplePrompt(title: "Permission issue", value: "Diagnose whether this is a permission problem.")
+            ]
+        }
     }
 
     private var headerSubtitle: String {
@@ -695,6 +801,20 @@ struct CommandPaletteView: View {
         isPromptFocused = true
     }
 
+    @MainActor
+    private func applyExamplePrompt(_ example: PaletteExamplePrompt) {
+        switch selectedFlow {
+        case .suggestCommand:
+            prompt = example.value
+        case .explainOutput:
+            pastedOutput = example.value
+        case .fixFailedCommand:
+            failedOutput = example.value
+        }
+
+        isPromptFocused = true
+    }
+
     private func promptOrFailedCommandText(from preview: CommandContextPreview) -> String {
         switch preview.flow {
         case .failedCommandHelp:
@@ -727,6 +847,30 @@ struct CommandPaletteView: View {
     private func contextText(_ source: CommandContextSource, in preview: CommandContextPreview) -> String {
         preview.contextBlocks.first(where: { $0.source == source })?.redactedText ?? ""
     }
+}
+
+private struct PaletteHeaderBadge: View {
+    let label: String
+    let value: String
+    let theme: VisualTheme
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 2) {
+            Text(label.uppercased())
+                .font(.system(size: 8, weight: .medium, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.58))
+
+            Text(value)
+                .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.78))
+        }
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct PaletteExamplePrompt: Equatable {
+    let title: String
+    let value: String
 }
 
 private enum CommandPaletteFlow: String, CaseIterable, Identifiable {

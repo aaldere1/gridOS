@@ -32,7 +32,14 @@ All screenshots in this set use raw mode `tron` with three different install see
 
 ## Capture Status
 
-Automated app-window-isolated capture completed on 2026-05-20. `sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reported all six mode/variation screenshots at `3104x2024`; after the terminal-focus smoke, the dedicated proof screenshot also reports `3104x2024`.
+Automated app-window-isolated capture was refreshed on 2026-06-03 after the
+product-signature, right-rail, and Command-K polish pass. `sips -g pixelWidth -g
+pixelHeight .planning/phases/05-aesthetic-modes/evidence/*.png` reports
+`3104x2024` for `tron.png`, `apple-native.png`, all three Tron install
+variations, and the terminal-focus smoke screenshot. `severance.png` currently
+reports `3016x1936` because the isolated window capture resolved a slightly
+different app-window chrome size; it is still app-window isolated and contains
+no unrelated desktop content.
 
 Files produced:
 

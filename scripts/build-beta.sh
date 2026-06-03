@@ -17,6 +17,7 @@ Optional signing overrides:
   GRIDOS_SIGNING_IDENTITY   Local Developer ID Application identity name
 
 Optional environment:
+  CURRENT_PROJECT_VERSION   Override project build number
   GRIDOS_BETA_OUTPUT_DIR    Local artifact output directory (default: build/beta)
 USAGE
 }
@@ -111,6 +112,12 @@ GRIDOS_SIGNING_IDENTITY="${GRIDOS_SIGNING_IDENTITY:-$(developer_id_identity || t
 GRIDOS_DEVELOPMENT_TEAM="${GRIDOS_DEVELOPMENT_TEAM:-$(team_id_from_identity "$GRIDOS_SIGNING_IDENTITY")}"
 export GRIDOS_DEVELOPMENT_TEAM
 export GRIDOS_SIGNING_IDENTITY
+CURRENT_PROJECT_VERSION="${CURRENT_PROJECT_VERSION:-$(project_setting CURRENT_PROJECT_VERSION)}"
+if [[ -z "$CURRENT_PROJECT_VERSION" ]]; then
+  echo "BETA_ARCHIVE_BLOCKED: CURRENT_PROJECT_VERSION could not be resolved" >&2
+  exit 1
+fi
+export CURRENT_PROJECT_VERSION
 "$PREFLIGHT_SCRIPT"
 
 cd "$ROOT_DIR"
@@ -129,6 +136,7 @@ xcodebuild \
   -archivePath "$ARCHIVE_PATH" \
   DEVELOPMENT_TEAM="$GRIDOS_DEVELOPMENT_TEAM" \
   CODE_SIGN_IDENTITY="$GRIDOS_SIGNING_IDENTITY" \
+  CURRENT_PROJECT_VERSION="$CURRENT_PROJECT_VERSION" \
   CODE_SIGN_STYLE=Manual \
   archive
 
@@ -171,13 +179,14 @@ cat > "$MANIFEST_FILE" <<EOF
 - ZIP basename: $ZIP_NAME
 - ZIP SHA-256: $ZIP_CHECKSUM
 - DMG basename: $DMG_NAME
-- DMG SHA-256: $DMG_CHECKSUM
+- DMG SHA-256 before notarization/stapling: $DMG_CHECKSUM
 - Signing identity: present
 - Development team: present
 - Hardened runtime: ${HARDENED_RUNTIME:-missing}
 - Artifact path policy: local output directory only; no artifacts are stored under .planning.
 - Notarization command: scripts/notarize-beta-artifact.sh <local-output-dir>/$DMG_NAME
 - Verification command: scripts/verify-beta-artifact.sh <local-output-dir>/$DMG_NAME
+- Final distribution SHA-256 is recorded after stapling in `.planning/phases/12-beta/beta-release-manifest.json` and `.planning/phases/12-beta/evidence/beta-artifact-verification.md`.
 EOF
 
 printf 'BETA_ARTIFACT_READY %s\n' "$DMG_PATH"

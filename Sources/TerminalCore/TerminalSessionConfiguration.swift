@@ -52,7 +52,8 @@ public struct TerminalSessionConfiguration: Codable, Equatable, Sendable {
 
         if let commandIndex = arguments.firstIndex(of: "--cmd"),
            arguments.indices.contains(commandIndex + 1) {
-            configuration.startupCommand = arguments[commandIndex + 1]
+            configuration.startupCommand = arguments[(commandIndex + 1)...]
+                .joined(separator: " ")
         }
 
         return configuration

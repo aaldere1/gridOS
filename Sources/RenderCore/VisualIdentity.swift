@@ -1,3 +1,5 @@
+import Foundation
+
 public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable {
     case tron
     case severance
@@ -73,5 +75,11 @@ public struct VisualIdentity: Equatable, Sendable {
             mode: mode,
             seed: .installDerived(installSeed: installSeed, mode: mode)
         )
+    }
+
+    public var displaySignature: String {
+        let high = UInt16((seed.value >> 48) & 0xffff)
+        let low = UInt16((seed.value >> 32) & 0xffff)
+        return String(format: "%04X-%04X", high, low)
     }
 }

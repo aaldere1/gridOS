@@ -58,14 +58,19 @@ High-risk commands require an explicit confirmation path that is visually distin
 
 ## Distribution posture
 
-Direct distribution is the initial recommendation:
+Direct distribution remains the Beta path:
 
 - Developer ID signed
 - Hardened runtime enabled
 - Notarized
 - Gatekeeper-tested from a quarantined download
 
-Mac App Store distribution remains a later evaluation because sandboxing may interfere with expected terminal and system-monitor behavior.
+Mac App Store readiness is now tracked separately in
+`docs/app-store-readiness.md`. App Store sandbox and network-client entitlements
+are staged, but they are not applied to the default direct Developer ID Beta
+target. The remaining App Store product decision is whether gridOS stays a
+sandbox-local command workspace or adds user-selected project folder access with
+security-scoped bookmarks.
 
 ## Beta feedback and diagnostics
 

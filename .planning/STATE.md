@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 12 Beta blocked; clean-Mac and update-flow proof pending
-last_updated: "2026-05-21T22:02:33Z"
+status: Ship-today direct artifact complete; external clean-Mac proof pending
+last_updated: "2026-06-03T11:21:07Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 12 - Beta (blocked pending clean-Mac and update-flow proof)
+Phase 13 - Product desirability ship pass complete, with App Store readiness paused
 
 ## Current status
 
-Phase 12 execution produced a signed, notarized, stapled, locally Gatekeeper-verified Beta DMG: `build/beta/gridOS-0.1.0-1-20b35f0.dmg`, SHA-256 `253467b61b934d633a4d3f703532e7fdf1f59a4ff2636df5fc79289384b7967a`. Notary profile check, Beta preflight, notarization, stapling, artifact verification, release manifest generation, and local notarized launch smoke pass. External Beta signoff remains `BLOCKED` until clean-Mac Finder/Gatekeeper UAT and a Beta N to Beta N+1 update-flow proof are completed. See `.planning/phases/12-beta/12-VERIFICATION.md`, `.planning/phases/12-beta/BETA-UAT.md`, `.planning/phases/12-beta/evidence/beta-notarization.md`, `.planning/phases/12-beta/evidence/beta-artifact-verification.md`, `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md`, and `.planning/phases/12-beta/evidence/clean-mac-gatekeeper.md`.
+Product desirability is now the active lane. App Store readiness is paused until gridOS is worth downloading on its own merits. Phase 13 added a display-only local visual signature derived from the procedural visual seed, surfaced it in first-run Privacy & Safety, the app header, and the right rail, upgraded Command-K with a guarded briefing and example prompts, and captured the product bar in `docs/product-desirability.md`. Full unsigned build/test and `git diff --check` pass. The direct Beta ship-today artifact is `build/beta/ship-today/gridOS-0.1.0-5-403d2d2.dmg`, SHA-256 `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`; it is signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Clean-Mac Finder/Gatekeeper UAT and clean-Mac Beta N to N+1 update-flow proof remain external blockers for broad Beta signoff.
 
 ## Decisions made
 
@@ -225,6 +225,10 @@ Phase 12 execution produced a signed, notarized, stapled, locally Gatekeeper-ver
 - 2026-05-21: Phase 12 Plan 04 executed and verified with first-run Beta privacy disclosure, Settings review/support copy, feedback template, known-issues tracker, privacy docs, and full unsigned Xcode tests.
 - 2026-05-21: Phase 12 Plan 05 executed with final Beta verification status `BLOCKED`; source gates pass, but notarization, stapling, clean-Mac Gatekeeper UAT, and update-flow proof require a notary credential mode and notarized artifacts.
 - 2026-05-21: Phase 12 notary blocker cleared; `gridOS-0.1.0-1-20b35f0.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Remaining blockers are clean-Mac Finder/Gatekeeper UAT and Beta N to N+1 update proof.
+- 2026-06-02: Phase 13 App Store readiness started with staged App Sandbox entitlements, privacy manifest, production-facing privacy Settings copy, `docs/app-store-readiness.md`, and `scripts/app-store-preflight.sh`; preflight, XcodeGen regeneration, generated project checks, full unsigned build/test, and diff check passed.
+- 2026-06-02: App Store readiness paused after product review; Phase 13 product desirability added a display-only local visual signature, upgraded first-run Privacy & Safety, added the signature to the app header and right rail, documented the product bar in `docs/product-desirability.md`, and passed full unsigned build/test plus diff check.
+- 2026-06-03: Product ship pass kept the direct Developer ID Beta target unsandboxed, upgraded the right rail into a local system pulse, upgraded Command-K with briefing/example prompts, refreshed Phase 5 app-window screenshots, and prepared a fresh direct-release verification/build path.
+- 2026-06-03: Ship-today artifact `build/beta/ship-today/gridOS-0.1.0-5-403d2d2.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Final SHA-256 is `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`; clean-Mac Finder/Gatekeeper UAT and clean-Mac update-flow proof remain external blockers for broad Beta signoff.
 
 ## Performance metrics
 
@@ -269,10 +273,12 @@ Phase 12 execution produced a signed, notarized, stapled, locally Gatekeeper-ver
 | Phase 12-beta P03 | 3 min | 2 tasks | 5 files |
 | Phase 12-beta P04 | 6 min | 2 tasks | 9 files |
 | Phase 12-beta P05 | 4 min | 2 tasks | 5 files |
+| Phase 13-app-store-readiness P01 | 12 min | 4 tasks | 8 files |
+| Phase 13-product-desirability P02 | 18 min | 4 tasks | 6 files |
 
 ## Next target
 
-Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-1-20b35f0.dmg`, then produce a second notarized Beta artifact and verify the Beta N to N+1 update flow.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-5-403d2d2.dmg`, then prove clean-Mac Beta N to N+1 replacement. In parallel, rerun/fix Phase 9 performance misses before any broad public launch claim.
 
 ## Session handoff
 

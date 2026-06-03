@@ -1,9 +1,9 @@
 # Clean Mac Gatekeeper UAT
 
-- Timestamp UTC: 2026-05-21T21:58:22Z
-- Source commit: 20b35f0
-- Artifact basename: `gridOS-0.1.0-1-20b35f0.dmg`
-- Artifact SHA-256: `253467b61b934d633a4d3f703532e7fdf1f59a4ff2636df5fc79289384b7967a`
+- Timestamp UTC: 2026-06-03T11:21:07Z
+- Source commit: 403d2d2
+- Artifact basename: `gridOS-0.1.0-5-403d2d2.dmg`
+- Artifact SHA-256: `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`
 - Notarization: PASS
 - Stapler command: xcrun stapler validate
 - Stapler status: PASS
@@ -12,9 +12,9 @@
 - Finder launch: BLOCKED
 - Update from Beta N to Beta N+1: BLOCKED
 - Result: BLOCKED
-- Blockers: BETA_CLEAN_MAC_BLOCKED clean_mac_finder_gatekeeper_uat, BETA_UPDATE_FLOW_BLOCKED notarized_beta_n_plus_one_artifact
+- Blockers: BETA_CLEAN_MAC_BLOCKED clean_mac_finder_gatekeeper_uat, BETA_UPDATE_FLOW_BLOCKED update_flow_record_not_available_clean_mac
 
-Local notarized artifact verification passed in
+Local notarized artifact verification for build 5 passed in
 `.planning/phases/12-beta/evidence/beta-artifact-verification.md`, and local
 launch smoke passed in
 `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md`. This file

@@ -44,11 +44,11 @@ Gatekeeper.
 
 ## First launch
 
-The first launch should show the Beta privacy disclosure before normal use. The
-disclosure must explain that terminal sessions stay local, Command Intelligence
-is opt-in, API keys are stored in Keychain, risky commands are inserted for
-review, notifications and workspace indexing are opt-in, and diagnostics are
-local, sanitized, and user-reviewed.
+The first launch should show the Privacy & Safety disclosure before normal use.
+The disclosure must explain that terminal sessions stay local, Command
+Intelligence is opt-in, API keys are stored in Keychain, risky commands are
+inserted for review, notifications and workspace indexing are opt-in, and
+diagnostics are local, sanitized, and user-reviewed.
 
 ## Update from Beta N to Beta N+1
 

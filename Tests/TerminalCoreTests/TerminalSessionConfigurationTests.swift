@@ -37,6 +37,19 @@ final class TerminalSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(configuration.startupCommand, "echo ok")
     }
 
+    func testStartupCommandReadsRemainingArgsAfterCommandToken() {
+        let configuration = TerminalSessionConfiguration.fromProcessArguments([
+            "gridOS",
+            "--cmd",
+            "printf",
+            "hello",
+            ">",
+            "/tmp/smoke.txt"
+        ])
+
+        XCTAssertEqual(configuration.startupCommand, "printf hello > /tmp/smoke.txt")
+    }
+
     func testSessionStateReportsActiveOnlyWhenRunning() {
         XCTAssertFalse(TerminalSessionState.idle.isActive)
         XCTAssertTrue(TerminalSessionState.running.isActive)

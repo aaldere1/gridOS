@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
     @AppStorage("appearance.visualIntensity") private var visualIntensity = GridOSAppPreferences.defaultVisualIntensity
     @AppStorage(GridOSAppPreferences.visualModeStorageKey) private var visualModeRawValue = GridOSAppPreferences.defaultVisualModeRawValue
+    @AppStorage(GridOSAppPreferences.installSeedStorageKey) private var installSeedRawValue = GridOSAppPreferences.defaultInstallSeedRawValue
     @AppStorage(GridOSAppPreferences.showMenuBarExtraStorageKey)
     private var showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
     @AppStorage(GridOSAppPreferences.notificationsEnabledStorageKey)
@@ -82,7 +83,7 @@ struct SettingsView: View {
                         }
                     }
 
-                Section("Beta Privacy") {
+                Section("Privacy & Safety") {
                     Text("Terminal sessions stay local to this Mac.")
                         .foregroundStyle(.secondary)
 
@@ -101,16 +102,16 @@ struct SettingsView: View {
                     Text("Diagnostics are local, sanitized, and user-reviewed.")
                         .foregroundStyle(.secondary)
 
-                    Text("Support: support@example.com")
+                    Text("Support: operations@cineconcerts.com")
                         .foregroundStyle(.secondary)
 
-                    Text("Feedback template: .planning/phases/12-beta/BETA-FEEDBACK.md")
+                    Text("Feedback is reviewed by support before any diagnostic detail is shared.")
                         .foregroundStyle(.secondary)
 
-                    Button("Review Beta Privacy") {
+                    Button("Review Privacy Defaults") {
                         isBetaPrivacyDisclosurePresented = true
                     }
-                    .accessibilityLabel("Review Beta Privacy")
+                    .accessibilityLabel("Review Privacy Defaults")
                     .accessibilityValue(betaPrivacyDisclosureAccepted ? "Reviewed" : "Not reviewed")
                 }
 
@@ -145,6 +146,8 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $isBetaPrivacyDisclosurePresented) {
                 BetaPrivacyDisclosureView(
+                    visualSignature: visualIdentity.displaySignature,
+                    visualModeName: visualIdentity.mode.displayName,
                     onContinue: {
                         betaPrivacyDisclosureAccepted = true
                         isBetaPrivacyDisclosurePresented = false
@@ -161,6 +164,13 @@ struct SettingsView: View {
     private var visualModeDisplayName: String {
         let normalizedRawValue = GridOSAppPreferences.normalizedVisualModeRawValue(visualModeRawValue)
         return VisualMode(rawValue: normalizedRawValue)?.displayName ?? VisualMode.defaultMode.displayName
+    }
+
+    private var visualIdentity: VisualIdentity {
+        let normalizedMode = GridOSAppPreferences.normalizedVisualModeRawValue(visualModeRawValue)
+        let mode = VisualMode(rawValue: normalizedMode) ?? .defaultMode
+        let installSeed = GridOSAppPreferences.normalizedInstallSeedRawValue(installSeedRawValue)
+        return VisualIdentity(mode: mode, installSeed: installSeed.isEmpty ? "gridOS.settings.bootstrap" : installSeed)
     }
 
     private func resetToDefaults() {

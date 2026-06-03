@@ -29,4 +29,4 @@ All gates passed.
 
 ## Notes
 
-The app still adds no telemetry, crash upload, automatic diagnostics upload, or diagnostics network path. The support address remains the placeholder `support@example.com` until the final Beta support address is chosen.
+The app still adds no telemetry, crash upload, automatic diagnostics upload, or diagnostics network path. Support is currently configured as `operations@cineconcerts.com`.
