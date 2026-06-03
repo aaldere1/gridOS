@@ -169,11 +169,11 @@ NSGradient(colors: [
 color(0.0, 0.86, 0.95, 0.10).setFill()
 NSBezierPath(ovalIn: NSRect(x: 470, y: 260, width: 260, height: 220)).fill()
 
-color(1.0, 1.0, 1.0, 0.045).setFill()
+color(1.0, 1.0, 1.0, 0.16).setFill()
 NSBezierPath(roundedRect: NSRect(x: 76, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24).fill()
 NSBezierPath(roundedRect: NSRect(x: 394, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24).fill()
 
-color(1.0, 1.0, 1.0, 0.10).setStroke()
+color(1.0, 1.0, 1.0, 0.22).setStroke()
 let leftSlot = NSBezierPath(roundedRect: NSRect(x: 76, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24)
 leftSlot.lineWidth = 1
 leftSlot.stroke()
