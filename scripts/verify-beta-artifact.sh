@@ -147,6 +147,8 @@ fail_if_planning_path "$INPUT_ABS"
 INPUT_TYPE=""
 ARTIFACT_BASENAME="$(basename "$INPUT_ABS")"
 ARTIFACT_CHECKSUM="not_applicable"
+ARTIFACT_CODESIGN_STATUS="not_applicable"
+ARTIFACT_GATEKEEPER_STATUS="not_applicable"
 STAPLER_TARGET=""
 
 case "$INPUT_ABS" in
@@ -164,6 +166,18 @@ case "$INPUT_ABS" in
   *.dmg)
     INPUT_TYPE="dmg"
     ARTIFACT_CHECKSUM="$(file_checksum "$INPUT_ABS")"
+    if codesign --verify --strict --verbose=2 "$INPUT_ABS" >/dev/null 2>&1; then
+      ARTIFACT_CODESIGN_STATUS="PASS"
+    else
+      ARTIFACT_CODESIGN_STATUS="FAIL"
+    fi
+
+    if spctl -a -t open --context context:primary-signature -v "$INPUT_ABS" >/dev/null 2>&1; then
+      ARTIFACT_GATEKEEPER_STATUS="PASS"
+    else
+      ARTIFACT_GATEKEEPER_STATUS="FAIL"
+    fi
+
     mount_single_gridos_app "$INPUT_ABS"
     STAPLER_TARGET="$INPUT_ABS"
     ;;
@@ -210,7 +224,7 @@ else
   GATEKEEPER_STATUS="FAIL"
 fi
 
-if [[ "$CODESIGN_STATUS" == "PASS" && "$STAPLER_STATUS" == "PASS" && "$GATEKEEPER_STATUS" == "PASS" ]]; then
+if [[ "$CODESIGN_STATUS" == "PASS" && "$STAPLER_STATUS" == "PASS" && "$GATEKEEPER_STATUS" == "PASS" && "$ARTIFACT_CODESIGN_STATUS" != "FAIL" && "$ARTIFACT_GATEKEEPER_STATUS" != "FAIL" ]]; then
   RESULT="PASS"
 else
   RESULT="FAIL"
@@ -225,6 +239,8 @@ mkdir -p "$EVIDENCE_DIR"
   printf -- '- Artifact basename: %s\n' "$ARTIFACT_BASENAME"
   printf -- '- Input type: %s\n' "$INPUT_TYPE"
   printf -- '- Artifact SHA-256: %s\n' "$ARTIFACT_CHECKSUM"
+  printf -- '- Artifact codesign status: %s\n' "$ARTIFACT_CODESIGN_STATUS"
+  printf -- '- Artifact Gatekeeper status: %s\n' "$ARTIFACT_GATEKEEPER_STATUS"
   printf -- '- App bundle SHA-256: %s\n' "$APP_CHECKSUM"
   printf -- '- Verification command: codesign --verify --deep --strict --verbose=2\n'
   printf -- '- codesign status: %s\n' "$CODESIGN_STATUS"

@@ -379,6 +379,7 @@ DMG_PATH="$OUTPUT_DIR/$DMG_NAME"
 rm -f "$ZIP_PATH" "$DMG_PATH"
 ditto -c -k --keepParent "$APP_PATH" "$ZIP_PATH"
 create_dmg_artifact "$APP_PATH" "$DMG_PATH" "$OUTPUT_DIR/${ARTIFACT_STEM}-rw.dmg"
+codesign --force --sign "$GRIDOS_SIGNING_IDENTITY" --timestamp "$DMG_PATH"
 
 ZIP_CHECKSUM="$(file_checksum "$ZIP_PATH")"
 DMG_CHECKSUM="$(file_checksum "$DMG_PATH")"
@@ -395,6 +396,7 @@ cat > "$MANIFEST_FILE" <<EOF
 - ZIP SHA-256: $ZIP_CHECKSUM
 - DMG basename: $DMG_NAME
 - DMG SHA-256 before notarization/stapling: $DMG_CHECKSUM
+- DMG code signature: present
 - Signing identity: present
 - Development team: present
 - Hardened runtime: ${HARDENED_RUNTIME:-missing}
