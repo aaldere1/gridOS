@@ -9,6 +9,16 @@ struct GridOSApplication: App {
     #if DEBUG
     init() {
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--phase9-ready-smoke")
+            || arguments.contains("--phase9-input-latency-smoke")
+            || arguments.contains("--phase9-heavy-output-smoke")
+            || arguments.contains("--phase9-frame-pacing-smoke") {
+            UserDefaults.standard.set(
+                true,
+                forKey: GridOSAppPreferences.privacySafetyLaunchAcceptedStorageKey
+            )
+        }
+
         if arguments.contains("--phase8-notification-smoke") {
             Phase8MacIntegrationsSmokeCoordinator()
                 .startIfRequested(arguments: arguments)

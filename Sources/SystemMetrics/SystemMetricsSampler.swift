@@ -7,9 +7,12 @@ public protocol SystemMetricsSampler: Sendable {
 public actor LiveSystemMetricsSampler: SystemMetricsSampler {
     private let provider: NativeSystemMetricsProvider
     private let policy: SystemMetricsSamplingPolicy
+    private let createdAt: Date
     private var previousCPU: CPUCounterSample?
     private var previousNetwork: NetworkCounterSample?
     private var previousTopProcesses: [Int32: TopProcessCounterSample]
+    private var lastTopProcesses: SystemMetricAvailability<[TopProcessMetrics]>?
+    private var lastTopProcessesDate: Date?
     private var lastSnapshot: SystemMetricsSnapshot?
     private var lastSnapshotDate: Date?
 
@@ -19,6 +22,7 @@ public actor LiveSystemMetricsSampler: SystemMetricsSampler {
     ) {
         self.provider = provider
         self.policy = policy
+        self.createdAt = Date()
         self.previousTopProcesses = [:]
     }
 
@@ -40,11 +44,7 @@ public actor LiveSystemMetricsSampler: SystemMetricsSampler {
         let elapsed = lastSnapshotDate.map { max(0.001, now.timeIntervalSince($0)) } ?? cadence
         let cpu = provider.readCPU(previous: previousCPU)
         let network = provider.readNetwork(previous: previousNetwork, elapsed: elapsed)
-        let topProcesses = provider.readTopProcesses(
-            previous: previousTopProcesses,
-            elapsed: elapsed,
-            limit: 6
-        )
+        let topProcesses = readTopProcessesIfNeeded(now: now, elapsed: elapsed)
 
         previousCPU = cpu.sample ?? previousCPU
         previousNetwork = network.sample ?? previousNetwork
@@ -71,6 +71,43 @@ public actor LiveSystemMetricsSampler: SystemMetricsSampler {
         lastSnapshotDate = now
 
         return snapshot
+    }
+
+    private func readTopProcessesIfNeeded(now: Date, elapsed: TimeInterval) -> TopProcessesReading {
+        let warmupDelay = min(10.0, policy.slowCadence)
+        let hasWarmedUp = now.timeIntervalSince(createdAt) >= warmupDelay
+        let shouldRefresh: Bool
+
+        if let lastTopProcessesDate {
+            shouldRefresh = now.timeIntervalSince(lastTopProcessesDate) >= policy.slowCadence
+        } else {
+            shouldRefresh = hasWarmedUp
+        }
+
+        guard shouldRefresh else {
+            if let lastTopProcesses, let lastTopProcessesDate {
+                return TopProcessesReading(
+                    metrics: stale(lastTopProcesses, age: now.timeIntervalSince(lastTopProcessesDate)),
+                    samples: previousTopProcesses
+                )
+            }
+
+            return TopProcessesReading(
+                metrics: .unavailable(reason: "Process list warming up"),
+                samples: previousTopProcesses
+            )
+        }
+
+        let reading = provider.readTopProcesses(
+            previous: previousTopProcesses,
+            elapsed: elapsed,
+            limit: 6
+        )
+
+        lastTopProcesses = reading.metrics
+        lastTopProcessesDate = now
+
+        return reading
     }
 
     private func markSnapshotStale(

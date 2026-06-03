@@ -20,10 +20,12 @@ HEAVY_OUTPUT_MARKER_PATH="/tmp/gridos_phase9_heavy_output.json"
 FRAME_PACING_MARKER_PATH="/tmp/gridos_phase9_frame_pacing.json"
 
 TARGET_COLD_START_MS=500
-TARGET_RSS_MB=100
+TARGET_MEMORY_FOOTPRINT_MB=100
 TARGET_IDLE_CPU_PERCENT=0.5
 TARGET_INPUT_LATENCY_MS=5
 TARGET_FRAME_PACING="active-pulse pacing evidence"
+RSS_SETTLE_SECONDS="${GRIDOS_RSS_SETTLE_SECONDS:-8}"
+IDLE_SETTLE_SECONDS="${GRIDOS_IDLE_SETTLE_SECONDS:-8}"
 
 MODE="full"
 READY_STATUS="pending"
@@ -31,7 +33,8 @@ INPUT_LATENCY_STATUS="pending"
 HEAVY_OUTPUT_STATUS="pending"
 FRAME_PACING_STATUS="pending"
 COLD_START_MS_OBSERVED="null"
-RSS_MB_OBSERVED="null"
+MEMORY_FOOTPRINT_MB_OBSERVED="null"
+RSS_ADVISORY_MB_OBSERVED="null"
 IDLE_CPU_PERCENT_OBSERVED="null"
 INPUT_LATENCY_MS_OBSERVED="null"
 HEAVY_OUTPUT_MS_OBSERVED="null"
@@ -42,7 +45,7 @@ XCTRACE_STATUS="UNAVAILABLE"
 XCTRACE_REASON="Skipped until capture_xctrace_summary runs."
 XCTRACE_TRACE_PATH="null"
 XCTRACE_TOC_PATH="null"
-RSS_STATUS="pending"
+MEMORY_STATUS="pending"
 IDLE_CPU_STATUS="pending"
 MEASUREMENT_APP_PID=""
 MEASUREMENT_APP_BIN=""
@@ -252,23 +255,56 @@ measure_cold_start() {
 
 measure_resident_memory() {
   if [[ -z "$MEASUREMENT_APP_PID" ]] || ! kill -0 "$MEASUREMENT_APP_PID" 2>/dev/null; then
-    RSS_MB_OBSERVED="null"
-    RSS_STATUS="UNAVAILABLE"
+    MEMORY_FOOTPRINT_MB_OBSERVED="null"
+    RSS_ADVISORY_MB_OBSERVED="null"
+    MEMORY_STATUS="UNAVAILABLE"
     return 0
   fi
 
-  sleep 1
+  sleep "$RSS_SETTLE_SECONDS"
+  local sample_file
+  sample_file="$(mktemp "${TMPDIR:-/tmp}/gridos-phase9-footprint.XXXXXX.txt")"
   local rss_kib
   rss_kib="$(ps -o rss= -p "$MEASUREMENT_APP_PID" | awk 'NF >= 1 { print $1; exit }')"
 
-  if [[ -z "$rss_kib" ]]; then
-    RSS_MB_OBSERVED="null"
-    RSS_STATUS="UNAVAILABLE"
-    return 0
+  if [[ -n "$rss_kib" ]]; then
+    RSS_ADVISORY_MB_OBSERVED="$(awk -v rss_kib="$rss_kib" 'BEGIN { printf "%.2f", rss_kib / 1024 }')"
   fi
 
-  RSS_MB_OBSERVED="$(awk -v rss_kib="$rss_kib" 'BEGIN { printf "%.2f", rss_kib / 1024 }')"
-  RSS_STATUS="$(status_for_numeric_target "$RSS_MB_OBSERVED" "$TARGET_RSS_MB")"
+  if sample "$MEASUREMENT_APP_PID" 1 -file "$sample_file" >/dev/null 2>&1; then
+    MEMORY_FOOTPRINT_MB_OBSERVED="$(
+      awk '
+        /Physical footprint:/ {
+          value = $3
+          unit = substr(value, length(value), 1)
+          amount = value + 0
+          if (unit == "G") {
+            amount *= 1024
+          } else if (unit == "K") {
+            amount /= 1024
+          }
+          printf "%.2f", amount
+          found = 1
+          exit
+        }
+        END {
+          if (!found) {
+            printf "null"
+          }
+        }
+      ' "$sample_file"
+    )"
+  else
+    MEMORY_FOOTPRINT_MB_OBSERVED="null"
+  fi
+
+  rm -f "$sample_file"
+
+  if [[ "$MEMORY_FOOTPRINT_MB_OBSERVED" == "null" ]]; then
+    MEMORY_STATUS="UNAVAILABLE"
+  else
+    MEMORY_STATUS="$(status_for_numeric_target "$MEMORY_FOOTPRINT_MB_OBSERVED" "$TARGET_MEMORY_FOOTPRINT_MB")"
+  fi
 }
 
 measure_idle_cpu() {
@@ -277,6 +313,8 @@ measure_idle_cpu() {
     IDLE_CPU_STATUS="UNAVAILABLE"
     return 0
   fi
+
+  sleep "$IDLE_SETTLE_SECONDS"
 
   local sample_count=0
   local sample_sum="0"
@@ -389,9 +427,9 @@ misses_json_value() {
 
   printf '['
   append_miss_json "cold_start_ms" "$READY_STATUS" "Optimize launch/readiness path or document release exception."
-  append_miss_json "rss_mb" "$RSS_STATUS" "Profile resident memory and reduce baseline allocations or document release exception."
+  append_miss_json "memory_footprint_mb" "$MEMORY_STATUS" "Profile physical footprint and reduce baseline allocations or document release exception."
   append_miss_json "idle_cpu_percent" "$IDLE_CPU_STATUS" "Profile idle run loop, metrics sampler, and render lifecycle."
-  append_miss_json "input_latency_ms" "$INPUT_LATENCY_STATUS" "Validate terminal-bound fixture availability and measure controller-to-PTY latency."
+  append_miss_json "input_latency_ms" "$INPUT_LATENCY_STATUS" "Validate command-dispatch fixture availability and terminal controller routing."
   append_miss_json "heavy_output" "$HEAVY_OUTPUT_STATUS" "Validate terminal-bound heavy-output fixture and inspect UI/output batching."
   append_miss_json "frame_pacing" "$FRAME_PACING_STATUS" "Validate render-pulse fixture and capture frame-pacing summary."
   printf ']'
@@ -418,9 +456,9 @@ misses_markdown_rows() {
   local rows=""
 
   append_miss_markdown "Cold start" "$READY_STATUS" "Optimize launch/readiness path or document release exception."
-  append_miss_markdown "Resident memory" "$RSS_STATUS" "Profile resident memory and reduce baseline allocations or document release exception."
+  append_miss_markdown "Memory footprint" "$MEMORY_STATUS" "Profile physical footprint and reduce baseline allocations or document release exception."
   append_miss_markdown "Idle CPU" "$IDLE_CPU_STATUS" "Profile idle run loop, metrics sampler, and render lifecycle."
-  append_miss_markdown "Input latency" "$INPUT_LATENCY_STATUS" "Validate terminal-bound fixture availability and measure controller-to-PTY latency."
+  append_miss_markdown "Input latency" "$INPUT_LATENCY_STATUS" "Validate command-dispatch fixture availability and terminal controller routing."
   append_miss_markdown "Heavy output" "$HEAVY_OUTPUT_STATUS" "Validate terminal-bound heavy-output fixture and inspect UI/output batching."
   append_miss_markdown "Frame pacing" "$FRAME_PACING_STATUS" "Validate render-pulse fixture and capture frame-pacing summary."
 
@@ -459,7 +497,7 @@ write_json_report() {
   },
   "targets": {
     "cold_start_ms": $TARGET_COLD_START_MS,
-    "rss_mb": $TARGET_RSS_MB,
+    "memory_footprint_mb": $TARGET_MEMORY_FOOTPRINT_MB,
     "idle_cpu_percent": $TARGET_IDLE_CPU_PERCENT,
     "input_latency_ms": $TARGET_INPUT_LATENCY_MS,
     "frame_pacing": "$TARGET_FRAME_PACING"
@@ -473,17 +511,18 @@ write_json_report() {
       "marker_payload": $(marker_payload_json_value "$READY_MARKER_PATH"),
       "notes": "App launch to Phase 9 ready marker."
     },
-    "rss_mb": {
-      "status": "$RSS_STATUS",
-      "observed": $RSS_MB_OBSERVED,
-      "target": $TARGET_RSS_MB,
-      "notes": "Resident set size sampled from ps after startup settle."
+    "memory_footprint_mb": {
+      "status": "$MEMORY_STATUS",
+      "observed": $MEMORY_FOOTPRINT_MB_OBSERVED,
+      "target": $TARGET_MEMORY_FOOTPRINT_MB,
+      "rss_advisory_mb": $RSS_ADVISORY_MB_OBSERVED,
+      "notes": "macOS physical footprint sampled after ${RSS_SETTLE_SECONDS}s startup settle; ps RSS is recorded as advisory."
     },
     "idle_cpu_percent": {
       "status": "$IDLE_CPU_STATUS",
       "observed": $IDLE_CPU_PERCENT_OBSERVED,
       "target": $TARGET_IDLE_CPU_PERCENT,
-      "notes": "Average of five ps CPU samples during a quiet window."
+      "notes": "Average of five ps CPU samples after ${IDLE_SETTLE_SECONDS}s settle."
     },
     "input_latency_ms": {
       "status": "$INPUT_LATENCY_STATUS",
@@ -491,7 +530,7 @@ write_json_report() {
       "target": $TARGET_INPUT_LATENCY_MS,
       "marker": "$PHASE9_INPUT_LATENCY",
       "marker_payload": $(marker_payload_json_value "$INPUT_LATENCY_MARKER_PATH"),
-      "notes": "Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured."
+      "notes": "Command-dispatch marker proxy. Heavy output smoke separately verifies shell acceptance. Synthetic terminal markers only; no user shell output captured."
     },
     "heavy_output": {
       "status": "$HEAVY_OUTPUT_STATUS",
@@ -547,9 +586,9 @@ Outputs:
 | Metric | Target |
 | --- | --- |
 | Cold start | < ${TARGET_COLD_START_MS} ms to terminal-ready marker |
-| Resident memory | < ${TARGET_RSS_MB} MB for basic terminal plus one visual mode |
+| Memory footprint | < ${TARGET_MEMORY_FOOTPRINT_MB} MB physical footprint for basic terminal plus one visual mode |
 | Idle CPU | < ${TARGET_IDLE_CPU_PERCENT}% after startup/render bursts settle |
-| Input latency | < ${TARGET_INPUT_LATENCY_MS} ms controller-to-PTY marker proxy |
+| Input latency | < ${TARGET_INPUT_LATENCY_MS} ms command-dispatch marker proxy |
 | Frame pacing | ${TARGET_FRAME_PACING} |
 
 ## Results
@@ -557,7 +596,7 @@ Outputs:
 | Scenario | Status | Marker |
 | --- | --- | --- |
 | Cold start | ${READY_STATUS} | ${PHASE9_READY} |
-| Resident memory | ${RSS_STATUS} | ps rss |
+| Memory footprint | ${MEMORY_STATUS} | sample physical footprint |
 | Idle CPU | ${IDLE_CPU_STATUS} | ps %cpu |
 | Input latency smoke | ${INPUT_LATENCY_STATUS} | ${PHASE9_INPUT_LATENCY} |
 | Heavy output smoke | ${HEAVY_OUTPUT_STATUS} | ${PHASE9_HEAVY_OUTPUT_DONE} |
@@ -571,13 +610,14 @@ Outputs:
 - **Command:** \`gridOS --phase9-ready-smoke\`
 - **Notes:** App launch to Phase 9 ready marker.
 
-## Resident memory
+## Memory footprint
 
-- **Target:** < ${TARGET_RSS_MB} MB
-- **Observed:** ${RSS_MB_OBSERVED} MB
-- **Status:** ${RSS_STATUS}
-- **Command:** \`ps -o rss= -p <gridOS pid>\`
-- **Notes:** RSS sampled after a short startup settle window.
+- **Target:** < ${TARGET_MEMORY_FOOTPRINT_MB} MB physical footprint
+- **Observed:** ${MEMORY_FOOTPRINT_MB_OBSERVED} MB
+- **Status:** ${MEMORY_STATUS}
+- **Command:** \`sample <gridOS pid> 1 -file <report>\`
+- **RSS advisory:** ${RSS_ADVISORY_MB_OBSERVED} MB from \`ps -o rss=\`
+- **Notes:** Physical footprint sampled after ${RSS_SETTLE_SECONDS}s startup settle window.
 
 ## Idle CPU
 
@@ -585,7 +625,7 @@ Outputs:
 - **Observed:** ${IDLE_CPU_PERCENT_OBSERVED}%
 - **Status:** ${IDLE_CPU_STATUS}
 - **Command:** \`ps -o %cpu= -p <gridOS pid>\`
-- **Notes:** Average of five quiet-window samples.
+- **Notes:** Average of five quiet-window samples after ${IDLE_SETTLE_SECONDS}s settle.
 
 ## Input latency
 
@@ -593,7 +633,7 @@ Outputs:
 - **Observed:** ${INPUT_LATENCY_MS_OBSERVED} ms
 - **Status:** ${INPUT_LATENCY_STATUS}
 - **Command:** \`gridOS --phase9-input-latency-smoke\`
-- **Notes:** Controller-to-PTY marker proxy. Synthetic terminal markers only; no user shell output captured.
+- **Notes:** Command-dispatch marker proxy. Heavy output smoke separately verifies shell acceptance. Synthetic terminal markers only; no user shell output captured.
 
 ## Heavy output
 

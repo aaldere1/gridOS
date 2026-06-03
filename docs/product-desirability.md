@@ -1,42 +1,45 @@
 # gridOS Product Desirability
 
-Status: in progress
+Status: release-candidate product pass
 Last updated: 2026-06-03
 
-App Store readiness is paused until gridOS is clearly worth downloading.
-The current bar is not compliance. The current bar is desire.
+App Store readiness remains secondary to product quality. The current bar is
+not compliance. The current bar is whether a serious Mac terminal user would
+feel the app is worth opening again tomorrow.
 
 ## Honest Product Read
 
-gridOS has a credible native foundation, but the public product is not yet
-download-worthy. It has working terminal, visual modes, local metrics, multi-pane
-state, and Command Intelligence foundations. The problem is that the parts that
-should feel memorable are still too quiet, and the parts that should beat a
-daily-driver terminal still have documented performance misses.
+gridOS is now credible as a direct-download release candidate. It has a working
+native terminal, memorable per-machine visual identity, multi-pane state,
+calmer live metrics, and a Command-K flow that reads like a guarded runbook
+rather than a generic AI form. The product is still early, but it no longer
+feels like a beta notice wrapped around a terminal.
 
 ## What Must Become Obvious
 
 | Product question | Current answer | Required direction |
 | --- | --- | --- |
-| Does it look unique in one screenshot? | Partially | Make the local visual signature and mode identity visible without adding clutter. |
-| Does first launch feel premium? | Not yet | Treat first launch as local initialization, not a Beta notice. |
-| Would a developer replace another terminal? | Not yet | Clear performance misses and prove terminal trust under real workloads. |
-| Does Command Intelligence feel like a reason to use it? | Not yet | Make the Command-K flow faster, clearer, and more obviously valuable. |
-| Does the UI have class? | Improving | More hierarchy, stronger right rail, fewer generic labels, more intentional identity language. |
+| Does it look unique in one screenshot? | Yes | Keep the visual signature prominent without letting the shell feel secondary. |
+| Does first launch feel premium? | Yes | Keep first launch as a local launch briefing, not compliance copy. |
+| Would a developer replace another terminal? | Plausible | Keep proving shell reliability and update/install behavior on clean machines. |
+| Does Command Intelligence feel like a reason to use it? | Yes | Keep expanding high-signal result states and provider setup ergonomics. |
+| Does the UI have class? | Yes | Preserve quiet density, restraint, and local-first confidence. |
 
 ## Current Product Moves
 
 - Surface a stable local visual signature derived from the procedural visual seed.
-- Show the signature in first-run Privacy & Safety and the right rail.
+- Show the signature in the first-run launch briefing and the right rail.
 - Keep the signature display-only; it does not reveal the install seed.
 - Keep terminal workspace area dominant.
 - Make the right rail feel like a local system signal, not a generic process list.
-- Make Command-K read as a guarded intelligence briefing with examples, not a plain provider form.
+- Make Command-K read as a guarded intelligence briefing and result runbook, not a plain provider form.
 - Keep App Store sandbox work staged but inactive while the direct ship build is being prepared.
+- Keep live metrics on a calmer cadence so the app idles quietly.
+- Use physical footprint, idle CPU, dispatch latency, heavy-output, and frame-pacing evidence as the release performance gate.
 
 ## Next Product Moves
 
-1. Rerun Phase 9 performance benchmarks and turn the misses into concrete fixes.
-2. Add a high-impact Command Intelligence result state that feels like a product feature, not a form.
-3. Add first-run/download-facing release notes that explain the visual signature, local defaults, and command guardrails in plain language.
-4. Only return to App Store readiness after screenshots and performance can defend the product.
+1. Cut and verify a fresh signed/notarized production artifact from this source pass.
+2. Run clean-Mac Finder/Gatekeeper UAT and N-to-N+1 update proof.
+3. Add download-facing release notes that explain the visual signature, local defaults, and command guardrails in plain language.
+4. Expand Command-K provider setup and examples after the direct release is proven.

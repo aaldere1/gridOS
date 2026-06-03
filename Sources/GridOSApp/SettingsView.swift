@@ -17,11 +17,11 @@ struct SettingsView: View {
     private var notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
     @AppStorage(GridOSAppPreferences.indexWorkspaceMetadataStorageKey)
     private var indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
-    @AppStorage(GridOSAppPreferences.betaPrivacyDisclosureAcceptedStorageKey)
-    private var betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
+    @AppStorage(GridOSAppPreferences.privacySafetyLaunchAcceptedStorageKey)
+    private var privacySafetyLaunchAccepted = GridOSAppPreferences.defaultPrivacySafetyLaunchAccepted
 
     @State private var commandIntelligenceSettingsHighlighted = false
-    @State private var isBetaPrivacyDisclosurePresented = false
+    @State private var isPrivacySafetyLaunchPresented = false
     @FocusState private var commandIntelligenceSettingsFocused: Bool
 
     var body: some View {
@@ -109,10 +109,10 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
 
                     Button("Review Privacy Defaults") {
-                        isBetaPrivacyDisclosurePresented = true
+                        isPrivacySafetyLaunchPresented = true
                     }
                     .accessibilityLabel("Review Privacy Defaults")
-                    .accessibilityValue(betaPrivacyDisclosureAccepted ? "Reviewed" : "Not reviewed")
+                    .accessibilityValue(privacySafetyLaunchAccepted ? "Reviewed" : "Not reviewed")
                 }
 
                 Section("Recovery") {
@@ -144,17 +144,17 @@ struct SettingsView: View {
             .onReceive(NotificationCenter.default.publisher(for: Notification.Name("gridOS.commandIntelligence.openSettings"))) { _ in
                 focusCommandIntelligenceSettings(proxy)
             }
-            .sheet(isPresented: $isBetaPrivacyDisclosurePresented) {
-                BetaPrivacyDisclosureView(
+            .sheet(isPresented: $isPrivacySafetyLaunchPresented) {
+                PrivacySafetyLaunchView(
                     visualSignature: visualIdentity.displaySignature,
                     visualModeName: visualIdentity.mode.displayName,
                     onContinue: {
-                        betaPrivacyDisclosureAccepted = true
-                        isBetaPrivacyDisclosurePresented = false
+                        privacySafetyLaunchAccepted = true
+                        isPrivacySafetyLaunchPresented = false
                     },
                     onOpenPrivacySettings: {
-                        betaPrivacyDisclosureAccepted = true
-                        isBetaPrivacyDisclosurePresented = false
+                        privacySafetyLaunchAccepted = true
+                        isPrivacySafetyLaunchPresented = false
                     }
                 )
             }
@@ -183,7 +183,7 @@ struct SettingsView: View {
         showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
         notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
         indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
-        betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
+        privacySafetyLaunchAccepted = GridOSAppPreferences.defaultPrivacySafetyLaunchAccepted
     }
 
     private func resetSavedSession() {

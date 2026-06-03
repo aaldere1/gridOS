@@ -24,8 +24,8 @@ struct RootView: View {
     private var commandIntelligenceProviderRawValue = GridOSAppPreferences.defaultCommandIntelligenceProviderID
     @AppStorage(GridOSAppPreferences.commandIntelligenceModelStorageKey)
     private var commandIntelligenceModelRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID
-    @AppStorage(GridOSAppPreferences.betaPrivacyDisclosureAcceptedStorageKey)
-    private var betaPrivacyDisclosureAccepted = GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted
+    @AppStorage(GridOSAppPreferences.privacySafetyLaunchAcceptedStorageKey)
+    private var privacySafetyLaunchAccepted = GridOSAppPreferences.defaultPrivacySafetyLaunchAccepted
 
     @State private var renderSequence: UInt64 = 0
     @StateObject private var workspaceController: TerminalWorkspaceController
@@ -146,15 +146,15 @@ struct RootView: View {
             }
         }
         .background(WindowFrameController(autosaveName: "gridOS.main"))
-        .sheet(isPresented: betaPrivacyDisclosurePresented) {
-            BetaPrivacyDisclosureView(
+        .sheet(isPresented: privacySafetyLaunchPresented) {
+            PrivacySafetyLaunchView(
                 visualSignature: visualIdentity.displaySignature,
                 visualModeName: visualIdentity.mode.displayName,
                 onContinue: {
-                    betaPrivacyDisclosureAccepted = true
+                    privacySafetyLaunchAccepted = true
                 },
                 onOpenPrivacySettings: {
-                    betaPrivacyDisclosureAccepted = true
+                    privacySafetyLaunchAccepted = true
                     openSettingsWindow()
                 }
             )
@@ -212,7 +212,7 @@ struct RootView: View {
             terminalFontSize: terminalFontSize,
             visualIntensity: visualIntensity,
             reducedMotion: reducedMotion,
-            betaPrivacyDisclosureAccepted: betaPrivacyDisclosureAccepted
+            privacySafetyLaunchAccepted: privacySafetyLaunchAccepted
         )
     }
 
@@ -278,14 +278,14 @@ struct RootView: View {
         return .opacity.combined(with: .scale(scale: 0.98))
     }
 
-    private var betaPrivacyDisclosurePresented: Binding<Bool> {
+    private var privacySafetyLaunchPresented: Binding<Bool> {
         Binding(
             get: {
-                !betaPrivacyDisclosureAccepted
+                !privacySafetyLaunchAccepted
             },
             set: { isPresented in
                 if !isPresented {
-                    betaPrivacyDisclosureAccepted = true
+                    privacySafetyLaunchAccepted = true
                 }
             }
         )

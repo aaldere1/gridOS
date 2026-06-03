@@ -37,6 +37,7 @@
 		43D28347C40C309F7F2EE032 /* TerminalSessionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECCF1F82B155BC5EDCDBD0 /* TerminalSessionConfiguration.swift */; };
 		4AECD586272D77B800112CF2 /* GridOSProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */; };
 		4B55FBDAF5C861FF08245AA1 /* TerminalCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; };
+		4D1995BC7065F0C9EA186D1F /* PrivacySafetyLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084E1A2C9339EA56A59EADA2 /* PrivacySafetyLaunchView.swift */; };
 		4F5EE47DF51681A49D4868BD /* GridOSProductTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB16A47930BF0AD1FAD0507C /* GridOSProductTests.swift */; };
 		5413A3D1A9D4627C330146D9 /* CommandIntelligence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */; };
@@ -110,7 +111,6 @@
 		D42BCFB390BBDA9F090396E6 /* GridOSAppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D898411102DB4BA2C19B74E5 /* GridOSAppPreferencesTests.swift */; };
 		D47868EC821A6DB41C8896AF /* TerminalSessionConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */; };
 		D5BF7058DF72D1F375C48B04 /* WorkspaceMetadataIndexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C56A46784A6E758D2C5E8D /* WorkspaceMetadataIndexerTests.swift */; };
-		D5E267C675726379A1956BFB /* BetaPrivacyDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */; };
 		DE0D1D9F0438C61F74B71160 /* LocalNotificationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
 		E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */; };
@@ -337,6 +337,7 @@
 		043C3B9DFC96A003656A3A70 /* CommandIntelligenceFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceFlowTests.swift; sourceTree = "<group>"; };
 		04603B4F1C7F884B938E1F08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		084E1A2C9339EA56A59EADA2 /* PrivacySafetyLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySafetyLaunchView.swift; sourceTree = "<group>"; };
 		08E8FA9F0F03099E536367CA /* MacIntegrationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIntegrationModels.swift; sourceTree = "<group>"; };
 		092B6E00EC7B185D73364DA6 /* RenderCoreModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreModelTests.swift; sourceTree = "<group>"; };
 		0E6E257F9A24DEBD00DA4BAD /* LocalNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationClient.swift; sourceTree = "<group>"; };
@@ -391,7 +392,6 @@
 		70CF1DEA37B6516F9EB2DD6F /* WorkspaceMetadataIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceMetadataIndexer.swift; sourceTree = "<group>"; };
 		7203202B91E4279C759B7EDC /* KeychainCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainCredentialStore.swift; sourceTree = "<group>"; };
 		741E76722893B0C28248B49F /* GridOSAppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSAppPreferences.swift; sourceTree = "<group>"; };
-		74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaPrivacyDisclosureView.swift; sourceTree = "<group>"; };
 		7512B6313336D1C4E99CA2D6 /* CommandContextBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandContextBuilder.swift; sourceTree = "<group>"; };
 		7F1CD6CB3F3364E71F15D172 /* CommandIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandIntelligenceService.swift; sourceTree = "<group>"; };
 		834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase9PerformanceSmokeCoordinator.swift; sourceTree = "<group>"; };
@@ -668,7 +668,6 @@
 		87615F4D27FC71110D22D43F /* GridOSApp */ = {
 			isa = PBXGroup;
 			children = (
-				74A780C29D3193BB073E90D8 /* BetaPrivacyDisclosureView.swift */,
 				614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */,
 				CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */,
 				4868AA4E14E1784614141472 /* CommandPaletteView.swift */,
@@ -683,6 +682,7 @@
 				834968E7D30E3E18F15E5D37 /* Phase9PerformanceSmokeCoordinator.swift */,
 				D34D523B4C906C7EA8D015FF /* Phase11AlphaSmokeCoordinator.swift */,
 				2EB63175AC99321BA5F35261 /* PrivacyInfo.xcprivacy */,
+				084E1A2C9339EA56A59EADA2 /* PrivacySafetyLaunchView.swift */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
 				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
@@ -1197,7 +1197,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5E267C675726379A1956BFB /* BetaPrivacyDisclosureView.swift in Sources */,
 				155FFF38595C51FAC5171A25 /* CommandIntelligenceCommandCenter.swift in Sources */,
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
 				FC204FD49753AAB080DC4B1B /* CommandPaletteView.swift in Sources */,
@@ -1209,6 +1208,7 @@
 				0BF9FDF0D5C1324F418688E2 /* Phase7MultiPaneSmokeCoordinator.swift in Sources */,
 				B5F03C213EA5921A0C6A985F /* Phase8MacIntegrationsSmokeCoordinator.swift in Sources */,
 				7AFBD444EB08C8EE56EAAF12 /* Phase9PerformanceSmokeCoordinator.swift in Sources */,
+				4D1995BC7065F0C9EA186D1F /* PrivacySafetyLaunchView.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
 				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,

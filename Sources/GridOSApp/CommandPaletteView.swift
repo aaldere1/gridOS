@@ -330,14 +330,21 @@ struct CommandPaletteView: View {
     private func completionContent(_ completion: CommandIntelligenceCompletion) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    previewRow("Summary", completion.summary)
+                VStack(alignment: .leading, spacing: 14) {
+                    resultHero(completion)
 
                     if completion.commands.isEmpty {
                         readOnlyExplanationContent(completion)
                     } else {
-                        ForEach(completion.commands, id: \.command.command) { command in
-                            generatedCommandContent(command)
+                        if completion.commands.count > 1 {
+                            resultSection(
+                                "Execution order",
+                                "\(completion.commands.count) candidate commands returned. Review each local risk label before inserting anything."
+                            )
+                        }
+
+                        ForEach(completion.commands.indices, id: \.self) { index in
+                            generatedCommandContent(completion.commands[index], index: index)
                         }
                     }
                 }
@@ -352,7 +359,7 @@ struct CommandPaletteView: View {
 
                 Spacer(minLength: 16)
 
-                Button("Close Preview") {
+                Button("New Request") {
                     closeResult()
                 }
             }
@@ -361,18 +368,71 @@ struct CommandPaletteView: View {
 
     private func readOnlyExplanationContent(_ completion: CommandIntelligenceCompletion) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            previewRow("Meaning", completion.explanation)
-            previewRow("Likely cause", "Review the selected or pasted output above; no command was generated.")
-            previewRow("Next checks", "Continue in the terminal or ask for a separate fix command if you want one.")
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text("Diagnosis")
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.92))
+
+                Spacer(minLength: 10)
+
+                resultBadge("READ ONLY", tint: Color(theme.palette.statusAccent))
+            }
+
+            resultSection("Meaning", completion.explanation)
+            resultSection("Likely cause", "Review the selected or pasted output above; gridOS intentionally generated no command for this response.")
+            resultSection("Next check", "Continue in the terminal, or switch to Fix Failed Command if you want a concrete repair step.")
         }
+        .padding(14)
+        .background(Color(theme.palette.background).opacity(0.40))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(theme.palette.statusAccent).opacity(0.34), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 
-    private func generatedCommandContent(_ classifiedCommand: ClassifiedGeneratedCommand) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            previewRow("Command", classifiedCommand.command.command)
-            previewRow("Explanation", classifiedCommand.command.explanation)
-            previewRow("Working directory assumption", classifiedCommand.command.workingDirectoryAssumption)
-            previewRow("Context used", contextUsedText(classifiedCommand.command.contextUsed))
+    private func generatedCommandContent(_ classifiedCommand: ClassifiedGeneratedCommand, index: Int) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Plan \(index + 1)")
+                        .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.74))
+
+                    Text(policyHeadline(for: classifiedCommand.localRisk.policy))
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
+                }
+
+                Spacer(minLength: 12)
+
+                riskBadge(classifiedCommand.localRisk)
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(classifiedCommand.command.command)
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
+                    .background(Color.black.opacity(0.24))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 7, style: .continuous)
+                            .stroke(Color(theme.palette.primaryAccent).opacity(0.16), lineWidth: 1)
+                            .accessibilityHidden(true)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+
+                Text(policyInstruction(for: classifiedCommand.localRisk.policy))
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.76))
+            }
+
+            resultSection("Why this command", classifiedCommand.command.explanation)
+            resultSection("Working directory", classifiedCommand.command.workingDirectoryAssumption, monospaced: true)
+            resultSection("Context used", contextUsedText(classifiedCommand.command.contextUsed))
             riskContent(classifiedCommand.localRisk)
 
             HStack(spacing: 12) {
@@ -392,14 +452,17 @@ struct CommandPaletteView: View {
                     }
                 }
             }
+            .accessibilityElement(children: .contain)
         }
-        .padding(12)
-        .background(Color(theme.palette.background).opacity(0.38))
+        .padding(14)
+        .background(Color(theme.palette.background).opacity(0.42))
         .overlay {
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .stroke(riskBorderColor(classifiedCommand.localRisk).opacity(0.62), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 9, style: .continuous)
+                .stroke(riskBorderColor(classifiedCommand.localRisk).opacity(0.64), lineWidth: 1)
                 .accessibilityHidden(true)
         }
+        .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+        .accessibilityElement(children: .contain)
     }
 
     private func riskContent(_ risk: CommandRiskAssessment) -> some View {
@@ -426,14 +489,31 @@ struct CommandPaletteView: View {
     private func failureContent(_ failure: CommandIntelligenceFailure) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(commandPaletteFailureTitle(failure))
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text(commandPaletteFailureTitle(failure))
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.94))
+
+                    Spacer(minLength: 10)
+
+                    resultBadge("RECOVERY", tint: Color(theme.palette.statusAccent))
+                }
+
+                Text("Command-K did not insert or run anything.")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.92))
 
-                Text(failure.message)
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.86))
+                resultSection("What happened", failure.message)
+                resultSection("Next move", failure.recoveryAction ?? "Edit the context and try again.")
             }
+            .padding(14)
+            .background(Color(theme.palette.background).opacity(0.40))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(Color(theme.palette.statusAccent).opacity(0.34), lineWidth: 1)
+                    .accessibilityHidden(true)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .accessibilityElement(children: .combine)
 
             Spacer(minLength: 0)
@@ -528,6 +608,7 @@ struct CommandPaletteView: View {
         VStack(alignment: .leading, spacing: 16) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
+                    previewHeader(preview)
                     previewRow("Flow", preview.flowName)
                     previewRow("Prompt or failed command", promptOrFailedCommandText(from: preview))
                     previewRow("Working directory", workingDirectoryText(from: preview))
@@ -625,6 +706,110 @@ struct CommandPaletteView: View {
         .accessibilityElement(children: .combine)
     }
 
+    private func resultHero(_ completion: CommandIntelligenceCompletion) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Plan ready")
+                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.96))
+
+                    Text(completion.flow.displayTitle)
+                        .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.78))
+                }
+
+                Spacer(minLength: 12)
+
+                resultBadge(commandCountText(completion.commands.count), tint: Color(theme.palette.primaryAccent))
+            }
+
+            Text(completion.summary)
+                .font(.system(size: 13, weight: .regular))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.86))
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let requestID = completion.requestID, !requestID.isEmpty {
+                Text("Request \(requestID)")
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.56))
+                    .textSelection(.enabled)
+            }
+        }
+        .padding(14)
+        .background(Color(theme.palette.primaryAccent).opacity(0.052))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(max(0.20, theme.panel.borderOpacity)), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+
+    private func previewHeader(_ preview: CommandContextPreview) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text("Context review")
+                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
+
+                Spacer(minLength: 10)
+
+                resultBadge(preview.canSend ? "READY TO SEND" : "BLOCKED", tint: preview.canSend ? Color(theme.palette.primaryAccent) : Color(theme.palette.statusAccent))
+            }
+
+            Text("This is the exact redacted context gridOS will send. Nothing leaves the app until you approve it.")
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.78))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(14)
+        .background(Color(theme.palette.background).opacity(0.36))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(0.22), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+
+    private func resultSection(_ label: String, _ value: String, monospaced: Bool = false) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.72))
+
+            Text(value.isEmpty ? "None" : value)
+                .font(.system(size: 12, weight: .regular, design: monospaced ? .monospaced : .default))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.90))
+                .textSelection(.enabled)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    private func resultBadge(_ label: String, tint: Color) -> some View {
+        Text(label)
+            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+            .foregroundStyle(tint.opacity(0.92))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(tint.opacity(0.10))
+            .overlay {
+                Capsule()
+                    .stroke(tint.opacity(0.26), lineWidth: 1)
+                    .accessibilityHidden(true)
+            }
+            .clipShape(Capsule())
+    }
+
+    private func riskBadge(_ risk: CommandRiskAssessment) -> some View {
+        resultBadge(risk.level.displayName.uppercased(), tint: riskBorderColor(risk))
+    }
+
     private func redactionSummaryContent(_ preview: CommandContextPreview) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Redaction")
@@ -660,6 +845,40 @@ struct CommandPaletteView: View {
         case .insertOnly:
             "Insert for Review"
         }
+    }
+
+    private func policyHeadline(for policy: CommandRunPolicy) -> String {
+        switch policy {
+        case .canRun:
+            "Ready for direct run"
+        case .requiresConfirmation:
+            "Run only after confirmation"
+        case .insertOnly:
+            "Insert-only safeguard"
+        }
+    }
+
+    private func policyInstruction(for policy: CommandRunPolicy) -> String {
+        switch policy {
+        case .canRun:
+            "Local policy allows direct run, but inserting first keeps the terminal in control."
+        case .requiresConfirmation:
+            "gridOS will ask before running this command because it mutates local project state."
+        case .insertOnly:
+            "gridOS will not run this automatically. Insert it, inspect it, then decide in the shell."
+        }
+    }
+
+    private func commandCountText(_ commandCount: Int) -> String {
+        if commandCount == 0 {
+            return "DIAGNOSIS"
+        }
+
+        if commandCount == 1 {
+            return "1 COMMAND"
+        }
+
+        return "\(commandCount) COMMANDS"
     }
 
     private func riskTextColor(_ risk: CommandRiskAssessment) -> Color {
@@ -906,6 +1125,19 @@ private enum CommandPaletteFlow: String, CaseIterable, Identifiable {
 private struct CommandIntelligenceSelectionFailure: Equatable {
     let title: String
     let message: String
+}
+
+private extension CommandIntelligenceFlow {
+    var displayTitle: String {
+        switch self {
+        case .suggestCommand:
+            "Suggested command"
+        case .explainOutput:
+            "Output diagnosis"
+        case .failedCommandHelp:
+            "Failed command repair"
+        }
+    }
 }
 
 private extension CommandRiskLevel {

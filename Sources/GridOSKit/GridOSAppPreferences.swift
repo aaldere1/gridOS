@@ -11,7 +11,7 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let showMenuBarExtraStorageKey = "integrations.showMenuBarExtra"
     public static let notificationsEnabledStorageKey = "integrations.notificationsEnabled"
     public static let indexWorkspaceMetadataStorageKey = "integrations.indexWorkspaceMetadata"
-    public static let betaPrivacyDisclosureAcceptedStorageKey = "beta.privacyDisclosureAccepted"
+    public static let privacySafetyLaunchAcceptedStorageKey = "privacy.safetyLaunchAccepted"
     public static let defaultVisualModeRawValue = "tron"
     public static let defaultInstallSeedRawValue = ""
     public static let defaultCommandIntelligenceProviderID = "anthropic"
@@ -20,7 +20,7 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultShowMenuBarExtra = false
     public static let defaultNotificationsEnabled = false
     public static let defaultIndexWorkspaceMetadata = false
-    public static let defaultBetaPrivacyDisclosureAccepted = false
+    public static let defaultPrivacySafetyLaunchAccepted = false
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
     public static let supportedCommandIntelligenceProviderIDs = [defaultCommandIntelligenceProviderID]
     public static let supportedCommandIntelligenceModelIDs = [defaultCommandIntelligenceModelID]
@@ -31,14 +31,14 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public var terminalFontSize: Double
     public var visualIntensity: Double
     public var reducedMotion: Bool
-    public var betaPrivacyDisclosureAccepted: Bool
+    public var privacySafetyLaunchAccepted: Bool
 
     public init(
         shellPath: String = defaultShellPath,
         terminalFontSize: Double = defaultTerminalFontSize,
         visualIntensity: Double = defaultVisualIntensity,
         reducedMotion: Bool = false,
-        betaPrivacyDisclosureAccepted: Bool = defaultBetaPrivacyDisclosureAccepted
+        privacySafetyLaunchAccepted: Bool = defaultPrivacySafetyLaunchAccepted
     ) {
         let trimmedShellPath = shellPath.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -46,7 +46,7 @@ public struct GridOSAppPreferences: Equatable, Sendable {
         self.terminalFontSize = Self.clampedFontSize(terminalFontSize)
         self.visualIntensity = Self.clampedVisualIntensity(visualIntensity)
         self.reducedMotion = reducedMotion
-        self.betaPrivacyDisclosureAccepted = betaPrivacyDisclosureAccepted
+        self.privacySafetyLaunchAccepted = privacySafetyLaunchAccepted
     }
 
     public static func clampedFontSize(_ fontSize: Double) -> Double {

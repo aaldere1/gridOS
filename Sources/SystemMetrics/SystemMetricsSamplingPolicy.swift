@@ -10,11 +10,11 @@ public struct SystemMetricsSamplingPolicy: Equatable, Sendable {
     public static let defaultValue = SystemMetricsSamplingPolicy()
 
     public init(
-        fastCadence: TimeInterval = 1.0,
-        slowCadence: TimeInterval = 10.0,
+        fastCadence: TimeInterval = 10.0,
+        slowCadence: TimeInterval = 30.0,
         backgroundCadence: TimeInterval = 5.0,
-        fastStaleThreshold: TimeInterval = 3.0,
-        slowStaleThreshold: TimeInterval = 30.0
+        fastStaleThreshold: TimeInterval = 15.0,
+        slowStaleThreshold: TimeInterval = 60.0
     ) {
         self.fastCadence = fastCadence
         self.slowCadence = slowCadence

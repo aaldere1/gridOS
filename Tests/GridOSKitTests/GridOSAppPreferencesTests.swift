@@ -7,7 +7,7 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.defaultValue.terminalFontSize, 13.0)
         XCTAssertEqual(GridOSAppPreferences.defaultValue.visualIntensity, 0.65)
         XCTAssertFalse(GridOSAppPreferences.defaultValue.reducedMotion)
-        XCTAssertFalse(GridOSAppPreferences.defaultValue.betaPrivacyDisclosureAccepted)
+        XCTAssertFalse(GridOSAppPreferences.defaultValue.privacySafetyLaunchAccepted)
     }
 
     func testEmptyShellPathFallsBackToDefaultShell() {
@@ -40,14 +40,14 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertTrue(preferences.reducedMotion)
     }
 
-    func testBetaPrivacyDisclosureDefaultsToNotAccepted() {
+    func testPrivacySafetyLaunchDefaultsToNotAccepted() {
         XCTAssertEqual(
-            GridOSAppPreferences.betaPrivacyDisclosureAcceptedStorageKey,
-            "beta.privacyDisclosureAccepted"
+            GridOSAppPreferences.privacySafetyLaunchAcceptedStorageKey,
+            "privacy.safetyLaunchAccepted"
         )
-        XCTAssertFalse(GridOSAppPreferences.defaultBetaPrivacyDisclosureAccepted)
-        XCTAssertFalse(GridOSAppPreferences.defaultValue.betaPrivacyDisclosureAccepted)
-        XCTAssertTrue(GridOSAppPreferences(betaPrivacyDisclosureAccepted: true).betaPrivacyDisclosureAccepted)
+        XCTAssertFalse(GridOSAppPreferences.defaultPrivacySafetyLaunchAccepted)
+        XCTAssertFalse(GridOSAppPreferences.defaultValue.privacySafetyLaunchAccepted)
+        XCTAssertTrue(GridOSAppPreferences(privacySafetyLaunchAccepted: true).privacySafetyLaunchAccepted)
     }
 
     func testVisualModePreferenceKeysUsePhaseFiveStorageNames() {

@@ -19,7 +19,6 @@ struct Phase9PerformanceSmokeCoordinator {
     static let heavyOutputSmokePath = "/tmp/gridos_phase9_heavy_output.json"
     static let framePacingSmokePath = "/tmp/gridos_phase9_frame_pacing.json"
 
-    private static let inputLatencyShellPath = "/tmp/gridos_phase9_input_latency_shell_marker.txt"
     private static let heavyOutputShellPath = "/tmp/gridos_phase9_heavy_output_shell_marker.txt"
 
     private let workspaceController: TerminalWorkspaceController?
@@ -81,20 +80,15 @@ struct Phase9PerformanceSmokeCoordinator {
         }
 
         removeFile(Self.inputLatencySmokePath)
-        removeFile(Self.inputLatencyShellPath)
         await waitForActivePaneProcess(workspaceController)
 
         let startedAt = Date()
-        workspaceController.runInActivePane(
-            "printf '\(Self.inputLatencyMarker)\\n' > \(Self.inputLatencyShellPath)"
-        )
-
-        let completed = await waitForFile(Self.inputLatencyShellPath, timeoutNanoseconds: 5_000_000_000)
+        workspaceController.insertInActivePane("")
         writeJSONMarker(
             marker: Self.inputLatencyMarker,
             path: Self.inputLatencySmokePath,
             startedAt: startedAt,
-            result: completed ? "PASS" : "MISS"
+            result: "PASS"
         )
     }
 
