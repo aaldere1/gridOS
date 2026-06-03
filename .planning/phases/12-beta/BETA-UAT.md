@@ -4,9 +4,9 @@
 
 | Field | Value |
 | --- | --- |
-| Artifact basename | `gridOS-0.1.0-5-403d2d2.dmg` |
-| Source commit | `403d2d2` |
-| SHA-256 | `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1` |
+| Artifact basename | `gridOS-0.1.0-6-e1c7005.dmg` |
+| Source commit | `e1c7005` |
+| SHA-256 | `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d` |
 | Notarization | PASS |
 | Gatekeeper assessment | LOCAL PASS; clean-Mac Finder launch pending |
 | Tester | Codex release gate |
@@ -17,7 +17,7 @@
 
 | Check | Command or step | Result | Notes |
 | --- | --- | --- | --- |
-| Artifact checksum | `shasum -a 256 path/to/gridOS-beta.dmg` matches `.planning/phases/12-beta/beta-release-manifest.json`. | PASS | Release manifest records SHA-256 `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`. |
+| Artifact checksum | `shasum -a 256 path/to/gridOS-beta.dmg` matches `.planning/phases/12-beta/beta-release-manifest.json`. | PASS | Release manifest records SHA-256 `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d`. |
 | Stapled ticket | `xcrun stapler validate path/to/gridOS-beta.dmg` exits 0. | PASS | `.planning/phases/12-beta/evidence/beta-notarization.md` records stapler validate PASS. |
 | Gatekeeper assessment | `spctl --assess --type execute --verbose=4 path/to/gridOS.app` exits 0. | LOCAL PASS | `.planning/phases/12-beta/evidence/beta-artifact-verification.md` records local Gatekeeper PASS. |
 | DMG open/copy | Open the DMG and copy `gridOS.app` to the tester Applications folder. | BLOCKED | Requires separate clean-Mac Finder UAT. |
@@ -25,7 +25,7 @@
 | First-run privacy | Confirm the Beta privacy disclosure appears before normal use. | SOURCE PASS | Source/tests verify the disclosure; clean-Mac launch is still pending. |
 | Command Intelligence no-key state | Confirm the app remains useful without a provider key. | SOURCE PASS | Existing tests keep no-key behavior productized; clean-Mac launch is blocked. |
 | Diagnostics review | Confirm diagnostics are local, sanitized, and user-reviewed. | SOURCE PASS | Docs/source prohibit telemetry and automatic diagnostics upload. |
-| Local packaged launch smoke | Launch the mounted notarized DMG with a deterministic startup marker, then quit and detach. | PASS | `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md` records build 5 local launch smoke PASS. |
+| Local packaged launch smoke | Launch the mounted notarized DMG with a deterministic startup marker, then quit and detach. | PASS | `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md` records build 6 local launch smoke PASS. |
 
 ## Update from Beta N to Beta N+1
 

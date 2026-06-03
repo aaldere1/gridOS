@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ship-today direct artifact complete; external clean-Mac proof pending
-last_updated: "2026-06-03T11:21:07Z"
+last_updated: "2026-06-03T11:27:03Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 13 - Product desirability ship pass complete, with App Store readiness pau
 
 ## Current status
 
-Product desirability is now the active lane. App Store readiness is paused until gridOS is worth downloading on its own merits. Phase 13 added a display-only local visual signature derived from the procedural visual seed, surfaced it in first-run Privacy & Safety, the app header, and the right rail, upgraded Command-K with a guarded briefing and example prompts, and captured the product bar in `docs/product-desirability.md`. Full unsigned build/test and `git diff --check` pass. The direct Beta ship-today artifact is `build/beta/ship-today/gridOS-0.1.0-5-403d2d2.dmg`, SHA-256 `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`; it is signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Clean-Mac Finder/Gatekeeper UAT and clean-Mac Beta N to N+1 update-flow proof remain external blockers for broad Beta signoff.
+Product desirability is now the active lane. App Store readiness is paused until gridOS is worth downloading on its own merits. Phase 13 added a display-only local visual signature derived from the procedural visual seed, surfaced it in first-run Privacy & Safety, the app header, and the right rail, upgraded Command-K with a guarded briefing and example prompts, and captured the product bar in `docs/product-desirability.md`. Full unsigned build/test and `git diff --check` pass. The direct Beta ship-today artifact is `build/beta/ship-today/gridOS-0.1.0-6-e1c7005.dmg`, SHA-256 `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d`; it is signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Clean-Mac Finder/Gatekeeper UAT and clean-Mac Beta N to N+1 update-flow proof remain external blockers for broad Beta signoff.
 
 ## Decisions made
 
@@ -228,7 +228,7 @@ Product desirability is now the active lane. App Store readiness is paused until
 - 2026-06-02: Phase 13 App Store readiness started with staged App Sandbox entitlements, privacy manifest, production-facing privacy Settings copy, `docs/app-store-readiness.md`, and `scripts/app-store-preflight.sh`; preflight, XcodeGen regeneration, generated project checks, full unsigned build/test, and diff check passed.
 - 2026-06-02: App Store readiness paused after product review; Phase 13 product desirability added a display-only local visual signature, upgraded first-run Privacy & Safety, added the signature to the app header and right rail, documented the product bar in `docs/product-desirability.md`, and passed full unsigned build/test plus diff check.
 - 2026-06-03: Product ship pass kept the direct Developer ID Beta target unsandboxed, upgraded the right rail into a local system pulse, upgraded Command-K with briefing/example prompts, refreshed Phase 5 app-window screenshots, and prepared a fresh direct-release verification/build path.
-- 2026-06-03: Ship-today artifact `build/beta/ship-today/gridOS-0.1.0-5-403d2d2.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Final SHA-256 is `cce653429f4a9656b71fdfe1ca948461d560abfa3ec2117920571bcc20a860a1`; clean-Mac Finder/Gatekeeper UAT and clean-Mac update-flow proof remain external blockers for broad Beta signoff.
+- 2026-06-03: Ship-today artifact `build/beta/ship-today/gridOS-0.1.0-6-e1c7005.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Final SHA-256 is `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d`; clean-Mac Finder/Gatekeeper UAT and clean-Mac update-flow proof remain external blockers for broad Beta signoff.
 
 ## Performance metrics
 
@@ -278,7 +278,7 @@ Product desirability is now the active lane. App Store readiness is paused until
 
 ## Next target
 
-Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-5-403d2d2.dmg`, then prove clean-Mac Beta N to N+1 replacement. In parallel, rerun/fix Phase 9 performance misses before any broad public launch claim.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-0.1.0-6-e1c7005.dmg`, then prove clean-Mac Beta N to N+1 replacement. In parallel, rerun/fix Phase 9 performance misses before any broad public launch claim.
 
 ## Session handoff
 

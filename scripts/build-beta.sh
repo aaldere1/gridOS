@@ -186,7 +186,7 @@ cat > "$MANIFEST_FILE" <<EOF
 - Artifact path policy: local output directory only; no artifacts are stored under .planning.
 - Notarization command: scripts/notarize-beta-artifact.sh <local-output-dir>/$DMG_NAME
 - Verification command: scripts/verify-beta-artifact.sh <local-output-dir>/$DMG_NAME
-- Final distribution SHA-256 is recorded after stapling in `.planning/phases/12-beta/beta-release-manifest.json` and `.planning/phases/12-beta/evidence/beta-artifact-verification.md`.
+- Final distribution SHA-256 is recorded after stapling in .planning/phases/12-beta/beta-release-manifest.json and .planning/phases/12-beta/evidence/beta-artifact-verification.md.
 EOF
 
 printf 'BETA_ARTIFACT_READY %s\n' "$DMG_PATH"
