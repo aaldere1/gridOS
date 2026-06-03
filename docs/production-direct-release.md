@@ -1,17 +1,17 @@
 # gridOS production direct release
 
-Status: version 1.0.1
+Status: version 1.0.2
 Last updated: 2026-06-03
 
 ## Artifact
 
-- Version: 1.0.1
-- Build: 9
-- Source commit: 3f74ed7
-- DMG: build/release/production/gridOS-1.0.1-9-3f74ed7.dmg
-- DMG SHA-256: 39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a
-- ZIP: build/release/production/gridOS-1.0.1-9-3f74ed7.zip
-- ZIP SHA-256: d917d6073e557e75409a92907f2611359aad5ce4b6444766e8faa7d85b825f5e
+- Version: 1.0.2
+- Build: 10
+- Source commit: 8f2865b
+- DMG: build/release/production/gridOS-1.0.2-10-8f2865b.dmg
+- DMG SHA-256: 52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c
+- ZIP: build/release/production/gridOS-1.0.2-10-8f2865b.zip
+- ZIP SHA-256: 21d04d90887662749817d4dae2df443d8774ce0707b43f684acda386b49c4ad4
 
 ## Release Positioning
 
@@ -20,9 +20,9 @@ signature, multi-pane workspaces, calmer host metrics, and guarded Command
 Intelligence. The value is not "AI terminal" as a gimmick. The value is a
 beautiful, private command workspace that helps users think before they run.
 
-Version 1.0.1 adds Anthropic/OpenAI provider selection, current curated model
-choices, custom model IDs, and visible pane controls so multi-pane work is more
-discoverable.
+Version 1.0.2 presents Command Intelligence as AI Command Helper, adds an
+info button that explains the feature in plain language, and ships a polished
+drag-to-Applications DMG with a signed/notarized installer container.
 
 ## First Launch
 
@@ -35,14 +35,16 @@ tool opening its doors, not a pre-release disclaimer.
 | Check | Status |
 | --- | --- |
 | Signed archive | PASS |
+| Signed DMG container | PASS |
 | Notarization | PASS |
 | Stapler validation | PASS |
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
 | Launch from mounted DMG | PASS |
-| Visible app version v1.0.1 | PASS |
-| Provider settings expose Anthropic and OpenAI | PASS |
+| Visible app version v1.0.2 | PASS |
+| AI Command Helper settings present | PASS |
 | Pane controls visible in packaged app | PASS |
+| DMG drag-to-Applications layout | PASS |
 | Clean quit after launch | PASS |
 | Performance quick gate | PASS |
 

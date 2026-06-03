@@ -1,53 +1,76 @@
 # Production launch smoke
 
-- Timestamp UTC: 2026-06-03T13:39:04Z
-- Artifact: build/release/production/gridOS-1.0.1-9-3f74ed7.dmg
-- Source commit: 3f74ed7
-- Version: 1.0.1
-- Build: 9
+- Timestamp UTC: 2026-06-03T14:21:23Z
+- Artifact: build/release/production/gridOS-1.0.2-10-8f2865b.dmg
+- Artifact SHA-256: 52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c
+- Source commit: 8f2865b
+- Version: 1.0.2
+- Build: 10
 - Bundle ID: com.aaldere1.gridos
-- Launch path: DMG mounted at /tmp/gridos-101-smoke.o8MFmN
+- Launch path: DMG mounted under /tmp/gridos-final-dmg.ZMK39u
 - Launch command: open -n "$APP"
 - Process detector: pgrep -x gridOS
 - Result: PASS
 
+## DMG Container
+
+```text
+build/release/production/gridOS-1.0.2-10-8f2865b.dmg: valid on disk
+build/release/production/gridOS-1.0.2-10-8f2865b.dmg: satisfies its Designated Requirement
+build/release/production/gridOS-1.0.2-10-8f2865b.dmg: accepted
+source=Notarized Developer ID
+stapler=PASS
+```
+
 ## Gatekeeper
 
 ```text
-/tmp/gridos-101-smoke.o8MFmN/gridOS.app: accepted
+/tmp/gridos-final-dmg.ZMK39u/gridOS.app: accepted
 source=Notarized Developer ID
 ```
 
 ## Strict Code Signature
 
 ```text
-/tmp/gridos-101-smoke.o8MFmN/gridOS.app: valid on disk
-/tmp/gridos-101-smoke.o8MFmN/gridOS.app: satisfies its Designated Requirement
+/tmp/gridos-final-dmg.ZMK39u/gridOS.app: valid on disk
+/tmp/gridos-final-dmg.ZMK39u/gridOS.app: satisfies its Designated Requirement
 ```
 
 ## Process Sample
 
 ```text
-VERSION=1.0.1
-BUILD=9
+VERSION=1.0.2
+BUILD=10
 BUNDLE_ID=com.aaldere1.gridos
-PID=99677
-CPU_PERCENT=2.3
-RSS_KB=106448
-PS_SAMPLE=99677     1   2.3 106448   00:03 /private/tmp/gridos-101-smoke.o8MFmN/gridOS.app/Contents/MacOS/gridOS
+PID=90961
+CPU_PERCENT=8.0
+RSS_KB=14112
+PS_SAMPLE=90961     1   8.0  14112 00:00 /tmp/gridos-final-dmg.ZMK39u/gridOS.app/Contents/MacOS/gridOS
 ```
+
+## DMG Installer Layout
+
+- Finder window bounds: {120, 120, 780, 540}
+- gridOS.app icon position: {180, 220}
+- Applications alias position: {500, 220}
+- Hidden background asset position: {1000, 1000}
+- Applications link target: /Applications
+- Visible layout: PASS, custom drag-to-Applications background with arrow and readable drop targets
+- Hidden-file stress check: PASS, .background remains hidden/off-canvas even with Finder hidden files enabled on this Mac
 
 ## Visual Inspection
 
-- Computer Use app path: /tmp/gridos-101-smoke.o8MFmN/gridOS.app
-- Visible app version: v1.0.1
+- Computer Use app path: /tmp/gridos-final-dmg.ZMK39u/gridOS.app
+- Visible app version: v1.0.2
 - Terminal workspace inspection: PASS
 - Pane toolbar visible: PASS
 - Pane count visible: PASS, 4 panes restored
-- Command Intelligence settings menu path: PASS
+- AI Command Helper menu visible: PASS
 - Settings section focus: PASS
-- Provider picker exposes Anthropic and OpenAI: PASS
-- Default provider restored/left as Anthropic: PASS
+- AI Command Helper info button present: PASS
+- Provider setup copy visible: PASS
+- Anthropic provider/model visible: PASS
+- No-key copy: PASS, "Add an Anthropic key to use this provider. The terminal still works normally."
 - Pre-release/debug language visible in app UI: none observed
 - Layout issues observed: none blocking; four panes are usable but tight at the default window width
 - Text clipping observed: none blocking

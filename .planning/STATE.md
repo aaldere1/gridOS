@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Ship-today direct artifact complete; external clean-Mac proof pending
-last_updated: "2026-06-03T13:39:04Z"
+status: Production direct 1.0.2 artifact complete; external clean-Mac proof pending
+last_updated: "2026-06-03T14:21:23Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 13 - Product desirability ship pass complete, with App Store readiness pau
 
 ## Current status
 
-gridOS is now on production direct version 1.0.1 build 9. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.1-9-3f74ed7.dmg`, SHA-256 `39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a`; it is signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.1`, visually inspected, and performance-gated. Version 1.0.1 adds Anthropic/OpenAI provider setup, current curated model choices, custom model IDs, and visible pane controls. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
+gridOS is now on production direct version 1.0.2 build 10. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.2-10-8f2865b.dmg`, SHA-256 `52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.2`, visually inspected, and performance-gated. Version 1.0.2 renames Command Intelligence to AI Command Helper in user-facing surfaces, adds explanatory info copy, hardens DMG verification, and ships a polished drag-to-Applications installer layout. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
 
 ## Decisions made
 
@@ -229,6 +229,7 @@ gridOS is now on production direct version 1.0.1 build 9. App Store readiness re
 - 2026-06-02: App Store readiness paused after product review; Phase 13 product desirability added a display-only local visual signature, upgraded first-run Privacy & Safety, added the signature to the app header and right rail, documented the product bar in `docs/product-desirability.md`, and passed full unsigned build/test plus diff check.
 - 2026-06-03: Product ship pass kept the direct Developer ID Beta target unsandboxed, upgraded the right rail into a local system pulse, upgraded Command-K with briefing/example prompts, refreshed Phase 5 app-window screenshots, and prepared a fresh direct-release verification/build path.
 - 2026-06-03: Ship-today artifact `build/beta/ship-today/gridOS-0.1.0-6-e1c7005.dmg` was signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, and local launch-smoked. Final SHA-256 is `fc4e353604f7b5195678fc86320633a4918955146db7429146133f8be495879d`; clean-Mac Finder/Gatekeeper UAT and clean-Mac update-flow proof remain external blockers for broad Beta signoff.
+- 2026-06-03: Production direct 1.0.2 build 10 artifact `build/release/production/gridOS-1.0.2-10-8f2865b.dmg` was app-signed, DMG-signed, notarized, stapled, locally Gatekeeper-verified, release-manifested, launch-smoked, and visually checked with a drag-to-Applications DMG layout. Final SHA-256 is `52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c`; clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
 
 ## Performance metrics
 
@@ -278,7 +279,7 @@ gridOS is now on production direct version 1.0.1 build 9. App Store readiness re
 
 ## Next target
 
-Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.1-9-3f74ed7.dmg`, then prove clean-Mac version-to-version replacement/update from 1.0.0 build 8 to 1.0.1 build 9. Phase 9 performance gates are passing.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prove clean-Mac version-to-version replacement/update from 1.0.1 build 9 to 1.0.2 build 10. Phase 9 performance gates are passing.
 
 ## Session handoff
 

@@ -1,6 +1,6 @@
 # gridOS Product Desirability
 
-Status: version 1.0.1 product pass
+Status: version 1.0.2 product pass
 Last updated: 2026-06-03
 
 App Store readiness remains secondary to product quality. The current bar is
@@ -15,9 +15,9 @@ calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
 feels like pre-release paperwork wrapped around a terminal.
 
-Version 1.0.1 improves the user-facing value by adding Anthropic/OpenAI choice,
-current model presets, custom model IDs, and visible pane controls instead of
-hiding the multi-pane system behind menu shortcuts.
+Version 1.0.2 improves the user-facing value by making Command Intelligence
+legible as AI Command Helper, adding an info bubble for the feature, and
+turning the direct-download DMG into a clear drag-to-Applications installer.
 
 ## What Must Become Obvious
 
@@ -26,7 +26,7 @@ hiding the multi-pane system behind menu shortcuts.
 | Does it look unique in one screenshot? | Yes | Keep the visual signature prominent without letting the shell feel secondary. |
 | Does first launch feel premium? | Yes | Keep first launch as a local launch briefing, not compliance copy. |
 | Would a developer replace another terminal? | Plausible | Keep proving shell reliability and update/install behavior on clean machines. |
-| Does Command Intelligence feel like a reason to use it? | Yes | Keep expanding high-signal result states and provider setup ergonomics. |
+| Does AI Command Helper feel like a reason to use it? | Yes | Keep expanding high-signal result states and provider setup ergonomics. |
 | Does the UI have class? | Yes | Preserve quiet density, restraint, and local-first confidence. |
 
 ## Current Product Moves
@@ -37,6 +37,7 @@ hiding the multi-pane system behind menu shortcuts.
 - Keep terminal workspace area dominant.
 - Make the right rail feel like a local system signal, not a generic process list.
 - Make Command-K read as a guarded intelligence briefing and result runbook, not a plain provider form.
+- Make the direct installer feel native and obvious: open DMG, drag gridOS into Applications, launch.
 - Keep App Store sandbox work staged but inactive while the direct version is being distributed.
 - Keep live metrics on a calmer cadence so the app idles quietly.
 - Use physical footprint, idle CPU, dispatch latency, heavy-output, and frame-pacing evidence as the release performance gate.
@@ -45,5 +46,5 @@ hiding the multi-pane system behind menu shortcuts.
 
 1. Run clean-Mac Finder/Gatekeeper UAT and version-to-version update proof.
 2. Publish download-facing release notes from `docs/production-direct-release.md`.
-3. Expand Command-K provider setup and examples after the direct release is proven.
+3. Expand AI Command Helper provider setup and examples after the direct release is proven.
 4. Add a hosted update lane only after the direct-release install path is boringly reliable.
