@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ship-today direct artifact complete; external clean-Mac proof pending
-last_updated: "2026-06-03T11:27:03Z"
+last_updated: "2026-06-03T13:39:04Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 13 - Product desirability ship pass complete, with App Store readiness pau
 
 ## Current status
 
-gridOS is now on production direct version 1.0.0 build 8. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.0-8-b31bd2a.dmg`, SHA-256 `77ada3e17bc2f59b03b3dbad78692d5ab731cde7a5fbb96c5a1a96dd1a29cb88`; it is signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.0`, visually inspected, and performance-gated. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
+gridOS is now on production direct version 1.0.1 build 9. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.1-9-3f74ed7.dmg`, SHA-256 `39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a`; it is signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.1`, visually inspected, and performance-gated. Version 1.0.1 adds Anthropic/OpenAI provider setup, current curated model choices, custom model IDs, and visible pane controls. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
 
 ## Decisions made
 
@@ -278,7 +278,7 @@ gridOS is now on production direct version 1.0.0 build 8. App Store readiness re
 
 ## Next target
 
-Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.0-8-b31bd2a.dmg`, then prove clean-Mac version-to-version replacement/update. Phase 9 performance gates are passing.
+Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.1-9-3f74ed7.dmg`, then prove clean-Mac version-to-version replacement/update from 1.0.0 build 8 to 1.0.1 build 9. Phase 9 performance gates are passing.
 
 ## Session handoff
 

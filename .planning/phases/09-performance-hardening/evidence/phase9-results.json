@@ -1,6 +1,6 @@
 {
   "report": "PHASE9_PERFORMANCE_REPORT",
-  "generated_at": "2026-06-03T12:00:50Z",
+  "generated_at": "2026-06-03T13:39:54Z",
   "configuration": {
     "mode": "quick",
     "build_configuration": "Debug",
@@ -17,17 +17,17 @@
   "results": {
     "cold_start_ms": {
       "status": "PASS",
-      "observed": 88.918,
+      "observed": 85.084,
       "target": 500,
       "marker": "PHASE9_READY",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1780488027.895417,\n  \"finished_at\": 1780488027.895418,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_READY\",\n  \"started_at\": 1780493973.725509,\n  \"finished_at\": 1780493973.725510,\n  \"elapsed_ms\": 0.001,\n  \"result\": \"PASS\"\n}",
       "notes": "App launch to Phase 9 ready marker."
     },
     "memory_footprint_mb": {
       "status": "PASS",
-      "observed": 94.60,
+      "observed": 80.40,
       "target": 100,
-      "rss_advisory_mb": 127.89,
+      "rss_advisory_mb": 110.58,
       "notes": "macOS physical footprint sampled after 8s startup settle; ps RSS is recorded as advisory."
     },
     "idle_cpu_percent": {
@@ -38,26 +38,26 @@
     },
     "input_latency_ms": {
       "status": "PASS",
-      "observed": 0.035,
+      "observed": 0.039,
       "target": 5,
       "marker": "PHASE9_INPUT_LATENCY",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_INPUT_LATENCY\",\n  \"started_at\": 1780488048.551203,\n  \"finished_at\": 1780488048.551238,\n  \"elapsed_ms\": 0.035,\n  \"result\": \"PASS\"\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_INPUT_LATENCY\",\n  \"started_at\": 1780493992.796003,\n  \"finished_at\": 1780493992.796042,\n  \"elapsed_ms\": 0.039,\n  \"result\": \"PASS\"\n}",
       "notes": "Command-dispatch marker proxy. Heavy output smoke separately verifies shell acceptance. Synthetic terminal markers only; no user shell output captured."
     },
     "heavy_output": {
       "status": "PASS",
-      "observed": 789.250,
+      "observed": 842.849,
       "line_count": 500,
       "marker": "PHASE9_HEAVY_OUTPUT_DONE",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_HEAVY_OUTPUT_DONE\",\n  \"started_at\": 1780488049.085419,\n  \"finished_at\": 1780488049.874669,\n  \"elapsed_ms\": 789.250,\n  \"result\": \"PASS\",\n  \"line_count\": 500\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_HEAVY_OUTPUT_DONE\",\n  \"started_at\": 1780493993.317605,\n  \"finished_at\": 1780493994.160454,\n  \"elapsed_ms\": 842.849,\n  \"result\": \"PASS\",\n  \"line_count\": 500\n}",
       "notes": "Synthetic terminal markers only; no user shell output captured."
     },
     "frame_pacing": {
       "status": "PASS",
-      "observed": 310.301,
+      "observed": 278.236,
       "pulse_count": 8,
       "marker": "PHASE9_FRAME_PACING",
-      "marker_payload": "{\n  \"marker\": \"PHASE9_FRAME_PACING\",\n  \"started_at\": 1780488050.443309,\n  \"finished_at\": 1780488050.753610,\n  \"elapsed_ms\": 310.301,\n  \"result\": \"PASS\",\n  \"pulse_count\": 8\n}",
+      "marker_payload": "{\n  \"marker\": \"PHASE9_FRAME_PACING\",\n  \"started_at\": 1780493994.595884,\n  \"finished_at\": 1780493994.874120,\n  \"elapsed_ms\": 278.236,\n  \"result\": \"PASS\",\n  \"pulse_count\": 8\n}",
       "xctrace": {
         "status": "UNAVAILABLE",
         "reason": "Skipped in --quick mode.",

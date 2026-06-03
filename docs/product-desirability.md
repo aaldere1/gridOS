@@ -1,6 +1,6 @@
 # gridOS Product Desirability
 
-Status: version 1.0.0 product pass
+Status: version 1.0.1 product pass
 Last updated: 2026-06-03
 
 App Store readiness remains secondary to product quality. The current bar is
@@ -14,6 +14,10 @@ native terminal, memorable per-machine visual identity, multi-pane state,
 calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
 feels like pre-release paperwork wrapped around a terminal.
+
+Version 1.0.1 improves the user-facing value by adding Anthropic/OpenAI choice,
+current model presets, custom model IDs, and visible pane controls instead of
+hiding the multi-pane system behind menu shortcuts.
 
 ## What Must Become Obvious
 

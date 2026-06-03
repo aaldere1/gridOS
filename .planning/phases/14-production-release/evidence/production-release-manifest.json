@@ -2,26 +2,26 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.0",
-  "build": "8",
-  "sourceCommit": "b31bd2a",
-  "generatedAt": "2026-06-03T13:05:00Z",
+  "version": "1.0.1",
+  "build": "9",
+  "sourceCommit": "3f74ed7",
+  "generatedAt": "2026-06-03T13:39:04Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.0-8-b31bd2a.dmg",
-      "sha256": "77ada3e17bc2f59b03b3dbad78692d5ab731cde7a5fbb96c5a1a96dd1a29cb88"
+      "path": "build/release/production/gridOS-1.0.1-9-3f74ed7.dmg",
+      "sha256": "39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.0-8-b31bd2a.zip",
-      "sha256": "227dd9cff07463d66cf83c6e04d09150d00897170298e7b94f9b5b6b4b038f68"
+      "path": "build/release/production/gridOS-1.0.1-9-3f74ed7.zip",
+      "sha256": "d917d6073e557e75409a92907f2611359aad5ce4b6444766e8faa7d85b825f5e"
     },
     "appBundle": {
-      "sha256": "64e55ddf6dd74c2298300f6bed15c1bebb91e59e66d88917cb4454a2272bc0db"
+      "sha256": "4a357ce94c78fe09ebad8f16e792ed64510a649f6890ac0f029eb42e91020f1a"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "e1aa35b6-8231-4eb1-abc1-1da8a5552c52",
+    "submissionId": "05f1f6af-8cb4-4e59-83b2-a3b6b8b668d4",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
@@ -32,15 +32,24 @@
     "status": "pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "visualVersionInspection": "pass",
-    "visibleVersion": "v1.0.0",
-    "cpuPercent": 0.0,
-    "rssKb": 103360,
-    "physicalFootprint": "84.9M",
-    "physicalFootprintPeak": "106.5M"
+    "visibleVersion": "v1.0.1",
+    "settingsProviderInspection": "pass",
+    "providersVisible": ["anthropic", "openai"],
+    "paneToolbarVisible": true,
+    "paneCountVisible": true,
+    "cpuPercent": 2.3,
+    "rssKb": 106448
   },
   "performanceGate": {
     "status": "pass",
     "evidence": ".planning/phases/09-performance-hardening/evidence/phase9-results.json",
+    "configuration": "quick Debug benchmark",
+    "coldStartMs": 85.084,
+    "memoryFootprintMb": 80.40,
+    "idleCpuPercent": 0.0,
+    "inputLatencyMs": 0.039,
+    "heavyOutputMs": 842.849,
+    "framePacingMs": 278.236,
     "misses": []
   },
   "releaseNotes": "docs/production-direct-release.md",

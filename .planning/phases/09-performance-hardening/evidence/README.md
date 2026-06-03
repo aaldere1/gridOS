@@ -39,7 +39,7 @@ Outputs:
 ## Cold start
 
 - **Target:** < 500 ms
-- **Observed:** 88.918 ms
+- **Observed:** 85.084 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-ready-smoke`
 - **Notes:** App launch to Phase 9 ready marker.
@@ -47,10 +47,10 @@ Outputs:
 ## Memory footprint
 
 - **Target:** < 100 MB physical footprint
-- **Observed:** 94.60 MB
+- **Observed:** 80.40 MB
 - **Status:** PASS
 - **Command:** `sample <gridOS pid> 1 -file <report>`
-- **RSS advisory:** 127.89 MB from `ps -o rss=`
+- **RSS advisory:** 110.58 MB from `ps -o rss=`
 - **Notes:** Physical footprint sampled after 8s startup settle window.
 
 ## Idle CPU
@@ -64,7 +64,7 @@ Outputs:
 ## Input latency
 
 - **Target:** < 5 ms
-- **Observed:** 0.035 ms
+- **Observed:** 0.039 ms
 - **Status:** PASS
 - **Command:** `gridOS --phase9-input-latency-smoke`
 - **Notes:** Command-dispatch marker proxy. Heavy output smoke separately verifies shell acceptance. Synthetic terminal markers only; no user shell output captured.
@@ -72,7 +72,7 @@ Outputs:
 ## Heavy output
 
 - **Target:** synthetic marker completes and writes PHASE9_HEAVY_OUTPUT_DONE
-- **Observed:** 789.250 ms, 500 synthetic lines
+- **Observed:** 842.849 ms, 500 synthetic lines
 - **Status:** PASS
 - **Command:** `gridOS --phase9-heavy-output-smoke`
 - **Notes:** Synthetic terminal markers only; no user shell output captured.
@@ -80,7 +80,7 @@ Outputs:
 ## Frame pacing
 
 - **Target:** active-pulse pacing evidence
-- **Observed:** 310.301 ms, 8 render pulses
+- **Observed:** 278.236 ms, 8 render pulses
 - **Status:** PASS
 - **Command:** `gridOS --phase9-frame-pacing-smoke`
 - **xctrace status:** UNAVAILABLE
