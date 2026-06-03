@@ -25,35 +25,65 @@ struct CommandIntelligenceSettingsView: View {
 
     var body: some View {
         Section("Command Intelligence") {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Command Intelligence turns only the context you approve into provider-assisted shell help.")
+                    .font(.subheadline.weight(.semibold))
+
+                Text("gridOS redacts secrets before send, stores provider keys in Keychain, rechecks suggested commands locally, and inserts risky commands for review instead of running them blindly.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityElement(children: .combine)
+
             Picker("Provider", selection: providerSelection) {
-                Text("Anthropic")
-                    .tag(GridOSAppPreferences.defaultCommandIntelligenceProviderID)
+                ForEach(CommandIntelligenceModelCatalog.providers) { provider in
+                    Text(provider.displayName)
+                        .tag(provider.id.rawValue)
+                }
             }
             .accessibilityLabel("Provider")
-            .accessibilityValue("Anthropic")
+            .accessibilityValue(currentProviderDescriptor.displayName)
 
             Picker("Model", selection: modelSelection) {
-                Text("claude-sonnet-4-6")
-                    .tag(GridOSAppPreferences.defaultCommandIntelligenceModelID)
+                ForEach(currentProviderDescriptor.models) { model in
+                    Text(model.isRecommended ? "\(model.displayName) - Recommended" : model.displayName)
+                        .tag(model.id.rawValue)
+                }
             }
             .accessibilityLabel("Model")
-            .accessibilityValue(GridOSAppPreferences.defaultCommandIntelligenceModelID)
+            .accessibilityValue(normalizedModelIDRawValue)
+
+            VStack(alignment: .leading, spacing: 6) {
+                TextField("Model ID", text: $modelIDRawValue)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(.body, design: .monospaced))
+                    .accessibilityLabel("Model ID")
+
+                Text(modelHelpText)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityElement(children: .combine)
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(isProviderConfigured ? "Provider configured" : "Provider not configured")
                     .font(.subheadline.weight(.semibold))
 
                 if !isProviderConfigured {
-                    Text("Add a provider key in Settings to use command intelligence. The terminal still works normally.")
+                    Text("Add a \(currentProviderDescriptor.displayName) key to use this provider. The terminal still works normally.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(currentProviderDescriptor.setupHint)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
             }
             .accessibilityElement(children: .combine)
 
-            SecureField("Anthropic API key", text: $apiKeyInput)
+            SecureField(currentProviderDescriptor.apiKeyLabel, text: $apiKeyInput)
                 .textFieldStyle(.roundedBorder)
-                .accessibilityLabel("Anthropic API key")
+                .accessibilityLabel(currentProviderDescriptor.apiKeyLabel)
 
             HStack {
                 Button("Save Provider Key") {
@@ -97,7 +127,11 @@ struct CommandIntelligenceSettingsView: View {
                 GridOSAppPreferences.normalizedCommandIntelligenceProviderID(providerIDRawValue)
             },
             set: { newValue in
-                providerIDRawValue = GridOSAppPreferences.normalizedCommandIntelligenceProviderID(newValue)
+                let normalizedProviderID = GridOSAppPreferences.normalizedCommandIntelligenceProviderID(newValue)
+                providerIDRawValue = normalizedProviderID
+                modelIDRawValue = GridOSAppPreferences.defaultCommandIntelligenceModelID(for: normalizedProviderID)
+                apiKeyInput = ""
+                failure = nil
             }
         )
     }
@@ -105,10 +139,13 @@ struct CommandIntelligenceSettingsView: View {
     private var modelSelection: Binding<String> {
         Binding(
             get: {
-                GridOSAppPreferences.normalizedCommandIntelligenceModelID(modelIDRawValue)
+                normalizedModelIDRawValue
             },
             set: { newValue in
-                modelIDRawValue = GridOSAppPreferences.normalizedCommandIntelligenceModelID(newValue)
+                modelIDRawValue = GridOSAppPreferences.normalizedCommandIntelligenceModelID(
+                    newValue,
+                    providerID: normalizedProviderIDRawValue
+                )
             }
         )
     }
@@ -119,6 +156,32 @@ struct CommandIntelligenceSettingsView: View {
 
     private var normalizedProviderID: LLMProviderID {
         LLMProviderID(normalizedProviderIDRawValue)
+    }
+
+    private var normalizedModelIDRawValue: String {
+        GridOSAppPreferences.normalizedCommandIntelligenceModelID(
+            modelIDRawValue,
+            providerID: normalizedProviderIDRawValue
+        )
+    }
+
+    private var currentProviderDescriptor: LLMProviderDescriptor {
+        CommandIntelligenceModelCatalog.descriptor(for: normalizedProviderID)
+    }
+
+    private var currentModelID: LLMModelID {
+        LLMModelID(normalizedModelIDRawValue)
+    }
+
+    private var modelHelpText: String {
+        if let descriptor = CommandIntelligenceModelCatalog.knownModelDescriptor(
+            currentModelID,
+            providerID: normalizedProviderID
+        ) {
+            return descriptor.detail
+        }
+
+        return "Custom model ID. Use this when your provider account has access to a newer or pinned model."
     }
 
     @MainActor

@@ -5,7 +5,7 @@
 - `SwiftTerm` is the only external Swift package declared in `project.yml`, sourced from `https://github.com/migueldeicaza/SwiftTerm.git` with a minimum version of `1.13.0`.
 - Apple SDK frameworks are platform dependencies used through the macOS SDK, including SwiftUI, AppKit, Metal, Security, Core Spotlight, and User Notifications.
 - XcodeGen is project-generation tooling. `project.yml` remains the source of truth for package, target, build-setting, and test-target structure.
-- No provider SDK is currently vendored for command intelligence. The Anthropic adapter uses Foundation networking directly.
+- No provider SDK is currently vendored for command intelligence. The Anthropic and OpenAI adapters use Foundation networking directly.
 
 ## License Posture
 

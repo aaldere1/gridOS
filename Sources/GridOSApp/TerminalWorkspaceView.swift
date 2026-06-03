@@ -10,39 +10,91 @@ struct TerminalWorkspaceView: View {
     let onWorkspaceChange: @MainActor () -> Void
 
     var body: some View {
-        render(workspaceController.state.layout)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .focusedValue(\.terminalWorkspaceCommands, terminalWorkspaceCommands)
-            .accessibilityElement(children: .contain)
-            .accessibilityLabel("Terminal workspace")
+        VStack(spacing: 8) {
+            workspaceToolbar
+            render(workspaceController.state.layout)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .focusedValue(\.terminalWorkspaceCommands, terminalWorkspaceCommands)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Terminal workspace")
+    }
+
+    private var workspaceToolbar: some View {
+        HStack(spacing: 8) {
+            Text("\(workspaceController.state.panesByID.count) \(workspaceController.state.panesByID.count == 1 ? "pane" : "panes")")
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.72))
+                .accessibilityLabel("Terminal pane count")
+
+            Spacer(minLength: 12)
+
+            terminalToolbarButton(systemName: "rectangle.split.2x1", help: "Split Right") {
+                splitRight()
+            }
+
+            terminalToolbarButton(systemName: "rectangle.split.1x2", help: "Split Down") {
+                splitDown()
+            }
+
+            terminalToolbarButton(systemName: "plus.square.on.square", help: "Duplicate Pane") {
+                duplicatePane()
+            }
+
+            terminalToolbarButton(systemName: "arrow.right.square", help: "Focus Next Pane") {
+                focusNextPane()
+            }
+
+            terminalToolbarButton(systemName: "xmark.square", help: "Close Pane") {
+                closePane()
+            }
+            .disabled(workspaceController.state.panesByID.count <= 1)
+            .opacity(workspaceController.state.panesByID.count <= 1 ? 0.38 : 1)
+        }
+        .frame(height: 30)
+        .padding(.horizontal, 10)
+        .background(Color(theme.palette.background).opacity(theme.panel.backgroundOpacity + 0.04))
+        .overlay {
+            RoundedRectangle(cornerRadius: min(theme.panel.cornerRadius, 8), style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(theme.panel.borderOpacity), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: min(theme.panel.cornerRadius, 8), style: .continuous))
+    }
+
+    private func terminalToolbarButton(
+        systemName: String,
+        help: String,
+        action: @escaping @MainActor () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .font(.system(size: 13, weight: .semibold))
+                .frame(width: 26, height: 24)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.76))
+        .help(help)
+        .accessibilityLabel(help)
     }
 
     private var terminalWorkspaceCommands: TerminalWorkspaceCommandsValue {
         TerminalWorkspaceCommandsValue(
             splitRight: {
-                workspaceController.splitActivePane(axis: .horizontal)
-                workspaceController.focusActivePane()
-                onWorkspaceChange()
+                splitRight()
             },
             splitDown: {
-                workspaceController.splitActivePane(axis: .vertical)
-                workspaceController.focusActivePane()
-                onWorkspaceChange()
+                splitDown()
             },
             duplicatePane: {
-                workspaceController.duplicateActivePane()
-                workspaceController.focusActivePane()
-                onWorkspaceChange()
+                duplicatePane()
             },
             closePane: {
-                if workspaceController.closeActivePane() {
-                    workspaceController.focusActivePane()
-                    onWorkspaceChange()
-                }
+                closePane()
             },
             focusNextPane: {
-                workspaceController.focusNextPane()
-                onWorkspaceChange()
+                focusNextPane()
             },
             focusPreviousPane: {
                 workspaceController.focusPreviousPane()
@@ -77,6 +129,41 @@ struct TerminalWorkspaceView: View {
                 workspaceController.resetActivePane()
             }
         )
+    }
+
+    @MainActor
+    private func splitRight() {
+        workspaceController.splitActivePane(axis: .horizontal)
+        workspaceController.focusActivePane()
+        onWorkspaceChange()
+    }
+
+    @MainActor
+    private func splitDown() {
+        workspaceController.splitActivePane(axis: .vertical)
+        workspaceController.focusActivePane()
+        onWorkspaceChange()
+    }
+
+    @MainActor
+    private func duplicatePane() {
+        workspaceController.duplicateActivePane()
+        workspaceController.focusActivePane()
+        onWorkspaceChange()
+    }
+
+    @MainActor
+    private func closePane() {
+        if workspaceController.closeActivePane() {
+            workspaceController.focusActivePane()
+            onWorkspaceChange()
+        }
+    }
+
+    @MainActor
+    private func focusNextPane() {
+        workspaceController.focusNextPane()
+        onWorkspaceChange()
     }
 
     private func render(_ layout: TerminalPaneLayout) -> AnyView {

@@ -150,10 +150,10 @@ MVP:
 
 Provider design:
 
-- `LLMProvider` protocol.
-- `AnthropicProvider`, `OpenAIProvider`, and `LocalProvider` can exist behind the same contract over time.
+- `LLMCommandProvider` protocol.
+- `AnthropicCommandProvider` and `OpenAICommandProvider` exist behind the same contract; a local provider can be added later without changing the palette contract.
 - Context packer redacts obvious secrets and gives the user visibility into what will be sent.
-- Audit log stores prompts and generated commands locally if the user enables it.
+- No prompt, provider response, generated command, or transcript audit log is stored by default.
 
 ### macOS integrations
 

@@ -156,6 +156,8 @@ private struct TerminalCommands: Commands {
 }
 
 private struct CommandIntelligenceCommands: Commands {
+    @Environment(\.openSettings) private var openSettings
+
     var body: some Commands {
         CommandMenu("Command Intelligence") {
             Button("Command Intelligence") {
@@ -164,7 +166,14 @@ private struct CommandIntelligenceCommands: Commands {
             .keyboardShortcut("k", modifiers: [.command])
 
             Button("Open Command Intelligence Settings") {
-                CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+                openSettings()
+                NSApp.activate(ignoringOtherApps: true)
+                DispatchQueue.main.async {
+                    CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
+                }
             }
         }
     }

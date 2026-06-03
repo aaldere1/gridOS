@@ -16,14 +16,23 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultInstallSeedRawValue = ""
     public static let defaultCommandIntelligenceProviderID = "anthropic"
     public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-6"
+    public static let defaultOpenAICommandIntelligenceModelID = "gpt-5.5"
     public static let menuBarExtraAvailable = false
     public static let defaultShowMenuBarExtra = false
     public static let defaultNotificationsEnabled = false
     public static let defaultIndexWorkspaceMetadata = false
     public static let defaultPrivacySafetyLaunchAccepted = false
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
-    public static let supportedCommandIntelligenceProviderIDs = [defaultCommandIntelligenceProviderID]
-    public static let supportedCommandIntelligenceModelIDs = [defaultCommandIntelligenceModelID]
+    public static let supportedCommandIntelligenceProviderIDs = ["anthropic", "openai"]
+    public static let supportedCommandIntelligenceModelIDs = [
+        "claude-opus-4-8",
+        "claude-sonnet-4-6",
+        "claude-haiku-4-5",
+        "gpt-5.5",
+        "gpt-5.4",
+        "gpt-5.4-mini",
+        "gpt-5.4-nano"
+    ]
     public static let fontSizeRange = 10.0...24.0
     public static let visualIntensityRange = 0.0...1.0
 
@@ -94,10 +103,23 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     }
 
     public static func normalizedCommandIntelligenceModelID(_ rawValue: String) -> String {
+        normalizedCommandIntelligenceModelID(rawValue, providerID: defaultCommandIntelligenceProviderID)
+    }
+
+    public static func defaultCommandIntelligenceModelID(for providerID: String) -> String {
+        switch normalizedCommandIntelligenceProviderID(providerID) {
+        case "openai":
+            return defaultOpenAICommandIntelligenceModelID
+        default:
+            return defaultCommandIntelligenceModelID
+        }
+    }
+
+    public static func normalizedCommandIntelligenceModelID(_ rawValue: String, providerID: String) -> String {
         let trimmedRawValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        guard supportedCommandIntelligenceModelIDs.contains(trimmedRawValue) else {
-            return defaultCommandIntelligenceModelID
+        guard !trimmedRawValue.isEmpty else {
+            return defaultCommandIntelligenceModelID(for: providerID)
         }
 
         return trimmedRawValue

@@ -20,9 +20,9 @@ The repository began as planning-only documentation:
 - `docs/vision.md`
 - `docs/production-roadmap.md`
 
-Phase 6 is now verified complete. The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a Metal-backed visual identity layer, a terminal-first production frame, truthful native system metrics, three coherent aesthetic modes, and an opt-in `Command-K` Command Intelligence palette. Command Intelligence supports suggested commands, explain output, failed-command help, preview-before-send redaction, Anthropic provider setup, Keychain-backed API keys, local command-risk gates, insert-first command handling, no-key usability, and deterministic Debug smoke fixtures.
+The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a Metal-backed visual identity layer, a terminal-first production frame, truthful native system metrics, three coherent aesthetic modes, multi-pane session management, and an opt-in `Command-K` Command Intelligence palette. Command Intelligence supports suggested commands, explain output, failed-command help, preview-before-send redaction, Anthropic and OpenAI provider setup, provider-specific Keychain-backed API keys, current curated model choices, custom model IDs, local command-risk gates, insert-first command handling, no-key usability, and deterministic Debug smoke fixtures.
 
-No production signing setup, release pipeline, updater, multi-pane/session management, deeper macOS integrations, performance hardening, or release-grade security/privacy hardening exists yet.
+Production direct version 1.0.0 has been locally signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, and performance-gated. Clean-Mac Finder/Gatekeeper UAT and version-to-version replacement/update proof remain open.
 
 ## Build approach
 
@@ -46,6 +46,7 @@ Validated implementation so far:
 - Phase 4: real native system metrics for CPU, memory, disk, network, battery, thermal state, and top processes.
 - Phase 5: aesthetic modes with public `VisualMode` registry, shared visual tokens, app-frame theming, mode-aware Metal renderer behavior, stable per-install variation, and verified terminal readability/focus safety.
 - Phase 6: opt-in Command Intelligence with provider-neutral contracts, redacted context preview, local risk classification, Anthropic adapter, Keychain credential storage, Command-K palette UI, insert/run safety policy, and final verification evidence.
+- Post-1.0 provider refresh: Anthropic and OpenAI hosted providers, curated current model catalog, custom model IDs, provider-specific Keychain keys, and in-workspace pane controls.
 
 ## Non-negotiables
 

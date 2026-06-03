@@ -31,6 +31,26 @@ final class CommandIntelligenceFlowTests: XCTestCase {
         XCTAssertEqual(result.completion?.commands.first?.localRisk.level, .low)
     }
 
+    func testOpenAIProviderUsesOpenAIKeyFromCredentialStore() async throws {
+        let provider = RecordingCommandProvider(providerID: .openAI)
+        let store = InMemoryCommandCredentialStore(apiKeysByProvider: [.openAI: "sk-openai-test-value"])
+        let service = CommandIntelligenceService(
+            credentialStore: store,
+            provider: provider,
+            riskClassifier: CommandRiskClassifier()
+        )
+
+        let result = await service.completeApprovedRequest(
+            preview: approvedPreview(),
+            providerID: .openAI,
+            modelID: .gpt55
+        )
+
+        XCTAssertNil(result.failure)
+        let apiKeys = await provider.recordedAPIKeys()
+        XCTAssertEqual(apiKeys, ["sk-openai-test-value"])
+    }
+
     func testBlockedPreviewDoesNotInvokeProvider() async {
         let provider = RecordingCommandProvider(providerID: .debugSmokeFixture)
         let service = CommandIntelligenceService(
@@ -162,6 +182,7 @@ private actor RecordingCommandProvider: LLMCommandProvider {
     private let response: LLMCommandResponse
     private let failure: CommandIntelligenceFailure?
     private(set) var invocationCount = 0
+    private var apiKeys: [String] = []
 
     init(
         providerID: LLMProviderID,
@@ -187,12 +208,17 @@ private actor RecordingCommandProvider: LLMCommandProvider {
 
     func complete(_ request: LLMCommandRequest, apiKey: String) async throws -> LLMCommandResponse {
         invocationCount += 1
+        apiKeys.append(apiKey)
 
         if let failure {
             throw failure
         }
 
         return response
+    }
+
+    func recordedAPIKeys() -> [String] {
+        apiKeys
     }
 }
 

@@ -86,9 +86,11 @@ public struct CommandIntelligenceService: Sendable {
         )
 
         let apiKey: String
-        if resolvedProviderID == .anthropic {
+        if resolvedProviderID == .debugSmokeFixture {
+            apiKey = "debug-smoke-fixture-no-key-required"
+        } else {
             do {
-                guard let storedAPIKey = try await credentialStore.apiKey(for: .anthropic),
+                guard let storedAPIKey = try await credentialStore.apiKey(for: resolvedProviderID),
                       !storedAPIKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
                     return .failure(.noProviderKey())
                 }
@@ -99,8 +101,6 @@ public struct CommandIntelligenceService: Sendable {
             } catch {
                 return .failure(.providerError())
             }
-        } else {
-            apiKey = "debug-smoke-fixture-no-key-required"
         }
 
         do {

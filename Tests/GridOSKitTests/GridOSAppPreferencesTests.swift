@@ -97,6 +97,7 @@ final class GridOSAppPreferencesTests: XCTestCase {
         )
         XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceProviderID, "anthropic")
         XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceModelID, "claude-sonnet-4-6")
+        XCTAssertEqual(GridOSAppPreferences.defaultOpenAICommandIntelligenceModelID, "gpt-5.5")
 
         let persistedKeys = [
             GridOSAppPreferences.commandIntelligenceProviderStorageKey,
@@ -123,8 +124,9 @@ final class GridOSAppPreferencesTests: XCTestCase {
     func testCommandIntelligenceRawValuesNormalizeToSupportedDefaults() {
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("anthropic"), "anthropic")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(" anthropic "), "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("openai"), "openai")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(""), "anthropic")
-        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("openai"), "anthropic")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("ollama"), "anthropic")
 
         XCTAssertEqual(
             GridOSAppPreferences.normalizedCommandIntelligenceModelID("claude-sonnet-4-6"),
@@ -135,7 +137,12 @@ final class GridOSAppPreferencesTests: XCTestCase {
             "claude-sonnet-4-6"
         )
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID(""), "claude-sonnet-4-6")
-        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("unknown"), "claude-sonnet-4-6")
+        XCTAssertEqual(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID("", providerID: "openai"),
+            "gpt-5.5"
+        )
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("gpt-5.4-mini"), "gpt-5.4-mini")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("custom-model-id"), "custom-model-id")
     }
 
     func testMacIntegrationPreferencesDoNotStoreSecrets() {

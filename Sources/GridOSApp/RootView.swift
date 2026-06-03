@@ -14,6 +14,7 @@ struct RootView: View {
     private let workspaceSaveDelaySeconds = 0.5
 
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
+    @Environment(\.openSettings) private var openSettings
     @AppStorage("terminal.shellPath") private var shellPath = GridOSAppPreferences.defaultShellPath
     @AppStorage("terminal.fontSize") private var terminalFontSize = GridOSAppPreferences.defaultTerminalFontSize
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
@@ -249,7 +250,10 @@ struct RootView: View {
 
     private var commandIntelligenceModelID: LLMModelID {
         LLMModelID(
-            GridOSAppPreferences.normalizedCommandIntelligenceModelID(commandIntelligenceModelRawValue)
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID(
+                commandIntelligenceModelRawValue,
+                providerID: commandIntelligenceProviderID.rawValue
+            )
         )
     }
 
@@ -314,7 +318,7 @@ struct RootView: View {
     }
 
     @MainActor private func openSettingsWindow() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        openSettings()
         NSApp.activate(ignoringOtherApps: true)
     }
 
@@ -342,7 +346,12 @@ struct RootView: View {
         }
         #endif
 
-        return AnthropicCommandProvider()
+        switch commandIntelligenceProviderID {
+        case .openAI:
+            return OpenAICommandProvider()
+        default:
+            return AnthropicCommandProvider()
+        }
     }
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent, from paneID: TerminalPaneID) {

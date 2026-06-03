@@ -156,7 +156,9 @@ Current abstractions:
 - `ApprovedCommandContextPayload`
 - `SecretRedactor`
 - `LLMCommandProvider`
+- `CommandIntelligenceModelCatalog`
 - `AnthropicCommandProvider`
+- `OpenAICommandProvider`
 - `CommandCredentialStore`
 - `KeychainCommandCredentialStore`
 - `CommandRiskClassifier`
@@ -166,15 +168,15 @@ Current abstractions:
 - `CommandPaletteView`
 - `CommandIntelligenceSettingsView`
 
-`CommandIntelligence` owns provider contracts, context preview construction, redaction, credential access, Anthropic request shaping, deterministic debug fixtures, failure copy, and local risk classification. The provider boundary accepts only `LLMCommandRequest.approvedPreview`, which is built from `CommandContextPreview.approvedPayload`; raw terminal assistance input does not go directly to hosted providers.
+`CommandIntelligence` owns provider contracts, context preview construction, redaction, credential access, hosted-provider request shaping, deterministic debug fixtures, failure copy, provider/model catalog metadata, and local risk classification. The provider boundary accepts only `LLMCommandRequest.approvedPreview`, which is built from `CommandContextPreview.approvedPayload`; raw terminal assistance input does not go directly to hosted providers.
 
-`AnthropicCommandProvider` is the live hosted provider path. It uses Foundation `URLSession` against the Anthropic Messages API and requires a Keychain-backed API key through `KeychainCommandCredentialStore`. Provider and model identifiers may be persisted as normal preferences; API keys, prompts, generated commands, and provider responses are not stored in app preferences.
+`AnthropicCommandProvider` and `OpenAICommandProvider` are the live hosted provider paths. They use Foundation `URLSession` directly against Anthropic Messages and OpenAI Responses, with no provider SDK dependency. Each provider requires its own Keychain-backed API key through `KeychainCommandCredentialStore`. Provider and model identifiers may be persisted as normal preferences, including custom model IDs; API keys, prompts, generated commands, and provider responses are not stored in app preferences.
 
-`SecretRedactor` and `CommandContextBuilder` run before every provider send. The palette shows the redacted preview, redaction summaries, and blocked reasons; `CommandIntelligenceService` refuses blocked previews before invoking either Anthropic or the debug fixture.
+`SecretRedactor` and `CommandContextBuilder` run before every provider send. The palette shows the redacted preview, redaction summaries, and blocked reasons; `CommandIntelligenceService` refuses blocked previews before invoking Anthropic, OpenAI, or the debug fixture.
 
 `CommandRiskClassifier` is the local authority for generated-command policy. Provider risk labels remain advisory. The service reclassifies every returned command before `GridOSApp` renders action controls, so high-risk and unknown commands map to `insertOnly`, medium commands map to `requiresConfirmation`, and low-risk commands map to `canRun`.
 
-`DebugCommandIntelligenceFixtureProvider` is a DEBUG-only smoke provider selected by `--command-intelligence-smoke-fixture`. It uses the same preview, service, classifier, and palette result controls as Anthropic, but it never requires a live Anthropic key. Its deterministic commands are the Phase 6 insert fixture and the high-risk `rm -rf ~/tmp/gridos-test` fixture.
+`DebugCommandIntelligenceFixtureProvider` is a DEBUG-only smoke provider selected by `--command-intelligence-smoke-fixture`. It uses the same preview, service, classifier, and palette result controls as hosted providers, but it never requires a live provider key. Its deterministic commands are the Phase 6 insert fixture and the high-risk `rm -rf ~/tmp/gridos-test` fixture.
 
 `TerminalInteractionController` remains the only app-facing terminal interaction boundary for selected text, `insert`, `run`, and focus restoration. `GridOSApp` composes the palette, settings routing, provider choice, service call, and terminal insertion/run closures; `CommandIntelligenceService` does not import `TerminalCore` and never executes shell text.
 

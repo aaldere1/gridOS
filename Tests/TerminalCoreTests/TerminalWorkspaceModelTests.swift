@@ -81,6 +81,19 @@ final class TerminalWorkspaceModelTests: XCTestCase {
         XCTAssertEqual(state.activePaneID, "pane-c")
     }
 
+    func testRepeatedSplitsSupportMoreThanThreePanes() {
+        var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
+
+        state.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        state.splitActivePane(axis: .vertical, newPaneID: "pane-c")
+        state.splitActivePane(axis: .horizontal, newPaneID: "pane-d")
+        state.splitActivePane(axis: .vertical, newPaneID: "pane-e")
+
+        XCTAssertEqual(state.panesByID.count, 5)
+        XCTAssertEqual(state.layout.paneIDsInVisualOrder, ["primary", "pane-b", "pane-c", "pane-d", "pane-e"])
+        XCTAssertEqual(state.activePaneID, "pane-e")
+    }
+
     func testSplitFractionsAreClamped() {
         XCTAssertEqual(TerminalPaneLayout.clampedFraction(0.10), 0.20)
         XCTAssertEqual(TerminalPaneLayout.clampedFraction(0.50), 0.50)

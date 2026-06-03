@@ -15,7 +15,25 @@ final class CommandIntelligenceModelTests: XCTestCase {
 
         XCTAssertEqual(provider, .anthropic)
         XCTAssertEqual(LLMProviderID.anthropic.rawValue, "anthropic")
+        XCTAssertEqual(LLMProviderID.openAI.rawValue, "openai")
         XCTAssertEqual(defaultModel.rawValue, "claude-sonnet-4-6")
+        XCTAssertEqual(LLMModelID.gpt55.rawValue, "gpt-5.5")
+    }
+
+    func testModelCatalogExposesAnthropicAndOpenAIChoices() {
+        XCTAssertEqual(
+            CommandIntelligenceModelCatalog.providers.map(\.id),
+            [.anthropic, .openAI]
+        )
+        XCTAssertEqual(
+            CommandIntelligenceModelCatalog.descriptor(for: .anthropic).models.map(\.id),
+            [.claudeOpus48, .claudeSonnet46, .claudeHaiku45]
+        )
+        XCTAssertEqual(
+            CommandIntelligenceModelCatalog.descriptor(for: .openAI).models.map(\.id),
+            [.gpt55, .gpt54, .gpt54Mini, .gpt54Nano]
+        )
+        XCTAssertEqual(CommandIntelligenceModelCatalog.defaultModelID(for: .openAI), .gpt55)
     }
 
     func testCommandAssistanceInputPreservesExplicitContextOnly() {

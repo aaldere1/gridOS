@@ -5,7 +5,7 @@
 | Data class | Sensitivity | Stored where | Leaves device? | Default behavior | User control |
 | --- | --- | --- | --- | --- | --- |
 | Provider API key | Secret | Keychain generic-password item through `GridOSKit.KeychainCredentialStore` | No, except as provider auth header during explicit request | Not configured by default | Save/delete in Command Intelligence settings |
-| Provider/model preference | Low | `@AppStorage` keys in `GridOSAppPreferences` | No | Anthropic/model defaults only | Settings |
+| Provider/model preference | Low | `@AppStorage` keys in `GridOSAppPreferences` | No | Anthropic/Sonnet default; OpenAI and custom model IDs are user-selected | Settings |
 | LLM approved preview payload | Potentially sensitive | Not persisted by default | Yes, only after explicit user send | Built from visible redacted preview | User can cancel before send |
 | Generated command | Potentially risky | Not persisted by default | No | Rendered in Command Intelligence result | Insert or explicit run only |
 | Workspace session layout | Low to medium | Application Support `session-v1.json` | No | Restores pane layout as fresh shells | Reset saved session |
@@ -38,6 +38,7 @@ The app must not persist these by default:
 | Exit point | Data allowed | Guardrail |
 | --- | --- | --- |
 | Anthropic provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
+| OpenAI provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
 | macOS Spotlight | Workspace ID, display label, directory basename | Off by default, metadata-only adapter |
 | macOS notifications | Sanitized title/body such as `gridOS work finished` | Explicit permission/action |
 | Git/repo evidence | Synthetic markers, summary status, non-secret metadata | Source and evidence privacy scans |
