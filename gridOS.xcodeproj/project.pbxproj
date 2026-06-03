@@ -117,6 +117,7 @@
 		DE0D1D9F0438C61F74B71160 /* LocalNotificationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */; };
 		E23605371B8F7AFA4B940532 /* SystemMetricAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF7C35DA54602B6858AF1B6 /* SystemMetricAvailability.swift */; };
 		E47672B0994A1E638EA527C2 /* KeychainCommandCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2DAE0B55065A8ED19737B6 /* KeychainCommandCredentialStore.swift */; };
+		E8BEC72C9389A7B2ECCADA99 /* CommandHelperInfoPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F4E01189BE636470EA1FA5 /* CommandHelperInfoPopover.swift */; };
 		EABE9B2A45B8210ECCA5C0F6 /* Integrations.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBAE6B02785B5CE061673F88 /* Integrations.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE0655CCF740F7F4AE3CE796 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
 		F04AB68B838DF5118BD971FE /* SystemMetrics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; };
@@ -439,6 +440,7 @@
 		DECE42E1DF27EEDDD6866EB8 /* SystemMetricsSamplingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMetricsSamplingPolicy.swift; sourceTree = "<group>"; };
 		E0E3F9AA95207C3E4261E39C /* MacIntegrationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIntegrationsController.swift; sourceTree = "<group>"; };
 		E3B5FF968DD6CE140A6D7FF3 /* OpenAICommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommandProvider.swift; sourceTree = "<group>"; };
+		E3F4E01189BE636470EA1FA5 /* CommandHelperInfoPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHelperInfoPopover.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
 		EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationClientTests.swift; sourceTree = "<group>"; };
 		F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistence.swift; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 		87615F4D27FC71110D22D43F /* GridOSApp */ = {
 			isa = PBXGroup;
 			children = (
+				E3F4E01189BE636470EA1FA5 /* CommandHelperInfoPopover.swift */,
 				614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */,
 				CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */,
 				4868AA4E14E1784614141472 /* CommandPaletteView.swift */,
@@ -1209,6 +1212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8BEC72C9389A7B2ECCADA99 /* CommandHelperInfoPopover.swift in Sources */,
 				155FFF38595C51FAC5171A25 /* CommandIntelligenceCommandCenter.swift in Sources */,
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
 				FC204FD49753AAB080DC4B1B /* CommandPaletteView.swift in Sources */,
@@ -1412,7 +1416,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1424,7 +1428,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1455,7 +1459,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1464,7 +1468,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
 				PRODUCT_NAME = gridOS;
 				SDKROOT = macosx;
@@ -1508,7 +1512,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1520,7 +1524,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1533,7 +1537,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1545,7 +1549,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1558,7 +1562,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1570,7 +1574,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1583,7 +1587,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1595,7 +1599,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1610,7 +1614,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1619,7 +1623,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
 				PRODUCT_NAME = gridOS;
 				SDKROOT = macosx;
@@ -1711,7 +1715,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1723,7 +1727,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1825,7 +1829,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1837,7 +1841,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1850,7 +1854,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1862,7 +1866,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1875,7 +1879,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1887,7 +1891,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1916,7 +1920,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1928,7 +1932,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.Integrations;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1941,7 +1945,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1953,7 +1957,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -2014,7 +2018,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2026,7 +2030,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.Integrations;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;

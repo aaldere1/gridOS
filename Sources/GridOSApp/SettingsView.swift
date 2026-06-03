@@ -87,7 +87,7 @@ struct SettingsView: View {
                     Text("Terminal sessions stay local to this Mac.")
                         .foregroundStyle(.secondary)
 
-                    Text("Command Intelligence is opt-in and sends context only after preview approval.")
+                    Text("AI Command Helper is opt-in and sends context only after preview approval.")
                         .foregroundStyle(.secondary)
 
                     Text("API keys are stored in Keychain.")

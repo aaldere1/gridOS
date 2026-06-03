@@ -159,13 +159,13 @@ private struct CommandIntelligenceCommands: Commands {
     @Environment(\.openSettings) private var openSettings
 
     var body: some Commands {
-        CommandMenu("Command Intelligence") {
-            Button("Command Intelligence") {
+        CommandMenu("AI Command Helper") {
+            Button("AI Command Helper") {
                 CommandIntelligenceCommandCenter.openCommandIntelligence()
             }
             .keyboardShortcut("k", modifiers: [.command])
 
-            Button("Open Command Intelligence Settings") {
+            Button("Open AI Command Helper Settings") {
                 openSettings()
                 NSApp.activate(ignoringOtherApps: true)
                 DispatchQueue.main.async {

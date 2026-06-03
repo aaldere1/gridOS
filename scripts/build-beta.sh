@@ -33,8 +33,21 @@ EVIDENCE_DIR="$ROOT_DIR/.planning/phases/12-beta/evidence"
 MANIFEST_FILE="$EVIDENCE_DIR/beta-artifact-manifest.md"
 OUTPUT_DIR_INPUT="${GRIDOS_BETA_OUTPUT_DIR:-build/beta}"
 STAGING_DIR=""
+DMG_LAYOUT_MOUNT_POINT=""
+DMG_LAYOUT_SCRIPT=""
+RW_DMG_PATH=""
 
 cleanup() {
+  if [[ -n "$DMG_LAYOUT_MOUNT_POINT" && -d "$DMG_LAYOUT_MOUNT_POINT" ]]; then
+    hdiutil detach "$DMG_LAYOUT_MOUNT_POINT" -quiet >/dev/null 2>&1 || true
+    rmdir "$DMG_LAYOUT_MOUNT_POINT" >/dev/null 2>&1 || true
+  fi
+  if [[ -n "$DMG_LAYOUT_SCRIPT" && -f "$DMG_LAYOUT_SCRIPT" ]]; then
+    rm -f "$DMG_LAYOUT_SCRIPT"
+  fi
+  if [[ -n "$RW_DMG_PATH" && -f "$RW_DMG_PATH" ]]; then
+    rm -f "$RW_DMG_PATH"
+  fi
   if [[ -n "$STAGING_DIR" && -d "$STAGING_DIR" ]]; then
     rm -rf "$STAGING_DIR"
   fi
@@ -103,6 +116,211 @@ file_checksum() {
   shasum -a 256 "$path" | awk '{ print $1 }'
 }
 
+create_dmg_background() {
+  local output_path="$1"
+  DMG_LAYOUT_SCRIPT="$(mktemp "${TMPDIR:-/tmp}/gridos-dmg-background.XXXXXX.swift")"
+
+  cat > "$DMG_LAYOUT_SCRIPT" <<'SWIFT'
+import AppKit
+import Darwin
+import Foundation
+
+guard CommandLine.arguments.count == 2 else {
+    exit(64)
+}
+
+let outputURL = URL(fileURLWithPath: CommandLine.arguments[1])
+let size = NSSize(width: 660, height: 420)
+let canvas = NSRect(origin: .zero, size: size)
+let image = NSImage(size: size)
+
+func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat) -> NSColor {
+    NSColor(calibratedRed: red, green: green, blue: blue, alpha: alpha)
+}
+
+func drawText(
+    _ text: String,
+    in rect: NSRect,
+    size: CGFloat,
+    weight: NSFont.Weight,
+    color: NSColor,
+    alignment: NSTextAlignment = .center
+) {
+    let paragraph = NSMutableParagraphStyle()
+    paragraph.alignment = alignment
+    paragraph.lineBreakMode = .byWordWrapping
+
+    let attributes: [NSAttributedString.Key: Any] = [
+        .font: NSFont.systemFont(ofSize: size, weight: weight),
+        .foregroundColor: color,
+        .paragraphStyle: paragraph
+    ]
+
+    (text as NSString).draw(in: rect, withAttributes: attributes)
+}
+
+image.lockFocus()
+
+NSGradient(colors: [
+    color(0.022, 0.028, 0.034, 1.0),
+    color(0.006, 0.008, 0.012, 1.0)
+])?.draw(in: canvas, angle: -32)
+
+color(0.0, 0.86, 0.95, 0.10).setFill()
+NSBezierPath(ovalIn: NSRect(x: 470, y: 260, width: 260, height: 220)).fill()
+
+color(1.0, 1.0, 1.0, 0.045).setFill()
+NSBezierPath(roundedRect: NSRect(x: 76, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24).fill()
+NSBezierPath(roundedRect: NSRect(x: 394, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24).fill()
+
+color(1.0, 1.0, 1.0, 0.10).setStroke()
+let leftSlot = NSBezierPath(roundedRect: NSRect(x: 76, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24)
+leftSlot.lineWidth = 1
+leftSlot.stroke()
+let rightSlot = NSBezierPath(roundedRect: NSRect(x: 394, y: 126, width: 190, height: 170), xRadius: 24, yRadius: 24)
+rightSlot.lineWidth = 1
+rightSlot.stroke()
+
+drawText(
+    "Drag gridOS into Applications",
+    in: NSRect(x: 0, y: 342, width: 660, height: 34),
+    size: 24,
+    weight: .semibold,
+    color: color(0.92, 0.98, 1.0, 0.95)
+)
+drawText(
+    "Install once. Launch from Applications.",
+    in: NSRect(x: 0, y: 316, width: 660, height: 24),
+    size: 13,
+    weight: .regular,
+    color: color(0.78, 0.88, 0.92, 0.68)
+)
+
+let arrowY: CGFloat = 210
+let arrow = NSBezierPath()
+arrow.move(to: NSPoint(x: 278, y: arrowY))
+arrow.line(to: NSPoint(x: 406, y: arrowY))
+arrow.lineWidth = 7
+arrow.lineCapStyle = .round
+color(0.0, 0.92, 1.0, 0.80).setStroke()
+arrow.stroke()
+
+let arrowHead = NSBezierPath()
+arrowHead.move(to: NSPoint(x: 430, y: arrowY))
+arrowHead.line(to: NSPoint(x: 394, y: arrowY + 24))
+arrowHead.line(to: NSPoint(x: 394, y: arrowY - 24))
+arrowHead.close()
+color(0.0, 0.92, 1.0, 0.86).setFill()
+arrowHead.fill()
+
+drawText(
+    "gridOS.app",
+    in: NSRect(x: 80, y: 104, width: 180, height: 22),
+    size: 13,
+    weight: .medium,
+    color: color(0.88, 0.96, 1.0, 0.74)
+)
+drawText(
+    "Applications",
+    in: NSRect(x: 398, y: 104, width: 180, height: 22),
+    size: 13,
+    weight: .medium,
+    color: color(0.88, 0.96, 1.0, 0.74)
+)
+
+drawText(
+    "signed and notarized",
+    in: NSRect(x: 0, y: 34, width: 660, height: 20),
+    size: 11,
+    weight: .medium,
+    color: color(0.54, 0.72, 0.76, 0.62)
+)
+
+image.unlockFocus()
+
+guard
+    let tiff = image.tiffRepresentation,
+    let bitmap = NSBitmapImageRep(data: tiff),
+    let png = bitmap.representation(using: .png, properties: [:])
+else {
+    exit(65)
+}
+
+do {
+    try png.write(to: outputURL, options: .atomic)
+} catch {
+    exit(66)
+}
+SWIFT
+
+  swift "$DMG_LAYOUT_SCRIPT" "$output_path"
+  rm -f "$DMG_LAYOUT_SCRIPT"
+  DMG_LAYOUT_SCRIPT=""
+}
+
+create_dmg_artifact() {
+  local app_path="$1"
+  local dmg_path="$2"
+  local rw_dmg_path="$3"
+  local background_dir
+  local background_path
+
+  STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/gridos-beta-dmg.XXXXXX")"
+  background_dir="$STAGING_DIR/.background"
+  background_path="$background_dir/gridOS-dmg-background.png"
+
+  mkdir -p "$background_dir"
+  ditto "$app_path" "$STAGING_DIR/gridOS.app"
+  ln -s /Applications "$STAGING_DIR/Applications"
+  create_dmg_background "$background_path"
+  chflags hidden "$background_dir" >/dev/null 2>&1 || true
+  if command -v SetFile >/dev/null 2>&1; then
+    SetFile -a V "$background_dir" >/dev/null 2>&1 || true
+  fi
+
+  RW_DMG_PATH="$rw_dmg_path"
+  rm -f "$RW_DMG_PATH"
+  hdiutil create -volname gridOS -srcfolder "$STAGING_DIR" -ov -format UDRW "$RW_DMG_PATH" >/dev/null
+
+  DMG_LAYOUT_MOUNT_POINT="$(mktemp -d "${TMPDIR:-/tmp}/gridos-dmg-layout.XXXXXX")"
+  hdiutil attach "$RW_DMG_PATH" -nobrowse -mountpoint "$DMG_LAYOUT_MOUNT_POINT" -owners on >/dev/null
+
+  osascript <<EOF
+tell application "Finder"
+  set dmgFolder to POSIX file "$DMG_LAYOUT_MOUNT_POINT/" as alias
+  set backgroundFile to POSIX file "$DMG_LAYOUT_MOUNT_POINT/.background/gridOS-dmg-background.png" as alias
+  open dmgFolder
+  delay 0.5
+  set dmgWindow to container window of dmgFolder
+  set current view of dmgWindow to icon view
+  set toolbar visible of dmgWindow to false
+  set statusbar visible of dmgWindow to false
+  set bounds of dmgWindow to {120, 120, 780, 540}
+  set viewOptions to icon view options of dmgWindow
+  set arrangement of viewOptions to not arranged
+  set icon size of viewOptions to 96
+  set background picture of viewOptions to backgroundFile
+  try
+    set position of item ".background" of dmgWindow to {-240, -240}
+  end try
+  set position of item "gridOS.app" of dmgWindow to {180, 220}
+  set position of item "Applications" of dmgWindow to {500, 220}
+  update dmgFolder without registering applications
+  delay 1
+  close dmgWindow
+end tell
+EOF
+
+  sync
+  hdiutil detach "$DMG_LAYOUT_MOUNT_POINT" -quiet
+  rmdir "$DMG_LAYOUT_MOUNT_POINT" >/dev/null 2>&1 || true
+  DMG_LAYOUT_MOUNT_POINT=""
+
+  hdiutil convert "$RW_DMG_PATH" -format UDZO -imagekey zlib-level=9 -o "$dmg_path" >/dev/null
+  rm -f "$RW_DMG_PATH"
+  RW_DMG_PATH=""
+}
+
 fail_if_planning_path "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR" "$EVIDENCE_DIR"
 
@@ -160,10 +378,7 @@ DMG_PATH="$OUTPUT_DIR/$DMG_NAME"
 
 rm -f "$ZIP_PATH" "$DMG_PATH"
 ditto -c -k --keepParent "$APP_PATH" "$ZIP_PATH"
-
-STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/gridos-beta-dmg.XXXXXX")"
-ditto "$APP_PATH" "$STAGING_DIR/gridOS.app"
-hdiutil create -volname gridOS -srcfolder "$STAGING_DIR" -ov -format UDZO "$DMG_PATH" >/dev/null
+create_dmg_artifact "$APP_PATH" "$DMG_PATH" "$OUTPUT_DIR/${ARTIFACT_STEM}-rw.dmg"
 
 ZIP_CHECKSUM="$(file_checksum "$ZIP_PATH")"
 DMG_CHECKSUM="$(file_checksum "$DMG_PATH")"

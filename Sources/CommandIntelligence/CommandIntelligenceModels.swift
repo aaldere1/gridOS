@@ -134,7 +134,7 @@ public enum CommandIntelligenceModelCatalog {
             LLMModelDescriptor(
                 id: .claudeSonnet46,
                 displayName: "Claude Sonnet 4.6",
-                detail: "Recommended balance of speed and intelligence for Command Intelligence.",
+                detail: "Recommended balance of speed and intelligence for AI Command Helper.",
                 isRecommended: true
             ),
             LLMModelDescriptor(

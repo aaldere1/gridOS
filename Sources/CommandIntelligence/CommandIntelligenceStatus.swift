@@ -5,6 +5,6 @@ public enum CommandIntelligenceStatus {
         id: "command-intelligence",
         title: "CommandIntelligence",
         state: .active,
-        detail: "Active safety/provider contracts for approved command intelligence payloads."
+        detail: "Active safety/provider contracts for approved AI Command Helper payloads."
     )
 }

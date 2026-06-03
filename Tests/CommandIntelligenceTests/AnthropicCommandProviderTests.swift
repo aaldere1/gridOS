@@ -102,7 +102,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
     func testUnauthorizedMapsToProviderErrorWithoutLeakingAPIKey() async {
         await assertFailure(
             response: Self.emptyAnthropicResponse(statusCode: 401),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-ant-should-not-leak"
         )
     }
@@ -118,7 +118,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
     func testServerErrorMapsToProviderError() async {
         await assertFailure(
             response: Self.emptyAnthropicResponse(statusCode: 503),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-ant-server-secret"
         )
     }
@@ -126,7 +126,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
     func testInvalidJSONMapsToInvalidProviderResponse() async {
         await assertFailure(
             response: Self.response(body: #"{"content":[{"type":"text","text":"not json"}]}"#),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-ant-json-secret"
         )
     }
@@ -151,7 +151,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
     func testRefusalMapsToProviderRefusal() async {
         await assertFailure(
             response: Self.response(body: #"{"stop_reason":"refusal","content":[{"type":"text","text":"{}"}]}"#),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-ant-refusal-secret"
         )
     }
@@ -159,7 +159,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
     func testMaxTokenStopReasonMapsToTruncatedResponse() async {
         await assertFailure(
             response: Self.response(body: #"{"stop_reason":"max_tokens","content":[{"type":"text","text":"{\"summary\":\"partial\"}"}]}"#),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-ant-truncated-secret"
         )
     }

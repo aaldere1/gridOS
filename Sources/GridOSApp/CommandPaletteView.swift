@@ -68,7 +68,7 @@ struct CommandPaletteView: View {
                 }
                 .pickerStyle(.segmented)
                 .disabled(preview != nil || serviceResult != nil || isSending)
-                .accessibilityLabel("Command Intelligence flow")
+                .accessibilityLabel("AI Command Helper flow")
 
                 if isSending {
                     loadingContent
@@ -91,7 +91,7 @@ struct CommandPaletteView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: min(theme.panel.cornerRadius, 8), style: .continuous))
         .shadow(color: .black.opacity(0.34), radius: 28, x: 0, y: 16)
-        .accessibilityLabel("Command Intelligence")
+        .accessibilityLabel("AI Command Helper")
         .onAppear {
             isPromptFocused = true
         }
@@ -144,7 +144,7 @@ struct CommandPaletteView: View {
             }
             .buttonStyle(.plain)
             .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.82))
-            .accessibilityLabel("Close Command Intelligence")
+            .accessibilityLabel("Close AI Command Helper")
         }
         .padding(16)
     }
@@ -280,13 +280,13 @@ struct CommandPaletteView: View {
             Spacer(minLength: 0)
 
             HStack(alignment: .center, spacing: 12) {
-                Button("Open Command Intelligence Settings") {
+                Button("Open AI Command Helper Settings") {
                     onOpenCommandIntelligenceSettings()
                 }
                 .buttonStyle(.borderless)
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.90))
-                .accessibilityLabel("Open Command Intelligence Settings")
+                .accessibilityLabel("Open AI Command Helper Settings")
 
                 Spacer(minLength: 16)
 
@@ -525,11 +525,11 @@ struct CommandPaletteView: View {
 
                 Spacer(minLength: 16)
 
-                if failure.recoveryAction == "Open Command Intelligence Settings" {
-                    Button("Open Command Intelligence Settings") {
+                if failure.recoveryAction == CommandIntelligenceFailure.openSettingsRecoveryAction {
+                    Button(CommandIntelligenceFailure.openSettingsRecoveryAction) {
                         onOpenCommandIntelligenceSettings()
                     }
-                } else if failure.recoveryAction == "Retry Request" {
+                } else if failure.recoveryAction == CommandIntelligenceFailure.retryRecoveryAction {
                     Button("Retry Request") {
                         retryRequest()
                     }
@@ -554,7 +554,7 @@ struct CommandPaletteView: View {
         case .cancelledBeforeSend:
             failure.title
         case .providerError, .providerRefusal, .invalidProviderResponse, .truncatedResponse:
-            "Command intelligence is unavailable"
+            "AI Command Helper is unavailable"
         }
     }
 

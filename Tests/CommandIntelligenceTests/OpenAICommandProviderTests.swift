@@ -51,7 +51,7 @@ final class OpenAICommandProviderTests: XCTestCase {
     func testUnauthorizedMapsToProviderErrorWithoutLeakingAPIKey() async {
         await assertFailure(
             response: Self.emptyOpenAIResponse(statusCode: 401),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-openai-should-not-leak"
         )
     }
@@ -67,7 +67,7 @@ final class OpenAICommandProviderTests: XCTestCase {
     func testIncompleteResponseMapsToTruncatedResponse() async {
         await assertFailure(
             response: Self.response(body: #"{"id":"resp_incomplete","status":"incomplete","output":[]}"#),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-openai-truncated-secret"
         )
     }
@@ -77,7 +77,7 @@ final class OpenAICommandProviderTests: XCTestCase {
             response: Self.response(
                 body: #"{"id":"resp_refusal","status":"completed","output":[{"type":"message","content":[{"type":"refusal","refusal":"I cannot help with that."}]}]}"#
             ),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-openai-refusal-secret"
         )
     }
@@ -87,7 +87,7 @@ final class OpenAICommandProviderTests: XCTestCase {
             response: Self.response(
                 body: #"{"id":"resp_bad_json","status":"completed","output":[{"type":"message","content":[{"type":"output_text","text":"not json"}]}]}"#
             ),
-            expectedTitle: "Command intelligence is unavailable",
+            expectedTitle: "AI Command Helper is unavailable",
             apiKey: "sk-openai-json-secret"
         )
     }

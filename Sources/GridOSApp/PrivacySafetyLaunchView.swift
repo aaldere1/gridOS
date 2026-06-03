@@ -26,7 +26,7 @@ struct PrivacySafetyLaunchView: View {
         ),
         PrivacySafetyGuarantee(
             symbol: "sparkles.rectangle.stack",
-            title: "Command-K is previewed",
+            title: "AI help is previewed",
             body: "Context is redacted and shown before any provider request leaves gridOS."
         ),
         PrivacySafetyGuarantee(

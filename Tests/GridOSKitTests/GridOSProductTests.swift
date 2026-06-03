@@ -4,7 +4,7 @@ import XCTest
 final class GridOSProductTests: XCTestCase {
     func testProductMetadataIsStable() {
         XCTAssertEqual(GridOSProduct.name, "gridOS")
-        XCTAssertEqual(GridOSProduct.version, "1.0.1")
+        XCTAssertEqual(GridOSProduct.version, "1.0.2")
         XCTAssertFalse(GridOSProduct.productionPromise.isEmpty)
     }
 

@@ -1,6 +1,9 @@
 import Foundation
 
 public enum CommandIntelligenceFailure: Error, Equatable, Sendable {
+    public static let openSettingsRecoveryAction = "Open AI Command Helper Settings"
+    public static let retryRecoveryAction = "Retry Request"
+
     case noProviderKey(requestID: String? = nil)
     case cancelledBeforeSend(requestID: String? = nil)
     case offline(underlyingDescription: String? = nil, requestID: String? = nil)
@@ -27,14 +30,14 @@ public enum CommandIntelligenceFailure: Error, Equatable, Sendable {
         case .cancelledBeforeSend:
             "Request cancelled"
         case .providerError, .providerRefusal, .invalidProviderResponse, .truncatedResponse:
-            "Command intelligence is unavailable"
+            "AI Command Helper is unavailable"
         }
     }
 
     public var message: String {
         switch self {
         case .noProviderKey:
-            "Add a provider key in Settings to use command intelligence. The terminal still works normally."
+            "Add a provider key in Settings to use AI Command Helper. The terminal still works normally."
         case .cancelledBeforeSend:
             "Nothing was sent."
         case .offline:
@@ -53,9 +56,9 @@ public enum CommandIntelligenceFailure: Error, Equatable, Sendable {
     public var recoveryAction: String? {
         switch self {
         case .noProviderKey:
-            "Open Command Intelligence Settings"
+            Self.openSettingsRecoveryAction
         case .offline, .rateLimited, .providerError, .providerRefusal, .invalidProviderResponse, .truncatedResponse:
-            "Retry Request"
+            Self.retryRecoveryAction
         case .redactionBlocked:
             "Edit Context"
         case .cancelledBeforeSend, .unsupportedSelection:

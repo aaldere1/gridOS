@@ -3,8 +3,6 @@ import GridOSKit
 import SwiftUI
 
 struct CommandIntelligenceSettingsView: View {
-    private static let openSettingsActionText = "Open Command Intelligence Settings"
-
     @AppStorage(GridOSAppPreferences.commandIntelligenceProviderStorageKey)
     private var providerIDRawValue = GridOSAppPreferences.defaultCommandIntelligenceProviderID
 
@@ -15,6 +13,7 @@ struct CommandIntelligenceSettingsView: View {
     @State private var isProviderConfigured = false
     @State private var isSaving = false
     @State private var isDeleting = false
+    @State private var isHelpPresented = false
     @State private var failure: CommandIntelligenceFailure?
 
     private let credentialStore: any CommandCredentialStore
@@ -24,12 +23,12 @@ struct CommandIntelligenceSettingsView: View {
     }
 
     var body: some View {
-        Section("Command Intelligence") {
+        Section {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Command Intelligence turns only the context you approve into provider-assisted shell help.")
+                Text("AI Command Helper uses Anthropic or OpenAI only when you ask for shell help.")
                     .font(.subheadline.weight(.semibold))
 
-                Text("gridOS redacts secrets before send, stores provider keys in Keychain, rechecks suggested commands locally, and inserts risky commands for review instead of running them blindly.")
+                Text("It can suggest a command, explain output, or repair a failed command. You preview redacted context before sending, and risky commands are inserted for review.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
@@ -70,7 +69,7 @@ struct CommandIntelligenceSettingsView: View {
                     .font(.subheadline.weight(.semibold))
 
                 if !isProviderConfigured {
-                    Text("Add a \(currentProviderDescriptor.displayName) key to use this provider. The terminal still works normally.")
+                    Text("Add \(currentProviderArticle) \(currentProviderDescriptor.displayName) key to use this provider. The terminal still works normally.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 } else {
@@ -114,6 +113,25 @@ struct CommandIntelligenceSettingsView: View {
                 }
                 .foregroundStyle(.secondary)
                 .accessibilityElement(children: .combine)
+            }
+        }
+        header: {
+            HStack(spacing: 6) {
+                Text("AI Command Helper")
+
+                Button {
+                    isHelpPresented.toggle()
+                } label: {
+                    Label("About AI Command Helper", systemImage: "info.circle")
+                        .labelStyle(.iconOnly)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("About AI Command Helper")
+                .popover(isPresented: $isHelpPresented, arrowEdge: .top) {
+                    CommandHelperInfoPopover()
+                        .padding(16)
+                        .frame(width: 320)
+                }
             }
         }
         .task(id: normalizedProviderIDRawValue) {
@@ -171,6 +189,18 @@ struct CommandIntelligenceSettingsView: View {
 
     private var currentModelID: LLMModelID {
         LLMModelID(normalizedModelIDRawValue)
+    }
+
+    private var currentProviderArticle: String {
+        guard let firstCharacter = currentProviderDescriptor.displayName
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .first?
+            .uppercased()
+        else {
+            return "a"
+        }
+
+        return ["A", "E", "I", "O", "U"].contains(firstCharacter) ? "an" : "a"
     }
 
     private var modelHelpText: String {

@@ -6,11 +6,11 @@ final class CommandIntelligenceFailureTests: XCTestCase {
         XCTAssertEqual(CommandIntelligenceFailure.noProviderKey().title, "Provider not configured")
         XCTAssertEqual(
             CommandIntelligenceFailure.noProviderKey().message,
-            "Add a provider key in Settings to use command intelligence. The terminal still works normally."
+            "Add a provider key in Settings to use AI Command Helper. The terminal still works normally."
         )
         XCTAssertEqual(
             CommandIntelligenceFailure.noProviderKey().recoveryAction,
-            "Open Command Intelligence Settings"
+            CommandIntelligenceFailure.openSettingsRecoveryAction
         )
 
         XCTAssertEqual(CommandIntelligenceFailure.offline().title, "Provider unreachable")
@@ -18,21 +18,21 @@ final class CommandIntelligenceFailureTests: XCTestCase {
             CommandIntelligenceFailure.offline().message,
             "Check your connection or try again later. Nothing was sent after the failure."
         )
-        XCTAssertEqual(CommandIntelligenceFailure.offline().recoveryAction, "Retry Request")
+        XCTAssertEqual(CommandIntelligenceFailure.offline().recoveryAction, CommandIntelligenceFailure.retryRecoveryAction)
 
         XCTAssertEqual(CommandIntelligenceFailure.rateLimited().title, "Provider is busy")
         XCTAssertEqual(
             CommandIntelligenceFailure.rateLimited().message,
             "Wait a moment and try again. The terminal is still available."
         )
-        XCTAssertEqual(CommandIntelligenceFailure.rateLimited().recoveryAction, "Retry Request")
+        XCTAssertEqual(CommandIntelligenceFailure.rateLimited().recoveryAction, CommandIntelligenceFailure.retryRecoveryAction)
 
-        XCTAssertEqual(CommandIntelligenceFailure.providerError(message: "HTTP 500").title, "Command intelligence is unavailable")
+        XCTAssertEqual(CommandIntelligenceFailure.providerError(message: "HTTP 500").title, "AI Command Helper is unavailable")
         XCTAssertEqual(
             CommandIntelligenceFailure.providerError(message: "HTTP 500").message,
             "Try again or continue in the terminal without assistance."
         )
-        XCTAssertEqual(CommandIntelligenceFailure.providerError(message: "HTTP 500").recoveryAction, "Retry Request")
+        XCTAssertEqual(CommandIntelligenceFailure.providerError(message: "HTTP 500").recoveryAction, CommandIntelligenceFailure.retryRecoveryAction)
 
         XCTAssertEqual(CommandIntelligenceFailure.redactionBlocked(reasons: ["Private key block"]).title, "Context needs review")
         XCTAssertEqual(
@@ -51,7 +51,7 @@ final class CommandIntelligenceFailureTests: XCTestCase {
         let failure = CommandIntelligenceFailure.invalidProviderResponse(requestID: "req-json")
 
         XCTAssertEqual(failure.requestID, "req-json")
-        XCTAssertEqual(failure.title, "Command intelligence is unavailable")
+        XCTAssertEqual(failure.title, "AI Command Helper is unavailable")
     }
 
     func testEveryFailureStateHasStableCopy() {
@@ -59,8 +59,8 @@ final class CommandIntelligenceFailureTests: XCTestCase {
             (
                 .noProviderKey(),
                 "Provider not configured",
-                "Add a provider key in Settings to use command intelligence. The terminal still works normally.",
-                "Open Command Intelligence Settings"
+                "Add a provider key in Settings to use AI Command Helper. The terminal still works normally.",
+                CommandIntelligenceFailure.openSettingsRecoveryAction
             ),
             (
                 .cancelledBeforeSend(),
@@ -72,37 +72,37 @@ final class CommandIntelligenceFailureTests: XCTestCase {
                 .offline(),
                 "Provider unreachable",
                 "Check your connection or try again later. Nothing was sent after the failure.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .rateLimited(),
                 "Provider is busy",
                 "Wait a moment and try again. The terminal is still available.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .providerError(message: "HTTP 500"),
-                "Command intelligence is unavailable",
+                "AI Command Helper is unavailable",
                 "Try again or continue in the terminal without assistance.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .providerRefusal(message: "Refused"),
-                "Command intelligence is unavailable",
+                "AI Command Helper is unavailable",
                 "Try again or continue in the terminal without assistance.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .invalidProviderResponse(underlyingDescription: "Bad JSON"),
-                "Command intelligence is unavailable",
+                "AI Command Helper is unavailable",
                 "Try again or continue in the terminal without assistance.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .truncatedResponse(providerMessage: "max_tokens"),
-                "Command intelligence is unavailable",
+                "AI Command Helper is unavailable",
                 "Try again or continue in the terminal without assistance.",
-                "Retry Request"
+                CommandIntelligenceFailure.retryRecoveryAction
             ),
             (
                 .redactionBlocked(reasons: ["Private key block"]),
