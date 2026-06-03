@@ -45,6 +45,7 @@ tool opening its doors, not a pre-release disclaimer.
 | AI Command Helper settings present | PASS |
 | Pane controls visible in packaged app | PASS |
 | DMG drag-to-Applications layout | PASS |
+| Local 1.0.1 to 1.0.2 replacement proof | PASS |
 | Clean quit after launch | PASS |
 | Performance quick gate | PASS |
 
@@ -69,6 +70,10 @@ update feed is deliberately added:
 4. Replace the installed app.
 5. Launch from Finder.
 6. Confirm the app version/build matches the release manifest.
+
+Local replacement proof has passed from 1.0.1 build 9 to 1.0.2 build 10 in a
+temporary install root. Clean-Mac Finder install/update proof remains the final
+external install validation.
 
 ## Privacy Boundaries
 

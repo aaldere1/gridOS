@@ -5,7 +5,7 @@
   "version": "1.0.2",
   "build": "10",
   "sourceCommit": "8f2865b",
-  "generatedAt": "2026-06-03T14:21:23Z",
+  "generatedAt": "2026-06-03T16:52:54Z",
   "artifacts": {
     "dmg": {
       "path": "build/release/production/gridOS-1.0.2-10-8f2865b.dmg",
@@ -49,6 +49,20 @@
     "dmgBackgroundAssetPosition": [1000, 1000],
     "cpuPercent": 8.0,
     "rssKb": 14112
+  },
+  "localUpdateProof": {
+    "status": "pass",
+    "verifiedAt": "2026-06-03T16:52:54Z",
+    "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
+    "scope": "temporary local install root, not clean-Mac evidence",
+    "fromVersion": "1.0.1",
+    "fromBuild": "9",
+    "toVersion": "1.0.2",
+    "toBuild": "10",
+    "fromDmgSha256": "39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a",
+    "toDmgSha256": "52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c",
+    "codesign": "pass",
+    "gatekeeper": "pass"
   },
   "performanceGate": {
     "status": "pass",

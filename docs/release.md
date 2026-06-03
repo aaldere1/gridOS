@@ -23,8 +23,9 @@ Version 1.0.2 build 10 is the current production-facing direct-download version:
 This artifact is app-signed, DMG-signed, notarized, stapled,
 Gatekeeper-assessed, strict codesign-verified, launched from a mounted DMG,
 visibly versioned as `v1.0.2`, visually checked for the drag-to-Applications
-installer layout, and performance-gated locally. Run clean-Mac Finder install
-and update proof as external validation.
+installer layout, locally replacement-tested from 1.0.1 build 9 to 1.0.2 build
+10 in a temporary install root, and performance-gated locally. Run clean-Mac
+Finder install and update proof as external validation.
 
 ## Local build
 

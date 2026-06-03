@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Production direct 1.0.2 artifact complete; external clean-Mac proof pending
-last_updated: "2026-06-03T14:21:23Z"
+last_updated: "2026-06-03T16:52:54Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 13 - Product desirability ship pass complete, with App Store readiness pau
 
 ## Current status
 
-gridOS is now on production direct version 1.0.2 build 10. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.2-10-8f2865b.dmg`, SHA-256 `52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.2`, visually inspected, and performance-gated. Version 1.0.2 renames Command Intelligence to AI Command Helper in user-facing surfaces, adds explanatory info copy, hardens DMG verification, and ships a polished drag-to-Applications installer layout. Clean-Mac Finder/Gatekeeper install and version-to-version update proof remain external validation tasks.
+gridOS is now on production direct version 1.0.2 build 10. App Store readiness remains paused until the direct version is proven in the field. The versioned artifact is `build/release/production/gridOS-1.0.2-10-8f2865b.dmg`, SHA-256 `52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.2`, visually inspected, performance-gated, and locally replacement-tested from 1.0.1 build 9 to 1.0.2 build 10 in a temporary install root. Version 1.0.2 renames Command Intelligence to AI Command Helper in user-facing surfaces, adds explanatory info copy, hardens DMG verification, and ships a polished drag-to-Applications installer layout. Clean-Mac Finder/Gatekeeper install and update proof remain external validation tasks.
 
 ## Decisions made
 

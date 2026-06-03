@@ -37,10 +37,10 @@ before notarization and verified by Gatekeeper.
 | Visible version v1.0.2 | PASS | .planning/phases/14-production-release/evidence/production-launch-smoke.md |
 | AI Command Helper settings from packaged app | PASS | .planning/phases/14-production-release/evidence/production-launch-smoke.md |
 | DMG drag-to-Applications layout | PASS | .planning/phases/14-production-release/evidence/production-launch-smoke.md |
+| Local 1.0.1 to 1.0.2 replacement proof | PASS | .planning/phases/14-production-release/evidence/local-update-proof.md |
 | Performance quick gate | PASS | .planning/phases/09-performance-hardening/evidence/phase9-results.json |
 
 ## Remaining External Validation
 
-- Clean-Mac Finder/Gatekeeper install for build 10.
-- Version-to-version replacement/update proof from 1.0.1 build 9 to 1.0.2 build 10.
+- Clean-Mac Finder/Gatekeeper install and update proof for build 10.
 - External tester feedback after download/install.
