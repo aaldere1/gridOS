@@ -31,14 +31,14 @@ final class WorkspaceMetadataIndexerTests: XCTestCase {
     func testSearchableItemUsesWorkspaceMetadataDomain() {
         let indexer = WorkspaceMetadataIndexer()
         let metadata = WorkspaceSearchMetadata(
-            id: "workspace-beta",
+            id: "workspace-build-lab",
             displayName: "Build Lab",
             directoryPath: "/Users/example/BuildLab"
         )
 
         let item = indexer.searchableItem(for: metadata)
 
-        XCTAssertEqual(item.uniqueIdentifier, "workspace-beta")
+        XCTAssertEqual(item.uniqueIdentifier, "workspace-build-lab")
         XCTAssertEqual(item.domainIdentifier, WorkspaceMetadataIndexer.domainIdentifier)
         XCTAssertEqual(item.attributeSet.title, "Build Lab")
         XCTAssertEqual(item.attributeSet.displayName, "BuildLab")

@@ -1,10 +1,10 @@
 # Beta notarization
 
-- Timestamp UTC: 2026-06-03T11:26:06Z
-- Artifact basename: gridOS-0.1.0-6-e1c7005.dmg
+- Timestamp UTC: 2026-06-03T12:03:09Z
+- Artifact basename: gridOS-0.1.0-7-ebbfd6f.dmg
 - Credential mode: keychain-profile
 - Notary command: xcrun notarytool submit --wait --no-progress --output-format plist
-- Submission ID: 2c5c9169-94c2-432b-9014-154d7a6b05da
+- Submission ID: b3c9f9c7-32f9-4a1b-baa0-9c4001cbc7f6
 - Submission status: Accepted
 - Submission message: Processing complete
 - Staple command: xcrun stapler staple

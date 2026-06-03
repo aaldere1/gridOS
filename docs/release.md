@@ -11,6 +11,18 @@ Initial version:
 
 Before alpha, decide whether the version source of truth lives in `project.yml`, a generated config file, or CI.
 
+## Production direct release candidate
+
+Build 7 is the current production-facing direct-download candidate:
+
+- DMG: `build/release/production/gridOS-0.1.0-7-ebbfd6f.dmg`
+- Manifest: `.planning/phases/14-production-release/evidence/production-release-manifest.json`
+- Release notes: `docs/production-direct-release.md`
+
+This artifact is signed, notarized, stapled, Gatekeeper-assessed, strict
+codesign-verified, launched from a mounted DMG, and performance-gated locally.
+Run clean-Mac Finder install and update proof before broad public promotion.
+
 ## Local build
 
 ```sh

@@ -39,7 +39,7 @@ feels like a beta notice wrapped around a terminal.
 
 ## Next Product Moves
 
-1. Cut and verify a fresh signed/notarized production artifact from this source pass.
-2. Run clean-Mac Finder/Gatekeeper UAT and N-to-N+1 update proof.
-3. Add download-facing release notes that explain the visual signature, local defaults, and command guardrails in plain language.
-4. Expand Command-K provider setup and examples after the direct release is proven.
+1. Run clean-Mac Finder/Gatekeeper UAT and N-to-N+1 update proof.
+2. Publish download-facing release notes from `docs/production-direct-release.md`.
+3. Expand Command-K provider setup and examples after the direct release is proven.
+4. Add a hosted update lane only after the direct-release install path is boringly reliable.
