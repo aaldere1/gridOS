@@ -4,6 +4,7 @@ struct TerminalWorkspaceCommandsValue {
     let splitRight: @MainActor () -> Void
     let splitDown: @MainActor () -> Void
     let duplicatePane: @MainActor () -> Void
+    let openFolder: @MainActor () -> Void
     let closePane: @MainActor () -> Void
     let focusNextPane: @MainActor () -> Void
     let focusPreviousPane: @MainActor () -> Void

@@ -6,6 +6,8 @@ import TerminalCore
 
 @main
 struct GridOSApplication: App {
+    @NSApplicationDelegateAdaptor(GridOSApplicationDelegate.self) private var appDelegate
+
     #if DEBUG
     init() {
         let arguments = ProcessInfo.processInfo.arguments
@@ -92,6 +94,12 @@ private struct TerminalCommands: Commands {
             .keyboardShortcut("d", modifiers: [.command, .option])
             .disabled(terminalWorkspaceCommands == nil)
 
+            Button("Open Folder...") {
+                terminalWorkspaceCommands?.openFolder()
+            }
+            .keyboardShortcut("o", modifiers: [.command])
+            .disabled(terminalWorkspaceCommands == nil)
+
             Button("Close Pane") {
                 terminalWorkspaceCommands?.closePane()
             }
@@ -152,6 +160,13 @@ private struct TerminalCommands: Commands {
             .keyboardShortcut("r", modifiers: [.command, .option])
             .disabled(terminalWorkspaceCommands == nil)
         }
+    }
+}
+
+@MainActor
+final class GridOSApplicationDelegate: NSObject, NSApplicationDelegate {
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        AppTerminationGuard.shared.shouldTerminate() ? .terminateNow : .terminateCancel
     }
 }
 

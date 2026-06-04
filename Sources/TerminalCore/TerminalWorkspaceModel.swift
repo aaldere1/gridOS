@@ -252,6 +252,37 @@ public struct TerminalWorkspaceState: Equatable, Sendable {
         splitActivePane(axis: .horizontal, newPaneID: newPaneID)
     }
 
+    public mutating func openDirectoryInNewPane(_ directory: String, newPaneID: TerminalPaneID = .generated()) {
+        guard let activePane = panesByID[activePaneID] else {
+            return
+        }
+
+        let normalizedDirectory = TerminalWorkspaceSnapshot.normalizedDirectory(directory)
+        guard !normalizedDirectory.isEmpty else {
+            return
+        }
+
+        var configuration = activePane.configuration
+        configuration.workingDirectory = normalizedDirectory
+        let descriptor = TerminalPaneDescriptor(
+            id: newPaneID,
+            configuration: configuration,
+            lastWorkingDirectory: normalizedDirectory,
+            isRestored: false
+        )
+        let replacement = TerminalPaneLayout.split(
+            axis: .horizontal,
+            fraction: TerminalPaneLayout.clampedFraction(0.50),
+            first: .pane(activePaneID),
+            second: .pane(newPaneID)
+        )
+
+        layout = layout.replacingPane(activePaneID, with: replacement)
+        panesByID[newPaneID] = descriptor
+        activePaneID = newPaneID
+        recordRecentDirectory(normalizedDirectory)
+    }
+
     @discardableResult
     public mutating func closeActivePane() -> TerminalPaneID? {
         guard panesByID.count > 1,

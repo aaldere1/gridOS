@@ -37,17 +37,18 @@ public struct LLMProviderID: RawRepresentable, Codable, Equatable, Hashable, Sen
 }
 
 public struct LLMModelID: RawRepresentable, Codable, Equatable, Hashable, Sendable, ExpressibleByStringLiteral {
-    public static let claudeOpus48 = LLMModelID("claude-opus-4-8")
-    public static let claudeSonnet46 = LLMModelID("claude-sonnet-4-6")
-    public static let claudeHaiku45 = LLMModelID("claude-haiku-4-5")
-    public static let gpt55 = LLMModelID("gpt-5.5")
-    public static let gpt54 = LLMModelID("gpt-5.4")
-    public static let gpt54Mini = LLMModelID("gpt-5.4-mini")
-    public static let gpt54Nano = LLMModelID("gpt-5.4-nano")
+    public static let claudeOpus41 = LLMModelID("claude-opus-4-1-20250805")
+    public static let claudeSonnet4 = LLMModelID("claude-sonnet-4-20250514")
+    public static let claudeSonnet37 = LLMModelID("claude-3-7-sonnet-20250219")
+    public static let claudeHaiku35 = LLMModelID("claude-3-5-haiku-20241022")
+    public static let gpt52 = LLMModelID("gpt-5.2")
+    public static let gpt5 = LLMModelID("gpt-5")
+    public static let gpt5Mini = LLMModelID("gpt-5-mini")
+    public static let gpt5Nano = LLMModelID("gpt-5-nano")
 
     public let rawValue: String
 
-    public init(_ rawValue: String = "claude-sonnet-4-6") {
+    public init(_ rawValue: String = "claude-sonnet-4-20250514") {
         self.rawValue = rawValue
     }
 
@@ -124,22 +125,27 @@ public enum CommandIntelligenceModelCatalog {
         apiKeyLabel: "Anthropic API key",
         apiKeyPlaceholder: "sk-ant-...",
         setupHint: "Uses Claude through Anthropic Messages. Keys stay in your Mac Keychain.",
-        defaultModelID: .claudeSonnet46,
+        defaultModelID: .claudeSonnet4,
         models: [
             LLMModelDescriptor(
-                id: .claudeOpus48,
-                displayName: "Claude Opus 4.8",
-                detail: "Most capable Claude for complex reasoning and high-autonomy command planning."
+                id: .claudeOpus41,
+                displayName: "Claude Opus 4.1",
+                detail: "Most capable stable Claude API choice for complex command reasoning."
             ),
             LLMModelDescriptor(
-                id: .claudeSonnet46,
-                displayName: "Claude Sonnet 4.6",
+                id: .claudeSonnet4,
+                displayName: "Claude Sonnet 4",
                 detail: "Recommended balance of speed and intelligence for AI Command Helper.",
                 isRecommended: true
             ),
             LLMModelDescriptor(
-                id: .claudeHaiku45,
-                displayName: "Claude Haiku 4.5",
+                id: .claudeSonnet37,
+                displayName: "Claude Sonnet 3.7",
+                detail: "Earlier strong Claude reasoning model for accounts pinned to 3.7."
+            ),
+            LLMModelDescriptor(
+                id: .claudeHaiku35,
+                displayName: "Claude Haiku 3.5",
                 detail: "Fastest Claude choice for simple command help."
             )
         ]
@@ -151,27 +157,27 @@ public enum CommandIntelligenceModelCatalog {
         apiKeyLabel: "OpenAI API key",
         apiKeyPlaceholder: "sk-proj-...",
         setupHint: "Uses OpenAI Responses. Keys stay in your Mac Keychain.",
-        defaultModelID: .gpt55,
+        defaultModelID: .gpt52,
         models: [
             LLMModelDescriptor(
-                id: .gpt55,
-                displayName: "GPT-5.5",
+                id: .gpt52,
+                displayName: "GPT-5.2",
                 detail: "Recommended OpenAI model for complex command reasoning and polish.",
                 isRecommended: true
             ),
             LLMModelDescriptor(
-                id: .gpt54,
-                displayName: "GPT-5.4",
-                detail: "Strong general command reasoning at lower cost than GPT-5.5."
+                id: .gpt5,
+                displayName: "GPT-5",
+                detail: "Strong general command reasoning with configurable reasoning effort."
             ),
             LLMModelDescriptor(
-                id: .gpt54Mini,
-                displayName: "GPT-5.4 mini",
+                id: .gpt5Mini,
+                displayName: "GPT-5 mini",
                 detail: "Faster and cheaper for common shell tasks."
             ),
             LLMModelDescriptor(
-                id: .gpt54Nano,
-                displayName: "GPT-5.4 nano",
+                id: .gpt5Nano,
+                displayName: "GPT-5 nano",
                 detail: "Lowest-latency OpenAI option for lightweight assistance."
             )
         ]

@@ -3,15 +3,6 @@ import Integrations
 import SwiftUI
 
 struct MacIntegrationsSettingsView: View {
-    @AppStorage(GridOSAppPreferences.showMenuBarExtraStorageKey)
-    private var showMenuBarExtra = GridOSAppPreferences.defaultShowMenuBarExtra
-
-    @AppStorage(GridOSAppPreferences.notificationsEnabledStorageKey)
-    private var notificationsEnabled = GridOSAppPreferences.defaultNotificationsEnabled
-
-    @AppStorage(GridOSAppPreferences.indexWorkspaceMetadataStorageKey)
-    private var indexWorkspaceMetadata = GridOSAppPreferences.defaultIndexWorkspaceMetadata
-
     @State private var notificationAuthorizationState: NotificationAuthorizationState = .notDetermined
     @State private var isRequestingNotifications = false
 
@@ -24,35 +15,35 @@ struct MacIntegrationsSettingsView: View {
     var body: some View {
         Section("macOS Integrations") {
             if GridOSAppPreferences.menuBarExtraAvailable {
-                menuBarExtraToggle
+                integrationStatusRow(
+                    title: "Menu Bar Extra",
+                    detail: "The release build keeps the terminal workspace as the primary surface. Menu bar controls remain staged until they have a complete workflow."
+                )
             }
 
-            Toggle("Notify when long-running work finishes", isOn: $notificationsEnabled)
-                .accessibilityLabel("Notify when long-running work finishes")
-                .accessibilityValue(notificationsEnabled ? "On" : "Off")
-                .disabled(notificationAuthorizationState == .denied)
-
             VStack(alignment: .leading, spacing: 8) {
-                Button("Enable Notifications") {
+                integrationStatusRow(
+                    title: "Long-running Work Alerts",
+                    detail: "Notification support is staged for a later release. gridOS will not request notification permission or post local alerts in this version."
+                )
+
+                Button("Check Notification Permission") {
                     Task {
-                        await enableNotifications()
+                        await checkNotificationPermission()
                     }
                 }
                 .disabled(isRequestingNotifications)
-                .accessibilityLabel("Enable Notifications")
+                .accessibilityLabel("Check Notification Permission")
 
                 Text(notificationStatusText)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
 
-            Toggle("Index saved workspace metadata", isOn: $indexWorkspaceMetadata)
-                .accessibilityLabel("Index saved workspace metadata")
-                .accessibilityValue(indexWorkspaceMetadata ? "On" : "Off")
-
-            Text("Only saved workspace labels and directory names are indexed. Terminal output and command history are never indexed.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+            integrationStatusRow(
+                title: "Spotlight Workspace Indexing",
+                detail: "Spotlight indexing is disabled in this release. Terminal output, command history, generated commands, prompts, secrets, and full paths are never indexed."
+            )
 
             Button("Manage Stored Secrets") {
                 CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
@@ -64,44 +55,40 @@ struct MacIntegrationsSettingsView: View {
         }
     }
 
-    private var menuBarExtraToggle: some View {
-        Toggle("Show Menu Bar Extra", isOn: $showMenuBarExtra)
-            .accessibilityLabel("Show Menu Bar Extra")
-            .accessibilityValue(showMenuBarExtra ? "On" : "Off")
+    private func integrationStatusRow(title: String, detail: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+
+            Text(detail)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .accessibilityElement(children: .combine)
     }
 
     private var notificationStatusText: String {
         switch notificationAuthorizationState {
         case .authorized, .provisional, .ephemeral:
-            return notificationsEnabled
-                ? "Notifications are enabled for local gridOS alerts."
-                : "Notifications are off. Terminal work continues normally."
+            return "macOS already allows gridOS notifications, but this release does not post local alerts."
         case .denied:
             return "Notifications are blocked in macOS Settings. Terminal work continues normally."
         case .notDetermined:
-            return "Notifications are off. Terminal work continues normally."
+            return "gridOS has not requested notification permission. Terminal work continues normally."
         }
     }
 
     @MainActor
     private func refreshNotificationStatus() async {
         notificationAuthorizationState = await notificationClient.authorizationState()
-        if notificationAuthorizationState == .denied {
-            notificationsEnabled = false
-        }
     }
 
     @MainActor
-    private func enableNotifications() async {
+    private func checkNotificationPermission() async {
         isRequestingNotifications = true
         defer { isRequestingNotifications = false }
 
-        notificationAuthorizationState = await notificationClient.requestAuthorization()
-        switch notificationAuthorizationState {
-        case .authorized, .provisional, .ephemeral:
-            notificationsEnabled = true
-        case .denied, .notDetermined:
-            notificationsEnabled = false
-        }
+        notificationAuthorizationState = await notificationClient.authorizationState()
     }
 }

@@ -96,8 +96,8 @@ final class GridOSAppPreferencesTests: XCTestCase {
             "commandIntelligence.modelID"
         )
         XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceProviderID, "anthropic")
-        XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceModelID, "claude-sonnet-4-6")
-        XCTAssertEqual(GridOSAppPreferences.defaultOpenAICommandIntelligenceModelID, "gpt-5.5")
+        XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceModelID, "claude-sonnet-4-20250514")
+        XCTAssertEqual(GridOSAppPreferences.defaultOpenAICommandIntelligenceModelID, "gpt-5.2")
 
         let persistedKeys = [
             GridOSAppPreferences.commandIntelligenceProviderStorageKey,
@@ -129,19 +129,19 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("ollama"), "anthropic")
 
         XCTAssertEqual(
-            GridOSAppPreferences.normalizedCommandIntelligenceModelID("claude-sonnet-4-6"),
-            "claude-sonnet-4-6"
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID("claude-sonnet-4-20250514"),
+            "claude-sonnet-4-20250514"
         )
         XCTAssertEqual(
-            GridOSAppPreferences.normalizedCommandIntelligenceModelID(" claude-sonnet-4-6 "),
-            "claude-sonnet-4-6"
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID(" claude-sonnet-4-20250514 "),
+            "claude-sonnet-4-20250514"
         )
-        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID(""), "claude-sonnet-4-6")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID(""), "claude-sonnet-4-20250514")
         XCTAssertEqual(
             GridOSAppPreferences.normalizedCommandIntelligenceModelID("", providerID: "openai"),
-            "gpt-5.5"
+            "gpt-5.2"
         )
-        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("gpt-5.4-mini"), "gpt-5.4-mini")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("gpt-5-mini"), "gpt-5-mini")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("custom-model-id"), "custom-model-id")
     }
 

@@ -26,7 +26,7 @@ public struct OpenAICommandProvider: LLMCommandProvider {
     public let providerID: LLMProviderID = .openAI
 
     public static let defaultBaseURL = URL(string: "https://api.openai.com")!
-    public static let defaultModelID = LLMModelID("gpt-5.5")
+    public static let defaultModelID = LLMModelID("gpt-5.2")
     private static let responsesPath = "/v1/responses"
     public static let defaultMaxOutputTokens = 1200
 

@@ -20,7 +20,7 @@ final class OpenAICommandProviderTests: XCTestCase {
 
         let body = try XCTUnwrap(sentRequest.httpBody)
         let payload = try JSONSerialization.jsonObject(with: body) as? [String: Any]
-        XCTAssertEqual(payload?["model"] as? String, "gpt-5.5")
+        XCTAssertEqual(payload?["model"] as? String, "gpt-5.2")
         XCTAssertEqual(payload?["max_output_tokens"] as? Int, 1200)
         XCTAssertEqual(payload?["store"] as? Bool, false)
         XCTAssertTrue((payload?["instructions"] as? String)?.contains("Return only a JSON object") ?? false)
@@ -146,7 +146,7 @@ final class OpenAICommandProviderTests: XCTestCase {
     private static func request() -> LLMCommandRequest {
         LLMCommandRequest(
             providerID: .openAI,
-            modelID: .gpt55,
+            modelID: .gpt52,
             flow: .suggestCommand,
             approvedPreview: ApprovedCommandContextPayload(
                 redactedBlocks: [

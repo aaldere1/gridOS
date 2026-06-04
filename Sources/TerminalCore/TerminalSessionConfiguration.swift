@@ -47,10 +47,14 @@ public struct TerminalSessionConfiguration: Codable, Equatable, Sendable {
         return shell
     }
 
-    public static func fromProcessArguments(_ arguments: [String] = ProcessInfo.processInfo.arguments) -> TerminalSessionConfiguration {
+    public static func fromProcessArguments(
+        _ arguments: [String] = ProcessInfo.processInfo.arguments,
+        allowsStartupCommand: Bool = false
+    ) -> TerminalSessionConfiguration {
         var configuration = TerminalSessionConfiguration.default
 
-        if let commandIndex = arguments.firstIndex(of: "--cmd"),
+        if allowsStartupCommand,
+           let commandIndex = arguments.firstIndex(of: "--cmd"),
            arguments.indices.contains(commandIndex + 1) {
             configuration.startupCommand = arguments[(commandIndex + 1)...]
                 .joined(separator: " ")

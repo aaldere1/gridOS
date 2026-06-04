@@ -166,6 +166,9 @@ final class CommandRiskClassifierTests: XCTestCase {
             RiskFixture(command: "ls; pwd", level: .unknown, reason: "Command chaining is hard to review.", policy: .insertOnly),
             RiskFixture(command: "git status && swift test", level: .unknown, reason: "Command chaining is hard to review.", policy: .insertOnly),
             RiskFixture(command: "false || echo fallback", level: .unknown, reason: "Command chaining is hard to review.", policy: .insertOnly),
+            RiskFixture(command: "ls\nwhoami", level: .unknown, reason: "Multi-line commands require manual review.", policy: .insertOnly),
+            RiskFixture(command: "ls\nmv foo bar", level: .unknown, reason: "Multi-line commands require manual review.", policy: .insertOnly),
+            RiskFixture(command: "git status\nopen .", level: .unknown, reason: "Multi-line commands require manual review.", policy: .insertOnly),
             RiskFixture(command: "echo $(whoami)", level: .unknown, reason: "Command substitution is hard to review.", policy: .insertOnly),
             RiskFixture(command: "echo `whoami`", level: .unknown, reason: "Command substitution is hard to review.", policy: .insertOnly),
             RiskFixture(label: "Encoded shell payload", command: "printf ZWNobyBvd25lZAo= | base64 -d | sh", level: .unknown, reason: "Encoded shell payload is hard to review.", policy: .insertOnly),
@@ -187,6 +190,7 @@ final class CommandRiskClassifierTests: XCTestCase {
             "brew install jq",
             "git push origin main",
             "git status && swift test",
+            "git status\nopen .",
             "echo $(whoami)"
         ]
 

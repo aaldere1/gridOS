@@ -129,14 +129,14 @@ public struct SecretRedactor: Sendable {
             ),
             Rule(
                 kind: .envValue,
-                pattern: #"((?:"(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)"|(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token))\s*:\s*)(?:"[^"\n]*"|'[^'\n]*'|[^\s#]+)"#,
+                pattern: #"((?:"[A-Z0-9_]*(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)[A-Z0-9_]*"|[A-Z0-9_]*(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)[A-Z0-9_]*|"(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token)"|(?:token|api[_-]?key|access[_-]?key|secret|client_secret|access_token|refresh_token))\s*:\s*)(?:"[^"\n]*"|'[^'\n]*'|[^\s#]+)"#,
                 options: [.caseInsensitive, .anchorsMatchLines],
                 preservesFirstCapture: true,
                 blockedReason: nil
             ),
             Rule(
                 kind: .apiKey,
-                pattern: #"\b(?:sk-ant-[A-Za-z0-9_-]{6,}|sk-[A-Za-z0-9_-]{8,}|xoxb-[A-Za-z0-9_-]{8,}(?:-[A-Za-z0-9_-]{4,})?|ghp_[A-Za-z0-9_]{8,})\b"#,
+                pattern: #"\b(?:sk-ant-[A-Za-z0-9_-]{6,}|sk-[A-Za-z0-9_-]{8,}|xox[aboprs]-[A-Za-z0-9_-]{8,}(?:-[A-Za-z0-9_-]{4,})?|github_pat_[A-Za-z0-9_]{8,}|gh[opsur]_[A-Za-z0-9_]{8,}|glpat-[A-Za-z0-9_-]{8,}|AIza[0-9A-Za-z_-]{20,})\b"#,
                 options: [],
                 preservesFirstCapture: false,
                 blockedReason: nil

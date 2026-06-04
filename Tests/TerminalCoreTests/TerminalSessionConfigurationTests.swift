@@ -27,12 +27,22 @@ final class TerminalSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(configuration.loginShellName, "-zsh")
     }
 
-    func testStartupCommandCanBeReadFromProcessArguments() {
+    func testStartupCommandIsIgnoredUnlessExplicitlyAllowed() {
         let configuration = TerminalSessionConfiguration.fromProcessArguments([
             "gridOS",
             "--cmd",
             "echo ok"
         ])
+
+        XCTAssertNil(configuration.startupCommand)
+    }
+
+    func testStartupCommandCanBeReadFromProcessArgumentsWhenAllowed() {
+        let configuration = TerminalSessionConfiguration.fromProcessArguments([
+            "gridOS",
+            "--cmd",
+            "echo ok"
+        ], allowsStartupCommand: true)
 
         XCTAssertEqual(configuration.startupCommand, "echo ok")
     }
@@ -45,7 +55,7 @@ final class TerminalSessionConfigurationTests: XCTestCase {
             "hello",
             ">",
             "/tmp/smoke.txt"
-        ])
+        ], allowsStartupCommand: true)
 
         XCTAssertEqual(configuration.startupCommand, "printf hello > /tmp/smoke.txt")
     }

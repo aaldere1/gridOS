@@ -43,7 +43,7 @@ final class CommandIntelligenceFlowTests: XCTestCase {
         let result = await service.completeApprovedRequest(
             preview: approvedPreview(),
             providerID: .openAI,
-            modelID: .gpt55
+            modelID: .gpt52
         )
 
         XCTAssertNil(result.failure)

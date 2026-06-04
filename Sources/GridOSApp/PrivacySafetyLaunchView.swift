@@ -75,7 +75,7 @@ struct PrivacySafetyLaunchView: View {
             .accessibilityElement(children: .contain)
 
             HStack(alignment: .center, spacing: 12) {
-                Button("Review Privacy Settings") {
+                Button("Open Settings") {
                     onOpenPrivacySettings()
                 }
                 .buttonStyle(.borderless)

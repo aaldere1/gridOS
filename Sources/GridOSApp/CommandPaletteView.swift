@@ -11,6 +11,7 @@ struct CommandPaletteView: View {
     let onInsertCommand: @MainActor (String) -> Void
     let onRunCommand: @MainActor (String) -> Void
     let onSendRequest: @MainActor (CommandContextPreview) async -> CommandIntelligenceServiceResult
+    let providerStatus: CommandPaletteProviderStatus
 
     @State private var selectedFlow: CommandPaletteFlow = .suggestCommand
     @State private var prompt = ""
@@ -38,7 +39,8 @@ struct CommandPaletteView: View {
         onRunCommand: @escaping @MainActor (String) -> Void = { _ in },
         onSendRequest: @escaping @MainActor (CommandContextPreview) async -> CommandIntelligenceServiceResult = { _ in
             .failure(.providerError())
-        }
+        },
+        providerStatus: CommandPaletteProviderStatus = .unknown
     ) {
         self.theme = theme
         self.selectedTextProvider = selectedTextProvider
@@ -48,6 +50,7 @@ struct CommandPaletteView: View {
         self.onInsertCommand = onInsertCommand
         self.onRunCommand = onRunCommand
         self.onSendRequest = onSendRequest
+        self.providerStatus = providerStatus
     }
 
     var body: some View {
@@ -59,6 +62,7 @@ struct CommandPaletteView: View {
 
             VStack(alignment: .leading, spacing: 16) {
                 intelligenceBriefing
+                providerSetupNotice
 
                 Picker("Flow", selection: $selectedFlow) {
                     ForEach(CommandPaletteFlow.allCases) { flow in
@@ -237,15 +241,27 @@ struct CommandPaletteView: View {
             ]
         case .explainOutput:
             [
-                PaletteExamplePrompt(title: "Summarize error", value: "Paste terminal output below and explain the likely cause."),
-                PaletteExamplePrompt(title: "Find blocker", value: "Identify the single most important failure in this output."),
-                PaletteExamplePrompt(title: "Next check", value: "Tell me the next read-only command I should run.")
+                PaletteExamplePrompt(title: "Permission denied", value: "cat ./secrets.txt\ncat: ./secrets.txt: Permission denied"),
+                PaletteExamplePrompt(title: "Port in use", value: "Error: listen EADDRINUSE: address already in use 127.0.0.1:3000"),
+                PaletteExamplePrompt(title: "Build failure", value: "xcodebuild: error: The project named \"gridOS\" does not contain a scheme named \"gridOSApp\".")
             ]
         case .fixFailedCommand:
             [
-                PaletteExamplePrompt(title: "Safer retry", value: "Prepare a safer retry for this failed command."),
-                PaletteExamplePrompt(title: "Missing tool", value: "Check whether this failure is a missing tool or a bad path."),
-                PaletteExamplePrompt(title: "Permission issue", value: "Diagnose whether this is a permission problem.")
+                PaletteExamplePrompt(
+                    title: "Safer retry",
+                    value: "Error: listen EADDRINUSE: address already in use 127.0.0.1:3000",
+                    failedCommand: "npm run dev"
+                ),
+                PaletteExamplePrompt(
+                    title: "Push rejected",
+                    value: "! [rejected] main -> main (non-fast-forward)",
+                    failedCommand: "git push origin main"
+                ),
+                PaletteExamplePrompt(
+                    title: "Build destination",
+                    value: "xcodebuild: error: Unable to find a destination matching the provided destination specifier.",
+                    failedCommand: "xcodebuild -scheme gridOS build"
+                )
             ]
         }
     }
@@ -296,6 +312,44 @@ struct CommandPaletteView: View {
                 .keyboardShortcut(.return, modifiers: [.command])
                 .disabled(!canBuildPreview)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var providerSetupNotice: some View {
+        if case .missing(let providerName) = providerStatus {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text("\(providerName) key required")
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.94))
+
+                    Spacer(minLength: 12)
+
+                    resultBadge("SETUP", tint: Color(theme.palette.statusAccent))
+                }
+
+                Text("AI Command Helper is ready, but it will not send a request until you add a provider key in Keychain-backed settings.")
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Button("Add Provider Key") {
+                    onOpenCommandIntelligenceSettings()
+                }
+                .buttonStyle(.borderless)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.94))
+            }
+            .padding(14)
+            .background(Color(theme.palette.statusAccent).opacity(0.050))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(Color(theme.palette.statusAccent).opacity(0.28), lineWidth: 1)
+                    .accessibilityHidden(true)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .accessibilityElement(children: .contain)
         }
     }
 
@@ -642,7 +696,7 @@ struct CommandPaletteView: View {
                     sendRequest()
                 }
                 .keyboardShortcut(.return, modifiers: [.command])
-                .disabled(preview.canSend == false || isSending)
+                .disabled(preview.canSend == false || isSending || providerStatus.isMissing)
             }
         }
     }
@@ -903,14 +957,15 @@ struct CommandPaletteView: View {
         }
     }
 
-    private var canBuildPreview: Bool {
+    @MainActor private var canBuildPreview: Bool {
         switch selectedFlow {
         case .suggestCommand:
-            !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         case .explainOutput:
-            true
+            let output = selectedTextProvider() ?? pastedOutput
+            return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         case .fixFailedCommand:
-            !failedCommand.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            return !failedCommand.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
                 !failedOutput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
     }
@@ -1028,6 +1083,9 @@ struct CommandPaletteView: View {
         case .explainOutput:
             pastedOutput = example.value
         case .fixFailedCommand:
+            if let command = example.failedCommand {
+                failedCommand = command
+            }
             failedOutput = example.value
         }
 
@@ -1090,6 +1148,21 @@ private struct PaletteHeaderBadge: View {
 private struct PaletteExamplePrompt: Equatable {
     let title: String
     let value: String
+    var failedCommand: String? = nil
+}
+
+enum CommandPaletteProviderStatus: Equatable {
+    case unknown
+    case configured
+    case missing(providerName: String)
+
+    var isMissing: Bool {
+        if case .missing = self {
+            return true
+        }
+
+        return false
+    }
 }
 
 private enum CommandPaletteFlow: String, CaseIterable, Identifiable {

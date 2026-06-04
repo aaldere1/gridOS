@@ -1,3 +1,4 @@
+import AppKit
 import RenderCore
 import SwiftUI
 import TerminalCore
@@ -8,6 +9,7 @@ struct TerminalWorkspaceView: View {
     let theme: VisualTheme
     let onActivity: TerminalSurface.ActivityHandler
     let onWorkspaceChange: @MainActor () -> Void
+    @State private var isClosePaneConfirmationPresented = false
 
     var body: some View {
         VStack(spacing: 8) {
@@ -18,6 +20,14 @@ struct TerminalWorkspaceView: View {
         .focusedValue(\.terminalWorkspaceCommands, terminalWorkspaceCommands)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Terminal workspace")
+        .alert("Close this terminal pane?", isPresented: $isClosePaneConfirmationPresented) {
+            Button("Close Pane", role: .destructive) {
+                closePaneConfirmed()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Closing a pane terminates its shell process. Make sure long-running work, editors, and remote sessions are safe to stop.")
+        }
     }
 
     private var workspaceToolbar: some View {
@@ -39,6 +49,10 @@ struct TerminalWorkspaceView: View {
 
             terminalToolbarButton(systemName: "plus.square.on.square", help: "Duplicate Pane") {
                 duplicatePane()
+            }
+
+            terminalToolbarButton(systemName: "folder", help: "Open Folder") {
+                openFolder()
             }
 
             terminalToolbarButton(systemName: "arrow.right.square", help: "Focus Next Pane") {
@@ -89,6 +103,9 @@ struct TerminalWorkspaceView: View {
             },
             duplicatePane: {
                 duplicatePane()
+            },
+            openFolder: {
+                openFolder()
             },
             closePane: {
                 closePane()
@@ -153,7 +170,37 @@ struct TerminalWorkspaceView: View {
     }
 
     @MainActor
+    private func openFolder() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Open"
+        panel.message = "Choose a folder to open in a new gridOS pane."
+
+        guard panel.runModal() == .OK,
+              let directory = panel.url?.path else {
+            workspaceController.focusActivePane()
+            return
+        }
+
+        workspaceController.openDirectoryInNewPane(directory)
+        workspaceController.focusActivePane()
+        onWorkspaceChange()
+    }
+
+    @MainActor
     private func closePane() {
+        guard workspaceController.isActivePaneProcessRunning() else {
+            closePaneConfirmed()
+            return
+        }
+
+        isClosePaneConfirmationPresented = true
+    }
+
+    @MainActor
+    private func closePaneConfirmed() {
         if workspaceController.closeActivePane() {
             workspaceController.focusActivePane()
             onWorkspaceChange()

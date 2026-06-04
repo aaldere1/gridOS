@@ -7,7 +7,8 @@ gridOS is a terminal, system monitor, and optional LLM-assisted command surface.
 - No telemetry by default.
 - No LLM network request without explicit user action.
 - No shell history, selected output, command context, or API key should be logged by default.
-- API keys and install identity secrets must use Keychain once implemented.
+- Provider API keys use Keychain-backed generic-password items.
+- The visual install seed is a local non-secret app preference in this release. It is not a machine identifier, is not transmitted, and should move to Keychain/HMAC before being described as an install identity secret.
 - Generated command execution must be gated, with stronger confirmation for destructive commands.
 
 Phase 10 source-of-truth documents:
@@ -17,9 +18,9 @@ Phase 10 source-of-truth documents:
 
 ## Procedural identity
 
-The visual identity system must not expose raw machine identifiers.
+The visual identity system must not expose raw machine identifiers. Version 1.0.3 generates a local random install seed in app preferences for procedural appearance only; it does not read, store, or transmit a hardware identifier.
 
-Recommended implementation:
+Recommended future implementation:
 
 1. Generate an install secret at first launch.
 2. Store it in Keychain or an app-container equivalent.
@@ -58,12 +59,12 @@ High-risk commands require an explicit confirmation path that is visually distin
 
 ## Distribution posture
 
-Direct distribution remains the Beta path:
+Direct distribution is the production path until App Store sandboxing is product-ready:
 
 - Developer ID signed
 - Hardened runtime enabled
 - Notarized
-- Gatekeeper-tested from a quarantined download
+- Gatekeeper-tested from a downloaded or quarantined artifact
 
 Mac App Store readiness is now tracked separately in
 `docs/app-store-readiness.md`. App Store sandbox and network-client entitlements
@@ -89,3 +90,4 @@ No telemetry, crash upload, or automatic diagnostics upload is added in Phase 12
 - Maintain Keychain tests.
 - Review every dependency license and update policy.
 - Define diagnostics export format before collecting support bundles.
+- Move the visual install seed to a Keychain/HMAC design before claiming stronger install-identity properties.

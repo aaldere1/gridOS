@@ -39,6 +39,10 @@ public struct CommandRiskClassifier: Sendable {
             return .unknown("Empty command cannot be reviewed.")
         }
 
+        if trimmedCommand.rangeOfCharacter(from: .newlines) != nil {
+            return .unknown("Multi-line commands require manual review.")
+        }
+
         if let highRiskRule = CommandRiskRule.highRiskRule(matching: trimmedCommand) {
             return .high(highRiskRule.reason)
         }
@@ -89,11 +93,11 @@ public struct CommandRiskClassifier: Sendable {
             return true
         }
 
-        if matches(#"^ls(?:\s+[-\w./~]+)*$"#, in: normalized) {
+        if matches(#"^ls(?:[ \t]+[-\w./~]+)*$"#, in: normalized) {
             return true
         }
 
-        if matches(#"^git\s+status(?:\s+(?:--short|-sb))?$"#, in: normalized) {
+        if matches(#"^git[ \t]+status(?:[ \t]+(?:--short|-sb))?$"#, in: normalized) {
             return true
         }
 

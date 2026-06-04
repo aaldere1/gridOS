@@ -15,8 +15,8 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultVisualModeRawValue = "tron"
     public static let defaultInstallSeedRawValue = ""
     public static let defaultCommandIntelligenceProviderID = "anthropic"
-    public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-6"
-    public static let defaultOpenAICommandIntelligenceModelID = "gpt-5.5"
+    public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-20250514"
+    public static let defaultOpenAICommandIntelligenceModelID = "gpt-5.2"
     public static let menuBarExtraAvailable = false
     public static let defaultShowMenuBarExtra = false
     public static let defaultNotificationsEnabled = false
@@ -25,13 +25,14 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
     public static let supportedCommandIntelligenceProviderIDs = ["anthropic", "openai"]
     public static let supportedCommandIntelligenceModelIDs = [
-        "claude-opus-4-8",
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5",
-        "gpt-5.5",
-        "gpt-5.4",
-        "gpt-5.4-mini",
-        "gpt-5.4-nano"
+        "claude-opus-4-1-20250805",
+        "claude-sonnet-4-20250514",
+        "claude-3-7-sonnet-20250219",
+        "claude-3-5-haiku-20241022",
+        "gpt-5.2",
+        "gpt-5",
+        "gpt-5-mini",
+        "gpt-5-nano"
     ]
     public static let fontSizeRange = 10.0...24.0
     public static let visualIntensityRange = 0.0...1.0

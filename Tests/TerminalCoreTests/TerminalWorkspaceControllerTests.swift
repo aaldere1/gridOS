@@ -134,6 +134,30 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertFalse(workspace.isActivePaneProcessRunning())
     }
 
+    func testHasRunningProcessesChecksRegisteredPanes() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        XCTAssertTrue(workspace.hasRunningProcesses())
+
+        workspace.terminateAllPanes()
+
+        XCTAssertFalse(workspace.hasRunningProcesses())
+    }
+
+    func testOpenDirectoryInNewPaneStartsPaneInSelectedDirectory() {
+        let workspace = fixtureWorkspace()
+
+        workspace.openDirectoryInNewPane("/Users/test/Project", newPaneID: "project-pane")
+
+        XCTAssertEqual(workspace.activePaneID, "project-pane")
+        XCTAssertEqual(workspace.state.panesByID["project-pane"]?.configuration.workingDirectory, "/Users/test/Project")
+        XCTAssertEqual(workspace.state.panesByID["project-pane"]?.lastWorkingDirectory, "/Users/test/Project")
+        XCTAssertEqual(workspace.state.recentDirectories.first, "/Users/test/Project")
+    }
+
     func testResizeActivePaneAdjustsMatchingSplitFraction() {
         let workspace = fixtureWorkspace()
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")

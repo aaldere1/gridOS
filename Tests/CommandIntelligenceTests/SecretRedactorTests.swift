@@ -8,6 +8,11 @@ final class SecretRedactorTests: XCTestCase {
         openai sk-proj_abcdefghijklmnopqrstuvwxyz
         slack xoxb-123456789012-abcdefghijklmnop
         github ghp_abcdefghijklmnopqrstuvwxyz123456
+        github oauth gho_abcdefghijklmnopqrstuvwxyz123456
+        github pat github_pat_abcdefghijklmnopqrstuvwxyz1234567890
+        gitlab glpat-abcdefghijklmnopqrstuvwxyz123456
+        google AIzaSyabcdefghijklmnopqrstuvwxyz123456
+        slack user xoxp-123456789012-abcdefghijklmnop
         """
 
         let result = SecretRedactor().redact(input)
@@ -16,7 +21,12 @@ final class SecretRedactorTests: XCTestCase {
         XCTAssertFalse(result.redactedText.contains("sk-proj_"))
         XCTAssertFalse(result.redactedText.contains("xoxb-123456789012"))
         XCTAssertFalse(result.redactedText.contains("ghp_abcdefghijklmnopqrstuvwxyz"))
-        XCTAssertEqual(result.findings.filter { $0.kind == .apiKey }.count, 4)
+        XCTAssertFalse(result.redactedText.contains("gho_abcdefghijklmnopqrstuvwxyz"))
+        XCTAssertFalse(result.redactedText.contains("github_pat_abcdefghijklmnopqrstuvwxyz"))
+        XCTAssertFalse(result.redactedText.contains("glpat-abcdefghijklmnopqrstuvwxyz"))
+        XCTAssertFalse(result.redactedText.contains("AIzaSyabcdefghijklmnopqrstuvwxyz"))
+        XCTAssertFalse(result.redactedText.contains("xoxp-123456789012"))
+        XCTAssertEqual(result.findings.filter { $0.kind == .apiKey }.count, 9)
         XCTAssertTrue(result.redactedText.contains("[REDACTED API KEY]"))
     }
 
@@ -59,6 +69,9 @@ final class SecretRedactorTests: XCTestCase {
         TOKEN=token-value
         API_KEY="key-value"
         SECRET=secret-value
+        OPENAI_API_KEY: sk-proj_abcdefghijklmnopqrstuvwxyz
+        "AWS_SECRET_ACCESS_KEY": "structured-secret-value"
+        GITHUB_TOKEN: github_pat_abcdefghijklmnopqrstuvwxyz1234567890
         """
 
         let result = SecretRedactor().redact(input)
@@ -68,10 +81,16 @@ final class SecretRedactorTests: XCTestCase {
         XCTAssertFalse(result.redactedText.contains("token-value"))
         XCTAssertFalse(result.redactedText.contains("key-value"))
         XCTAssertFalse(result.redactedText.contains("secret-value"))
+        XCTAssertFalse(result.redactedText.contains("sk-proj_abcdefghijklmnopqrstuvwxyz"))
+        XCTAssertFalse(result.redactedText.contains("structured-secret-value"))
+        XCTAssertFalse(result.redactedText.contains("github_pat_abcdefghijklmnopqrstuvwxyz"))
         XCTAssertEqual(result.findings.filter { $0.kind == .passwordAssignment }.count, 2)
-        XCTAssertEqual(result.findings.filter { $0.kind == .envValue }.count, 3)
+        XCTAssertEqual(result.findings.filter { $0.kind == .envValue }.count, 6)
         XCTAssertTrue(result.redactedText.contains("password=[REDACTED PASSWORD]"))
         XCTAssertTrue(result.redactedText.contains("TOKEN=[REDACTED ENV VALUE]"))
+        XCTAssertTrue(result.redactedText.contains("OPENAI_API_KEY: [REDACTED ENV VALUE]"))
+        XCTAssertTrue(result.redactedText.contains("\"AWS_SECRET_ACCESS_KEY\": [REDACTED ENV VALUE]"))
+        XCTAssertTrue(result.redactedText.contains("GITHUB_TOKEN: [REDACTED ENV VALUE]"))
     }
 
     func testRedactsCredentialURLs() {

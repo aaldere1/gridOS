@@ -45,6 +45,11 @@ public final class TerminalWorkspaceController: ObservableObject {
         _ = controller(for: state.activePaneID)
     }
 
+    public func openDirectoryInNewPane(_ directory: String, newPaneID: TerminalPaneID = .generated()) {
+        state.openDirectoryInNewPane(directory, newPaneID: newPaneID)
+        _ = controller(for: state.activePaneID)
+    }
+
     @discardableResult
     public func closeActivePane() -> Bool {
         guard state.panesByID.count > 1 else {
@@ -105,6 +110,12 @@ public final class TerminalWorkspaceController: ObservableObject {
 
     public func isActivePaneProcessRunning() -> Bool {
         controller(for: activePaneID).isProcessRunning()
+    }
+
+    public func hasRunningProcesses() -> Bool {
+        state.layout.paneIDsInVisualOrder.contains { paneID in
+            controller(for: paneID).isProcessRunning()
+        }
     }
 
     public func copyActivePaneSelection() {

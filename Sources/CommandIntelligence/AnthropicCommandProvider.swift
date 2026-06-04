@@ -26,7 +26,7 @@ public struct AnthropicCommandProvider: LLMCommandProvider {
     public let providerID: LLMProviderID = .anthropic
 
     public static let defaultBaseURL = URL(string: "https://api.anthropic.com")!
-    public static let defaultModelID = LLMModelID("claude-sonnet-4-6")
+    public static let defaultModelID = LLMModelID("claude-sonnet-4-20250514")
     private static let messagesPath = "/v1/messages"
     private static let anthropicVersion = "2023-06-01"
     public static let defaultMaxTokens = 1200

@@ -1,37 +1,67 @@
 # gridOS
 
-A native macOS app for Apple Silicon that reimagines [eDEX-UI](https://github.com/GitSquared/edex-ui) — the Tron-esque sci-fi terminal UI — as a real Mac-first application. Where eDEX-UI was an Electron remake of the look, gridOS aims to be the tool you'd actually reach for.
+gridOS is a native macOS terminal cockpit for Apple Silicon: real shell first,
+local system signal around it, and a distinctive procedural visual identity that
+feels like a Mac app instead of an Electron skin.
 
-## Status
+It is inspired by the cinematic idea of eDEX-UI, but it is a from-scratch Swift,
+SwiftUI, AppKit, Metal, and SwiftTerm application. The goal is not nostalgia. The
+goal is a terminal that is beautiful enough to want open all day and careful
+enough to trust with real work.
 
-Early implementation. Vision and design notes live in [`docs/vision.md`](docs/vision.md), the production roadmap lives in [`docs/production-roadmap.md`](docs/production-roadmap.md), and execution state lives in [`.planning/`](.planning/). The repo now has a reproducible XcodeGen scaffold and blank macOS app.
+## Current Release
 
-## What makes it different
+- Version: `1.0.3`
+- Platform: macOS 14 or newer on Apple Silicon
+- Distribution lane: Developer ID signed, notarized direct-download DMG
+- Release notes and verification: [`docs/production-direct-release.md`](docs/production-direct-release.md)
+- Operational release checklist: [`docs/release.md`](docs/release.md)
 
-- **Native, not Electron.** Swift + Metal. Targets: <100MB resident RAM, <500ms cold start, 120fps on ProMotion (vs ~500MB / ~5s for eDEX-UI).
-- **Per-machine procedural visual signature.** Every install has a unique aesthetic mathematically derived from machine ID — your gridOS looks different from anyone else's.
-- **LLM-integrated terminal.** Command palette with Claude baked in.
-- **Real macOS integration.** Menu bar widget, Notification Center, Quick Look, Stage Manager — first-class citizen, not a port.
-- **Aesthetic modes**, not one style: Tron, Severance, Cyberpunk, Matrix, Apple-native. Hotkey to switch.
+## What Ships
 
-## Planned stack
+- Native multi-pane terminal workspace with saved layout and recent directories.
+- Open Folder command for starting work in a chosen project directory.
+- Live local CPU, memory, network, battery, thermal, and process signal.
+- Procedural visual modes for Tron, Severance, and Apple-native looks.
+- Local launch briefing that explains privacy and command-safety defaults.
+- AI Command Helper with optional Anthropic or OpenAI provider keys.
+- Keychain-backed provider key storage.
+- Preview-first provider requests: gridOS shows the redacted context before a request leaves the app.
+- Local generated-command risk labels with insert-first behavior and explicit run confirmation.
+- Polished drag-to-Applications DMG layout.
 
-- Swift / SwiftUI with AppKit interop where needed
-- Metal shaders for the visual identity layer
-- [SwiftTerm](https://github.com/migueldeicaza/SwiftTerm) as a starting point for the terminal backend (TBD whether to keep or replace with a GPU-accelerated custom renderer)
-- Xcode 16+, macOS 14+ minimum target
+## What Does Not Ship Yet
+
+- No telemetry.
+- No automatic command execution from provider responses.
+- No persisted shell history, terminal transcripts, raw prompts, provider responses, or generated commands.
+- No live Spotlight indexing or notification workflow in this release surface.
+- No App Store sandboxed build yet; App Store readiness is tracked separately in [`docs/app-store-readiness.md`](docs/app-store-readiness.md).
 
 ## Development
 
-Requires a Mac with Apple Silicon, Xcode, and XcodeGen.
+Requires Xcode and XcodeGen.
 
 ```sh
-xcodegen generate
-xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build test
+xcodegen generate --use-cache
+xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build test
 ```
 
 Open `gridOS.xcodeproj` in Xcode after generating it.
 
-## Relationship to eDEX-UI
+## Release Build
 
-gridOS is a from-scratch native rewrite *inspired by* eDEX-UI, not a fork of its code. Credit and inspiration to [@GitSquared](https://github.com/GitSquared) and the eDEX-UI project. License for this project is TBD.
+The signed direct-download lane is driven by the release scripts under
+[`scripts/`](scripts/). The release artifact must be built from a committed
+source revision so the DMG, ZIP, and manifest point at a stable source commit.
+
+```sh
+GRIDOS_BETA_OUTPUT_DIR=build/release/production scripts/build-beta.sh
+GRIDOS_NOTARY_PROFILE=gridOS-beta scripts/notarize-beta-artifact.sh build/release/production/gridOS-version-build-commit.dmg
+scripts/verify-beta-artifact.sh build/release/production/gridOS-version-build-commit.dmg
+scripts/write-beta-release-manifest.sh build/release/production/gridOS-version-build-commit.dmg
+```
+
+## License
+
+Proprietary. See [`LICENSE`](LICENSE).

@@ -22,7 +22,7 @@ final class AnthropicCommandProviderTests: XCTestCase {
 
         let body = try XCTUnwrap(sentRequest.httpBody)
         let payload = try JSONSerialization.jsonObject(with: body) as? [String: Any]
-        XCTAssertEqual(payload?["model"] as? String, "claude-sonnet-4-6")
+        XCTAssertEqual(payload?["model"] as? String, "claude-sonnet-4-20250514")
         XCTAssertEqual(payload?["max_tokens"] as? Int, 1200)
 
         let content = try Self.userMessageContent(from: payload)

@@ -38,9 +38,10 @@ struct RootView: View {
     )
     @State private var systemSnapshot: SystemMetricsSnapshot = SystemMetricsPreviewData.snapshot
     @State private var workspaceSaveTask: Task<Void, Never>?
+    @State private var commandPaletteProviderStatus: CommandPaletteProviderStatus = .unknown
 
     init(
-        processConfiguration: TerminalSessionConfiguration = .fromProcessArguments(),
+        processConfiguration: TerminalSessionConfiguration = Self.defaultProcessConfiguration,
         metricsSampler: any SystemMetricsSampler = LiveSystemMetricsSampler(),
         snapshotStore: TerminalWorkspaceSnapshotStore = TerminalWorkspaceSnapshotStore()
     ) {
@@ -56,6 +57,14 @@ struct RootView: View {
                 )
             )
         )
+    }
+
+    private static var defaultProcessConfiguration: TerminalSessionConfiguration {
+        #if DEBUG
+        return .fromProcessArguments(allowsStartupCommand: true)
+        #else
+        return .fromProcessArguments()
+        #endif
     }
 
     var body: some View {
@@ -140,13 +149,18 @@ struct RootView: View {
                     },
                     onSendRequest: { preview in
                         await completeCommandIntelligenceRequest(preview)
-                    }
+                    },
+                    providerStatus: commandPaletteProviderStatus
                 )
                 .padding(48)
                 .transition(commandPaletteTransition)
             }
         }
-        .background(WindowFrameController(autosaveName: "gridOS.main"))
+        .background(
+            WindowFrameController(autosaveName: "gridOS.main") { _ in
+                confirmTerminatingRunningShells()
+            }
+        )
         .sheet(isPresented: privacySafetyLaunchPresented) {
             PrivacySafetyLaunchView(
                 visualSignature: visualIdentity.displaySignature,
@@ -155,16 +169,20 @@ struct RootView: View {
                     privacySafetyLaunchAccepted = true
                 },
                 onOpenPrivacySettings: {
-                    privacySafetyLaunchAccepted = true
                     openSettingsWindow()
                 }
             )
+            .interactiveDismissDisabled(true)
         }
         .onAppear {
             ensureInstallSeed()
+            AppTerminationGuard.shared.shouldTerminateHandler = {
+                confirmTerminatingRunningShells()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
             isCommandPalettePresented = true
+            refreshCommandPaletteProviderStatus()
         }
         .onReceive(NotificationCenter.default.publisher(for: .gridOSWorkspaceSessionReset)) { _ in
             workspaceSaveTask?.cancel()
@@ -175,6 +193,7 @@ struct RootView: View {
             }
         }
         .onDisappear {
+            AppTerminationGuard.shared.shouldTerminateHandler = nil
             saveWorkspaceNow()
             workspaceController.terminateAllPanes()
         }
@@ -287,11 +306,7 @@ struct RootView: View {
             get: {
                 !privacySafetyLaunchAccepted
             },
-            set: { isPresented in
-                if !isPresented {
-                    privacySafetyLaunchAccepted = true
-                }
-            }
+            set: { _ in }
         )
     }
 
@@ -322,6 +337,20 @@ struct RootView: View {
         NSApp.activate(ignoringOtherApps: true)
     }
 
+    @MainActor private func confirmTerminatingRunningShells() -> Bool {
+        guard workspaceController.hasRunningProcesses() else {
+            return true
+        }
+
+        let alert = NSAlert()
+        alert.messageText = "Terminate open shell sessions?"
+        alert.informativeText = "gridOS still has terminal panes with running shell processes. Closing now will stop those sessions, including editors, SSH, package installs, or local servers."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Terminate Sessions")
+        alert.addButton(withTitle: "Cancel")
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+
     @MainActor private func completeCommandIntelligenceRequest(
         _ preview: CommandContextPreview
     ) async -> CommandIntelligenceServiceResult {
@@ -337,6 +366,20 @@ struct RootView: View {
             providerID: commandIntelligenceProviderID,
             modelID: commandIntelligenceModelID
         )
+    }
+
+    @MainActor private func refreshCommandPaletteProviderStatus() {
+        let providerID = commandIntelligenceProviderID
+        let providerName = CommandIntelligenceModelCatalog.descriptor(for: providerID).displayName
+
+        Task { @MainActor in
+            do {
+                let hasKey = try await KeychainCommandCredentialStore().apiKey(for: providerID) != nil
+                commandPaletteProviderStatus = hasKey ? .configured : .missing(providerName: providerName)
+            } catch {
+                commandPaletteProviderStatus = .unknown
+            }
+        }
     }
 
     private func commandIntelligenceProvider() -> any LLMCommandProvider {
