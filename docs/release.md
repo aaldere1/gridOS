@@ -40,10 +40,14 @@ xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS
 For unsigned CI builds:
 
 ```sh
-xcodebuild -project gridOS.xcodeproj -scheme gridOS -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO build test
+scripts/ci-build-test.sh
 ```
 
-The project currently depends on SwiftTerm pinned through XcodeGen/SwiftPM. Regenerate the project after changing `project.yml` so package resolution stays in sync.
+The CI script regenerates the Xcode project with XcodeGen, fails if the
+generated `gridOS.xcodeproj` differs from git, runs the unsigned build/test
+gate, and checks whitespace. The project currently depends on SwiftTerm pinned
+through XcodeGen/SwiftPM. Regenerate the project after changing `project.yml`
+so package resolution stays in sync.
 
 ## Terminal smoke
 
@@ -535,11 +539,13 @@ The likely 1.0 path is direct Mac distribution:
 
 ## CI responsibilities
 
-The initial CI skeleton should:
+The CI build/test workflow should:
 
 - install XcodeGen
-- generate the Xcode project
+- run `scripts/ci-build-test.sh`
+- fail on generated Xcode project drift
 - build the app with signing disabled
 - run unit tests
+- reject whitespace errors
 
 Release signing and notarization should remain manual or protected until credentials and branch protections are ready.
