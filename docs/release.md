@@ -18,7 +18,8 @@ Version 1.0.4 build 12 is the current production-facing direct-download version:
 
 - DMG: `build/release/production/gridOS-1.0.4-12-fe73021.dmg`
 - Manifest: `.planning/phases/14-production-release/evidence/production-release-manifest.json`
-- Release notes: `docs/production-direct-release.md`
+- Public release notes: `docs/release-notes/v1.0.4.md`
+- Release evidence: `docs/production-direct-release.md`
 
 This artifact is app-signed, DMG-signed, notarized, stapled,
 Gatekeeper-assessed, strict codesign-verified, launched from a mounted DMG,

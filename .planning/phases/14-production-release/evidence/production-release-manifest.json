@@ -80,6 +80,6 @@
     "framePacingMs": 278.236,
     "misses": []
   },
-  "releaseNotes": "docs/production-direct-release.md",
+  "releaseNotes": "docs/release-notes/v1.0.4.md",
   "remainingValidation": "Run Finder install and version-to-version update proof on a clean Mac."
 }
