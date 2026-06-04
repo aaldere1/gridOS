@@ -2,28 +2,28 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.4",
-  "build": "12",
-  "sourceCommit": "fe73021",
-  "generatedAt": "2026-06-04T14:08:53Z",
+  "version": "1.0.5",
+  "build": "13",
+  "sourceCommit": "379289a",
+  "generatedAt": "2026-06-04T16:03:45Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.4-12-fe73021.dmg",
-      "sha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
+      "path": "build/release/production/gridOS-1.0.5-13-379289a.dmg",
+      "sha256": "b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05",
       "codesign": "pass",
       "gatekeeper": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.4-12-fe73021.zip",
-      "sha256": "ad403753dabf21439c62f0db8dbea7e3b2e46fcf242a2d0557914907a63c9a02"
+      "path": "build/release/production/gridOS-1.0.5-13-379289a.zip",
+      "sha256": "b34e83b27ea4f17d9e6076d46686bee7f6330f3eb5357459b5085b1f5ed3e54f"
     },
     "appBundle": {
-      "sha256": "800fa6a05b318c0319b8387fe0997f8b548f27c0f7bdac7422e849cef924be09"
+      "sha256": "05cc09d1b6fcd010bef4505b63eea99ba0e4185b364eecfb95191fae331acbf7"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "6735e8a7-a797-4eed-a9c2-59a851527487",
+    "submissionId": "58a17664-f965-46a6-b75f-cd42ef1ab7e1",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
@@ -34,54 +34,38 @@
     "status": "pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "visualVersionInspection": "pass",
-    "visibleVersion": "v1.0.4",
+    "visibleVersion": "v1.0.5",
     "computerUseAppInspection": "pass",
     "computerUseDmgInspection": "pass",
+    "aiCommandHelperInspection": "pass",
+    "aiCommandHelperModeGuidance": "pass",
+    "aiCommandHelperProviderSetup": "pass",
     "settingsProviderInspection": "pass",
-    "aiCommandHelperMenuVisible": true,
-    "aiCommandHelperInfoButtonVisible": true,
+    "settingsResizable": "pass",
+    "settingsResizeBefore": [700, 640],
+    "settingsResizeAfter": [980, 780],
     "providersSupported": ["anthropic", "openai"],
     "providersVisible": ["anthropic", "openai"],
     "paneToolbarVisible": true,
     "paneCountVisible": true,
     "dmgInstallerLayout": "pass",
-    "dmgWindowBounds": [120, 120, 780, 540],
-    "dmgAppPosition": [180, 220],
-    "dmgApplicationsPosition": [500, 220],
-    "dmgBackgroundAssetPosition": [1000, 1000],
-    "cpuPercent": 31.0,
-    "rssKb": 121808,
-    "staleApplicationsCopyObserved": true,
-    "staleApplicationsCopyVersion": "1.0.0",
-    "staleApplicationsCopyReplaced": true,
-    "applicationsCopyVisibleVersionAfterReplacement": "v1.0.4"
+    "applicationsCopyInstalled": true,
+    "applicationsCopyVisibleVersion": "v1.0.5"
   },
   "localUpdateProof": {
     "status": "pass",
-    "verifiedAt": "2026-06-04T14:08:53Z",
+    "verifiedAt": "2026-06-04T16:03:45Z",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "temporary local install root, not clean-Mac evidence",
-    "fromVersion": "1.0.2",
-    "fromBuild": "10",
-    "toVersion": "1.0.4",
-    "toBuild": "12",
-    "fromDmgSha256": "52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c",
-    "toDmgSha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
+    "fromVersion": "1.0.4",
+    "fromBuild": "12",
+    "toVersion": "1.0.5",
+    "toBuild": "13",
+    "fromDmgSha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
+    "toDmgSha256": "b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05",
     "codesign": "pass",
     "gatekeeper": "pass"
   },
-  "performanceGate": {
-    "status": "pass",
-    "evidence": ".planning/phases/09-performance-hardening/evidence/phase9-results.json",
-    "configuration": "quick Debug benchmark",
-    "coldStartMs": 85.084,
-    "memoryFootprintMb": 80.40,
-    "idleCpuPercent": 0.0,
-    "inputLatencyMs": 0.039,
-    "heavyOutputMs": 842.849,
-    "framePacingMs": 278.236,
-    "misses": []
-  },
-  "releaseNotes": "docs/release-notes/v1.0.4.md",
+  "releaseNotes": "docs/release-notes/v1.0.5.md",
   "remainingValidation": "Run Finder install and version-to-version update proof on a clean Mac."
 }

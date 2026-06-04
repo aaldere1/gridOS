@@ -6,28 +6,29 @@ This document starts as a release checklist and should become the operational so
 
 Current version:
 
-- Marketing version: `1.0.4`
-- Build number: `12`
+- Marketing version: `1.0.5`
+- Build number: `13`
 
 The version source of truth is `project.yml`, regenerated into
 `gridOS.xcodeproj` with XcodeGen.
 
 ## Production direct version
 
-Version 1.0.4 build 12 is the current production-facing direct-download version:
+Version 1.0.5 build 13 is the current production-facing direct-download version:
 
-- DMG: `build/release/production/gridOS-1.0.4-12-fe73021.dmg`
+- DMG: `build/release/production/gridOS-1.0.5-13-379289a.dmg`
 - Manifest: `.planning/phases/14-production-release/evidence/production-release-manifest.json`
-- Public release notes: `docs/release-notes/v1.0.4.md`
+- Public release notes: `docs/release-notes/v1.0.5.md`
 - Release evidence: `docs/production-direct-release.md`
 
 This artifact is app-signed, DMG-signed, notarized, stapled,
 Gatekeeper-assessed, strict codesign-verified, launched from a mounted DMG,
-visibly versioned as `v1.0.4`, visually checked through Computer Use for the
-app window and drag-to-Applications installer layout, locally replacement-tested
-from 1.0.2 build 10 to 1.0.4 build 12 in a temporary install root, and
-performance-gated locally. Run clean-Mac Finder install and update proof as
-external validation.
+visibly versioned as `v1.0.5`, visually checked through Computer Use for the
+app window, AI Command Helper onboarding, resizable Settings, and
+drag-to-Applications installer layout, installed into `/Applications`, and
+locally replacement-tested from 1.0.4 build 12 to 1.0.5 build 13 in a temporary
+install root. Run clean-Mac Finder install and update proof as external
+validation.
 
 ## Local build
 
