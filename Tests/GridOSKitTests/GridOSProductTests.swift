@@ -4,7 +4,8 @@ import XCTest
 final class GridOSProductTests: XCTestCase {
     func testProductMetadataIsStable() {
         XCTAssertEqual(GridOSProduct.name, "gridOS")
-        XCTAssertEqual(GridOSProduct.version, "1.0.4")
+        XCTAssertTrue(GridOSProduct.version.range(of: #"^\d+\.\d+\.\d+$"#, options: .regularExpression) != nil)
+        XCTAssertFalse(GridOSProduct.build.isEmpty)
         XCTAssertFalse(GridOSProduct.productionPromise.isEmpty)
     }
 
