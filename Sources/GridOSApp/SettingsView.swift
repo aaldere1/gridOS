@@ -139,8 +139,16 @@ struct SettingsView: View {
                 }
             }
             .formStyle(.grouped)
-            .frame(width: 420)
+            .frame(
+                minWidth: 560,
+                idealWidth: 660,
+                maxWidth: .infinity,
+                minHeight: 560,
+                idealHeight: 720,
+                maxHeight: .infinity
+            )
             .padding()
+            .background(SettingsWindowConfigurator())
             .onReceive(NotificationCenter.default.publisher(for: Notification.Name("gridOS.commandIntelligence.openSettings"))) { _ in
                 focusCommandIntelligenceSettings(proxy)
             }

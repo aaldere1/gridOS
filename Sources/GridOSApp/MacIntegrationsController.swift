@@ -41,8 +41,7 @@ final class MacIntegrationsController: ObservableObject {
     }
 
     func openSettings() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        NSApp.activate(ignoringOtherApps: true)
+        SettingsWindowController.shared.open()
     }
 
     func openRecentDirectory(_ directory: MenuBarRecentDirectory) {

@@ -74,6 +74,10 @@ struct CommandPaletteView: View {
                 .disabled(preview != nil || serviceResult != nil || isSending)
                 .accessibilityLabel("AI Command Helper flow")
 
+                if preview == nil && serviceResult == nil && !isSending {
+                    flowGuideContent
+                }
+
                 if isSending {
                     loadingContent
                 } else if let serviceResult {
@@ -125,7 +129,7 @@ struct CommandPaletteView: View {
     private var header: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Command-K")
+                Text("AI Command Helper")
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.94))
 
@@ -136,6 +140,7 @@ struct CommandPaletteView: View {
 
             Spacer(minLength: 16)
 
+            PaletteHeaderBadge(label: "shortcut", value: "Command-K", theme: theme)
             PaletteHeaderBadge(label: "policy", value: "insert-first", theme: theme)
             PaletteHeaderBadge(label: "context", value: "previewed", theme: theme)
 
@@ -268,7 +273,7 @@ struct CommandPaletteView: View {
 
     private var headerSubtitle: String {
         if isSending {
-            return "Sending the approved context to the configured provider."
+            return "Sending approved context to the configured provider."
         }
 
         if serviceResult != nil {
@@ -306,7 +311,7 @@ struct CommandPaletteView: View {
 
                 Spacer(minLength: 16)
 
-                Button("Preview Context") {
+                Button("Preview What Will Be Sent") {
                     buildPreview()
                 }
                 .keyboardShortcut(.return, modifiers: [.command])
@@ -329,7 +334,7 @@ struct CommandPaletteView: View {
                     resultBadge("SETUP", tint: Color(theme.palette.statusAccent))
                 }
 
-                Text("AI Command Helper is ready, but it will not send a request until you add a provider key in Keychain-backed settings.")
+                Text("Add a provider key once. Until then, you can inspect the helper, but no request will leave the app.")
                     .font(.system(size: 12, weight: .regular))
                     .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
                     .fixedSize(horizontal: false, vertical: true)
@@ -358,7 +363,7 @@ struct CommandPaletteView: View {
             ProgressView()
                 .controlSize(.small)
 
-            Text("Sending Request")
+            Text("Sending to Provider")
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.88))
 
@@ -619,14 +624,14 @@ struct CommandPaletteView: View {
             paletteTextEditor(
                 title: "Prompt",
                 text: $prompt,
-                placeholder: "Describe the command you want.",
+                placeholder: "Example: Find the largest files in this project without deleting anything.",
                 monospaced: false
             )
         case .explainOutput:
             paletteTextEditor(
                 title: "Output",
                 text: $pastedOutput,
-                placeholder: "Select terminal output or paste it here.",
+                placeholder: "Select terminal output, or paste an error/output snippet here.",
                 monospaced: true
             )
         case .fixFailedCommand:
@@ -636,7 +641,7 @@ struct CommandPaletteView: View {
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.78))
 
-                    TextField("Paste the failed command.", text: $failedCommand)
+                    TextField("Example: npm run dev", text: $failedCommand)
                         .font(.system(size: 13, weight: .regular, design: .monospaced))
                         .textFieldStyle(.plain)
                         .padding(8)
@@ -651,11 +656,20 @@ struct CommandPaletteView: View {
                 paletteTextEditor(
                     title: "Failed output",
                     text: $failedOutput,
-                    placeholder: "Paste the failed command and output.",
+                    placeholder: "Paste the error output from the failed command.",
                     monospaced: true
                 )
             }
         }
+    }
+
+    private var flowGuideContent: some View {
+        HStack(alignment: .top, spacing: 10) {
+            PaletteGuideItem(label: "Use when", value: selectedFlow.useWhen, theme: theme)
+            PaletteGuideItem(label: "You provide", value: selectedFlow.inputHint, theme: theme)
+            PaletteGuideItem(label: "You get", value: selectedFlow.resultHint, theme: theme)
+        }
+        .accessibilityElement(children: .contain)
     }
 
     private func previewContent(_ preview: CommandContextPreview) -> some View {
@@ -692,7 +706,7 @@ struct CommandPaletteView: View {
 
                 Spacer(minLength: 16)
 
-                Button(isSending ? "Sending" : "Send Request") {
+                Button(isSending ? "Sending" : "Send to Provider") {
                     sendRequest()
                 }
                 .keyboardShortcut(.return, modifiers: [.command])
@@ -1145,6 +1159,35 @@ private struct PaletteHeaderBadge: View {
     }
 }
 
+private struct PaletteGuideItem: View {
+    let label: String
+    let value: String
+    let theme: VisualTheme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(label.uppercased())
+                .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.64))
+
+            Text(value)
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.86))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(Color(theme.palette.background).opacity(0.34))
+        .overlay {
+            RoundedRectangle(cornerRadius: 7, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(0.15), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+}
+
 private struct PaletteExamplePrompt: Equatable {
     let title: String
     let value: String
@@ -1191,6 +1234,39 @@ private enum CommandPaletteFlow: String, CaseIterable, Identifiable {
             "Select output when available, or paste output here."
         case .fixFailedCommand:
             "Paste the failed command and output for a focused fix."
+        }
+    }
+
+    var useWhen: String {
+        switch self {
+        case .suggestCommand:
+            "You know the goal, not the exact command."
+        case .explainOutput:
+            "Output is confusing and you want the meaning."
+        case .fixFailedCommand:
+            "A command failed and you need a safer next try."
+        }
+    }
+
+    var inputHint: String {
+        switch self {
+        case .suggestCommand:
+            "Plain English intent and current directory."
+        case .explainOutput:
+            "Selected terminal output or pasted text."
+        case .fixFailedCommand:
+            "The failed command plus the error output."
+        }
+    }
+
+    var resultHint: String {
+        switch self {
+        case .suggestCommand:
+            "A reviewed command plan."
+        case .explainOutput:
+            "A read-only diagnosis."
+        case .fixFailedCommand:
+            "A repair command with local risk labels."
         }
     }
 }

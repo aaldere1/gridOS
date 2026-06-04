@@ -44,16 +44,24 @@ struct GridOSApplication: App {
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
+            AppSettingsCommands()
             TerminalCommands()
             CommandIntelligenceCommands()
             AppearanceCommands()
         }
 
-        Settings {
-            SettingsView()
-        }
-
         // Alpha launch stability: keep MenuBarExtra out of the scene graph until the SwiftUI scene loop is fixed.
+    }
+}
+
+private struct AppSettingsCommands: Commands {
+    var body: some Commands {
+        CommandGroup(replacing: .appSettings) {
+            Button("Settings...") {
+                SettingsWindowController.shared.open()
+            }
+            .keyboardShortcut(",", modifiers: [.command])
+        }
     }
 }
 
@@ -171,8 +179,6 @@ final class GridOSApplicationDelegate: NSObject, NSApplicationDelegate {
 }
 
 private struct CommandIntelligenceCommands: Commands {
-    @Environment(\.openSettings) private var openSettings
-
     var body: some Commands {
         CommandMenu("AI Command Helper") {
             Button("AI Command Helper") {
@@ -181,14 +187,7 @@ private struct CommandIntelligenceCommands: Commands {
             .keyboardShortcut("k", modifiers: [.command])
 
             Button("Open AI Command Helper Settings") {
-                openSettings()
-                NSApp.activate(ignoringOtherApps: true)
-                DispatchQueue.main.async {
-                    CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
-                }
+                SettingsWindowController.shared.open(focusCommandIntelligence: true)
             }
         }
     }

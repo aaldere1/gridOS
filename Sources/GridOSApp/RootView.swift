@@ -14,7 +14,6 @@ struct RootView: View {
     private let workspaceSaveDelaySeconds = 0.5
 
     @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
-    @Environment(\.openSettings) private var openSettings
     @AppStorage("terminal.shellPath") private var shellPath = GridOSAppPreferences.defaultShellPath
     @AppStorage("terminal.fontSize") private var terminalFontSize = GridOSAppPreferences.defaultTerminalFontSize
     @AppStorage("appearance.reducedMotion") private var reducedMotion = GridOSAppPreferences.defaultValue.reducedMotion
@@ -324,17 +323,12 @@ struct RootView: View {
     }
 
     @MainActor private func openCommandIntelligenceSettingsFromPalette() {
-        CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
-        openSettingsWindow()
-        DispatchQueue.main.async {
-            CommandIntelligenceCommandCenter.openCommandIntelligenceSettings()
-        }
+        SettingsWindowController.shared.open(focusCommandIntelligence: true)
         dismissCommandPalette()
     }
 
     @MainActor private func openSettingsWindow() {
-        openSettings()
-        NSApp.activate(ignoringOtherApps: true)
+        SettingsWindowController.shared.open()
     }
 
     @MainActor private func confirmTerminatingRunningShells() -> Bool {

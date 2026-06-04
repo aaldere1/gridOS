@@ -25,14 +25,16 @@ struct CommandIntelligenceSettingsView: View {
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: 6) {
-                Text("AI Command Helper uses Anthropic or OpenAI only when you ask for shell help.")
+                Text("AI Command Helper turns a terminal question into a reviewed next step.")
                     .font(.subheadline.weight(.semibold))
 
-                Text("It can suggest a command, explain output, or repair a failed command. You preview redacted context before sending, and risky commands are inserted for review.")
+                Text("Press Command-K in any pane, choose a job, preview the redacted context, then decide what to insert or run.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
             .accessibilityElement(children: .combine)
+
+            CommandHelperHowToCard()
 
             Picker("Provider", selection: providerSelection) {
                 ForEach(CommandIntelligenceModelCatalog.providers) { provider in
@@ -69,7 +71,7 @@ struct CommandIntelligenceSettingsView: View {
                     .font(.subheadline.weight(.semibold))
 
                 if !isProviderConfigured {
-                    Text("Add \(currentProviderArticle) \(currentProviderDescriptor.displayName) key to use this provider. The terminal still works normally.")
+                    Text("Add \(currentProviderArticle) \(currentProviderDescriptor.displayName) key once. Until then, Command-K still opens, but nothing is sent to a provider.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 } else {

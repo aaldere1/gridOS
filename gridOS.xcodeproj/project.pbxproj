@@ -30,6 +30,7 @@
 		2F6D8EE63CDAA7EF96514B5A /* Integrations.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBAE6B02785B5CE061673F88 /* Integrations.framework */; };
 		3071E6307B2FF85C5C043069 /* VisualTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58649F5A9018C2BA4E5CC93 /* VisualTheme.swift */; };
 		3770BCD312A15B0DCA26E074 /* GridOSKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3DEDA22C9644FA5FA753472D /* CommandHelperHowToCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6822C8DFAB536E5A990DE9 /* CommandHelperHowToCard.swift */; };
 		3EEDEE8277A59A5782B93CBB /* CommandIntelligenceFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50936291FA3EA35F038A1261 /* CommandIntelligenceFailure.swift */; };
 		406D76F617E589801EB4936B /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		4074B4436A28D822EE2E2E1C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2EB63175AC99321BA5F35261 /* PrivacyInfo.xcprivacy */; };
@@ -49,6 +50,7 @@
 		5BA683C2AF090D06FB3759C8 /* TerminalActivityEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0407E4F89B90D2246E54166 /* TerminalActivityEvent.swift */; };
 		5BC51488677867F7732CD11B /* CommandRiskClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CD08ABC9E058F38C5D1172 /* CommandRiskClassifier.swift */; };
 		5E3DC9A9AF3A1ECA2A284A96 /* TerminalSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF6B6DC882B5A228DFFAAA75 /* TerminalSurface.swift */; };
+		6185DA493C6B6489A25A9686 /* SettingsWindowConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE090A0BB978206166442828 /* SettingsWindowConfigurator.swift */; };
 		631EA25AAC8409B105E152D2 /* AnthropicCommandProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6922304D1FF56546CD96CE28 /* AnthropicCommandProvider.swift */; };
 		65839B203EE419CFB256680F /* SystemMetricsSamplingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3997B802125DFB57593040D1 /* SystemMetricsSamplingPolicyTests.swift */; };
 		6640D0A991EA4BFC34875E2F /* VisualIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307045E1593C0C65F5C30CEF /* VisualIdentity.swift */; };
@@ -90,6 +92,7 @@
 		A507D5731F9C853B20011905 /* SystemMetrics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1456C0B22F5C1822B36E194E /* SystemMetrics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A59CD739DBCB9CA929E924F4 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
 		AC2C8B80AC7A3DBE1144570C /* TerminalWorkspaceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A1C141CFDD52F5AC081052 /* TerminalWorkspaceControllerTests.swift */; };
+		ACDAAE1621A441847C7D9B7D /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123EA74298ADCC15CFC71BE6 /* SettingsWindowController.swift */; };
 		B0B3B9349739E3480450C8CE /* SecretRedactorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC16CEB528CC0915A90E16D /* SecretRedactorTests.swift */; };
 		B2F8D3CB5D35C40D394E942D /* CommandContextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4993E53068E1B90C511DF /* CommandContextPreview.swift */; };
 		B5B22DB70F7C694B4EEC8983 /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
@@ -346,6 +349,7 @@
 		08E8FA9F0F03099E536367CA /* MacIntegrationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIntegrationModels.swift; sourceTree = "<group>"; };
 		092B6E00EC7B185D73364DA6 /* RenderCoreModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderCoreModelTests.swift; sourceTree = "<group>"; };
 		0E6E257F9A24DEBD00DA4BAD /* LocalNotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationClient.swift; sourceTree = "<group>"; };
+		123EA74298ADCC15CFC71BE6 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		1270874823F0B1E0B1D08C48 /* TerminalSessionConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSessionConfigurationTests.swift; sourceTree = "<group>"; };
 		14413EE9B2DE21275A316A72 /* GridOSKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridOSKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1456C0B22F5C1822B36E194E /* SystemMetrics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SystemMetrics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,6 +411,7 @@
 		8F0E99C7CA8491B3C961E8D7 /* TerminalCommandCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCommandCenter.swift; sourceTree = "<group>"; };
 		9135D79F52087818F7CA8C70 /* RenderCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RenderCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A15CE981371AAA2285EEA4C /* NativeSystemMetricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeSystemMetricsProvider.swift; sourceTree = "<group>"; };
+		9A6822C8DFAB536E5A990DE9 /* CommandHelperHowToCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHelperHowToCard.swift; sourceTree = "<group>"; };
 		9AFD3DC02C4F995516797A98 /* VisualEffectConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectConfiguration.swift; sourceTree = "<group>"; };
 		9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCommandIntelligenceFixtureProvider.swift; sourceTree = "<group>"; };
 		9D9A0EBDF8056347D4C9D3D6 /* AppTerminationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTerminationGuard.swift; sourceTree = "<group>"; };
@@ -444,6 +449,7 @@
 		E3B5FF968DD6CE140A6D7FF3 /* OpenAICommandProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommandProvider.swift; sourceTree = "<group>"; };
 		E3F4E01189BE636470EA1FA5 /* CommandHelperInfoPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHelperInfoPopover.swift; sourceTree = "<group>"; };
 		ED60B168CB0C71812A09BAA6 /* GridOSProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridOSProduct.swift; sourceTree = "<group>"; };
+		EE090A0BB978206166442828 /* SettingsWindowConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowConfigurator.swift; sourceTree = "<group>"; };
 		EEF52188EBEB245FEE84C419 /* LocalNotificationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationClientTests.swift; sourceTree = "<group>"; };
 		F092796E5E942985E5B180CD /* TerminalWorkspacePersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistence.swift; sourceTree = "<group>"; };
 		F0B59E04CD3F342827CCC045 /* TerminalCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminalCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -681,6 +687,7 @@
 			isa = PBXGroup;
 			children = (
 				9D9A0EBDF8056347D4C9D3D6 /* AppTerminationGuard.swift */,
+				9A6822C8DFAB536E5A990DE9 /* CommandHelperHowToCard.swift */,
 				E3F4E01189BE636470EA1FA5 /* CommandHelperInfoPopover.swift */,
 				614BA8449D8561581B6714BF /* CommandIntelligenceCommandCenter.swift */,
 				CECB04E1EE3CFC0B85111A10 /* CommandIntelligenceSettingsView.swift */,
@@ -699,6 +706,8 @@
 				084E1A2C9339EA56A59EADA2 /* PrivacySafetyLaunchView.swift */,
 				512E1127428923C1991E7539 /* RootView.swift */,
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
+				EE090A0BB978206166442828 /* SettingsWindowConfigurator.swift */,
+				123EA74298ADCC15CFC71BE6 /* SettingsWindowController.swift */,
 				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
 				A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */,
 				C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */,
@@ -1216,6 +1225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				989BBC1CDDBA4C23020A4393 /* AppTerminationGuard.swift in Sources */,
+				3DEDA22C9644FA5FA753472D /* CommandHelperHowToCard.swift in Sources */,
 				E8BEC72C9389A7B2ECCADA99 /* CommandHelperInfoPopover.swift in Sources */,
 				155FFF38595C51FAC5171A25 /* CommandIntelligenceCommandCenter.swift in Sources */,
 				9CBF6D45A71453009BD8E03E /* CommandIntelligenceSettingsView.swift in Sources */,
@@ -1231,6 +1241,8 @@
 				4D1995BC7065F0C9EA186D1F /* PrivacySafetyLaunchView.swift in Sources */,
 				7A2FD40E5A26573B69BF9331 /* RootView.swift in Sources */,
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
+				6185DA493C6B6489A25A9686 /* SettingsWindowConfigurator.swift in Sources */,
+				ACDAAE1621A441847C7D9B7D /* SettingsWindowController.swift in Sources */,
 				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,
 				77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */,
 				558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */,
@@ -1420,7 +1432,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1432,7 +1444,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1463,7 +1475,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1472,7 +1484,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
 				PRODUCT_NAME = gridOS;
 				SDKROOT = macosx;
@@ -1516,7 +1528,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1528,7 +1540,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1541,7 +1553,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1553,7 +1565,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.SystemMetrics;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1566,7 +1578,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1578,7 +1590,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1591,7 +1603,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1603,7 +1615,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1618,7 +1630,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -1627,7 +1639,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos;
 				PRODUCT_NAME = gridOS;
 				SDKROOT = macosx;
@@ -1719,7 +1731,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1731,7 +1743,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1833,7 +1845,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1845,7 +1857,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.TerminalCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1858,7 +1870,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1870,7 +1882,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.CommandIntelligence;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1883,7 +1895,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1895,7 +1907,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.RenderCore;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1924,7 +1936,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1936,7 +1948,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.Integrations;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1949,7 +1961,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1961,7 +1973,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.GridOSKit;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -2022,7 +2034,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2034,7 +2046,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaldere1.gridos.Integrations;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
