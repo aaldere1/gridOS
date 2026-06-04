@@ -49,7 +49,7 @@ public struct TerminalSurface: NSViewRepresentable {
     }
 
     @MainActor
-    public final class Coordinator: NSObject, @MainActor LocalProcessTerminalViewDelegate {
+    public final class Coordinator: NSObject, LocalProcessTerminalViewDelegate {
         private let paneID: TerminalPaneID
         private let configuration: TerminalSessionConfiguration
         private let interactionController: TerminalInteractionController?
@@ -115,21 +115,29 @@ public struct TerminalSurface: NSViewRepresentable {
             state = .terminated(exitCode: nil)
         }
 
-        public func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {
-            recordActivity(.resized(columns: newCols, rows: newRows))
+        public nonisolated func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {
+            Task { @MainActor [weak self] in
+                self?.recordActivity(.resized(columns: newCols, rows: newRows))
+            }
         }
 
-        public func setTerminalTitle(source: LocalProcessTerminalView, title: String) {
-            recordActivity(.titleChanged(title))
+        public nonisolated func setTerminalTitle(source: LocalProcessTerminalView, title: String) {
+            Task { @MainActor [weak self] in
+                self?.recordActivity(.titleChanged(title))
+            }
         }
 
-        public func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {
-            recordActivity(.workingDirectoryChanged(directory))
+        public nonisolated func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {
+            Task { @MainActor [weak self] in
+                self?.recordActivity(.workingDirectoryChanged(directory))
+            }
         }
 
-        public func processTerminated(source: TerminalView, exitCode: Int32?) {
-            state = .terminated(exitCode: exitCode)
-            recordActivity(.processTerminated(exitCode: exitCode))
+        public nonisolated func processTerminated(source: TerminalView, exitCode: Int32?) {
+            Task { @MainActor [weak self] in
+                self?.state = .terminated(exitCode: exitCode)
+                self?.recordActivity(.processTerminated(exitCode: exitCode))
+            }
         }
 
         private func configure(_ terminalView: LocalProcessTerminalView) {
