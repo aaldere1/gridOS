@@ -80,7 +80,7 @@ final class WindowFrameHostView: NSView {
 
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
-        window.minSize = NSSize(width: 960, height: 640)
+        window.minSize = NSSize(width: 1180, height: 720)
         window.delegate = configuredDelegate
         if autosaveName == "gridOS.main" {
             window.setFrameAutosaveName("gridOS.main")

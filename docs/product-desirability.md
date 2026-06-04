@@ -1,6 +1,6 @@
 # gridOS Product Desirability
 
-Status: version 1.0.3 product pass
+Status: version 1.0.4 product pass
 Last updated: 2026-06-04
 
 App Store readiness remains secondary to product quality. The current bar is
@@ -15,11 +15,12 @@ calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
 feels like pre-release paperwork wrapped around a terminal.
 
-Version 1.0.3 improves the user-facing value by making first-use AI setup
+Version 1.0.4 improves the user-facing value by making first-use AI setup
 explicit, updating Anthropic and OpenAI model defaults, adding project-folder
 entry, protecting live shell sessions from accidental close/quit, replacing fake
-examples with realistic terminal snippets, and removing settings controls that
-looked wired before the release workflow was complete.
+examples with realistic terminal snippets, clipping restored multi-pane terminal
+surfaces cleanly, and removing settings controls that looked wired before the
+release workflow was complete.
 
 ## What Must Become Obvious
 
@@ -48,7 +49,7 @@ looked wired before the release workflow was complete.
 
 ## Next Product Moves
 
-1. Rebuild, notarize, and verify the 1.0.3 production DMG from the source commit.
-2. Run local replacement proof from 1.0.2 build 10 to 1.0.3 build 11.
+1. Rebuild, notarize, and verify the 1.0.4 production DMG from the source commit.
+2. Run local replacement proof from 1.0.3 build 11 to 1.0.4 build 12.
 3. Publish download-facing release notes from `docs/production-direct-release.md`.
 4. Run clean-Mac Finder/Gatekeeper UAT as the final external validation.

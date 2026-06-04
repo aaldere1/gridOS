@@ -136,6 +136,7 @@ public struct TerminalSurface: NSViewRepresentable {
             terminalView.processDelegate = self
             terminalView.autoresizingMask = [.width, .height]
             terminalView.wantsLayer = true
+            terminalView.layer?.masksToBounds = true
 
             let foreground = NSColor(calibratedRed: 0.78, green: 0.91, blue: 0.92, alpha: 1)
             let background = NSColor(calibratedRed: 0.015, green: 0.020, blue: 0.024, alpha: 1)

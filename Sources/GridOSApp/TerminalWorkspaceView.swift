@@ -271,6 +271,7 @@ struct TerminalWorkspaceView: View {
                 }
             }
             .frame(minWidth: 240, minHeight: 160)
+            .clipped()
             .accessibilityLabel("Terminal pane")
             .accessibilityValue(isActive ? "Active pane" : "Inactive pane")
         } else {

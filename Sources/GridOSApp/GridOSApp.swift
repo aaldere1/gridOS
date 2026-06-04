@@ -40,7 +40,7 @@ struct GridOSApplication: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .frame(minWidth: 960, minHeight: 640)
+                .frame(minWidth: 1180, minHeight: 720)
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
