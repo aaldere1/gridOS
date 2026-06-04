@@ -49,7 +49,7 @@ release workflow was complete.
 
 ## Next Product Moves
 
-1. Rebuild, notarize, and verify the 1.0.4 production DMG from the source commit.
-2. Run local replacement proof from 1.0.3 build 11 to 1.0.4 build 12.
-3. Publish download-facing release notes from `docs/production-direct-release.md`.
-4. Run clean-Mac Finder/Gatekeeper UAT as the final external validation.
+1. Publish the 1.0.4 DMG/ZIP and download-facing release notes from `docs/production-direct-release.md`.
+2. Replace any stale local `/Applications/gridOS.app` copy before tester handoff.
+3. Run clean-Mac Finder/Gatekeeper UAT as the final external validation.
+4. Collect first-user feedback on whether AI Command Helper feels useful enough to become a daily workflow, not just a novelty.

@@ -1,23 +1,23 @@
 # Production launch smoke
 
-- Timestamp UTC: 2026-06-03T14:21:23Z
-- Artifact: build/release/production/gridOS-1.0.2-10-8f2865b.dmg
-- Artifact SHA-256: 52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c
-- Source commit: 8f2865b
-- Version: 1.0.2
-- Build: 10
+- Timestamp UTC: 2026-06-04T14:08:53Z
+- Artifact: build/release/production/gridOS-1.0.4-12-fe73021.dmg
+- Artifact SHA-256: ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640
+- Source commit: fe73021
+- Version: 1.0.4
+- Build: 12
 - Bundle ID: com.aaldere1.gridos
-- Launch path: DMG mounted under /tmp/gridos-final-dmg.ZMK39u
+- Launch path: DMG mounted under /tmp/gridos-computer-1.0.4.2FCpAm
 - Launch command: open -n "$APP"
-- Process detector: pgrep -x gridOS
+- Process detector: ps -axo pid,ppid,comm,args | rg '[g]ridOS'
 - Result: PASS
 
 ## DMG Container
 
 ```text
-build/release/production/gridOS-1.0.2-10-8f2865b.dmg: valid on disk
-build/release/production/gridOS-1.0.2-10-8f2865b.dmg: satisfies its Designated Requirement
-build/release/production/gridOS-1.0.2-10-8f2865b.dmg: accepted
+build/release/production/gridOS-1.0.4-12-fe73021.dmg: valid on disk
+build/release/production/gridOS-1.0.4-12-fe73021.dmg: satisfies its Designated Requirement
+build/release/production/gridOS-1.0.4-12-fe73021.dmg: accepted
 source=Notarized Developer ID
 stapler=PASS
 ```
@@ -25,67 +25,90 @@ stapler=PASS
 ## Gatekeeper
 
 ```text
-/tmp/gridos-final-dmg.ZMK39u/gridOS.app: accepted
+/tmp/gridos-computer-1.0.4.2FCpAm/gridOS.app: accepted
 source=Notarized Developer ID
+origin=Developer ID Application: CineConcerts LLC (JFE428WL4Z)
 ```
 
 ## Strict Code Signature
 
 ```text
-/tmp/gridos-final-dmg.ZMK39u/gridOS.app: valid on disk
-/tmp/gridos-final-dmg.ZMK39u/gridOS.app: satisfies its Designated Requirement
+/tmp/gridos-computer-1.0.4.2FCpAm/gridOS.app: valid on disk
+/tmp/gridos-computer-1.0.4.2FCpAm/gridOS.app: satisfies its Designated Requirement
 ```
 
-## Process Sample
+## Process And Version Sample
 
 ```text
-VERSION=1.0.2
-BUILD=10
+VERSION=1.0.4
+BUILD=12
 BUNDLE_ID=com.aaldere1.gridos
-PID=90961
-CPU_PERCENT=8.0
-RSS_KB=14112
-PS_SAMPLE=90961     1   8.0  14112 00:00 /tmp/gridos-final-dmg.ZMK39u/gridOS.app/Contents/MacOS/gridOS
+DMG_SHA256=ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640
+APP_BUNDLE_SHA256=800fa6a05b318c0319b8387fe0997f8b548f27c0f7bdac7422e849cef924be09
+PID=35507
+PS_SAMPLE=/private/tmp/gridos-computer-1.0.4.2FCpAm/gridOS.app/Contents/MacOS/gridOS
 ```
 
 ## DMG Installer Layout
 
-- Finder window bounds: {120, 120, 780, 540}
-- gridOS.app icon position: {180, 220}
-- Applications alias position: {500, 220}
-- Hidden background asset position: {1000, 1000}
+Computer Use inspected the mounted DMG Finder window named `gridOS`.
+
+- gridOS.app icon visible: PASS
+- Applications shortcut visible: PASS
+- Drag arrow/background visible: PASS
+- Readable copy: PASS, "Drag gridOS into Applications"
+- Footer: PASS, "signed and notarized"
 - Applications link target: /Applications
-- Visible layout: PASS, custom drag-to-Applications background with arrow and readable drop targets
-- Hidden-file stress check: PASS, .background remains hidden/off-canvas even with Finder hidden files enabled on this Mac
 
 ## Visual Inspection
 
-- Computer Use app path: /tmp/gridos-final-dmg.ZMK39u/gridOS.app
-- Visible app version: v1.0.2
+Computer Use targeted the mounted app path directly:
+`/tmp/gridos-computer-1.0.4.2FCpAm/gridOS.app`.
+
+- Visible app version: v1.0.4
 - Terminal workspace inspection: PASS
 - Pane toolbar visible: PASS
 - Pane count visible: PASS, 4 panes restored
+- Open Folder toolbar item visible: PASS
 - AI Command Helper menu visible: PASS
-- Settings section focus: PASS
-- AI Command Helper info button present: PASS
-- Provider setup copy visible: PASS
-- Anthropic provider/model visible: PASS
-- No-key copy: PASS, "Add an Anthropic key to use this provider. The terminal still works normally."
+- AI Command Helper menu opens: PASS
+- Right-rail local signal visible: PASS
+- Live system pulse/activity visible: PASS
 - Pre-release/debug language visible in app UI: none observed
-- Layout issues observed: none blocking; four panes are usable but tight at the default window width
-- Text clipping observed: none blocking
+- Layout issues observed: none blocking
+- Text clipping/bleed observed: none after 1.0.4 clipping fix
+
+## Local Installed Copy Boundary
+
+Computer Use initially attached to `/Applications/gridOS.app`, which this Mac
+still had installed from an earlier test. That installed copy reported:
+
+```text
+CFBundleShortVersionString=1.0.0
+CFBundleVersion=8
+```
+
+The mounted 1.0.4 DMG app was running separately and reported:
+
+```text
+CFBundleShortVersionString=1.0.4
+CFBundleVersion=12
+```
+
+This is not an artifact failure. It means local testers on this Mac must replace
+the stale installed app from the 1.0.4 DMG before launching from Applications.
 
 ## Quit And Cleanup
 
-- Quit command: osascript -e 'tell application id "com.aaldere1.gridos" to quit'
+- Quit/cleanup command: terminate test app processes and detach temporary DMG mount
 - Quit status: PASS
 - DMG detach status: PASS
 - Temporary mount cleanup: PASS
 
 ## Notes
 
-This smoke uses LaunchServices rather than directly executing the app binary,
-so it matches the normal downloaded-DMG launch path more closely. It does not
-capture shell history, terminal output, environment variables, screenshots, API
-keys, private file contents, generated commands, provider responses, or raw
-terminal transcripts.
+This smoke uses LaunchServices and Computer Use rather than directly executing
+the app binary, so it matches the normal downloaded-DMG launch path more
+closely. It does not capture shell history, terminal output, environment
+variables, screenshots, API keys, private file contents, generated commands,
+provider responses, or raw terminal transcripts.

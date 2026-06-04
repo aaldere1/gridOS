@@ -2,28 +2,28 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.2",
-  "build": "10",
-  "sourceCommit": "8f2865b",
-  "generatedAt": "2026-06-03T16:52:54Z",
+  "version": "1.0.4",
+  "build": "12",
+  "sourceCommit": "fe73021",
+  "generatedAt": "2026-06-04T14:08:53Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.2-10-8f2865b.dmg",
-      "sha256": "52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c",
+      "path": "build/release/production/gridOS-1.0.4-12-fe73021.dmg",
+      "sha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
       "codesign": "pass",
       "gatekeeper": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.2-10-8f2865b.zip",
-      "sha256": "21d04d90887662749817d4dae2df443d8774ce0707b43f684acda386b49c4ad4"
+      "path": "build/release/production/gridOS-1.0.4-12-fe73021.zip",
+      "sha256": "ad403753dabf21439c62f0db8dbea7e3b2e46fcf242a2d0557914907a63c9a02"
     },
     "appBundle": {
-      "sha256": "ab6d5548dea50cf0880de5adb26c9f0cc5723c606a550d74fb2d2925ed9397c0"
+      "sha256": "800fa6a05b318c0319b8387fe0997f8b548f27c0f7bdac7422e849cef924be09"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "6d2fb550-cafb-40e9-9a5d-8572acbd1f2c",
+    "submissionId": "6735e8a7-a797-4eed-a9c2-59a851527487",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
@@ -34,12 +34,14 @@
     "status": "pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "visualVersionInspection": "pass",
-    "visibleVersion": "v1.0.2",
+    "visibleVersion": "v1.0.4",
+    "computerUseAppInspection": "pass",
+    "computerUseDmgInspection": "pass",
     "settingsProviderInspection": "pass",
     "aiCommandHelperMenuVisible": true,
     "aiCommandHelperInfoButtonVisible": true,
     "providersSupported": ["anthropic", "openai"],
-    "providersVisible": ["anthropic"],
+    "providersVisible": ["anthropic", "openai"],
     "paneToolbarVisible": true,
     "paneCountVisible": true,
     "dmgInstallerLayout": "pass",
@@ -47,20 +49,22 @@
     "dmgAppPosition": [180, 220],
     "dmgApplicationsPosition": [500, 220],
     "dmgBackgroundAssetPosition": [1000, 1000],
-    "cpuPercent": 8.0,
-    "rssKb": 14112
+    "cpuPercent": 31.0,
+    "rssKb": 121808,
+    "staleApplicationsCopyObserved": true,
+    "staleApplicationsCopyVersion": "1.0.0"
   },
   "localUpdateProof": {
     "status": "pass",
-    "verifiedAt": "2026-06-03T16:52:54Z",
+    "verifiedAt": "2026-06-04T14:08:53Z",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "temporary local install root, not clean-Mac evidence",
-    "fromVersion": "1.0.1",
-    "fromBuild": "9",
-    "toVersion": "1.0.2",
-    "toBuild": "10",
-    "fromDmgSha256": "39a64bb9a8d605bcac8089f3a410e67f44a4d87042949880c79ab7c34205824a",
-    "toDmgSha256": "52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c",
+    "fromVersion": "1.0.2",
+    "fromBuild": "10",
+    "toVersion": "1.0.4",
+    "toBuild": "12",
+    "fromDmgSha256": "52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c",
+    "toDmgSha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
     "codesign": "pass",
     "gatekeeper": "pass"
   },

@@ -1,17 +1,18 @@
 # gridOS production direct release
 
-Status: version 1.0.2
-Last updated: 2026-06-03
+Status: version 1.0.4
+Last updated: 2026-06-04
 
 ## Artifact
 
-- Version: 1.0.2
-- Build: 10
-- Source commit: 8f2865b
-- DMG: build/release/production/gridOS-1.0.2-10-8f2865b.dmg
-- DMG SHA-256: 52db1e21ee81df5b5f6e1bda5aec05888baf64277bbe13fe8d5703ad402f867c
-- ZIP: build/release/production/gridOS-1.0.2-10-8f2865b.zip
-- ZIP SHA-256: 21d04d90887662749817d4dae2df443d8774ce0707b43f684acda386b49c4ad4
+- Version: 1.0.4
+- Build: 12
+- Source commit: fe73021
+- DMG: build/release/production/gridOS-1.0.4-12-fe73021.dmg
+- DMG SHA-256: ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640
+- ZIP: build/release/production/gridOS-1.0.4-12-fe73021.zip
+- ZIP SHA-256: ad403753dabf21439c62f0db8dbea7e3b2e46fcf242a2d0557914907a63c9a02
+- App bundle SHA-256: 800fa6a05b318c0319b8387fe0997f8b548f27c0f7bdac7422e849cef924be09
 
 ## Release Positioning
 
@@ -20,9 +21,11 @@ signature, multi-pane workspaces, calmer host metrics, and guarded Command
 Intelligence. The value is not "AI terminal" as a gimmick. The value is a
 beautiful, private command workspace that helps users think before they run.
 
-Version 1.0.2 presents Command Intelligence as AI Command Helper, adds an
-info button that explains the feature in plain language, and ships a polished
-drag-to-Applications DMG with a signed/notarized installer container.
+Version 1.0.4 presents Command Intelligence as AI Command Helper, supports
+OpenAI and Anthropic key setup, refreshes the model defaults, adds a project
+folder entry point, protects live shells from accidental close/quit, clips tight
+multi-pane layouts cleanly, and ships a polished drag-to-Applications DMG with
+a signed/notarized installer container.
 
 ## First Launch
 
@@ -41,11 +44,13 @@ tool opening its doors, not a pre-release disclaimer.
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
 | Launch from mounted DMG | PASS |
-| Visible app version v1.0.2 | PASS |
-| AI Command Helper settings present | PASS |
+| Visible app version v1.0.4 | PASS |
+| AI Command Helper settings/menu present | PASS |
 | Pane controls visible in packaged app | PASS |
 | DMG drag-to-Applications layout | PASS |
-| Local 1.0.1 to 1.0.2 replacement proof | PASS |
+| Computer Use visual app check | PASS |
+| Computer Use DMG layout check | PASS |
+| Local 1.0.2 to 1.0.4 replacement proof | PASS |
 | Clean quit after launch | PASS |
 | Performance quick gate | PASS |
 
@@ -71,9 +76,15 @@ update feed is deliberately added:
 5. Launch from Finder.
 6. Confirm the app version/build matches the release manifest.
 
-Local replacement proof has passed from 1.0.1 build 9 to 1.0.2 build 10 in a
+Local replacement proof has passed from 1.0.2 build 10 to 1.0.4 build 12 in a
 temporary install root. Clean-Mac Finder install/update proof remains the final
 external install validation.
+
+This development Mac currently has a stale `/Applications/gridOS.app` at
+version 1.0.0 from an earlier test. Testers should open the 1.0.4 DMG and
+replace the installed app before launching from Applications. The 1.0.4 mounted
+DMG app itself was separately inspected through Computer Use and reported the
+correct visible version.
 
 ## Privacy Boundaries
 
