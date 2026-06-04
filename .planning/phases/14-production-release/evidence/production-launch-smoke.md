@@ -81,7 +81,7 @@ Computer Use targeted the mounted app path directly:
 ## Local Installed Copy Boundary
 
 Computer Use initially attached to `/Applications/gridOS.app`, which this Mac
-still had installed from an earlier test. That installed copy reported:
+had installed from an earlier test. That installed copy reported:
 
 ```text
 CFBundleShortVersionString=1.0.0
@@ -95,8 +95,10 @@ CFBundleShortVersionString=1.0.4
 CFBundleVersion=12
 ```
 
-This is not an artifact failure. It means local testers on this Mac must replace
-the stale installed app from the 1.0.4 DMG before launching from Applications.
+This was not an artifact failure. The mounted 1.0.4 DMG app was inspected
+separately and passed. After release publication, the stale NEXUS
+`/Applications/gridOS.app` copy was replaced from the 1.0.4 DMG; Computer Use
+then verified the installed Applications copy showed visible `v1.0.4`.
 
 ## Quit And Cleanup
 

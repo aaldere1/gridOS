@@ -52,7 +52,9 @@
     "cpuPercent": 31.0,
     "rssKb": 121808,
     "staleApplicationsCopyObserved": true,
-    "staleApplicationsCopyVersion": "1.0.0"
+    "staleApplicationsCopyVersion": "1.0.0",
+    "staleApplicationsCopyReplaced": true,
+    "applicationsCopyVisibleVersionAfterReplacement": "v1.0.4"
   },
   "localUpdateProof": {
     "status": "pass",

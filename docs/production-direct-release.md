@@ -80,11 +80,11 @@ Local replacement proof has passed from 1.0.2 build 10 to 1.0.4 build 12 in a
 temporary install root. Clean-Mac Finder install/update proof remains the final
 external install validation.
 
-This development Mac currently has a stale `/Applications/gridOS.app` at
-version 1.0.0 from an earlier test. Testers should open the 1.0.4 DMG and
-replace the installed app before launching from Applications. The 1.0.4 mounted
-DMG app itself was separately inspected through Computer Use and reported the
-correct visible version.
+This development Mac initially had a stale `/Applications/gridOS.app` at
+version 1.0.0 from an earlier test. The 1.0.4 mounted DMG app itself was
+separately inspected through Computer Use and reported the correct visible
+version; the local Applications copy was later replaced from the 1.0.4 DMG and
+Computer Use verified visible `v1.0.4` there too.
 
 ## Privacy Boundaries
 

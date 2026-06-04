@@ -35,3 +35,5 @@ version 1.0.0 because this Mac still has an old installed copy. Directly
 targeting the mounted 1.0.4 DMG app showed the correct visible version, toolbar,
 AI Command Helper menu, and clipped four-pane workspace. Testers should replace
 the installed app from the 1.0.4 DMG before launching from Applications.
+After publication, the stale NEXUS Applications copy was replaced from the 1.0.4
+DMG and Computer Use verified the installed copy showed visible `v1.0.4`.
