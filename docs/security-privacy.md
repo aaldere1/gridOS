@@ -5,6 +5,8 @@ gridOS is a terminal, system monitor, and optional LLM-assisted command surface.
 ## Current stance
 
 - No telemetry by default.
+- Automatic update checks may contact the signed Sparkle appcast and GitHub
+  release assets; Sparkle system profiling is disabled.
 - No LLM network request without explicit user action.
 - No shell history, selected output, command context, or API key should be logged by default.
 - Provider API keys use Keychain-backed generic-password items.
@@ -67,6 +69,8 @@ Direct distribution is the production path until App Store sandboxing is product
 - Hardened runtime enabled
 - Notarized
 - Gatekeeper-tested from a downloaded or quarantined artifact
+- Sparkle automatic updates backed by EdDSA-signed appcast metadata and signed
+  GitHub release assets
 
 Mac App Store readiness is now tracked separately in
 `docs/app-store-readiness.md`. App Store sandbox and network-client entitlements

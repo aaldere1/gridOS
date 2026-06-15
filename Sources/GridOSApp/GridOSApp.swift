@@ -45,6 +45,7 @@ struct GridOSApplication: App {
         .windowStyle(.hiddenTitleBar)
         .commands {
             AppSettingsCommands()
+            SoftwareUpdateCommands()
             TerminalCommands()
             CommandIntelligenceCommands()
             AppearanceCommands()
@@ -61,6 +62,14 @@ private struct AppSettingsCommands: Commands {
                 SettingsWindowController.shared.open()
             }
             .keyboardShortcut(",", modifiers: [.command])
+        }
+    }
+}
+
+private struct SoftwareUpdateCommands: Commands {
+    var body: some Commands {
+        CommandGroup(after: .appInfo) {
+            CheckForUpdatesView()
         }
     }
 }

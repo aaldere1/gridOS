@@ -26,5 +26,17 @@
 	<string>public.app-category.developer-tools</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright (c) 2026 gridOS Authors. All rights reserved.</string>
+	<key>SUAutomaticallyUpdate</key>
+	<true/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUEnableSystemProfiling</key>
+	<false/>
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=</string>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
 </dict>
 </plist>

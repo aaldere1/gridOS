@@ -59,6 +59,7 @@
 		6F3EF1C785DD8FDC54969161 /* SystemMetricsStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5316B6B297C5691A64C91831 /* SystemMetricsStatus.swift */; };
 		70834CB4225B77F676925F08 /* TerminalSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C9316D32776AD1E5A9B9A9 /* TerminalSessionState.swift */; };
 		71C1A75DDE5602C1EF17EFC1 /* MacIntegrationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDBBA7C0AEC0890B38FF8EE /* MacIntegrationsSettingsView.swift */; };
+		7379AEBBAB70A6BB7A793A6F /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 0F5F11FEDC0F32CE18C003C1 /* Sparkle */; };
 		74B576482AEF9B090E901202 /* SystemMetricsSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E6FB4ADEFD81AEFF49FE48 /* SystemMetricsSampler.swift */; };
 		77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */; };
 		791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D1ABD1A285A4D77A862F414 /* CommandIntelligence.framework */; };
@@ -68,6 +69,7 @@
 		81A4FE4CAFCD98B2B87AB4D3 /* LocalNotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6E257F9A24DEBD00DA4BAD /* LocalNotificationClient.swift */; };
 		82FE12326A704ABB68E2A558 /* TerminalWorkspaceModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414683704F2D9DED2FD12FA6 /* TerminalWorkspaceModelTests.swift */; };
 		8429E33DE7CFFB0A883A5B2B /* TerminalCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D52D3CDDB67D92C0EEDC0451 /* TerminalCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		856130AA482AD881AFF9C012 /* SoftwareUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB61A3873E145B1CDA4689B8 /* SoftwareUpdateController.swift */; };
 		85F5BF6B0681BA56996DA2BE /* CommandCredentialStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A7D9EAECBC7815E541E14 /* CommandCredentialStoreTests.swift */; };
 		867AC48BA8E9E93797ECCDA8 /* DebugCommandIntelligenceFixtureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B15C69A20A8DAAD0977BB8C /* DebugCommandIntelligenceFixtureProvider.swift */; };
 		8A3B0BD982037D22EA3D3FDD /* GridOSKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5449C18D52D6690542E48A9C /* GridOSKit.framework */; };
@@ -455,6 +457,7 @@
 		F0B59E04CD3F342827CCC045 /* TerminalCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminalCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97BE669EA7C73AC5BDF591B /* SecretRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretRedactor.swift; sourceTree = "<group>"; };
 		F9E6E316EAFB23C1930C7A7F /* TerminalWorkspacePersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspacePersistenceTests.swift; sourceTree = "<group>"; };
+		FB61A3873E145B1CDA4689B8 /* SoftwareUpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftwareUpdateController.swift; sourceTree = "<group>"; };
 		FC883E3F6B96367D574BAA5B /* TerminalCoreStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalCoreStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -541,6 +544,7 @@
 				CFCC6684E6C13579E33265A0 /* SystemMetrics.framework in Frameworks */,
 				791C0297D7E58B00E308D661 /* CommandIntelligence.framework in Frameworks */,
 				8B6239640FA53AB13FF9B4BD /* Integrations.framework in Frameworks */,
+				7379AEBBAB70A6BB7A793A6F /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +712,7 @@
 				062BFF92FC56AEDFCE8AAB35 /* SettingsView.swift */,
 				EE090A0BB978206166442828 /* SettingsWindowConfigurator.swift */,
 				123EA74298ADCC15CFC71BE6 /* SettingsWindowController.swift */,
+				FB61A3873E145B1CDA4689B8 /* SoftwareUpdateController.swift */,
 				A599490B8EE11302D4F3E04F /* TerminalWorkspaceCommands.swift */,
 				A1ED302DC02B6166AA1BF381 /* TerminalWorkspaceView.swift */,
 				C68E0EB9BAB89DB17E7E8F9A /* WindowFrameController.swift */,
@@ -913,6 +918,7 @@
 			);
 			name = gridOS;
 			packageProductDependencies = (
+				0F5F11FEDC0F32CE18C003C1 /* Sparkle */,
 			);
 			productName = gridOS;
 			productReference = 386D7AD72B82EB596CE79DED /* gridOS.app */;
@@ -1100,6 +1106,7 @@
 			mainGroup = EA80B93BC760A703103FD36E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				1E671EACB79EFEAE9703E2F7 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				23BCCA2F1AA205662A292111 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -1243,6 +1250,7 @@
 				1A4EBB3A320D82A26A8E9AB5 /* SettingsView.swift in Sources */,
 				6185DA493C6B6489A25A9686 /* SettingsWindowConfigurator.swift in Sources */,
 				ACDAAE1621A441847C7D9B7D /* SettingsWindowController.swift in Sources */,
+				856130AA482AD881AFF9C012 /* SoftwareUpdateController.swift in Sources */,
 				167B9F34143F208F2CB659F0 /* TerminalWorkspaceCommands.swift in Sources */,
 				77EFEF4B8D1B3A27DCA15051 /* TerminalWorkspaceView.swift in Sources */,
 				558EEAB3E11DA391A9264E6B /* WindowFrameController.swift in Sources */,
@@ -2202,6 +2210,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E671EACB79EFEAE9703E2F7 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.3;
+			};
+		};
 		23BCCA2F1AA205662A292111 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm.git";
@@ -2213,6 +2229,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0F5F11FEDC0F32CE18C003C1 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E671EACB79EFEAE9703E2F7 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
 		2EB3C2745E118FBDDDBE306E /* SwiftTerm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 23BCCA2F1AA205662A292111 /* XCRemoteSwiftPackageReference "SwiftTerm" */;

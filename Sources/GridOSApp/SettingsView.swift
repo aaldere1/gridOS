@@ -70,6 +70,8 @@ struct SettingsView: View {
 
                 MacIntegrationsSettingsView()
 
+                SoftwareUpdateSettingsView()
+
                 CommandIntelligenceSettingsView()
                     .id("command-intelligence-settings")
                     .accessibilityIdentifier("command-intelligence-settings")

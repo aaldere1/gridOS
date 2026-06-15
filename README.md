@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/readme/screenshots/gridos-main-window.png" alt="Actual gridOS 1.0.5 app window showing the native terminal workspace, local metrics, visual signature, and right rail" width="100%">
+  <img src="docs/assets/readme/gridos-signal-hero.png" alt="gridOS brand hero showing the glass app icon over a dark grid with cyan signal lines and amber nodes" width="100%">
 </p>
 
 <h1 align="center">gridOS</h1>
@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <sub>Hero image is an actual app-window capture from the current 1.0.5 build. Local shell prompt and process names vary by machine.</sub>
+  <sub>Hero image is a brand visual built from the app icon, not a product screenshot. Screenshots below avoid terminal prompts and local usernames.</sub>
 </p>
 
 ## Why It Exists
@@ -66,9 +66,13 @@ UI cannot drift from the release artifact.
   <img src="docs/assets/readme/screenshots/gridos-command-helper.png" alt="Actual gridOS Command-K AI Command Helper setup state showing provider choice, preview-first context policy, and insert-first command flow" width="100%">
 </p>
 
-The screenshots are captured from the current app UI, not generated product art.
-The terminal prompt and process list are local runtime data; they are shown here
-to keep the public page honest about what the app actually displays.
+<p>
+  <img src="docs/assets/readme/screenshots/gridos-settings-updates.png" alt="Actual gridOS Settings screenshot showing automatic software update controls enabled" width="100%">
+</p>
+
+The screenshots are captured from the current app UI, not generated product art,
+and intentionally avoid terminal panes, shell prompts, usernames, and process
+details.
 
 ## What Ships
 
@@ -81,6 +85,7 @@ to keep the public page honest about what the app actually displays.
 - Keychain-backed provider key storage.
 - Preview-first provider requests: gridOS shows redacted context before a request leaves the app.
 - Local generated-command risk labels with insert-first behavior and explicit run confirmation.
+- Sparkle automatic updates backed by signed GitHub release assets.
 - Polished drag-to-Applications DMG layout.
 
 ## AI Command Helper
@@ -107,11 +112,13 @@ If macOS blocks launch, do not bypass Gatekeeper. Treat that as a release issue:
 the current release is expected to be signed, notarized, stapled, and
 Gatekeeper-accepted.
 
-## Update From An Earlier Build
+## Updates
 
-The direct-download lane is manual for now. Sparkle or another appcast update
-system should only be added after the public download path gets more external
-proof.
+gridOS includes Sparkle automatic updates for the direct-download lane.
+Automatic checks and automatic install are enabled by default, system profiling
+is off, and the manual DMG flow remains available as a fallback.
+
+For manual updates:
 
 1. Quit gridOS.
 2. Download the newer signed and notarized DMG.
@@ -127,6 +134,7 @@ Mac install/update proof remains the final external validation item.
 gridOS currently ships with conservative defaults:
 
 - No telemetry.
+- Automatic update checks use the signed Sparkle appcast and GitHub release assets; Sparkle system profiling is off.
 - No automatic crash upload.
 - No automatic diagnostics upload.
 - No automatic LLM request without an explicit user action.
