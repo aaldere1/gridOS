@@ -9,9 +9,14 @@
 
 ## License Posture
 
-The current `LICENSE` is proprietary private-alpha only. It grants no public copying, modification, distribution, sublicense, or use rights without written permission from the copyright holder.
+The current `LICENSE` is source-available proprietary. Public repository
+visibility is allowed, but the license grants no public copying, modification,
+distribution, sublicense, or use rights without written permission from the
+copyright holder.
 
-Before public source release, external beta distribution, or any marketplace packaging, the license posture needs an explicit legal/product decision and a dependency attribution bundle.
+Before any open-source relicensing, external marketplace packaging, or bundled
+third-party attribution material, make a separate legal/product decision. The
+current public GitHub posture is source-available proprietary, not open source.
 
 ## Vulnerability Review
 
@@ -36,12 +41,14 @@ The boundary is intentionally conservative because eDEX-UI is GPL-3.0 licensed a
 
 Phase 10 build/test verification keeps this setting in the generated Xcode project while running with `CODE_SIGNING_ALLOWED=NO` for local automation. No hardened-runtime entitlement exceptions are currently declared or required by the checked-in app configuration.
 
-Production signing, notarization, stapling, Gatekeeper clean-install testing, and any entitlement exception review remain Phase 11/12 release-candidate work.
+Production signing, notarization, stapling, Gatekeeper assessment, and
+same-machine Finder/app inspection are complete for the 1.0.5 direct release.
+Separate clean-Mac install/update proof remains external validation.
 
-## Follow-Up Before Beta
+## Follow-Up
 
 - Pin and record resolved external package revisions in release evidence.
-- Review `SwiftTerm` upstream license and security posture at beta branch cut.
+- Review `SwiftTerm` upstream license and security posture before any broader distribution push.
 - Add dependency attribution/notice material to packaged builds if distribution scope requires it.
-- Re-run hardened-runtime checks on a signed Developer ID build.
+- Re-run hardened-runtime checks on each signed Developer ID build.
 - Keep eDEX-UI references as attribution and inspiration only; do not import GPL-licensed code/assets/themes unless the product license strategy changes.

@@ -1,7 +1,7 @@
 # gridOS Product Desirability
 
-Status: version 1.0.4 product pass
-Last updated: 2026-06-04
+Status: version 1.0.5 product pass
+Last updated: 2026-06-15
 
 App Store readiness remains secondary to product quality. The current bar is
 not compliance. The current bar is whether a serious Mac terminal user would
@@ -15,12 +15,13 @@ calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
 feels like pre-release paperwork wrapped around a terminal.
 
-Version 1.0.4 improves the user-facing value by making first-use AI setup
-explicit, updating Anthropic and OpenAI model defaults, adding project-folder
-entry, protecting live shell sessions from accidental close/quit, replacing fake
-examples with realistic terminal snippets, clipping restored multi-pane terminal
-surfaces cleanly, and removing settings controls that looked wired before the
-release workflow was complete.
+Version 1.0.5 keeps the 1.0.4 production base and sharpens the user-facing
+value by making first-use AI setup explicit, updating Anthropic and OpenAI model
+defaults, adding project-folder entry, protecting live shell sessions from
+accidental close/quit, replacing fake examples with realistic terminal snippets,
+clipping restored multi-pane terminal surfaces cleanly, explaining Command-K
+helper modes in product, opening Settings as a resizable macOS window, and
+deriving the visible app version from signed bundle metadata.
 
 ## What Must Become Obvious
 
@@ -49,7 +50,7 @@ release workflow was complete.
 
 ## Next Product Moves
 
-1. Publish the 1.0.4 DMG/ZIP and download-facing release notes from `docs/production-direct-release.md`.
-2. Replace any stale local `/Applications/gridOS.app` copy before tester handoff.
-3. Run clean-Mac Finder/Gatekeeper UAT as the final external validation.
+1. Keep the 1.0.5 GitHub release assets and download-facing notes aligned with `docs/production-direct-release.md`.
+2. Keep the public repository posture source-available proprietary unless a separate open-source licensing decision is made.
+3. Run clean-Mac Finder/Gatekeeper UAT as final external validation when a separate Mac is available.
 4. Collect first-user feedback on whether AI Command Helper feels useful enough to become a daily workflow, not just a novelty.

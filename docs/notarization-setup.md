@@ -19,7 +19,7 @@ Apple ID/app-specific password mode:
 
 ```sh
 export GRIDOS_NOTARY_APPLE_ID='apple-id@example.com'
-export GRIDOS_NOTARY_TEAM_ID='JFE428WL4Z'
+export GRIDOS_NOTARY_TEAM_ID='TEAMID1234'
 scripts/setup-beta-notary-profile.sh "$GRIDOS_NOTARY_PROFILE"
 ```
 
@@ -29,8 +29,8 @@ shell history or committed files.
 App Store Connect API key mode:
 
 ```sh
-export GRIDOS_NOTARY_KEY_PATH='/private/path/AuthKey_ABC123DEFG.p8'
-export GRIDOS_NOTARY_KEY_ID='ABC123DEFG'
+export GRIDOS_NOTARY_KEY_PATH='/private/path/AuthKey_EXAMPLE123.p8'
+export GRIDOS_NOTARY_KEY_ID='EXAMPLE123'
 export GRIDOS_NOTARY_ISSUER_ID='00000000-0000-0000-0000-000000000000'
 scripts/setup-beta-notary-profile.sh "$GRIDOS_NOTARY_PROFILE"
 ```

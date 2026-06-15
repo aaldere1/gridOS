@@ -1,14 +1,18 @@
 # gridOS production roadmap
 
-This plan takes gridOS from the current planning-only repository to a production-ready macOS 1.0. It assumes the product intent in `docs/vision.md` remains intact: a native Apple Silicon sci-fi terminal that is beautiful, fast, useful, and meaningfully Mac-first.
+This roadmap began when gridOS was a planning-only repository. It is retained as
+historical planning context and now points at the current production-direct
+state. The product intent in `docs/vision.md` remains intact: a native Apple
+Silicon sci-fi terminal that is beautiful, fast, useful, and meaningfully
+Mac-first.
 
-Current state as of 2026-05-20:
+Current state as of 2026-06-15:
 
-- XcodeGen project, generated Xcode project, module boundaries, tests, docs, and CI skeleton exist.
-- Phase 1 native shell MVP is complete with SwiftTerm behind `TerminalCore`.
-- Phase 2 Metal identity MVP is complete with a burst-driven `RenderCore` Metal background behind/around the terminal.
-- Signing setup, release pipeline, updater, system metrics, and LLM command help do not exist yet.
-- The repo is private with a proprietary private-alpha license posture.
+- XcodeGen project, generated Xcode project, module boundaries, tests, docs, and CI exist.
+- Native shell, Metal identity, local system metrics, multi-pane workspaces, macOS integration foundations, and AI Command Helper are implemented.
+- Version 1.0.5 build 13 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and published as a GitHub release.
+- Manual direct-download updates are supported; Sparkle/appcast remains a later product decision.
+- The repository is moving to public visibility as source-available proprietary code, not open source.
 
 ## Production-ready definition
 
@@ -38,7 +42,7 @@ These decisions should be closed before app scaffolding becomes expensive.
 
 | Decision | Recommended default | Why |
 |---|---|---|
-| License | Proprietary private alpha, then pick before public source or release | The eDEX-UI inspiration is GPL-3.0, so do not copy code, assets, themes, or exact implementation details unless willing to inherit obligations. |
+| License | Source-available proprietary | The eDEX-UI inspiration is GPL-3.0, so do not copy code, assets, themes, or exact implementation details unless willing to inherit obligations. Public visibility does not grant open-source rights. |
 | Distribution | Direct download with Developer ID, hardened runtime, notarization, signed DMG | Best fit for a power-user terminal app. Mac App Store sandboxing may constrain shell/system integration. |
 | Minimum OS | macOS 14 initially, revisit before beta | Matches current README and keeps APIs modern. |
 | CPU support | Apple Silicon required for alpha and beta | Preserves performance focus. Revisit Intel only if distribution needs it. |

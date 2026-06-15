@@ -8,6 +8,7 @@ Last updated: 2026-06-04
 - Version: 1.0.5
 - Build: 13
 - Source commit: 379289a
+- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.5
 - DMG: build/release/production/gridOS-1.0.5-13-379289a.dmg
 - DMG SHA-256: b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05
 - ZIP: build/release/production/gridOS-1.0.5-13-379289a.zip
@@ -81,8 +82,10 @@ update feed is deliberately added:
 6. Confirm the app version/build matches the release manifest.
 
 Local replacement proof has passed from 1.0.4 build 12 to 1.0.5 build 13 in a
-temporary install root. Clean-Mac Finder install/update proof remains the final
-external install validation.
+temporary install root. Same-machine Finder/app inspection has also passed for
+the mounted 1.0.5 DMG and installed Applications copy. Clean-Mac Finder
+install/update proof remains the final external install validation when a
+separate Mac is available.
 
 This development Mac had an existing `/Applications/gridOS.app` from earlier
 testing. For 1.0.5, the mounted DMG app and the replaced Applications copy were

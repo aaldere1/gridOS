@@ -320,7 +320,7 @@ Phase 10 release-readiness evidence is anchored by:
 
 The final Phase 10 gate must cover the threat model, privacy inventory, redaction tests, provider-boundary tests, command-risk tests, Keychain tests, persistence/indexing/notification privacy tests, dependency review, hardened runtime check, and privacy gates.
 
-The dependency and hardened-runtime posture lives in `docs/dependency-security-review.md`, including the `SwiftTerm` dependency, proprietary private-alpha license posture, eDEX-UI inspiration boundary, and `ENABLE_HARDENED_RUNTIME: YES` compatibility note.
+The dependency and hardened-runtime posture lives in `docs/dependency-security-review.md`, including the `SwiftTerm` dependency, source-available proprietary license posture, eDEX-UI inspiration boundary, and `ENABLE_HARDENED_RUNTIME: YES` compatibility note.
 
 Representative privacy gates:
 
@@ -461,7 +461,7 @@ Create and check a notarytool profile:
 ```sh
 export GRIDOS_NOTARY_PROFILE=gridOS-beta
 export GRIDOS_NOTARY_APPLE_ID='apple-id@example.com'
-export GRIDOS_NOTARY_TEAM_ID='JFE428WL4Z'
+export GRIDOS_NOTARY_TEAM_ID='TEAMID1234'
 scripts/setup-beta-notary-profile.sh "$GRIDOS_NOTARY_PROFILE"
 GRIDOS_NOTARY_PROFILE="$GRIDOS_NOTARY_PROFILE" scripts/check-beta-notary-profile.sh
 ```

@@ -193,7 +193,7 @@ Plans: 5 plans
 
 ## Phase 12 - Beta
 
-Status: blocked
+Status: superseded by production-direct 1.0.5; external clean-Mac validation still pending
 
 Goal: external installability and feedback.
 
@@ -201,10 +201,12 @@ Exit criteria:
 
 - Developer ID signed, hardened, notarized distribution and update flow work on a clean Mac.
 
-Blocked: signed/notarized/stapled artifact verification passes, but Beta cannot
-pass until clean-Mac Finder/Gatekeeper UAT and Beta N to N+1 update-flow proof
-are complete. See
-`.planning/phases/12-beta/12-VERIFICATION.md`.
+The signed/notarized/stapled Beta lane produced the foundation for the
+production-direct releases. Clean-Mac Finder/Gatekeeper UAT and clean-Mac update
+proof remain external validation, but they no longer describe the current public
+GitHub visibility gate for the source-available repository. See
+`docs/production-direct-release.md` and
+`.planning/phases/14-production-release/VERSION-1.0.5.md`.
 
 Plans: 5 plans
 
@@ -216,7 +218,7 @@ Plans: 5 plans
 
 ## Phase 13 - 1.0 release candidate
 
-Status: pending
+Status: complete
 
 Goal: freeze features and prove release quality.
 
@@ -226,7 +228,7 @@ Exit criteria:
 
 ## Phase 14 - Production launch
 
-Status: pending
+Status: in progress
 
 Goal: ship and operate.
 

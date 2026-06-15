@@ -11,7 +11,7 @@ enough to trust with real work.
 
 ## Current Release
 
-- Version: `1.0.4`
+- Version: `1.0.5`
 - Platform: macOS 14 or newer on Apple Silicon
 - Distribution lane: Developer ID signed, notarized direct-download DMG
 - Release notes and verification: [`docs/production-direct-release.md`](docs/production-direct-release.md)

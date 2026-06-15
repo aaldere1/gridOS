@@ -28,6 +28,7 @@ Date: 2026-06-04
 - Computer Use AI Command Helper inspection: PASS
 - Computer Use resizable Settings inspection: PASS
 - Computer Use DMG drag-to-Applications inspection: PASS
+- Public GitHub readiness pass: PASS
 - Installed Applications copy visible version: PASS
 - Local replacement proof from 1.0.4 build 12 to 1.0.5 build 13: PASS
 
@@ -37,3 +38,7 @@ Date: 2026-06-04
 Command-K panel self-explanatory, adds clearer provider setup states, gives
 Settings a custom resizable macOS window, and fixes visible-version drift by
 reading the version from bundle metadata.
+
+Public GitHub visibility readiness was rechecked on 2026-06-15 as
+source-available proprietary code. See
+`.planning/phases/14-production-release/evidence/public-github-readiness.md`.

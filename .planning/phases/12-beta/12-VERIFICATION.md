@@ -1,11 +1,14 @@
 # Phase 12: Beta Verification Report
 
 **Direct artifact status: PASS**
-**External Beta signoff: BLOCKED**
+**External Beta signoff: SUPERSEDED BY PRODUCTION-DIRECT 1.0.5**
 
 Phase 12 produced a signed, notarized, stapled, locally Gatekeeper-verified
-Beta DMG. External Beta signoff remains blocked by clean-Mac Finder/Gatekeeper
-UAT and a Beta N to Beta N+1 update-flow proof.
+Beta DMG. This report is historical: production-direct 1.0.5 now carries the
+current release posture. Separate clean-Mac Finder/Gatekeeper UAT and clean-Mac
+update proof remain external validation tasks, but the public GitHub source
+visibility gate is tracked by `docs/production-direct-release.md` and
+`.planning/phases/14-production-release/VERSION-1.0.5.md`.
 
 ## Final commands
 

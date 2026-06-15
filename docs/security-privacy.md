@@ -18,7 +18,9 @@ Phase 10 source-of-truth documents:
 
 ## Procedural identity
 
-The visual identity system must not expose raw machine identifiers. Version 1.0.3 generates a local random install seed in app preferences for procedural appearance only; it does not read, store, or transmit a hardware identifier.
+The visual identity system must not expose raw machine identifiers. Version
+1.0.5 uses a local random install seed in app preferences for procedural
+appearance only; it does not read, store, or transmit a hardware identifier.
 
 Recommended future implementation:
 
