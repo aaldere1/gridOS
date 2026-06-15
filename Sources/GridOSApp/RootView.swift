@@ -671,19 +671,19 @@ private struct SystemStripView: View {
         switch snapshot.battery {
         case .available(let metrics), .stale(let metrics, _):
             if let level = metrics.levelPercent {
-                return snapshot.battery.isStale ? "Stale \(percentText(level))" : percentText(level)
+                return percentText(level)
             }
 
-            return snapshot.battery.isStale ? "Stale \(metrics.stateText)" : metrics.stateText
+            return metrics.stateText
         case .unavailable(let reason):
-            return reason.isEmpty ? "Battery unavailable" : reason
+            return reason == "Battery unavailable" || reason.isEmpty ? "No battery" : reason
         }
     }
 
     private var thermalText: String {
         switch snapshot.thermal {
         case .available(let metrics), .stale(let metrics, _):
-            return snapshot.thermal.isStale ? "Stale \(metrics.stateText)" : metrics.stateText
+            return metrics.stateText
         case .unavailable(let reason):
             return reason.isEmpty ? "Thermal unavailable" : reason
         }
@@ -728,7 +728,7 @@ private struct ActivityContextPanel: View {
                     .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.74))
 
                 if snapshot.topProcesses.isStale {
-                    Text("Stale")
+                    Text("recent")
                         .font(.system(size: 11, weight: .regular, design: .monospaced))
                         .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.58))
                 }
@@ -939,7 +939,7 @@ private struct MetricReadout: View {
 
             Text(value)
                 .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(value == "Stale" ? 0.62 : 0.84))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.84))
                 .lineLimit(1)
                 .truncationMode(.middle)
         }
@@ -1006,7 +1006,7 @@ private func availabilityText<Value: Equatable & Sendable>(
     case .available(let value):
         return availableText(value)
     case .stale(let value, _):
-        return "Stale \(availableText(value))"
+        return availableText(value)
     case .unavailable(let reason):
         return reason
     }

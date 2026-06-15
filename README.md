@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/readme/gridos-hero.png" alt="Generated gridOS launch artwork showing a refined native macOS terminal cockpit" width="100%">
+  <img src="docs/assets/readme/screenshots/gridos-main-window.png" alt="Actual gridOS 1.0.5 app window showing the native terminal workspace, local metrics, visual signature, and right rail" width="100%">
 </p>
 
 <h1 align="center">gridOS</h1>
@@ -26,7 +26,7 @@
 </p>
 
 <p align="center">
-  <sub>Hero image is generated launch artwork. Release proof and product behavior are documented in the linked release notes.</sub>
+  <sub>Hero image is an actual app-window capture from the current 1.0.5 build. Local shell prompt and process names vary by machine.</sub>
 </p>
 
 ## Why It Exists
@@ -59,6 +59,16 @@ Version 1.0.5 focuses on making AI Command Helper understandable the first time
 someone presses Command-K, making Settings behave like a real resizable macOS
 window, and deriving the visible app version from signed bundle metadata so the
 UI cannot drift from the release artifact.
+
+## Actual Screenshots
+
+<p>
+  <img src="docs/assets/readme/screenshots/gridos-command-helper.png" alt="Actual gridOS Command-K AI Command Helper setup state showing provider choice, preview-first context policy, and insert-first command flow" width="100%">
+</p>
+
+The screenshots are captured from the current app UI, not generated product art.
+The terminal prompt and process list are local runtime data; they are shown here
+to keep the public page honest about what the app actually displays.
 
 ## What Ships
 

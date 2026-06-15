@@ -25,7 +25,7 @@ struct MenuBarExtraView: View {
             Text(controller.status.thermalText)
 
             if controller.status.isStale {
-                Text("Stale")
+                Text("Updating")
             }
         }
 

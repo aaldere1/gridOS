@@ -105,7 +105,7 @@ Phase 4 adds truthful local metrics through `SystemMetrics` and wires them into 
 - startup command writes `GRIDOS_PHASE4_SMOKE` through the terminal path
 - app quits cleanly after shell exit
 - `SystemMetricsSnapshot`, `SystemMetricsSampler`, `SystemMetricsSamplingPolicy`, and `NativeSystemMetricsProvider` are present in source
-- graceful copy strings are present for `Battery unavailable`, `Thermal unavailable`, `Network idle`, `No process data`, and `Stale`
+- metric availability still carries explicit unavailable/stale states, while the app frame presents them as calm product copy such as `No battery`, `Network idle`, `No process data`, and `Activity recent`
 - metrics sampling stays local-only and no-root; no telemetry, LLM handoff, persistent logs, or shell command provider is used for normal metrics
 - idle CPU sampling after startup remains a Phase 9 hardening target, but Phase 4 verifies that startup smoke still completes with metrics integrated
 

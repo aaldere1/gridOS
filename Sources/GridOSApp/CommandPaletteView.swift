@@ -325,7 +325,7 @@ struct CommandPaletteView: View {
         if case .missing(let providerName) = providerStatus {
             VStack(alignment: .leading, spacing: 10) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Text("\(providerName) key required")
+                    Text("Provider key required")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.94))
 
@@ -334,12 +334,12 @@ struct CommandPaletteView: View {
                     resultBadge("SETUP", tint: Color(theme.palette.statusAccent))
                 }
 
-                Text("Add a provider key once. Until then, you can inspect the helper, but no request will leave the app.")
+                Text("Choose Anthropic or OpenAI in Settings. Current selection: \(providerName). Until a key is saved, you can inspect the helper, but no request leaves the app.")
                     .font(.system(size: 12, weight: .regular))
                     .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
                     .fixedSize(horizontal: false, vertical: true)
 
-                Button("Add Provider Key") {
+                Button("Choose Provider") {
                     onOpenCommandIntelligenceSettings()
                 }
                 .buttonStyle(.borderless)
