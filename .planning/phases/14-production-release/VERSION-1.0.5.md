@@ -1,6 +1,6 @@
 # gridOS 1.0.5 production direct release
 
-Status: released for direct-download distribution.
+Status: released for direct-download distribution and public source-available GitHub visibility.
 Date: 2026-06-04
 
 ## Build

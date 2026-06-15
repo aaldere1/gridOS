@@ -1,7 +1,7 @@
 # gridOS production direct release
 
 Status: version 1.0.5
-Last updated: 2026-06-04
+Last updated: 2026-06-15
 
 ## Artifact
 

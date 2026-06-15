@@ -12,7 +12,7 @@ Current state as of 2026-06-15:
 - Native shell, Metal identity, local system metrics, multi-pane workspaces, macOS integration foundations, and AI Command Helper are implemented.
 - Version 1.0.5 build 13 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and published as a GitHub release.
 - Manual direct-download updates are supported; Sparkle/appcast remains a later product decision.
-- The repository is moving to public visibility as source-available proprietary code, not open source.
+- The repository is public as source-available proprietary code, not open source.
 
 ## Production-ready definition
 
