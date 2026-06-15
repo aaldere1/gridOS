@@ -116,6 +116,31 @@ file_checksum() {
   shasum -a 256 "$path" | awk '{ print $1 }'
 }
 
+codesign_release_item() {
+  local path="$1"
+  if [[ -e "$path" ]]; then
+    codesign --force --sign "$GRIDOS_SIGNING_IDENTITY" --timestamp --options runtime "$path"
+  fi
+}
+
+resign_embedded_sparkle() {
+  local app_path="$1"
+  local sparkle_framework="$app_path/Contents/Frameworks/Sparkle.framework"
+  local sparkle_version="$sparkle_framework/Versions/B"
+
+  if [[ ! -d "$sparkle_version" ]]; then
+    return 0
+  fi
+
+  codesign_release_item "$sparkle_version/XPCServices/Downloader.xpc"
+  codesign_release_item "$sparkle_version/XPCServices/Installer.xpc"
+  codesign_release_item "$sparkle_version/Updater.app"
+  codesign_release_item "$sparkle_version/Autoupdate"
+  codesign_release_item "$sparkle_framework"
+  codesign_release_item "$app_path"
+  codesign --verify --deep --strict --verbose=2 "$app_path"
+}
+
 create_dmg_background() {
   local output_path="$1"
   DMG_LAYOUT_SCRIPT="$(mktemp "${TMPDIR:-/tmp}/gridos-dmg-background.XXXXXX.swift")"
@@ -348,6 +373,8 @@ if [[ ! -d "$APP_PATH" ]]; then
   exit 1
 fi
 
+resign_embedded_sparkle "$APP_PATH"
+
 INFO_PLIST="$APP_PATH/Contents/Info.plist"
 VERSION="$(plist_value "$INFO_PLIST" CFBundleShortVersionString)"
 BUILD="$(plist_value "$INFO_PLIST" CFBundleVersion)"
@@ -385,6 +412,7 @@ cat > "$MANIFEST_FILE" <<EOF
 - Signing identity: present
 - Development team: present
 - Hardened runtime: ${HARDENED_RUNTIME:-missing}
+- Embedded Sparkle helpers: Developer ID signed with secure timestamps
 - Artifact path policy: local output directory only; no artifacts are stored under .planning.
 - Notarization command: scripts/notarize-beta-artifact.sh <local-output-dir>/$DMG_NAME
 - Verification command: scripts/verify-beta-artifact.sh <local-output-dir>/$DMG_NAME
