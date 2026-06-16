@@ -97,8 +97,15 @@ public struct TerminalSurface: NSViewRepresentable {
         }
 
         func update(configuration: TerminalSessionConfiguration, terminalView: LocalProcessTerminalView) {
+            let previousConfiguration = self.configuration
             self.configuration = configuration
-            applyAppearance(to: terminalView)
+
+            guard previousConfiguration.fontName != configuration.fontName
+                || previousConfiguration.fontSize != configuration.fontSize else {
+                return
+            }
+
+            applyFont(to: terminalView)
             terminalView.needsLayout = true
             terminalView.needsDisplay = true
         }
@@ -176,6 +183,10 @@ public struct TerminalSurface: NSViewRepresentable {
             terminalView.nativeBackgroundColor = background
             terminalView.layer?.backgroundColor = background.cgColor
             terminalView.caretColor = .systemCyan
+            applyFont(to: terminalView)
+        }
+
+        private func applyFont(to terminalView: LocalProcessTerminalView) {
             terminalView.font = resolvedFont()
         }
 
