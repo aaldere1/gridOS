@@ -134,6 +134,10 @@ public final class TerminalWorkspaceController: ObservableObject {
         controller(for: activePaneID).reset()
     }
 
+    public func updateTerminalFontSize(_ fontSize: Double) {
+        state.updateTerminalFontSize(fontSize)
+    }
+
     public func terminateActivePane() {
         controller(for: activePaneID).terminate()
     }

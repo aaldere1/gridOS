@@ -379,6 +379,34 @@ final class MetalBackgroundRenderer: NSObject, MTKViewDelegate {
             color += primary * field * (0.020 + lowPulse * 0.020) * glow;
             color += secondary * panel * 0.045;
             color += status * fluorescent * (0.004 + lowPulse * 0.006) * line;
+        } else if (uniforms.mode >= 2.5 && uniforms.mode < 3.5) {
+            float rain = smoothstep(
+                0.985,
+                1.0,
+                cos((uv.y * 190.0 + uniforms.seed.x * 13.0) + sin(uv.x * 42.0) * 2.5 + drift * 9.0)
+            );
+            float glyph = smoothstep(
+                0.992,
+                1.0,
+                cos((floor(uv.x * 54.0) + floor(uv.y * 38.0) + uniforms.seed.y * 19.0) * 1.618)
+            );
+            color += primary * (rain + glyph) * (0.020 + pulse * 0.046) * line;
+            color += secondary * field * (0.09 + pulse * 0.05) * glow;
+            color += status * scan * (0.012 + pulse * 0.026) * line;
+        } else if (uniforms.mode >= 3.5 && uniforms.mode < 4.5) {
+            float barrel = smoothstep(0.88, 0.08, radius) * 0.18;
+            float phosphor = smoothstep(0.965, 1.0, sin(uv.y * 420.0 + uniforms.seed.y * 5.0));
+            float trace = smoothstep(0.992, 1.0, cos((uv.x + uniforms.seed.x * 0.04) * lineScaleX * 0.42));
+            color += primary * (field + trace + phosphor) * (0.026 + pulse * 0.035) * glow;
+            color += secondary * vignette * (0.14 + barrel);
+            color += status * scan * (0.008 + pulse * 0.018) * line;
+        } else if (uniforms.mode >= 4.5 && uniforms.mode < 5.5) {
+            float breachSeed = uniforms.seed.x * 0.08 - uniforms.seed.y * 0.04;
+            float diagonal = smoothstep(0.988, 1.0, cos((uv.x * 1.2 + uv.y * 0.8 + breachSeed) * lineScaleX * 0.62 + drift * 3.0));
+            float lock = smoothstep(0.976, 1.0, cos((abs(centered.x) + abs(centered.y)) * 42.0 - drift * 2.0));
+            color += primary * (diagonal + gridX) * (0.020 + pulse * 0.055) * line;
+            color += secondary * field * (0.11 + pulse * 0.08) * glow;
+            color += status * lock * (0.008 + pulse * 0.025);
         } else {
             float appleSeed = uniforms.seed.x * 0.07 + uniforms.seed.y * 0.11;
             float aura = smoothstep(0.78, 0.12, radius + appleSeed * 0.018);

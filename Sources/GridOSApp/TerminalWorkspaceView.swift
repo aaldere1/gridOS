@@ -7,8 +7,14 @@ struct TerminalWorkspaceView: View {
     @ObservedObject var workspaceController: TerminalWorkspaceController
 
     let theme: VisualTheme
+    let terminalFontSize: Double
+    let canDecreaseFontSize: Bool
+    let canIncreaseFontSize: Bool
     let onActivity: TerminalSurface.ActivityHandler
     let onWorkspaceChange: @MainActor () -> Void
+    let onDecreaseFontSize: @MainActor () -> Void
+    let onIncreaseFontSize: @MainActor () -> Void
+    let onResetFontSize: @MainActor () -> Void
     @State private var isClosePaneConfirmationPresented = false
 
     var body: some View {
@@ -38,6 +44,32 @@ struct TerminalWorkspaceView: View {
                 .accessibilityLabel("Terminal pane count")
 
             Spacer(minLength: 12)
+
+            HStack(spacing: 2) {
+                terminalToolbarButton(systemName: "textformat.size.smaller", help: "Decrease Terminal Font Size") {
+                    onDecreaseFontSize()
+                }
+                .disabled(!canDecreaseFontSize)
+                .opacity(canDecreaseFontSize ? 1 : 0.38)
+
+                Text("\(Int(terminalFontSize.rounded())) pt")
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.72))
+                    .frame(width: 40)
+                    .accessibilityLabel("Terminal font size")
+                    .accessibilityValue("\(Int(terminalFontSize.rounded())) points")
+
+                terminalToolbarButton(systemName: "textformat.size.larger", help: "Increase Terminal Font Size") {
+                    onIncreaseFontSize()
+                }
+                .disabled(!canIncreaseFontSize)
+                .opacity(canIncreaseFontSize ? 1 : 0.38)
+
+                terminalToolbarButton(systemName: "arrow.counterclockwise", help: "Reset Terminal Font Size") {
+                    onResetFontSize()
+                }
+            }
+            .padding(.trailing, 4)
 
             terminalToolbarButton(systemName: "rectangle.split.2x1", help: "Split Right") {
                 splitRight()

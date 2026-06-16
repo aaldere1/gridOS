@@ -45,10 +45,10 @@ final class RenderCoreModelTests: XCTestCase {
     }
 
     func testVisualModesExposePhaseFiveCases() {
-        XCTAssertEqual(VisualMode.allCases, [.tron, .severance, .appleNative])
-        XCTAssertEqual(VisualMode.allCases.map(\.rawValue), ["tron", "severance", "appleNative"])
-        XCTAssertEqual(VisualMode.allCases.map(\.displayName), ["Tron", "Severance", "Apple-native"])
-        XCTAssertEqual(VisualMode.allCases.map(\.shaderValue), [0, 1, 2])
+        XCTAssertEqual(VisualMode.allCases, [.tron, .matrix, .amberCRT, .redline, .severance, .appleNative])
+        XCTAssertEqual(VisualMode.allCases.map(\.rawValue), ["tron", "matrix", "amberCRT", "redline", "severance", "appleNative"])
+        XCTAssertEqual(VisualMode.allCases.map(\.displayName), ["Tron", "Matrix", "Amber CRT", "Redline", "Severance", "Apple-native"])
+        XCTAssertEqual(VisualMode.allCases.map(\.shaderValue), [0, 3, 4, 5, 1, 2])
     }
 
     func testDefaultVisualIdentityUsesTronMode() {
@@ -58,7 +58,10 @@ final class RenderCoreModelTests: XCTestCase {
     }
 
     func testVisualModeCyclesInPhaseFiveOrder() {
-        XCTAssertEqual(VisualMode.tron.next, .severance)
+        XCTAssertEqual(VisualMode.tron.next, .matrix)
+        XCTAssertEqual(VisualMode.matrix.next, .amberCRT)
+        XCTAssertEqual(VisualMode.amberCRT.next, .redline)
+        XCTAssertEqual(VisualMode.redline.next, .severance)
         XCTAssertEqual(VisualMode.severance.next, .appleNative)
         XCTAssertEqual(VisualMode.appleNative.next, .tron)
     }
@@ -145,9 +148,23 @@ final class RenderCoreModelTests: XCTestCase {
             )
         )
 
+        XCTAssertEqual(
+            VisualMode.matrix.theme.palette.primaryAccent,
+            VisualColor(red: 0.22, green: 1.00, blue: 0.48, alpha: 1)
+        )
+        XCTAssertEqual(
+            VisualMode.amberCRT.theme.palette.primaryAccent,
+            VisualColor(red: 1.00, green: 0.66, blue: 0.18, alpha: 1)
+        )
+        XCTAssertEqual(
+            VisualMode.redline.theme.palette.primaryAccent,
+            VisualColor(red: 1.00, green: 0.18, blue: 0.24, alpha: 1)
+        )
+
         XCTAssertNotEqual(VisualMode.tron.theme.signature, VisualMode.severance.theme.signature)
         XCTAssertNotEqual(VisualMode.tron.theme.signature, VisualMode.appleNative.theme.signature)
         XCTAssertNotEqual(VisualMode.severance.theme.signature, VisualMode.appleNative.theme.signature)
+        XCTAssertEqual(Set(VisualMode.allCases.map { $0.theme.signature }).count, VisualMode.allCases.count)
 
         XCTAssertNotEqual(VisualMode.tron.theme.motion, VisualMode.severance.theme.motion)
         XCTAssertNotEqual(VisualMode.tron.theme.motion, VisualMode.appleNative.theme.motion)
@@ -208,10 +225,16 @@ final class RenderCoreModelTests: XCTestCase {
         XCTAssertEqual(shaderValuesByMode["tron"], 0)
         XCTAssertEqual(shaderValuesByMode["severance"], 1)
         XCTAssertEqual(shaderValuesByMode["appleNative"], 2)
+        XCTAssertEqual(shaderValuesByMode["matrix"], 3)
+        XCTAssertEqual(shaderValuesByMode["amberCRT"], 4)
+        XCTAssertEqual(shaderValuesByMode["redline"], 5)
 
         let source = MetalBackgroundRenderer.shaderSource
         XCTAssertTrue(source.contains("uniforms.mode < 0.5"))
         XCTAssertTrue(source.contains("uniforms.mode >= 0.5 && uniforms.mode < 1.5"))
+        XCTAssertTrue(source.contains("uniforms.mode >= 2.5 && uniforms.mode < 3.5"))
+        XCTAssertTrue(source.contains("uniforms.mode >= 3.5 && uniforms.mode < 4.5"))
+        XCTAssertTrue(source.contains("uniforms.mode >= 4.5 && uniforms.mode < 5.5"))
         XCTAssertTrue(source.contains("else {"))
     }
 
@@ -235,6 +258,9 @@ final class RenderCoreModelTests: XCTestCase {
         XCTAssertTrue(source.contains("float tronSeed = uniforms.seed.x * 31.0 + uniforms.seed.y * 17.0"))
         XCTAssertTrue(source.contains("float severanceSeed = uniforms.seed.y * 0.04 - uniforms.seed.x * 0.025"))
         XCTAssertTrue(source.contains("float appleSeed = uniforms.seed.x * 0.07 + uniforms.seed.y * 0.11"))
+        XCTAssertTrue(source.contains("uniforms.seed.x * 13.0"))
+        XCTAssertTrue(source.contains("uniforms.seed.y * 5.0"))
+        XCTAssertTrue(source.contains("float breachSeed = uniforms.seed.x * 0.08 - uniforms.seed.y * 0.04"))
     }
 
     func testMetalShaderSourceCompilesWhenDeviceIsAvailable() throws {

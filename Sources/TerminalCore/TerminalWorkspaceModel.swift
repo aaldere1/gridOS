@@ -318,6 +318,12 @@ public struct TerminalWorkspaceState: Equatable, Sendable {
         recordRecentDirectory(normalizedDirectory)
     }
 
+    public mutating func updateTerminalFontSize(_ fontSize: Double) {
+        for paneID in panesByID.keys {
+            panesByID[paneID]?.configuration.fontSize = fontSize
+        }
+    }
+
     public mutating func recordRecentDirectory(_ directory: String?) {
         let normalizedDirectory = TerminalWorkspaceSnapshot.normalizedDirectory(directory)
         guard !normalizedDirectory.isEmpty else {

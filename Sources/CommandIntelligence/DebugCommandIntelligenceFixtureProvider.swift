@@ -34,7 +34,7 @@ public struct DebugCommandIntelligenceFixtureProvider: LLMCommandProvider {
                 providerRiskLabel: "low"
             )
         ],
-        explanation: "Use this fixture to verify insert-before-run behavior without a live Anthropic key.",
+            explanation: "Use this fixture to verify insert-before-run behavior without a live hosted-provider key.",
         requestID: "debug-smoke-fixture-insert"
     )
 

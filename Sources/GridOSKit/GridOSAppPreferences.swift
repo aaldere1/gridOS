@@ -17,13 +17,15 @@ public struct GridOSAppPreferences: Equatable, Sendable {
     public static let defaultCommandIntelligenceProviderID = "anthropic"
     public static let defaultCommandIntelligenceModelID = "claude-sonnet-4-20250514"
     public static let defaultOpenAICommandIntelligenceModelID = "gpt-5.2"
+    public static let defaultDeepSeekCommandIntelligenceModelID = "deepseek-v4-flash"
+    public static let defaultXAICommandIntelligenceModelID = "grok-4.3"
     public static let menuBarExtraAvailable = false
     public static let defaultShowMenuBarExtra = false
     public static let defaultNotificationsEnabled = false
     public static let defaultIndexWorkspaceMetadata = false
     public static let defaultPrivacySafetyLaunchAccepted = false
-    public static let supportedVisualModeRawValues = ["tron", "severance", "appleNative"]
-    public static let supportedCommandIntelligenceProviderIDs = ["anthropic", "openai"]
+    public static let supportedVisualModeRawValues = ["tron", "matrix", "amberCRT", "redline", "severance", "appleNative"]
+    public static let supportedCommandIntelligenceProviderIDs = ["anthropic", "openai", "deepseek", "xai"]
     public static let supportedCommandIntelligenceModelIDs = [
         "claude-opus-4-1-20250805",
         "claude-sonnet-4-20250514",
@@ -32,7 +34,11 @@ public struct GridOSAppPreferences: Equatable, Sendable {
         "gpt-5.2",
         "gpt-5",
         "gpt-5-mini",
-        "gpt-5-nano"
+        "gpt-5-nano",
+        "deepseek-v4-flash",
+        "deepseek-v4-pro",
+        "grok-4.3",
+        "grok-build-0.1"
     ]
     public static let fontSizeRange = 10.0...24.0
     public static let visualIntensityRange = 0.0...1.0
@@ -111,6 +117,10 @@ public struct GridOSAppPreferences: Equatable, Sendable {
         switch normalizedCommandIntelligenceProviderID(providerID) {
         case "openai":
             return defaultOpenAICommandIntelligenceModelID
+        case "deepseek":
+            return defaultDeepSeekCommandIntelligenceModelID
+        case "xai":
+            return defaultXAICommandIntelligenceModelID
         default:
             return defaultCommandIntelligenceModelID
         }

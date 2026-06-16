@@ -75,12 +75,12 @@ details.
 
 ## What Ships
 
-- Native multi-pane terminal workspace with saved layout and recent directories.
+- Native multi-pane terminal workspace with saved layout, recent directories, and live font-size controls.
 - Open Folder command for starting work in a chosen project directory.
 - Live local CPU, memory, network, battery, thermal, and process signal.
-- Procedural visual modes for Tron, Severance, and Apple-native looks.
+- Procedural visual modes for Tron, Matrix, Amber CRT, Redline, Severance, and Apple-native looks.
 - Local launch briefing that explains privacy and command-safety defaults.
-- AI Command Helper with optional Anthropic or OpenAI provider keys.
+- AI Command Helper with optional Anthropic, OpenAI, DeepSeek, or xAI provider keys.
 - Keychain-backed provider key storage.
 - Preview-first provider requests: gridOS shows redacted context before a request leaves the app.
 - Local generated-command risk labels with insert-first behavior and explicit run confirmation.
@@ -95,7 +95,7 @@ Command-K is designed as a guarded command surface, not a magic text box.
 - **Explain Output** helps read selected terminal output.
 - **Fix Failed Command** helps reason about an error and a safer next attempt.
 - Provider keys are optional and stored in the macOS Keychain.
-- Requests go only to the provider the user configures: Anthropic or OpenAI.
+- Requests go only to the provider the user configures: Anthropic, OpenAI, DeepSeek, or xAI.
 - Commands are inserted for review first; generated commands do not auto-run.
 - Higher-risk command shapes stay behind an explicit confirmation path.
 

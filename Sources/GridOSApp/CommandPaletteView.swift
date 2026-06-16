@@ -334,7 +334,7 @@ struct CommandPaletteView: View {
                     resultBadge("SETUP", tint: Color(theme.palette.statusAccent))
                 }
 
-                Text("Choose Anthropic or OpenAI in Settings. Current selection: \(providerName). Until a key is saved, you can inspect the helper, but no request leaves the app.")
+                Text("Choose a provider in Settings. Current selection: \(providerName). Until a key is saved, you can inspect the helper, but no request leaves the app.")
                     .font(.system(size: 12, weight: .regular))
                     .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.82))
                     .fixedSize(horizontal: false, vertical: true)

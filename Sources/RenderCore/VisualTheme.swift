@@ -225,6 +225,114 @@ public struct VisualTheme: Equatable, Sendable {
         )
     )
 
+    public static let matrix = VisualTheme(
+        signature: "matrix.rain-grid.v1",
+        palette: VisualPalette(
+            background: VisualColor(red: 0.002, green: 0.008, blue: 0.004, alpha: 1),
+            primaryAccent: VisualColor(red: 0.22, green: 1.00, blue: 0.48, alpha: 1),
+            secondaryAccent: VisualColor(red: 0.02, green: 0.34, blue: 0.18, alpha: 1),
+            statusAccent: VisualColor(red: 0.74, green: 1.00, blue: 0.32, alpha: 1)
+        ),
+        panel: VisualPanelStyle(
+            backgroundOpacity: 0.34,
+            borderOpacity: 0.30,
+            separatorOpacity: 0.24,
+            cornerRadius: 4
+        ),
+        terminal: VisualTerminalChrome(
+            backgroundOpacity: 0.76,
+            foregroundOpacity: 0.96,
+            cursorGlowOpacity: 0.80,
+            selectionOpacity: 0.36
+        ),
+        motion: VisualMotionProfile(
+            idleDriftRate: 0.16,
+            eventGain: 0.92,
+            pulseDecay: 0.48,
+            maxPulseDuration: 1.15,
+            detailDensity: 1.00
+        ),
+        shader: VisualShaderProfile(
+            shaderValue: 3,
+            fieldScale: 1.16,
+            glowIntensity: 0.94,
+            lineIntensity: 1.16,
+            grainIntensity: 0.18
+        )
+    )
+
+    public static let amberCRT = VisualTheme(
+        signature: "amber-crt.operator.v1",
+        palette: VisualPalette(
+            background: VisualColor(red: 0.013, green: 0.009, blue: 0.004, alpha: 1),
+            primaryAccent: VisualColor(red: 1.00, green: 0.66, blue: 0.18, alpha: 1),
+            secondaryAccent: VisualColor(red: 0.36, green: 0.20, blue: 0.08, alpha: 1),
+            statusAccent: VisualColor(red: 0.96, green: 0.92, blue: 0.50, alpha: 1)
+        ),
+        panel: VisualPanelStyle(
+            backgroundOpacity: 0.38,
+            borderOpacity: 0.27,
+            separatorOpacity: 0.22,
+            cornerRadius: 2
+        ),
+        terminal: VisualTerminalChrome(
+            backgroundOpacity: 0.80,
+            foregroundOpacity: 0.95,
+            cursorGlowOpacity: 0.64,
+            selectionOpacity: 0.30
+        ),
+        motion: VisualMotionProfile(
+            idleDriftRate: 0.06,
+            eventGain: 0.54,
+            pulseDecay: 0.76,
+            maxPulseDuration: 0.72,
+            detailDensity: 0.74
+        ),
+        shader: VisualShaderProfile(
+            shaderValue: 4,
+            fieldScale: 0.86,
+            glowIntensity: 0.72,
+            lineIntensity: 0.82,
+            grainIntensity: 0.30
+        )
+    )
+
+    public static let redline = VisualTheme(
+        signature: "redline.intrusion-grid.v1",
+        palette: VisualPalette(
+            background: VisualColor(red: 0.010, green: 0.004, blue: 0.008, alpha: 1),
+            primaryAccent: VisualColor(red: 1.00, green: 0.18, blue: 0.24, alpha: 1),
+            secondaryAccent: VisualColor(red: 0.08, green: 0.44, blue: 0.52, alpha: 1),
+            statusAccent: VisualColor(red: 0.95, green: 0.88, blue: 0.28, alpha: 1)
+        ),
+        panel: VisualPanelStyle(
+            backgroundOpacity: 0.34,
+            borderOpacity: 0.34,
+            separatorOpacity: 0.24,
+            cornerRadius: 5
+        ),
+        terminal: VisualTerminalChrome(
+            backgroundOpacity: 0.75,
+            foregroundOpacity: 0.95,
+            cursorGlowOpacity: 0.78,
+            selectionOpacity: 0.32
+        ),
+        motion: VisualMotionProfile(
+            idleDriftRate: 0.20,
+            eventGain: 1.06,
+            pulseDecay: 0.44,
+            maxPulseDuration: 1.24,
+            detailDensity: 0.94
+        ),
+        shader: VisualShaderProfile(
+            shaderValue: 5,
+            fieldScale: 1.08,
+            glowIntensity: 0.90,
+            lineIntensity: 1.08,
+            grainIntensity: 0.20
+        )
+    )
+
     public static let appleNative = VisualTheme(
         signature: "apple-native.dark-material.v1",
         palette: VisualPalette(

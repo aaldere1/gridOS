@@ -58,7 +58,10 @@ final class GridOSAppPreferencesTests: XCTestCase {
     func testVisualModeRawDefaultsToTron() {
         XCTAssertEqual(GridOSAppPreferences.defaultVisualModeRawValue, "tron")
         XCTAssertEqual(GridOSAppPreferences.defaultInstallSeedRawValue, "")
-        XCTAssertEqual(GridOSAppPreferences.supportedVisualModeRawValues, ["tron", "severance", "appleNative"])
+        XCTAssertEqual(
+            GridOSAppPreferences.supportedVisualModeRawValues,
+            ["tron", "matrix", "amberCRT", "redline", "severance", "appleNative"]
+        )
     }
 
     func testVisualModeRawValueFallsBackToTron() {
@@ -66,18 +69,23 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("   "), "tron")
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("unknown"), "tron")
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("cyberpunk"), "tron")
-        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("matrix"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("matrix"), "matrix")
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("tron"), "tron")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue(" amberCRT "), "amberCRT")
+        XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("redline"), "redline")
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue(" severance "), "severance")
         XCTAssertEqual(GridOSAppPreferences.normalizedVisualModeRawValue("\nappleNative\t"), "appleNative")
     }
 
     func testVisualModeRawValueCyclesInPhaseFiveOrder() {
-        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "tron"), "severance")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "tron"), "matrix")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "matrix"), "amberCRT")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "amberCRT"), "redline")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "redline"), "severance")
         XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "severance"), "appleNative")
         XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "appleNative"), "tron")
-        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: ""), "severance")
-        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "matrix"), "severance")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: ""), "matrix")
+        XCTAssertEqual(GridOSAppPreferences.nextVisualModeRawValue(after: "unknown"), "matrix")
     }
 
     func testInstallSeedRawValueIsTrimmed() {
@@ -98,6 +106,8 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceProviderID, "anthropic")
         XCTAssertEqual(GridOSAppPreferences.defaultCommandIntelligenceModelID, "claude-sonnet-4-20250514")
         XCTAssertEqual(GridOSAppPreferences.defaultOpenAICommandIntelligenceModelID, "gpt-5.2")
+        XCTAssertEqual(GridOSAppPreferences.defaultDeepSeekCommandIntelligenceModelID, "deepseek-v4-flash")
+        XCTAssertEqual(GridOSAppPreferences.defaultXAICommandIntelligenceModelID, "grok-4.3")
 
         let persistedKeys = [
             GridOSAppPreferences.commandIntelligenceProviderStorageKey,
@@ -125,6 +135,8 @@ final class GridOSAppPreferencesTests: XCTestCase {
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("anthropic"), "anthropic")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(" anthropic "), "anthropic")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("openai"), "openai")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("deepseek"), "deepseek")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("xai"), "xai")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID(""), "anthropic")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceProviderID("ollama"), "anthropic")
 
@@ -141,7 +153,17 @@ final class GridOSAppPreferencesTests: XCTestCase {
             GridOSAppPreferences.normalizedCommandIntelligenceModelID("", providerID: "openai"),
             "gpt-5.2"
         )
+        XCTAssertEqual(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID("", providerID: "deepseek"),
+            "deepseek-v4-flash"
+        )
+        XCTAssertEqual(
+            GridOSAppPreferences.normalizedCommandIntelligenceModelID("", providerID: "xai"),
+            "grok-4.3"
+        )
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("gpt-5-mini"), "gpt-5-mini")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("deepseek-v4-pro"), "deepseek-v4-pro")
+        XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("grok-build-0.1"), "grok-build-0.1")
         XCTAssertEqual(GridOSAppPreferences.normalizedCommandIntelligenceModelID("custom-model-id"), "custom-model-id")
     }
 

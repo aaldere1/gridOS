@@ -175,6 +175,18 @@ final class TerminalWorkspaceModelTests: XCTestCase {
         XCTAssertFalse(state.recentDirectories.contains("/tmp/project-1"))
     }
 
+    func testTerminalFontSizeUpdatesEveryPaneConfigurationWithoutChangingLayout() {
+        var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
+        state.splitActivePane(axis: .horizontal, newPaneID: "secondary")
+        let layoutBefore = state.layout
+
+        state.updateTerminalFontSize(18)
+
+        XCTAssertEqual(state.layout, layoutBefore)
+        XCTAssertEqual(state.panesByID["primary"]?.configuration.fontSize, 18)
+        XCTAssertEqual(state.panesByID["secondary"]?.configuration.fontSize, 18)
+    }
+
     private func fixtureConfiguration(workingDirectory: String? = "/Users/test") -> TerminalSessionConfiguration {
         TerminalSessionConfiguration(
             shellPath: "/bin/zsh",

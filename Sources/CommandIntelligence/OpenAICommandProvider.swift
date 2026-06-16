@@ -23,7 +23,7 @@ public struct URLSessionOpenAIHTTPTransport: OpenAIHTTPTransport {
 }
 
 public struct OpenAICommandProvider: LLMCommandProvider {
-    public let providerID: LLMProviderID = .openAI
+    public let providerID: LLMProviderID
 
     public static let defaultBaseURL = URL(string: "https://api.openai.com")!
     public static let defaultModelID = LLMModelID("gpt-5.2")
@@ -37,10 +37,12 @@ public struct OpenAICommandProvider: LLMCommandProvider {
     private let decoder: JSONDecoder
 
     public init(
+        providerID: LLMProviderID = .openAI,
         baseURL: URL = OpenAICommandProvider.defaultBaseURL,
         transport: OpenAIHTTPTransport = URLSessionOpenAIHTTPTransport(),
         maxOutputTokens: Int = OpenAICommandProvider.defaultMaxOutputTokens
     ) {
+        self.providerID = providerID
         self.baseURL = baseURL
         self.transport = transport
         self.maxOutputTokens = maxOutputTokens
@@ -147,6 +149,32 @@ public struct OpenAICommandProvider: LLMCommandProvider {
         default:
             .providerError()
         }
+    }
+}
+
+public struct XAICommandProvider: LLMCommandProvider {
+    public let providerID: LLMProviderID = .xAI
+
+    public static let defaultBaseURL = URL(string: "https://api.x.ai")!
+    public static let defaultModelID = LLMModelID("grok-4.3")
+
+    private let provider: OpenAICommandProvider
+
+    public init(
+        baseURL: URL = XAICommandProvider.defaultBaseURL,
+        transport: OpenAIHTTPTransport = URLSessionOpenAIHTTPTransport(),
+        maxOutputTokens: Int = OpenAICommandProvider.defaultMaxOutputTokens
+    ) {
+        self.provider = OpenAICommandProvider(
+            providerID: .xAI,
+            baseURL: baseURL,
+            transport: transport,
+            maxOutputTokens: maxOutputTokens
+        )
+    }
+
+    public func complete(_ request: LLMCommandRequest, apiKey: String) async throws -> LLMCommandResponse {
+        try await provider.complete(request, apiKey: apiKey)
     }
 }
 

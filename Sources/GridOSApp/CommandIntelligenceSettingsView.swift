@@ -194,6 +194,10 @@ struct CommandIntelligenceSettingsView: View {
     }
 
     private var currentProviderArticle: String {
+        if normalizedProviderID == .xAI {
+            return "an"
+        }
+
         guard let firstCharacter = currentProviderDescriptor.displayName
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .first?

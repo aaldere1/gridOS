@@ -126,7 +126,7 @@ APP_QUIT=clean
 
 ## Phase 5 aesthetic mode evidence
 
-Phase 5 adds local aesthetic modes for Tron, Severance, and Apple-native. The release evidence lane verifies the mode contract with automated checks, shared-seed screenshots, same-mode install-variation screenshots, and a human Command-Shift-M terminal-focus smoke.
+Phase 5 adds local aesthetic modes for Tron, Matrix, Amber CRT, Redline, Severance, and Apple-native. The release evidence lane verifies the mode contract with automated checks, shared-seed screenshots, same-mode install-variation screenshots, and a human Command-Shift-M terminal-focus smoke.
 
 Final automated commands:
 
@@ -143,7 +143,7 @@ rg "accessibilityReduceMotion|reducedMotion|VisualEffectConfiguration" Sources/G
 sips -g pixelWidth -g pixelHeight .planning/phases/05-aesthetic-modes/evidence/*-screenshot
 ```
 
-The mode-comparison screenshots must use the same install seed, `phase5-evidence-shared-seed`, for Tron, Severance, and Apple-native PNG evidence. The install-variation screenshots must use the same raw mode, `tron`, with three different seeds for the install A, install B, and install C PNG evidence files.
+The mode-comparison screenshots must use the same install seed, `phase5-evidence-shared-seed`, for Tron, Matrix, Amber CRT, Redline, Severance, and Apple-native PNG evidence. The install-variation screenshots must use the same raw mode, `tron`, with three different seeds for the install A, install B, and install C PNG evidence files.
 
 Command-Shift-M terminal-focus smoke:
 
@@ -154,11 +154,11 @@ Command-Shift-M terminal-focus smoke:
 5. Type `echo PHASE5_FOCUS_AFTER` and confirm shell input still works.
 6. Record pass/fail and any focus anomaly in `05-04-SUMMARY.md` or `.planning/phases/05-aesthetic-modes/evidence/README.md`.
 
-Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility remain deferred and out of scope for this release evidence lane.
+Sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility remain deferred and out of scope for this release evidence lane.
 
 ## Phase 6 command intelligence smoke
 
-Phase 6 adds the one-shot Command Intelligence palette, preview-approved provider requests, local risk policy, insert-first generated commands, and a deterministic Debug smoke fixture. The final smoke must not require a live Anthropic key.
+Phase 6 adds the one-shot Command Intelligence palette, preview-approved provider requests, local risk policy, insert-first generated commands, and a deterministic Debug smoke fixture. The final smoke must not require a live hosted-provider key.
 
 Final automated commands:
 
@@ -188,7 +188,7 @@ Manual smoke checklist:
 
 1. Focus the terminal, press `Command-K`, confirm `Command Intelligence` opens with `Suggest Command`, `Explain Output`, and `Fix Failed Command`, then close it with Escape or the close control.
 2. After dismissal, type `printf 'PHASE6_FOCUS\n' > /tmp/gridos_phase6_focus.txt` in the terminal and confirm `cat /tmp/gridos_phase6_focus.txt` prints `PHASE6_FOCUS`.
-3. With no hosted provider key configured, trigger a normal Anthropic request and verify `Provider not configured` plus `Open Command Intelligence Settings`; click the action and verify Settings opens or focuses Command Intelligence.
+3. With no hosted provider key configured, trigger a normal hosted-provider request and verify `Provider not configured` plus `Open Command Intelligence Settings`; click the action and verify Settings opens or focuses Command Intelligence.
 4. Relaunch the Debug app with `--command-intelligence-smoke-fixture`; request the deterministic `PHASE6_INSERT` fixture, choose `Insert Command`, and verify `/tmp/gridos_phase6_insert.txt` is not created until Return or explicit `Run Command`.
 5. Request the deterministic high-risk fixture `rm -rf ~/tmp/gridos-test` and verify `Insert for Review` or `Run exactly this command?` appears; no execution happens when the provider response appears.
 6. Try `Explain Output` with selected output; if terminal selection is unavailable, verify `Selection unavailable` and the paste fallback.
