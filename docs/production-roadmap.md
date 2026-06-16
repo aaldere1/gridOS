@@ -6,11 +6,11 @@ state. The product intent in `docs/vision.md` remains intact: a native Apple
 Silicon sci-fi terminal that is beautiful, fast, useful, and meaningfully
 Mac-first.
 
-Current state as of 2026-06-15:
+Current state as of 2026-06-16:
 
 - XcodeGen project, generated Xcode project, module boundaries, tests, docs, and CI exist.
 - Native shell, Metal identity, local system metrics, multi-pane workspaces, macOS integration foundations, and AI Command Helper are implemented.
-- Version 1.0.6 build 14 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and ready for the public GitHub release.
+- Version 1.0.8 build 16 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and ready for the public GitHub release.
 - Sparkle automatic updates are enabled for the direct-download lane; the manual DMG flow remains the fallback.
 - The repository is public as source-available proprietary code, not open source.
 

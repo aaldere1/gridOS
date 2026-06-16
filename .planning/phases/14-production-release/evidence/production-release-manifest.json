@@ -2,49 +2,52 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.7",
-  "build": "15",
-  "sourceCommit": "8a1d12e",
-  "generatedAt": "2026-06-16T19:13:38Z",
+  "version": "1.0.8",
+  "build": "16",
+  "sourceCommit": "c60fecb",
+  "generatedAt": "2026-06-16T22:25:50Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.7-15-8a1d12e.dmg",
-      "sha256": "415e2da75bcffdae254db65b9948e4953f8e1ab84a5587aff456d0694e8f3e6e",
-      "sizeBytes": 8917838,
+      "path": "build/release/production/gridOS-1.0.8-16-c60fecb.dmg",
+      "sha256": "6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346",
+      "sizeBytes": 8913473,
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.7-15-8a1d12e.zip",
-      "sha256": "75337900bf9ff24b0372585022886bcbbe0e978bb5bbd9cfcf14853fe9219fb7",
-      "sizeBytes": 8034374,
-      "extractionVerification": "pass"
+      "path": "build/release/production/gridOS-1.0.8-16-c60fecb.zip",
+      "sha256": "34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2",
+      "sizeBytes": 8039028,
+      "extractionVerification": "pass",
+      "stapler": "pass"
     },
     "appBundle": {
-      "treeSha256Relative": "52cdb2086fe4ac29d430a2d5919912621e261afd3a1e9f803ed3c630a99ab8f6",
+      "treeSha256Relative": "6ddef1c6e063ca7c4abe143f658f459e9b72793ae99f9b9df0c8d95af469b513",
       "codesign": "pass",
-      "gatekeeper": "pass"
+      "gatekeeper": "pass",
+      "stapler": "pass"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "d02cd34e-4473-4123-80b8-1b4e9fd2bb52",
+    "submissionId": "25ec9d47-d4ec-457e-896e-cfae309ffcd8",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
     "status": "pass",
-    "evidence": ".planning/phases/12-beta/evidence/beta-artifact-verification.md"
+    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.8.md",
+    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.8.md"
   },
   "sparkle": {
     "status": "pass",
     "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
     "appcast": "appcast.xml",
     "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
-    "feedSignature": "nZauj8twG8zEfmGdqW36MJl+oqr6qxJCg+OXb26tu0YaO/AERUyYQieIdpdqpe0vjXFyQrajFhCo3YwzK8YiCg==",
-    "feedSignedLength": 3470,
-    "enclosureSignature": "/MJXeWTzyHEzJlAzICVXVaQjW0IRADq4VzKiezJxx3k+65257C/E4psWYA/5me/DsZuhx6qViCI+FQxRL1DDBA==",
-    "enclosureLength": 8917838,
+    "feedSignature": "8/jY42AE8dUrnVUWsB1LDix435EWYhplctNpo/egXW+XuYeU0xxKp/2Qn5HMWt7z3ELCzIcdx5IGn243Qv/gCg==",
+    "feedSignedLength": 3077,
+    "enclosureSignature": "YWoHB3TSqIDGxRcCEE8GISHa4xbwAHVYJXtq6JhEep5Zmdc2SzaNThSjyHltxJHYqv145A3xEyXeRiFwgDTyBg==",
+    "enclosureLength": 8913473,
     "validation": "xmllint pass; Ed25519 public-key verification passed by scripts/write-sparkle-appcast.sh for feed and DMG enclosure",
     "automaticChecks": true,
     "automaticInstall": true,
@@ -55,7 +58,8 @@
     "status": "artifact-proof-pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "scope": "current-Mac mounted DMG assessment plus committed screenshot inspection; separate clean-Mac proof remains open",
-    "visibleVersion": "v1.0.7",
+    "version": "1.0.8",
+    "build": "16",
     "settingsSoftwareUpdates": "pass",
     "settingsAutomaticChecks": true,
     "settingsAutomaticInstall": true,
@@ -65,11 +69,16 @@
     "commandHelperScreenshotDropZone": "pass",
     "readmeScreenshotsAvoidTerminalPromptsAndUsernames": true
   },
+  "terminalPolishProof": {
+    "status": "pass",
+    "xcodebuildBuildTest": "pass",
+    "scope": "Terminal jitter reduction and focused-pane Command-A/Command-C/Command-V behavior covered by unit tests plus prior live debug smoke."
+  },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.7.md",
-  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.6 to 1.0.7."
+  "releaseNotes": "docs/release-notes/v1.0.8.md",
+  "remainingValidation": "Publish the GitHub release assets, then run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.7 to 1.0.8."
 }
