@@ -22,6 +22,7 @@ permission from the copyright holder.
 - Direct `xcodebuild build test`: PASS after the 1.0.8 terminal jitter and
   pasteboard shortcut changes.
 - `scripts/ci-build-test.sh`: PASS after the 1.0.8 release commit.
+- GitHub Actions CI run `27652514707`: PASS on `deed416`.
 - `git diff --check`: PASS after the 1.0.8 release-script/doc evidence edits.
 - Current public docs now identify 1.0.8 as the current release.
 - Repository posture is documented as source-available proprietary, not open
@@ -44,6 +45,8 @@ permission from the copyright holder.
   symlink.
 - ZIP extraction with `ditto` preserved strict codesign, stapler validation, and
   Gatekeeper assessment: PASS.
+- GitHub release asset readback matched the local DMG and ZIP SHA-256 digests:
+  PASS.
 
 ## Visual Proof
 
@@ -77,6 +80,7 @@ permission from the copyright holder.
 - Appcast enclosure length `8913473` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
   `6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346`.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## Remaining External Validation
 

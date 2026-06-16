@@ -74,11 +74,23 @@
     "xcodebuildBuildTest": "pass",
     "scope": "Terminal jitter reduction and focused-pane Command-A/Command-C/Command-V behavior covered by unit tests plus prior live debug smoke."
   },
+  "githubRelease": {
+    "status": "published",
+    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.8",
+    "assets": {
+      "dmgDigest": "sha256:6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346",
+      "zipDigest": "sha256:34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2",
+      "appcastDigest": "sha256:8c44f51d7e710fb1e5eba6af582cfce03e41e2d1667b51f58cf5e7f3c627beaa"
+    },
+    "rawMainAppcastDiff": "pass",
+    "githubActionsRun": "27652514707",
+    "githubActionsConclusion": "success"
+  },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
   "releaseNotes": "docs/release-notes/v1.0.8.md",
-  "remainingValidation": "Publish the GitHub release assets, then run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.7 to 1.0.8."
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.7 to 1.0.8."
 }

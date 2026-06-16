@@ -20,6 +20,8 @@ Channel: production-direct
 ## Proof
 
 - Direct `xcodebuild build test`: PASS
+- `scripts/ci-build-test.sh`: PASS
+- GitHub Actions CI run 27652514707: PASS
 - DMG code signature: PASS
 - DMG notarization: PASS
 - Notary submission ID: 25ec9d47-d4ec-457e-896e-cfae309ffcd8
@@ -32,6 +34,8 @@ Channel: production-direct
 - Embedded Sparkle helpers Developer ID signed with secure timestamps: PASS
 - Sparkle appcast generation: PASS
 - Sparkle appcast XML validation: PASS
+- GitHub release asset readback: PASS
+- Raw `main` appcast matches local `appcast.xml`: PASS
 - ZIP extraction, strict codesign, stapler validation, and Gatekeeper execution assessment: PASS
 - Terminal jitter reduction and active-pane pasteboard shortcut tests: PASS
 - AI Command Helper screenshot drop zone with local OCR messaging: PASS
@@ -46,7 +50,6 @@ font-size, screenshot OCR, DeepSeek, and xAI expansion.
 
 ## Remaining Validation
 
-- Publish the GitHub release assets and read them back from GitHub.
 - Run Finder/Gatekeeper install proof on a separate clean Mac.
 - Prove Sparkle update flow from 1.0.7 to 1.0.8.
 - Keep the repository source-available proprietary unless a separate open-source
