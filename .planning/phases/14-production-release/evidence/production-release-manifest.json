@@ -2,31 +2,34 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.6",
-  "build": "14",
-  "sourceCommit": "edda1ee",
-  "generatedAt": "2026-06-15T21:03:45Z",
+  "version": "1.0.7",
+  "build": "15",
+  "sourceCommit": "8a1d12e",
+  "generatedAt": "2026-06-16T19:13:38Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.6-14-edda1ee.dmg",
-      "sha256": "cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1",
+      "path": "build/release/production/gridOS-1.0.7-15-8a1d12e.dmg",
+      "sha256": "415e2da75bcffdae254db65b9948e4953f8e1ab84a5587aff456d0694e8f3e6e",
+      "sizeBytes": 8917838,
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.6-14-edda1ee.zip",
-      "sha256": "69e9187ef4af85f3428b76ded72eb2eb676ead3e690b5ec1c1cc9d5207c72e21"
+      "path": "build/release/production/gridOS-1.0.7-15-8a1d12e.zip",
+      "sha256": "75337900bf9ff24b0372585022886bcbbe0e978bb5bbd9cfcf14853fe9219fb7",
+      "sizeBytes": 8034374,
+      "extractionVerification": "pass"
     },
     "appBundle": {
-      "sha256": "7e2c55c1c2a0e5f76ccf8a1b16a2795f729270c04eaa13547ac9b284a70c25c2",
+      "treeSha256Relative": "52cdb2086fe4ac29d430a2d5919912621e261afd3a1e9f803ed3c630a99ab8f6",
       "codesign": "pass",
       "gatekeeper": "pass"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "4b8195b6-e9bd-495f-8233-eccad1f793cb",
+    "submissionId": "d02cd34e-4473-4123-80b8-1b4e9fd2bb52",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
@@ -38,31 +41,35 @@
     "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
     "appcast": "appcast.xml",
     "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
-    "feedSignature": "GqbWyXJDFYqj4mjgByrniSA4vAtBmz/7Ptfg5XNzBnRFPzUhv4mkkAcNBC9DpE0bOSExXIJ2E37cFUJuAIcLCQ==",
-    "feedSignedLength": 2886,
-    "enclosureSignature": "RBGfRmOy8XE+bRJ/pGGAFtPaQi9cRAvOqhB9JdXZJakWq52mswqkc/lp3ms+yjrmvn84PgY+ja35wSkYXRtuCQ==",
-    "enclosureLength": 8746890,
-    "validation": "xmllint pass; Ed25519 public-key verification passed for feed and DMG enclosure",
+    "feedSignature": "nZauj8twG8zEfmGdqW36MJl+oqr6qxJCg+OXb26tu0YaO/AERUyYQieIdpdqpe0vjXFyQrajFhCo3YwzK8YiCg==",
+    "feedSignedLength": 3470,
+    "enclosureSignature": "/MJXeWTzyHEzJlAzICVXVaQjW0IRADq4VzKiezJxx3k+65257C/E4psWYA/5me/DsZuhx6qViCI+FQxRL1DDBA==",
+    "enclosureLength": 8917838,
+    "validation": "xmllint pass; Ed25519 public-key verification passed by scripts/write-sparkle-appcast.sh for feed and DMG enclosure",
     "automaticChecks": true,
     "automaticInstall": true,
     "systemProfiling": false,
     "embeddedHelpersSignedWithSecureTimestamps": true
   },
   "launchSmoke": {
-    "status": "pass",
+    "status": "artifact-proof-pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
-    "visibleVersion": "v1.0.6",
+    "scope": "current-Mac mounted DMG assessment plus committed screenshot inspection; separate clean-Mac proof remains open",
+    "visibleVersion": "v1.0.7",
     "settingsSoftwareUpdates": "pass",
     "settingsAutomaticChecks": true,
     "settingsAutomaticInstall": true,
     "settingsSystemProfiling": false,
-    "newIconIncluded": true
+    "newIconIncluded": true,
+    "hudSignalScreenshot": "pass",
+    "commandHelperScreenshotDropZone": "pass",
+    "readmeScreenshotsAvoidTerminalPromptsAndUsernames": true
   },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.6.md",
-  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.6 to the next release."
+  "releaseNotes": "docs/release-notes/v1.0.7.md",
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.6 to 1.0.7."
 }

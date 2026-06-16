@@ -1,19 +1,19 @@
 # gridOS production direct release
 
-Status: version 1.0.6
-Last updated: 2026-06-15
+Status: version 1.0.7
+Last updated: 2026-06-16
 
 ## Artifact
 
-- Version: 1.0.6
-- Build: 14
-- Source commit: edda1ee
-- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.6
-- DMG: build/release/production/gridOS-1.0.6-14-edda1ee.dmg
-- DMG SHA-256: cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1
-- ZIP: build/release/production/gridOS-1.0.6-14-edda1ee.zip
-- ZIP SHA-256: 69e9187ef4af85f3428b76ded72eb2eb676ead3e690b5ec1c1cc9d5207c72e21
-- App bundle SHA-256: 7e2c55c1c2a0e5f76ccf8a1b16a2795f729270c04eaa13547ac9b284a70c25c2
+- Version: 1.0.7
+- Build: 15
+- Source commit: 8a1d12e
+- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.7
+- DMG: build/release/production/gridOS-1.0.7-15-8a1d12e.dmg
+- DMG SHA-256: 415e2da75bcffdae254db65b9948e4953f8e1ab84a5587aff456d0694e8f3e6e
+- ZIP: build/release/production/gridOS-1.0.7-15-8a1d12e.zip
+- ZIP SHA-256: 75337900bf9ff24b0372585022886bcbbe0e978bb5bbd9cfcf14853fe9219fb7
+- Extracted app tree SHA-256: 52cdb2086fe4ac29d430a2d5919912621e261afd3a1e9f803ed3c630a99ab8f6
 
 ## Release Positioning
 
@@ -23,9 +23,11 @@ Intelligence, and automatic updates for the direct-download lane. The value is
 not "AI terminal" as a gimmick. The value is a beautiful, private command
 workspace that helps users think before they run.
 
-Version 1.0.6 keeps the 1.0.5 product base and makes the public release feel
-finished: new icon, icon-driven README hero, username-free screenshots, Sparkle
-automatic updates, and signed/notarized proof for the final artifact.
+Version 1.0.7 keeps the 1.0.6 public-release base and makes the app feel more
+complete: six visual styles, a denser HUD signal rail, live terminal font-size
+controls, DeepSeek and xAI provider paths, local screenshot OCR drops in the AI
+Command Helper, username-free screenshots, Sparkle automatic updates, and
+signed/notarized proof for the final artifact.
 
 ## First Launch
 
@@ -50,6 +52,8 @@ tool opening its doors, not a pre-release disclaimer.
 | README hero and screenshots avoid terminal prompts/usernames | PASS |
 | Software Updates settings screenshot captured | PASS |
 | AI Command Helper settings/menu present | PASS |
+| AI Command Helper screenshot drop zone with local OCR messaging | PASS |
+| ZIP extraction strict codesign and Gatekeeper execution assessment | PASS |
 | Local 1.0.4 to 1.0.5 replacement proof | PASS |
 
 ## Install
@@ -64,7 +68,7 @@ release blocker and rebuild or re-notarize.
 
 ## Updates
 
-gridOS 1.0.6 includes Sparkle automatic updates for the direct-download release
+gridOS 1.0.7 includes Sparkle automatic updates for the direct-download release
 lane. Automatic checks and automatic download/install are enabled by default,
 Sparkle system profiling is disabled, and the manual DMG flow remains available
 as a fallback.
@@ -80,12 +84,14 @@ Manual update fallback:
 
 Clean-Mac Finder install/update proof remains useful external validation when a
 separate clean Mac is available. Future update proof should validate Sparkle
-from 1.0.6 to the next release.
+from 1.0.6 to 1.0.7.
 
 ## Privacy Boundaries
 
 gridOS should not ask users to send shell history, terminal transcripts,
 environment variables, API keys, generated commands, provider responses, or
-screenshots containing secrets. Command Intelligence remains preview-first and
+screenshots containing secrets. Dropped screenshots are OCR-scanned locally and
+provider preview context contains reviewed text and metadata only, not image
+pixels or local file paths. Command Intelligence remains preview-first and
 provider-backed features remain explicit user actions. Sparkle update checks may
 contact the signed appcast and GitHub release assets; system profiling is off.

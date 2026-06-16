@@ -1,19 +1,19 @@
-# Production launch smoke
+# Production launch-readiness smoke
 
-- Timestamp UTC: 2026-06-15T21:03:45Z
-- Artifact: build/release/production/gridOS-1.0.6-14-edda1ee.dmg
-- Artifact SHA-256: cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1
-- Source commit: edda1ee
-- Version: 1.0.6
-- Build: 14
+- Timestamp UTC: 2026-06-16T19:13:38Z
+- Artifact: build/release/production/gridOS-1.0.7-15-8a1d12e.dmg
+- Artifact SHA-256: 415e2da75bcffdae254db65b9948e4953f8e1ab84a5587aff456d0694e8f3e6e
+- Source commit: 8a1d12e
+- Version: 1.0.7
+- Build: 15
 - Bundle ID: com.aaldere1.gridos
-- Mounted launch path: /tmp/gridos-1.0.6-ui.XY0nxW/gridOS.app
+- Mounted proof path: /tmp/gridos-1.0.7-proof.KzUsLS/gridOS.app
 - Result: PASS
 
 ## DMG Container
 
 ```text
-build/release/production/gridOS-1.0.6-14-edda1ee.dmg: accepted
+build/release/production/gridOS-1.0.7-15-8a1d12e.dmg: accepted
 source=Notarized Developer ID
 stapler=PASS
 ```
@@ -21,34 +21,24 @@ stapler=PASS
 ## Gatekeeper
 
 ```text
-/tmp/gridos-1.0.6-proof.gzx7wW/gridOS.app: accepted
+/tmp/gridos-1.0.7-proof.KzUsLS/gridOS.app: accepted
 source=Notarized Developer ID
-origin=Developer ID Application: CineConcerts LLC (JFE428WL4Z)
 ```
 
 ## Strict Code Signature
 
 ```text
-/tmp/gridos-1.0.6-proof.gzx7wW/gridOS.app: valid on disk
-/tmp/gridos-1.0.6-proof.gzx7wW/gridOS.app: satisfies its Designated Requirement
+CODESIGN=PASS
+codesign --verify --deep --strict --verbose=2 /tmp/gridos-1.0.7-proof.KzUsLS/gridOS.app
 ```
 
-## Process And Version Sample
+## Version And Settings Sample
 
 ```text
-VERSION=1.0.6
-BUILD=14
+VERSION=1.0.7
+BUILD=15
 BUNDLE_ID=com.aaldere1.gridos
-DMG_SHA256=cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1
-APP_BUNDLE_SHA256=7e2c55c1c2a0e5f76ccf8a1b16a2795f729270c04eaa13547ac9b284a70c25c2
-VISIBLE_VERSION=v1.0.6
-```
-
-## Sparkle Settings
-
-The mounted app Info.plist contains:
-
-```text
+DMG_SHA256=415e2da75bcffdae254db65b9948e4953f8e1ab84a5587aff456d0694e8f3e6e
 SUFeedURL=https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml
 SUPublicEDKey=nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=
 SUEnableAutomaticChecks=true
@@ -56,59 +46,41 @@ SUAutomaticallyUpdate=true
 SUEnableSystemProfiling=false
 ```
 
-The committed public Settings screenshot
-`docs/assets/readme/screenshots/gridos-settings-updates.png` was inspected and
-shows:
+## DMG Layout
 
-- Software Updates section: PASS
-- Automatically check for updates toggle on: PASS
-- Automatically download and install updates toggle on: PASS
-- Check for Updates button: PASS
-- Signed GitHub release assets copy: PASS
-- System profiling off copy: PASS
-- Username, terminal prompt, local path, and private file content: none visible
+```text
+/tmp/gridos-1.0.7-proof.KzUsLS/.DS_Store
+/tmp/gridos-1.0.7-proof.KzUsLS/gridOS.app
+/tmp/gridos-1.0.7-proof.KzUsLS/Applications
+/tmp/gridos-1.0.7-proof.KzUsLS/.background
+```
 
-## Visual Inspection
+## Public Screenshots
 
-Computer Use targeted the mounted app path directly:
-`/tmp/gridos-1.0.6-ui.XY0nxW/gridOS.app`.
+The committed public README screenshots were inspected for the 1.0.7 release:
 
-- Visible app version: v1.0.6
-- Terminal workspace inspection: PASS
-- Pane toolbar visible: PASS
-- Pane count visible: PASS
-- Right-rail signal visible: PASS
-- System metrics visible: PASS
-- Pre-release/debug language visible in app UI: none observed
-- Layout issues observed: none blocking
-- Text clipping/bleed observed: none blocking
+- `docs/assets/readme/screenshots/gridos-hud-signal.png`: shows the Redline HUD Signal rail without terminal prompt, username, path, or private content.
+- `docs/assets/readme/screenshots/gridos-command-helper.png`: shows the AI Command Helper screenshot drop zone and local OCR messaging without terminal prompt, username, path, or private content.
+- `docs/assets/readme/screenshots/gridos-settings-updates.png`: shows Software Updates controls, automatic checks, automatic install, signed GitHub release asset copy, and system profiling off copy without terminal prompt, username, path, or private content.
 
-The terminal surface correctly shows a live local shell prompt, including the
-machine/user prompt. Because of that, terminal screenshots are intentionally not
-used in public README imagery. Public imagery uses the generated hero and
-settings/update screenshots instead.
+The main terminal surface correctly shows a live local shell prompt, including
+the machine/user prompt. Because of that, terminal screenshots are intentionally
+not used in public README imagery.
 
 ## Embedded Sparkle Helpers
 
-Strict code signature verification traversed the embedded Sparkle helpers:
+Strict code signature verification traversed the embedded Sparkle helpers.
+Sparkle appcast generation also verified the Ed25519 feed signature and the DMG
+enclosure signature against the public key embedded in the app.
 
-```text
-Sparkle.framework/Versions/B/Autoupdate: validated
-Sparkle.framework/Versions/B/Updater.app: validated
-Sparkle.framework/Versions/B/XPCServices/Downloader.xpc: validated
-Sparkle.framework/Versions/B/XPCServices/Installer.xpc: validated
-```
+## Cleanup
 
-## Quit And Cleanup
-
-- Quit/cleanup command: terminate mounted test app process and detach temporary DMG mount
-- Quit status: PASS
 - DMG detach status: PASS
 
 ## Notes
 
-This smoke uses LaunchServices and Computer Use against the mounted DMG app path
-so it matches the normal downloaded-DMG launch path. It does not commit shell
-history, terminal output, environment variables, screenshots with user prompts,
-API keys, private file contents, generated commands, provider responses, or raw
-terminal transcripts.
+This smoke mounts and assesses the final notarized DMG on the current Mac. It is
+not clean-Mac evidence and does not replace the remaining external Finder and
+Sparkle update validation. It does not commit shell history, terminal output,
+environment variables, screenshots with user prompts, API keys, private file
+contents, generated commands, provider responses, or raw terminal transcripts.
