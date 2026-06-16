@@ -22,13 +22,13 @@ The repository began as planning-only documentation:
 
 The app has a generated Xcode project, a SwiftUI macOS shell, a SwiftTerm-backed local terminal, a Metal-backed visual identity layer, a terminal-first production frame, truthful native system metrics, three coherent aesthetic modes, multi-pane session management, and an opt-in `Command-K` Command Intelligence palette. Command Intelligence supports suggested commands, explain output, failed-command help, preview-before-send redaction, Anthropic and OpenAI provider setup, provider-specific Keychain-backed API keys, current curated model choices, custom model IDs, local command-risk gates, insert-first command handling, no-key usability, and deterministic Debug smoke fixtures.
 
-Production direct version 1.0.6 build 14 has been locally app-signed,
-DMG-signed, notarized, stapled, Gatekeeper-assessed, launch-smoked from the DMG,
-visually inspected, performance-gated, and prepared for GitHub release
-`v1.0.6`. It includes the 1.0.5 AI Command Helper clarity plus a new app icon,
-username-free public screenshots, Sparkle automatic updates, signed Sparkle
-helpers with secure timestamps, version metadata drift protection, and a
-polished drag-to-Applications DMG installer. The v1.0.6 `appcast.xml` has
+Production direct version 1.0.6 build 14 is published on GitHub release
+`v1.0.6`. The artifact is app-signed, DMG-signed, notarized, stapled,
+Gatekeeper-assessed, launch-smoked from the DMG, visually inspected, and
+performance-gated. It includes the 1.0.5 AI Command Helper clarity plus a new
+app icon, username-free public screenshots, Sparkle automatic updates, signed
+Sparkle helpers with secure timestamps, version metadata drift protection, and
+a polished drag-to-Applications DMG installer. The v1.0.6 `appcast.xml` has
 validated Sparkle feed and DMG enclosure Ed25519 signatures. Separate clean-Mac
 Finder/Gatekeeper UAT and Sparkle update proof from 1.0.6 to the next release
 remain external validation.

@@ -22,7 +22,7 @@ permission from the copyright holder.
 - `scripts/ci-build-test.sh`: PASS on Xcode 26.5 after the appcast,
   release-script, and release-evidence edits.
 - `git diff --check`: PASS after the 1.0.6 release-script/doc evidence edits.
-- Current public docs now identify 1.0.6 as the current release candidate.
+- Current public docs now identify 1.0.6 as the current release.
 - Repository posture is documented as source-available proprietary, not open
   source.
 

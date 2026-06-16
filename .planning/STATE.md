@@ -448,4 +448,5 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - 2026-06-15: Public GitHub release-readiness pass aligned current docs to 1.0.5, verified local CI/artifact/Gatekeeper checks, and Computer Use inspected the mounted DMG plus running Applications copy.
 - Stopped at: Production direct 1.0.5 is public on GitHub as source-available proprietary code; separate clean-Mac Finder/Gatekeeper UAT and clean-Mac update proof remain external validation.
 - 2026-06-15: Prepared production direct 1.0.6 with the new icon, username-free README visuals, Sparkle automatic updates, signed Sparkle helpers, final signed/notarized `gridOS-1.0.6-14-edda1ee.dmg`, v1.0.6 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
-- Stopped at: Production direct 1.0.6 is ready for public GitHub release publication; clean-Mac Finder/Gatekeeper UAT and 1.0.6-to-next Sparkle update proof remain external validation.
+- 2026-06-16: Published GitHub release `v1.0.6` with the signed/notarized DMG, ZIP, and signed appcast assets; pushed `main` through commit `026a58d` and GitHub Actions CI passed.
+- Stopped at: Production direct 1.0.6 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.6-to-next Sparkle update proof remain external validation.
