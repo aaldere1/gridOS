@@ -82,13 +82,16 @@ private struct TerminalCommands: Commands {
             Button("Copy") {
                 terminalWorkspaceCommands?.copy()
             }
-            .keyboardShortcut("c", modifiers: [.command])
             .disabled(terminalWorkspaceCommands == nil)
 
             Button("Paste") {
                 terminalWorkspaceCommands?.paste()
             }
-            .keyboardShortcut("v", modifiers: [.command])
+            .disabled(terminalWorkspaceCommands == nil)
+
+            Button("Select All") {
+                terminalWorkspaceCommands?.selectAll()
+            }
             .disabled(terminalWorkspaceCommands == nil)
 
             Divider()

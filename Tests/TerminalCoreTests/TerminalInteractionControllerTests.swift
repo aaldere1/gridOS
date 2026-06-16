@@ -71,6 +71,16 @@ final class TerminalInteractionControllerTests: XCTestCase {
         XCTAssertEqual(terminal.pasteCount, 1)
     }
 
+    func testSelectAllTargetsAttachedTerminal() {
+        let terminal = TerminalInteractionTerminalSpy()
+        let controller = TerminalInteractionController()
+
+        controller.attach(terminal)
+        controller.selectAll()
+
+        XCTAssertEqual(terminal.selectAllCount, 1)
+    }
+
     func testClearSendsControlL() {
         let terminal = TerminalInteractionTerminalSpy()
         let controller = TerminalInteractionController()
@@ -152,6 +162,7 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
     private(set) var focusRequestCount = 0
     private(set) var copySelectionCount = 0
     private(set) var pasteCount = 0
+    private(set) var selectAllCount = 0
     private(set) var clearCount = 0
     private(set) var resetCount = 0
     private(set) var terminateCount = 0
@@ -179,6 +190,10 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
 
     func paste() {
         pasteCount += 1
+    }
+
+    func selectAll() {
+        selectAllCount += 1
     }
 
     func clear() {

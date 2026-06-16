@@ -8,6 +8,7 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
     func focusTerminal()
     func copySelection()
     func paste()
+    func selectAll()
     func clear()
     func reset()
     func terminate()
@@ -48,6 +49,10 @@ public final class TerminalInteractionController: ObservableObject {
 
     public func paste() {
         terminal?.paste()
+    }
+
+    public func selectAll() {
+        terminal?.selectAll()
     }
 
     public func clear() {

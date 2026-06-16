@@ -14,6 +14,7 @@ struct TerminalWorkspaceCommandsValue {
     let resizePaneDown: @MainActor () -> Void
     let copy: @MainActor () -> Void
     let paste: @MainActor () -> Void
+    let selectAll: @MainActor () -> Void
     let clear: @MainActor () -> Void
     let reset: @MainActor () -> Void
 }

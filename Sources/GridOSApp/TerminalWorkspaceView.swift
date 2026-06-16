@@ -171,6 +171,9 @@ struct TerminalWorkspaceView: View {
             paste: {
                 workspaceController.pasteIntoActivePane()
             },
+            selectAll: {
+                workspaceController.selectAllInActivePane()
+            },
             clear: {
                 workspaceController.clearActivePane()
             },

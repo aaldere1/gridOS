@@ -280,6 +280,14 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         }
     }
 
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if super.performKeyEquivalent(with: event) {
+            return true
+        }
+
+        return handlePasteboardKeyEquivalent(event)
+    }
+
     override func send(source: TerminalView, data: ArraySlice<UInt8>) {
         emitActivity(.input(byteCount: data.count))
         super.send(source: source, data: data)
@@ -293,6 +301,28 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
     private func emitActivity(_ event: TerminalActivityEvent) {
         DispatchQueue.main.async { [weak self] in
             self?.activityHandler?(event)
+        }
+    }
+
+    private func handlePasteboardKeyEquivalent(_ event: NSEvent) -> Bool {
+        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        guard modifierFlags == .command,
+              let key = event.charactersIgnoringModifiers?.lowercased() else {
+            return false
+        }
+
+        switch key {
+        case "a":
+            selectAll()
+            return true
+        case "c":
+            copy(self)
+            return true
+        case "v":
+            paste(self)
+            return true
+        default:
+            return false
         }
     }
 }

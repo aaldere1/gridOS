@@ -35,7 +35,7 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(secondary.sentTexts, ["pwd\n"])
     }
 
-    func testCopyPasteClearResetTargetOnlyActivePane() {
+    func testCopyPasteSelectAllClearResetTargetOnlyActivePane() {
         let workspace = fixtureWorkspace()
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
         let primary = TerminalRoutingSpy()
@@ -46,15 +46,18 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         workspace.activatePane("pane-b")
         workspace.copyActivePaneSelection()
         workspace.pasteIntoActivePane()
+        workspace.selectAllInActivePane()
         workspace.clearActivePane()
         workspace.resetActivePane()
 
         XCTAssertEqual(primary.copySelectionCount, 0)
         XCTAssertEqual(primary.pasteCount, 0)
+        XCTAssertEqual(primary.selectAllCount, 0)
         XCTAssertEqual(primary.clearCount, 0)
         XCTAssertEqual(primary.resetCount, 0)
         XCTAssertEqual(secondary.copySelectionCount, 1)
         XCTAssertEqual(secondary.pasteCount, 1)
+        XCTAssertEqual(secondary.selectAllCount, 1)
         XCTAssertEqual(secondary.clearCount, 1)
         XCTAssertEqual(secondary.resetCount, 1)
     }
@@ -203,6 +206,7 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
     private(set) var focusRequestCount = 0
     private(set) var copySelectionCount = 0
     private(set) var pasteCount = 0
+    private(set) var selectAllCount = 0
     private(set) var clearCount = 0
     private(set) var resetCount = 0
     private(set) var terminateCount = 0
@@ -225,6 +229,10 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
 
     func paste() {
         pasteCount += 1
+    }
+
+    func selectAll() {
+        selectAllCount += 1
     }
 
     func clear() {

@@ -126,6 +126,10 @@ public final class TerminalWorkspaceController: ObservableObject {
         controller(for: activePaneID).paste()
     }
 
+    public func selectAllInActivePane() {
+        controller(for: activePaneID).selectAll()
+    }
+
     public func clearActivePane() {
         controller(for: activePaneID).clear()
     }
