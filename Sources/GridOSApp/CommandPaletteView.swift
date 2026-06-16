@@ -28,6 +28,7 @@ struct CommandPaletteView: View {
     @FocusState private var isPromptFocused: Bool
 
     private let contextBuilder = CommandContextBuilder()
+    private let panelWidth: CGFloat = 860
 
     init(
         theme: VisualTheme,
@@ -60,38 +61,18 @@ struct CommandPaletteView: View {
             Divider()
                 .background(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
 
-            VStack(alignment: .leading, spacing: 16) {
-                intelligenceBriefing
-                providerSetupNotice
-
-                Picker("Flow", selection: $selectedFlow) {
-                    ForEach(CommandPaletteFlow.allCases) { flow in
-                        Text(flow.title)
-                            .tag(flow)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .disabled(preview != nil || serviceResult != nil || isSending)
-                .accessibilityLabel("AI Command Helper flow")
-
-                if preview == nil && serviceResult == nil && !isSending {
-                    flowGuideContent
-                }
-
-                if isSending {
-                    loadingContent
-                } else if let serviceResult {
-                    resultContent(serviceResult)
-                } else if let preview {
-                    previewContent(preview)
-                } else {
-                    composeContent
-                }
-            }
-            .padding(16)
+            panelContent
         }
-        .frame(maxWidth: 780, maxHeight: 660)
-        .background(Color(theme.palette.background).opacity(max(0.86, theme.panel.backgroundOpacity)))
+        .frame(
+            minWidth: 760,
+            idealWidth: panelWidth,
+            maxWidth: panelWidth,
+            minHeight: 620,
+            idealHeight: 690,
+            maxHeight: 720,
+            alignment: .topLeading
+        )
+        .background(Color(theme.palette.background).opacity(max(0.94, theme.panel.backgroundOpacity)))
         .overlay {
             RoundedRectangle(cornerRadius: min(theme.panel.cornerRadius, 8), style: .continuous)
                 .stroke(Color(theme.palette.primaryAccent).opacity(max(0.28, theme.panel.borderOpacity)), lineWidth: 1)
@@ -126,6 +107,71 @@ struct CommandPaletteView: View {
         }
     }
 
+    @ViewBuilder
+    private var panelContent: some View {
+        if isComposeMode {
+            VStack(spacing: 0) {
+                ScrollView {
+                    panelContentStack
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                }
+                .scrollIndicators(.visible)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+
+                Divider()
+                    .background(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
+
+                composeFooter
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 16)
+                    .background(Color(theme.palette.background).opacity(0.88))
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        } else {
+            panelContentStack
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        }
+    }
+
+    private var panelContentStack: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            intelligenceBriefing
+            providerSetupNotice
+
+            Picker("Flow", selection: $selectedFlow) {
+                ForEach(CommandPaletteFlow.allCases) { flow in
+                    Text(flow.title)
+                        .tag(flow)
+                }
+            }
+            .pickerStyle(.segmented)
+            .disabled(preview != nil || serviceResult != nil || isSending)
+            .accessibilityLabel("AI Command Helper flow")
+
+            if isComposeMode {
+                flowGuideContent
+            }
+
+            if isSending {
+                loadingContent
+            } else if let serviceResult {
+                resultContent(serviceResult)
+            } else if let preview {
+                previewContent(preview)
+            } else {
+                composeContent
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 22)
+        .padding(.bottom, 24)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+    }
+
+    private var isComposeMode: Bool {
+        preview == nil && serviceResult == nil && !isSending
+    }
+
     private var header: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
@@ -155,7 +201,9 @@ struct CommandPaletteView: View {
             .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.82))
             .accessibilityLabel("Close AI Command Helper")
         }
-        .padding(16)
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+        .padding(.bottom, 18)
     }
 
     private var intelligenceBriefing: some View {
@@ -181,7 +229,8 @@ struct CommandPaletteView: View {
                 examplePromptRow
             }
         }
-        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(18)
         .background(Color(theme.palette.primaryAccent).opacity(0.045))
         .overlay {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -284,7 +333,7 @@ struct CommandPaletteView: View {
     }
 
     private var composeContent: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 18) {
             flowInputContent
 
             if let selectionFailure {
@@ -297,33 +346,35 @@ struct CommandPaletteView: View {
                 .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.92))
                 .accessibilityElement(children: .combine)
             }
-
-            Spacer(minLength: 0)
-
-            HStack(alignment: .center, spacing: 12) {
-                Button("Open AI Command Helper Settings") {
-                    onOpenCommandIntelligenceSettings()
-                }
-                .buttonStyle(.borderless)
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.90))
-                .accessibilityLabel("Open AI Command Helper Settings")
-
-                Spacer(minLength: 16)
-
-                Button("Preview What Will Be Sent") {
-                    buildPreview()
-                }
-                .keyboardShortcut(.return, modifiers: [.command])
-                .disabled(!canBuildPreview)
-            }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var composeFooter: some View {
+        HStack(alignment: .center, spacing: 12) {
+            Button("Open AI Command Helper Settings") {
+                onOpenCommandIntelligenceSettings()
+            }
+            .buttonStyle(.borderless)
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.90))
+            .accessibilityLabel("Open AI Command Helper Settings")
+
+            Spacer(minLength: 16)
+
+            Button("Preview What Will Be Sent") {
+                buildPreview()
+            }
+            .keyboardShortcut(.return, modifiers: [.command])
+            .disabled(!canBuildPreview)
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     @ViewBuilder
     private var providerSetupNotice: some View {
         if case .missing(let providerName) = providerStatus {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     Text("Provider key required")
                         .font(.system(size: 14, weight: .semibold, design: .rounded))
@@ -346,7 +397,8 @@ struct CommandPaletteView: View {
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.94))
             }
-            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(18)
             .background(Color(theme.palette.statusAccent).opacity(0.050))
             .overlay {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -664,11 +716,12 @@ struct CommandPaletteView: View {
     }
 
     private var flowGuideContent: some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .top, spacing: 12) {
             PaletteGuideItem(label: "Use when", value: selectedFlow.useWhen, theme: theme)
             PaletteGuideItem(label: "You provide", value: selectedFlow.inputHint, theme: theme)
             PaletteGuideItem(label: "You get", value: selectedFlow.resultHint, theme: theme)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .contain)
     }
 
@@ -748,7 +801,7 @@ struct CommandPaletteView: View {
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                 .focused($isPromptFocused)
-                .frame(minHeight: 132, maxHeight: 196)
+                .frame(minHeight: 144, maxHeight: 210)
         }
     }
 
@@ -1165,7 +1218,7 @@ private struct PaletteGuideItem: View {
     let theme: VisualTheme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(label.uppercased())
                 .font(.system(size: 9, weight: .semibold, design: .monospaced))
                 .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.64))
@@ -1176,7 +1229,7 @@ private struct PaletteGuideItem: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(10)
+        .padding(12)
         .background(Color(theme.palette.background).opacity(0.34))
         .overlay {
             RoundedRectangle(cornerRadius: 7, style: .continuous)

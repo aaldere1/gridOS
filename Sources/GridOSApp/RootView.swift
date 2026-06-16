@@ -214,6 +214,7 @@ struct RootView: View {
             startPhase8SmokeIfNeeded()
             startPhase9SmokeIfNeeded()
             startPhase11SmokeIfNeeded()
+            startCommandPaletteSmokeIfNeeded()
             #endif
             await runMetricsLoop()
         }
@@ -566,6 +567,20 @@ struct RootView: View {
             saveWorkspace: saveWorkspaceNow
         )
         .startIfRequested()
+    }
+
+    @MainActor private func startCommandPaletteSmokeIfNeeded(
+        arguments: [String] = ProcessInfo.processInfo.arguments
+    ) {
+        guard arguments.contains("--command-palette-open-smoke") else {
+            return
+        }
+
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 700_000_000)
+            isCommandPalettePresented = true
+            refreshCommandPaletteProviderStatus()
+        }
     }
     #endif
 }
