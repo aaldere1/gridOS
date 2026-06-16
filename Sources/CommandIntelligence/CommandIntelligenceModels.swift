@@ -9,6 +9,8 @@ public enum CommandIntelligenceFlow: String, CaseIterable, Codable, Sendable {
 public struct LLMProviderID: RawRepresentable, Codable, Equatable, Hashable, Sendable, ExpressibleByStringLiteral {
     public static let anthropic = LLMProviderID("anthropic")
     public static let openAI = LLMProviderID("openai")
+    public static let deepSeek = LLMProviderID("deepseek")
+    public static let xAI = LLMProviderID("xai")
     public static let debugSmokeFixture = LLMProviderID("debug-smoke-fixture")
 
     public let rawValue: String
@@ -45,6 +47,10 @@ public struct LLMModelID: RawRepresentable, Codable, Equatable, Hashable, Sendab
     public static let gpt5 = LLMModelID("gpt-5")
     public static let gpt5Mini = LLMModelID("gpt-5-mini")
     public static let gpt5Nano = LLMModelID("gpt-5-nano")
+    public static let deepSeekV4Flash = LLMModelID("deepseek-v4-flash")
+    public static let deepSeekV4Pro = LLMModelID("deepseek-v4-pro")
+    public static let grok43 = LLMModelID("grok-4.3")
+    public static let grokBuild01 = LLMModelID("grok-build-0.1")
 
     public let rawValue: String
 
@@ -183,9 +189,55 @@ public enum CommandIntelligenceModelCatalog {
         ]
     )
 
+    public static let deepSeek = LLMProviderDescriptor(
+        id: .deepSeek,
+        displayName: "DeepSeek",
+        apiKeyLabel: "DeepSeek API key",
+        apiKeyPlaceholder: "sk-...",
+        setupHint: "Uses DeepSeek's OpenAI-compatible Chat Completions API. Keys stay in your Mac Keychain.",
+        defaultModelID: .deepSeekV4Flash,
+        models: [
+            LLMModelDescriptor(
+                id: .deepSeekV4Flash,
+                displayName: "DeepSeek V4 Flash",
+                detail: "Fast, low-cost DeepSeek model for everyday command help.",
+                isRecommended: true
+            ),
+            LLMModelDescriptor(
+                id: .deepSeekV4Pro,
+                displayName: "DeepSeek V4 Pro",
+                detail: "Stronger DeepSeek reasoning model for more complex terminal questions."
+            )
+        ]
+    )
+
+    public static let xAI = LLMProviderDescriptor(
+        id: .xAI,
+        displayName: "xAI",
+        apiKeyLabel: "xAI API key",
+        apiKeyPlaceholder: "xai-...",
+        setupHint: "Uses xAI's OpenAI-compatible Responses API. Keys stay in your Mac Keychain.",
+        defaultModelID: .grok43,
+        models: [
+            LLMModelDescriptor(
+                id: .grok43,
+                displayName: "Grok 4.3",
+                detail: "Recommended xAI model for general command reasoning.",
+                isRecommended: true
+            ),
+            LLMModelDescriptor(
+                id: .grokBuild01,
+                displayName: "Grok Build 0.1",
+                detail: "xAI coding-focused model for agentic software and shell workflows."
+            )
+        ]
+    )
+
     public static let providers: [LLMProviderDescriptor] = [
         anthropic,
-        openAI
+        openAI,
+        deepSeek,
+        xAI
     ]
 
     public static func descriptor(for providerID: LLMProviderID) -> LLMProviderDescriptor {

@@ -5,7 +5,7 @@
 | Data class | Sensitivity | Stored where | Leaves device? | Default behavior | User control |
 | --- | --- | --- | --- | --- | --- |
 | Provider API key | Secret | Keychain generic-password item through `GridOSKit.KeychainCredentialStore` | No, except as provider auth header during explicit request | Not configured by default | Save/delete in Command Intelligence settings |
-| Provider/model preference | Low | `@AppStorage` keys in `GridOSAppPreferences` | No | Anthropic/Sonnet default; OpenAI and custom model IDs are user-selected | Settings |
+| Provider/model preference | Low | `@AppStorage` keys in `GridOSAppPreferences` | No | Anthropic/Sonnet default; OpenAI, DeepSeek, xAI, and custom model IDs are user-selected | Settings |
 | LLM approved preview payload | Potentially sensitive | Not persisted by default | Yes, only after explicit user send | Built from visible redacted preview | User can cancel before send |
 | Generated command | Potentially risky | Not persisted by default | No | Rendered in Command Intelligence result | Insert or explicit run only |
 | Sparkle update check | Low | Sparkle preferences and cache as needed by framework | Yes, to the appcast URL and GitHub release asset URLs | Automatic checks and automatic install enabled; Sparkle system profiling disabled | Software Updates settings |
@@ -40,6 +40,8 @@ The app must not persist these by default:
 | --- | --- | --- |
 | Anthropic provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
 | OpenAI provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
+| DeepSeek provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
+| xAI provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
 | Sparkle appcast/update download | Version/update request and release asset download | Automatic update settings; system profiling disabled |
 | macOS Spotlight | Workspace ID, display label, directory basename | Disabled in 1.0.6; metadata-only adapter is staged for a future release |
 | macOS notifications | Sanitized title/body such as `gridOS work finished` | Disabled in 1.0.6; app checks permission state only |

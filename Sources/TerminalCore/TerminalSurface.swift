@@ -42,7 +42,13 @@ public struct TerminalSurface: NSViewRepresentable {
         return terminal
     }
 
-    @MainActor public func updateNSView(_ nsView: NSView, context: Context) {}
+    @MainActor public func updateNSView(_ nsView: NSView, context: Context) {
+        guard let terminalView = nsView as? LocalProcessTerminalView else {
+            return
+        }
+
+        context.coordinator.update(configuration: configuration, terminalView: terminalView)
+    }
 
     @MainActor public static func dismantleNSView(_ nsView: NSView, coordinator: Coordinator) {
         coordinator.shutdown()
@@ -51,7 +57,7 @@ public struct TerminalSurface: NSViewRepresentable {
     @MainActor
     public final class Coordinator: NSObject, LocalProcessTerminalViewDelegate {
         private let paneID: TerminalPaneID
-        private let configuration: TerminalSessionConfiguration
+        private var configuration: TerminalSessionConfiguration
         private let interactionController: TerminalInteractionController?
         private let onActivity: ActivityHandler
         private var state = TerminalSessionState.idle
@@ -88,6 +94,13 @@ public struct TerminalSurface: NSViewRepresentable {
             }
             configure(terminalView)
             startShell(in: terminalView)
+        }
+
+        func update(configuration: TerminalSessionConfiguration, terminalView: LocalProcessTerminalView) {
+            self.configuration = configuration
+            applyAppearance(to: terminalView)
+            terminalView.needsLayout = true
+            terminalView.needsDisplay = true
         }
 
         func shutdown() {
@@ -145,7 +158,17 @@ public struct TerminalSurface: NSViewRepresentable {
             terminalView.autoresizingMask = [.width, .height]
             terminalView.wantsLayer = true
             terminalView.layer?.masksToBounds = true
+            applyAppearance(to: terminalView)
+            terminalView.getTerminal().setCursorStyle(.steadyBlock)
 
+            do {
+                try terminalView.setUseMetal(false)
+            } catch {
+                // SwiftTerm's text renderer is the stable Phase 1 path. A failure here should not block shell launch.
+            }
+        }
+
+        private func applyAppearance(to terminalView: LocalProcessTerminalView) {
             let foreground = NSColor(calibratedRed: 0.78, green: 0.91, blue: 0.92, alpha: 1)
             let background = NSColor(calibratedRed: 0.015, green: 0.020, blue: 0.024, alpha: 1)
 
@@ -154,13 +177,6 @@ public struct TerminalSurface: NSViewRepresentable {
             terminalView.layer?.backgroundColor = background.cgColor
             terminalView.caretColor = .systemCyan
             terminalView.font = resolvedFont()
-            terminalView.getTerminal().setCursorStyle(.steadyBlock)
-
-            do {
-                try terminalView.setUseMetal(false)
-            } catch {
-                // SwiftTerm's text renderer is the stable Phase 1 path. A failure here should not block shell launch.
-            }
         }
 
         private func startShell(in terminalView: LocalProcessTerminalView) {

@@ -134,15 +134,15 @@ Current abstractions:
 - `GridOSAppPreferences.visualModeStorageKey`
 - `GridOSAppPreferences.installSeedStorageKey`
 
-`VisualMode` exposes exactly `tron`, `severance`, and `appleNative`; `VisualTheme` owns each mode's palette, panel, terminal chrome, motion, and shader tokens. `VisualMotionProfile` composes with `VisualEffectConfiguration` so app and system reduced-motion settings still suppress motion across every mode.
+`VisualMode` exposes exactly `tron`, `matrix`, `amberCRT`, `redline`, `severance`, and `appleNative`; `VisualTheme` owns each mode's palette, panel, terminal chrome, motion, and shader tokens. `VisualMotionProfile` composes with `VisualEffectConfiguration` so app and system reduced-motion settings still suppress motion across every mode.
 
 `RootView` reads the local `appearance.visualMode` and `appearance.installSeed` preferences with `@AppStorage`, normalizes them through `GridOSAppPreferences`, and composes a `VisualIdentity`. The selected mode is changed through Settings or the native Appearance command menu. The required shortcut is `Command-Shift-M`, implemented as `.keyboardShortcut("m", modifiers: [.command, .shift])`, and it only changes the local mode preference.
 
 The app-frame UI consumes `VisualTheme` tokens at the boundary: header indicator, metrics strip, activity panel, panel separators, and terminal chrome styling are mode-aware without changing the terminal layout. SwiftTerm text rendering stays owned by `TerminalCore`.
 
-`MetalBackgroundView` receives the full `VisualIdentity`. Its renderer maps `VisualIdentity.seed` through `identity.seed.normalizedVector` into the shader uniform `seed`, alongside the mode shader value and theme palette/profile inputs. The Metal shader keeps one pipeline but branches visually for Tron, Severance, and Apple-native so the same install seed can prove mode distinction and different install seeds can prove subtle same-mode variation.
+`MetalBackgroundView` receives the full `VisualIdentity`. Its renderer maps `VisualIdentity.seed` through `identity.seed.normalizedVector` into the shader uniform `seed`, alongside the mode shader value and theme palette/profile inputs. The Metal shader keeps one pipeline but branches visually for Tron, Matrix, Amber CRT, Redline, Severance, and Apple-native so the same install seed can prove mode distinction and different install seeds can prove subtle same-mode variation.
 
-Cyberpunk, Matrix, sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility are deferred and out of scope for the Phase 5 architecture target.
+Sound themes, plugin/user themes, full light mode, GPU terminal text rendering, marketplace/import themes, and eDEX theme compatibility are deferred and out of scope for the Phase 5 architecture target.
 
 ## Phase 6 architecture target
 
@@ -159,6 +159,8 @@ Current abstractions:
 - `CommandIntelligenceModelCatalog`
 - `AnthropicCommandProvider`
 - `OpenAICommandProvider`
+- `DeepSeekCommandProvider`
+- `XAICommandProvider`
 - `CommandCredentialStore`
 - `KeychainCommandCredentialStore`
 - `CommandRiskClassifier`
@@ -170,9 +172,9 @@ Current abstractions:
 
 `CommandIntelligence` owns provider contracts, context preview construction, redaction, credential access, hosted-provider request shaping, deterministic debug fixtures, failure copy, provider/model catalog metadata, and local risk classification. The provider boundary accepts only `LLMCommandRequest.approvedPreview`, which is built from `CommandContextPreview.approvedPayload`; raw terminal assistance input does not go directly to hosted providers.
 
-`AnthropicCommandProvider` and `OpenAICommandProvider` are the live hosted provider paths. They use Foundation `URLSession` directly against Anthropic Messages and OpenAI Responses, with no provider SDK dependency. Each provider requires its own Keychain-backed API key through `KeychainCommandCredentialStore`. Provider and model identifiers may be persisted as normal preferences, including custom model IDs; API keys, prompts, generated commands, and provider responses are not stored in app preferences.
+`AnthropicCommandProvider`, `OpenAICommandProvider`, `DeepSeekCommandProvider`, and `XAICommandProvider` are the live hosted provider paths. They use Foundation `URLSession` directly against Anthropic Messages, OpenAI Responses, DeepSeek Chat Completions, and xAI Responses, with no provider SDK dependency. Each provider requires its own Keychain-backed API key through `KeychainCommandCredentialStore`. Provider and model identifiers may be persisted as normal preferences, including custom model IDs; API keys, prompts, generated commands, and provider responses are not stored in app preferences.
 
-`SecretRedactor` and `CommandContextBuilder` run before every provider send. The palette shows the redacted preview, redaction summaries, and blocked reasons; `CommandIntelligenceService` refuses blocked previews before invoking Anthropic, OpenAI, or the debug fixture.
+`SecretRedactor` and `CommandContextBuilder` run before every provider send. The palette shows the redacted preview, redaction summaries, and blocked reasons; `CommandIntelligenceService` refuses blocked previews before invoking a hosted provider or the debug fixture.
 
 `CommandRiskClassifier` is the local authority for generated-command policy. Provider risk labels remain advisory. The service reclassifies every returned command before `GridOSApp` renders action controls, so high-risk and unknown commands map to `insertOnly`, medium commands map to `requiresConfirmation`, and low-risk commands map to `canRun`.
 

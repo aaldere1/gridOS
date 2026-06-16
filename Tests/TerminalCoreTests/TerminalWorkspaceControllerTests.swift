@@ -103,6 +103,16 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(workspace.state.recentDirectories.first, "/Users/test/pane-b")
     }
 
+    func testUpdateTerminalFontSizeAppliesToExistingPanes() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        workspace.updateTerminalFontSize(19)
+
+        XCTAssertEqual(workspace.state.panesByID["primary"]?.configuration.fontSize, 19)
+        XCTAssertEqual(workspace.state.panesByID["pane-b"]?.configuration.fontSize, 19)
+    }
+
     func testFocusNextChangesActivePaneAndRequestsFocus() {
         let workspace = fixtureWorkspace()
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")

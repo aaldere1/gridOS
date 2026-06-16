@@ -16,14 +16,18 @@ final class CommandIntelligenceModelTests: XCTestCase {
         XCTAssertEqual(provider, .anthropic)
         XCTAssertEqual(LLMProviderID.anthropic.rawValue, "anthropic")
         XCTAssertEqual(LLMProviderID.openAI.rawValue, "openai")
+        XCTAssertEqual(LLMProviderID.deepSeek.rawValue, "deepseek")
+        XCTAssertEqual(LLMProviderID.xAI.rawValue, "xai")
         XCTAssertEqual(defaultModel.rawValue, "claude-sonnet-4-20250514")
         XCTAssertEqual(LLMModelID.gpt52.rawValue, "gpt-5.2")
+        XCTAssertEqual(LLMModelID.deepSeekV4Flash.rawValue, "deepseek-v4-flash")
+        XCTAssertEqual(LLMModelID.grok43.rawValue, "grok-4.3")
     }
 
-    func testModelCatalogExposesAnthropicAndOpenAIChoices() {
+    func testModelCatalogExposesProviderChoices() {
         XCTAssertEqual(
             CommandIntelligenceModelCatalog.providers.map(\.id),
-            [.anthropic, .openAI]
+            [.anthropic, .openAI, .deepSeek, .xAI]
         )
         XCTAssertEqual(
             CommandIntelligenceModelCatalog.descriptor(for: .anthropic).models.map(\.id),
@@ -33,7 +37,17 @@ final class CommandIntelligenceModelTests: XCTestCase {
             CommandIntelligenceModelCatalog.descriptor(for: .openAI).models.map(\.id),
             [.gpt52, .gpt5, .gpt5Mini, .gpt5Nano]
         )
+        XCTAssertEqual(
+            CommandIntelligenceModelCatalog.descriptor(for: .deepSeek).models.map(\.id),
+            [.deepSeekV4Flash, .deepSeekV4Pro]
+        )
+        XCTAssertEqual(
+            CommandIntelligenceModelCatalog.descriptor(for: .xAI).models.map(\.id),
+            [.grok43, .grokBuild01]
+        )
         XCTAssertEqual(CommandIntelligenceModelCatalog.defaultModelID(for: .openAI), .gpt52)
+        XCTAssertEqual(CommandIntelligenceModelCatalog.defaultModelID(for: .deepSeek), .deepSeekV4Flash)
+        XCTAssertEqual(CommandIntelligenceModelCatalog.defaultModelID(for: .xAI), .grok43)
     }
 
     func testCommandAssistanceInputPreservesExplicitContextOnly() {

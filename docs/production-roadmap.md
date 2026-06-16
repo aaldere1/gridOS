@@ -48,7 +48,7 @@ These decisions should be closed before app scaffolding becomes expensive.
 | CPU support | Apple Silicon required for alpha and beta | Preserves performance focus. Revisit Intel only if distribution needs it. |
 | Terminal backend | Start with SwiftTerm behind an adapter | Gets to real terminal behavior quickly while preserving the option for a custom renderer later. |
 | Visual renderer | MTKView-driven shader layer plus native controls where appropriate | Delivers the signature without blocking on custom text rendering in phase 1. |
-| LLM provider | Provider abstraction, Anthropic first only if desired | Avoids baking one provider into product architecture. |
+| LLM provider | Provider abstraction across Anthropic, OpenAI, DeepSeek, and xAI | Avoids baking one provider into product architecture. |
 | Telemetry | Off by default or none for 1.0 | Fits privacy posture; use local diagnostics export instead. |
 
 ## Architecture target
@@ -155,7 +155,7 @@ MVP:
 Provider design:
 
 - `LLMCommandProvider` protocol.
-- `AnthropicCommandProvider` and `OpenAICommandProvider` exist behind the same contract; a local provider can be added later without changing the palette contract.
+- `AnthropicCommandProvider`, `OpenAICommandProvider`, `DeepSeekCommandProvider`, and `XAICommandProvider` exist behind the same contract; a local provider can be added later without changing the palette contract.
 - Context packer redacts obvious secrets and gives the user visibility into what will be sent.
 - No prompt, provider response, generated command, or transcript audit log is stored by default.
 
@@ -231,7 +231,7 @@ Deliverables:
 - SwiftUI/AppKit window shell.
 - Embedded terminal via `TerminalCore` adapter.
 - Default shell launch.
-- Basic terminal preferences: shell path, font size, cursor style, color preset.
+- Basic terminal preferences: shell path, live font size, cursor style, color preset.
 - Copy/paste/select/find/clear/reset.
 - Window tabs or single-window sessions, whichever is simpler.
 - Basic logging and local diagnostics export.
@@ -310,7 +310,7 @@ Goal: prove gridOS is a visual system, not a single theme.
 Deliverables:
 
 - Mode registry and shared visual token model.
-- Tron, Severance, and Apple-native modes.
+- Tron, Matrix, Amber CRT, Redline, Severance, and Apple-native modes.
 - Mode switcher via `Command-Shift-M`.
 - Motion/effect profiles per mode.
 - Per-mode procedural variation.

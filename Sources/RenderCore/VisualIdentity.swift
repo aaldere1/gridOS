@@ -2,6 +2,9 @@ import Foundation
 
 public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable {
     case tron
+    case matrix
+    case amberCRT
+    case redline
     case severance
     case appleNative
 
@@ -15,6 +18,12 @@ public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable 
         switch self {
         case .tron:
             "Tron"
+        case .matrix:
+            "Matrix"
+        case .amberCRT:
+            "Amber CRT"
+        case .redline:
+            "Redline"
         case .severance:
             "Severance"
         case .appleNative:
@@ -25,6 +34,12 @@ public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable 
     public var next: VisualMode {
         switch self {
         case .tron:
+            .matrix
+        case .matrix:
+            .amberCRT
+        case .amberCRT:
+            .redline
+        case .redline:
             .severance
         case .severance:
             .appleNative
@@ -37,6 +52,12 @@ public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable 
         switch self {
         case .tron:
             0
+        case .matrix:
+            3
+        case .amberCRT:
+            4
+        case .redline:
+            5
         case .severance:
             1
         case .appleNative:
@@ -48,6 +69,12 @@ public enum VisualMode: String, CaseIterable, Equatable, Sendable, Identifiable 
         switch self {
         case .tron:
             .tron
+        case .matrix:
+            .matrix
+        case .amberCRT:
+            .amberCRT
+        case .redline:
+            .redline
         case .severance:
             .severance
         case .appleNative:

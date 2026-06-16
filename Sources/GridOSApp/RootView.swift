@@ -89,7 +89,8 @@ struct RootView: View {
                     visualSignature: visualIdentity.displaySignature,
                     version: GridOSProduct.version,
                     reducedMotion: effectiveReducedMotion,
-                    theme: visualTheme
+                    theme: visualTheme,
+                    onCycleVisualMode: cycleVisualMode
                 )
 
                 HStack(alignment: .top, spacing: 16) {
@@ -98,10 +99,16 @@ struct RootView: View {
                         TerminalWorkspaceView(
                             workspaceController: workspaceController,
                             theme: visualTheme,
+                            terminalFontSize: terminalFontSize,
+                            canDecreaseFontSize: terminalFontSize > GridOSAppPreferences.fontSizeRange.lowerBound,
+                            canIncreaseFontSize: terminalFontSize < GridOSAppPreferences.fontSizeRange.upperBound,
                             onActivity: { paneID, activity in
                                 handleTerminalActivity(activity, from: paneID)
                             },
-                            onWorkspaceChange: scheduleWorkspaceSave
+                            onWorkspaceChange: scheduleWorkspaceSave,
+                            onDecreaseFontSize: decreaseTerminalFontSize,
+                            onIncreaseFontSize: increaseTerminalFontSize,
+                            onResetFontSize: resetTerminalFontSize
                         )
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -175,9 +182,13 @@ struct RootView: View {
         }
         .onAppear {
             ensureInstallSeed()
+            applyTerminalFontSizePreference(terminalFontSize)
             AppTerminationGuard.shared.shouldTerminateHandler = {
                 confirmTerminatingRunningShells()
             }
+        }
+        .onChange(of: terminalFontSize) { _, newValue in
+            applyTerminalFontSizePreference(newValue)
         }
         .onReceive(NotificationCenter.default.publisher(for: .gridOSCommandIntelligenceOpen)) { _ in
             isCommandPalettePresented = true
@@ -331,6 +342,32 @@ struct RootView: View {
         SettingsWindowController.shared.open()
     }
 
+    @MainActor private func cycleVisualMode() {
+        visualModeRawValue = GridOSAppPreferences.nextVisualModeRawValue(after: visualModeRawValue)
+    }
+
+    @MainActor private func decreaseTerminalFontSize() {
+        terminalFontSize = GridOSAppPreferences.clampedFontSize(terminalFontSize - 1)
+    }
+
+    @MainActor private func increaseTerminalFontSize() {
+        terminalFontSize = GridOSAppPreferences.clampedFontSize(terminalFontSize + 1)
+    }
+
+    @MainActor private func resetTerminalFontSize() {
+        terminalFontSize = GridOSAppPreferences.defaultTerminalFontSize
+    }
+
+    @MainActor private func applyTerminalFontSizePreference(_ fontSize: Double) {
+        let clampedFontSize = GridOSAppPreferences.clampedFontSize(fontSize)
+        if terminalFontSize != clampedFontSize {
+            terminalFontSize = clampedFontSize
+        }
+
+        workspaceController.updateTerminalFontSize(clampedFontSize)
+        scheduleWorkspaceSave()
+    }
+
     @MainActor private func confirmTerminatingRunningShells() -> Bool {
         guard workspaceController.hasRunningProcesses() else {
             return true
@@ -386,6 +423,10 @@ struct RootView: View {
         switch commandIntelligenceProviderID {
         case .openAI:
             return OpenAICommandProvider()
+        case .deepSeek:
+            return DeepSeekCommandProvider()
+        case .xAI:
+            return XAICommandProvider()
         default:
             return AnthropicCommandProvider()
         }
@@ -537,6 +578,7 @@ private struct AppFrameHeader: View {
     let version: String
     let reducedMotion: Bool
     let theme: VisualTheme
+    let onCycleVisualMode: @MainActor () -> Void
 
     var body: some View {
         HStack(spacing: 14) {
@@ -571,12 +613,24 @@ private struct AppFrameHeader: View {
             .accessibilityLabel("Visual mode indicator")
             .accessibilityValue(visualModeName)
 
+            Button {
+                onCycleVisualMode()
+            } label: {
+                Image(systemName: "paintpalette")
+                    .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 26, height: 24)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.72))
+            .help("Cycle Visual Style")
+            .accessibilityLabel("Cycle Visual Style")
+
             Text("v\(version)")
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
                 .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.56))
         }
         .padding(.leading, 72)
-        .accessibilityElement(children: .combine)
     }
 }
 
@@ -716,6 +770,13 @@ private struct ActivityContextPanel: View {
                 .accessibilityHidden(true)
 
             systemPulseReadout
+
+            Rectangle()
+                .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
+                .frame(height: 1)
+                .accessibilityHidden(true)
+
+            HUDSignalStack(snapshot: snapshot, visualModeName: visualModeName, theme: theme)
 
             Rectangle()
                 .fill(Color(theme.palette.primaryAccent).opacity(theme.panel.separatorOpacity))
@@ -876,6 +937,189 @@ private struct ActivityContextPanel: View {
             let totalBytesPerSecond = metrics.receivedBytesPerSecond + metrics.sentBytesPerSecond
             return "\(byteRateText(totalBytesPerSecond))/s"
         }
+    }
+}
+
+private struct HUDSignalStack: View {
+    let snapshot: SystemMetricsSnapshot
+    let visualModeName: String
+    let theme: VisualTheme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 9) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("Signal stack")
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.74))
+
+                Spacer(minLength: 4)
+
+                Text(visualModeName.uppercased())
+                    .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.70))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
+            }
+
+            VStack(spacing: 7) {
+                HUDSignalRow(label: "LOAD", value: loadText, fraction: loadFraction, theme: theme)
+                HUDSignalRow(label: "LINK", value: linkText, fraction: linkFraction, theme: theme)
+                HUDSignalRow(label: "PROC", value: processText, fraction: processFraction, theme: theme)
+            }
+
+            HUDNodeGrid(activeCount: activeNodeCount, theme: theme)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Signal stack")
+        .accessibilityValue("Load \(loadText), link \(linkText), processes \(processText)")
+    }
+
+    private var loadText: String {
+        "\(Int((loadFraction * 100).rounded()))%"
+    }
+
+    private var linkText: String {
+        switch snapshot.network {
+        case .available(let metrics), .stale(let metrics, _):
+            let totalBytesPerSecond = metrics.receivedBytesPerSecond + metrics.sentBytesPerSecond
+            return totalBytesPerSecond <= 1 ? "idle" : "\(byteRateText(totalBytesPerSecond))/s"
+        case .unavailable:
+            return "n/a"
+        }
+    }
+
+    private var processText: String {
+        switch snapshot.topProcesses {
+        case .available(let processes), .stale(let processes, _):
+            return "\(processes.count)"
+        case .unavailable:
+            return "n/a"
+        }
+    }
+
+    private var loadFraction: Double {
+        let cpu = cpuPercent
+        let memory = memoryPercent
+
+        switch (cpu, memory) {
+        case let (.some(cpu), .some(memory)):
+            return min(1, max(0.08, ((cpu + memory) / 2) / 100))
+        case let (.some(cpu), .none):
+            return min(1, max(0.08, cpu / 100))
+        case let (.none, .some(memory)):
+            return min(1, max(0.08, memory / 100))
+        case (.none, .none):
+            return 0.12
+        }
+    }
+
+    private var linkFraction: Double {
+        switch snapshot.network {
+        case .available(let metrics), .stale(let metrics, _):
+            let totalBytesPerSecond = metrics.receivedBytesPerSecond + metrics.sentBytesPerSecond
+            return min(1, max(0.08, totalBytesPerSecond / 2_000_000))
+        case .unavailable:
+            return 0.10
+        }
+    }
+
+    private var processFraction: Double {
+        switch snapshot.topProcesses {
+        case .available(let processes), .stale(let processes, _):
+            return min(1, max(0.12, Double(processes.count) / 5))
+        case .unavailable:
+            return 0.10
+        }
+    }
+
+    private var activeNodeCount: Int {
+        min(16, max(2, Int((loadFraction * 8 + linkFraction * 4 + processFraction * 4).rounded())))
+    }
+
+    private var cpuPercent: Double? {
+        switch snapshot.cpu {
+        case .available(let metrics), .stale(let metrics, _):
+            return metrics.usagePercent
+        case .unavailable:
+            return nil
+        }
+    }
+
+    private var memoryPercent: Double? {
+        switch snapshot.memory {
+        case .available(let metrics), .stale(let metrics, _):
+            return metrics.usagePercent
+        case .unavailable:
+            return nil
+        }
+    }
+}
+
+private struct HUDSignalRow: View {
+    let label: String
+    let value: String
+    let fraction: Double
+    let theme: VisualTheme
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 7) {
+            Text(label)
+                .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.66))
+                .frame(width: 34, alignment: .leading)
+
+            GeometryReader { proxy in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color(theme.palette.primaryAccent).opacity(0.07))
+
+                    Rectangle()
+                        .fill(Color(theme.palette.primaryAccent).opacity(0.50))
+                        .frame(width: proxy.size.width * min(1, max(0, fraction)))
+
+                    Rectangle()
+                        .fill(Color(theme.palette.statusAccent).opacity(0.72))
+                        .frame(width: 2)
+                        .offset(x: max(0, proxy.size.width * min(1, max(0, fraction)) - 1))
+                }
+            }
+            .frame(height: 5)
+            .accessibilityHidden(true)
+
+            Text(value)
+                .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.76))
+                .lineLimit(1)
+                .minimumScaleFactor(0.70)
+                .frame(width: 48, alignment: .trailing)
+        }
+    }
+}
+
+private struct HUDNodeGrid: View {
+    let activeCount: Int
+    let theme: VisualTheme
+
+    var body: some View {
+        LazyVGrid(
+            columns: Array(repeating: GridItem(.fixed(8), spacing: 4), count: 8),
+            alignment: .leading,
+            spacing: 4
+        ) {
+            ForEach(0..<16, id: \.self) { index in
+                Rectangle()
+                    .fill(nodeColor(for: index))
+                    .frame(width: 8, height: 4)
+                    .accessibilityHidden(true)
+            }
+        }
+        .frame(height: 12, alignment: .leading)
+    }
+
+    private func nodeColor(for index: Int) -> Color {
+        let isActive = index < activeCount
+        let baseColor = index % 5 == 0 ? theme.palette.statusAccent : theme.palette.primaryAccent
+        return Color(baseColor).opacity(isActive ? 0.74 : 0.12)
     }
 }
 
