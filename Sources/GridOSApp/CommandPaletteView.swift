@@ -1,6 +1,9 @@
 import CommandIntelligence
+import ImageIO
 import RenderCore
 import SwiftUI
+import UniformTypeIdentifiers
+import Vision
 
 struct CommandPaletteView: View {
     let theme: VisualTheme
@@ -18,6 +21,9 @@ struct CommandPaletteView: View {
     @State private var pastedOutput = ""
     @State private var failedCommand = ""
     @State private var failedOutput = ""
+    @State private var screenshotAttachments: [ScreenshotAttachment] = []
+    @State private var screenshotDropError: String?
+    @State private var isScreenshotDropTargeted = false
     @State private var preview: CommandContextPreview?
     @State private var lastSubmittedPreview: CommandContextPreview?
     @State private var serviceResult: CommandIntelligenceServiceResult?
@@ -29,6 +35,14 @@ struct CommandPaletteView: View {
 
     private let contextBuilder = CommandContextBuilder()
     private let panelWidth: CGFloat = 860
+    private static let supportedScreenshotDropTypes: [UTType] = [
+        .fileURL,
+        .image,
+        .png,
+        .jpeg,
+        .tiff,
+        .heic
+    ]
 
     init(
         theme: VisualTheme,
@@ -104,6 +118,16 @@ struct CommandPaletteView: View {
         } message: {
             Text(pendingRunCommand?.command.command ?? "")
                 .font(.system(size: 12, weight: .regular, design: .monospaced))
+        }
+        .onDrop(
+            of: Self.supportedScreenshotDropTypes,
+            isTargeted: $isScreenshotDropTargeted
+        ) { providers in
+            guard isComposeMode else {
+                return false
+            }
+
+            return handleScreenshotDrop(providers)
         }
     }
 
@@ -334,6 +358,7 @@ struct CommandPaletteView: View {
 
     private var composeContent: some View {
         VStack(alignment: .leading, spacing: 18) {
+            screenshotDropZone
             flowInputContent
 
             if let selectionFailure {
@@ -369,6 +394,126 @@ struct CommandPaletteView: View {
             .disabled(!canBuildPreview)
         }
         .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    private var screenshotDropZone: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center, spacing: 10) {
+                Image(systemName: isScreenshotDropTargeted ? "photo.badge.plus" : "photo.on.rectangle")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.90))
+                    .frame(width: 22, height: 22)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(isScreenshotDropTargeted ? "Drop to attach screenshot" : "Drop screenshots")
+                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.90))
+
+                    Text("gridOS extracts text locally; previewed OCR text and metadata are sent, not image pixels.")
+                        .font(.system(size: 11, weight: .regular))
+                        .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.76))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 12)
+
+                resultBadge("LOCAL OCR", tint: Color(theme.palette.statusAccent))
+            }
+
+            if !screenshotAttachments.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(screenshotAttachments) { attachment in
+                        screenshotAttachmentChip(attachment)
+                    }
+                }
+            }
+
+            if let screenshotDropError {
+                Text(screenshotDropError)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(Color(theme.palette.statusAccent).opacity(0.92))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(theme.palette.background).opacity(isScreenshotDropTargeted ? 0.52 : 0.34))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(
+                    Color(theme.palette.statusAccent).opacity(isScreenshotDropTargeted ? 0.46 : 0.22),
+                    style: StrokeStyle(lineWidth: 1, dash: isScreenshotDropTargeted ? [] : [6, 5])
+                )
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .dropDestination(for: URL.self) { urls, _ in
+            guard isComposeMode else {
+                return false
+            }
+
+            let fileURLs = urls.filter(\.isFileURL)
+            guard !fileURLs.isEmpty else {
+                screenshotDropError = "Drop a PNG, JPEG, TIFF, HEIC, or screenshot file."
+                return false
+            }
+
+            screenshotDropError = nil
+            fileURLs.forEach(processDroppedScreenshotURL)
+            return true
+        } isTargeted: { targeted in
+            isScreenshotDropTargeted = targeted
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Drop screenshot area")
+    }
+
+    private func screenshotAttachmentChip(_ attachment: ScreenshotAttachment) -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            Image(systemName: attachment.status.systemImageName)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(attachmentTint(for: attachment).opacity(0.92))
+                .frame(width: 18, height: 18)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(attachment.displayName)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.90))
+                    .lineLimit(1)
+
+                Text(attachment.detailText)
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .foregroundStyle(Color(theme.palette.secondaryAccent).opacity(0.72))
+                    .lineLimit(1)
+            }
+
+            Spacer(minLength: 8)
+
+            Text(attachment.status.displayText)
+                .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                .foregroundStyle(attachmentTint(for: attachment).opacity(0.84))
+
+            Button {
+                removeScreenshotAttachment(attachment.id)
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .frame(width: 22, height: 22)
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.72))
+            .help("Remove screenshot")
+            .accessibilityLabel("Remove \(attachment.displayName)")
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(Color(theme.palette.primaryAccent).opacity(0.040))
+        .overlay {
+            RoundedRectangle(cornerRadius: 7, style: .continuous)
+                .stroke(Color(theme.palette.primaryAccent).opacity(0.14), lineWidth: 1)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
     }
 
     @ViewBuilder
@@ -733,6 +878,7 @@ struct CommandPaletteView: View {
                     previewRow("Flow", preview.flowName)
                     previewRow("Prompt or failed command", promptOrFailedCommandText(from: preview))
                     previewRow("Working directory", workingDirectoryText(from: preview))
+                    previewRow("Screenshot attachments", screenshotAttachmentText(from: preview))
                     previewRow("Selected/pasted output", selectedOutputCountText(from: preview))
                     previewRow("Failed output", failedOutputCountText(from: preview))
 
@@ -1024,16 +1170,194 @@ struct CommandPaletteView: View {
         }
     }
 
+    private var hasPendingScreenshotAnalysis: Bool {
+        screenshotAttachments.contains { $0.status == .processing }
+    }
+
+    private var readyScreenshotAttachments: [ScreenshotAttachment] {
+        screenshotAttachments.filter { $0.status.isReady }
+    }
+
+    private var hasReadyScreenshotContext: Bool {
+        !readyScreenshotAttachments.isEmpty
+    }
+
+    private var screenshotAttachmentContext: String? {
+        guard !readyScreenshotAttachments.isEmpty else {
+            return nil
+        }
+
+        let attachmentText = readyScreenshotAttachments.enumerated().map { index, attachment in
+            attachment.contextText(index: index + 1)
+        }
+        .joined(separator: "\n\n")
+
+        return """
+        Screenshot attachments
+        gridOS extracted text locally from dropped screenshots. Image pixels and local file paths are not included in this provider context.
+
+        \(attachmentText)
+        """
+    }
+
+    private func attachmentTint(for attachment: ScreenshotAttachment) -> Color {
+        switch attachment.status {
+        case .processing, .ready:
+            Color(theme.palette.statusAccent)
+        case .failed:
+            Color(theme.palette.primaryAccent)
+        }
+    }
+
+    private func handleScreenshotDrop(_ providers: [NSItemProvider]) -> Bool {
+        screenshotDropError = nil
+        var accepted = false
+
+        for provider in providers {
+            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+                accepted = true
+                loadDroppedScreenshotFile(provider)
+            } else if let type = Self.supportedImageDataType(for: provider) {
+                accepted = true
+                loadDroppedScreenshotData(provider, type: type)
+            }
+        }
+
+        if !accepted {
+            screenshotDropError = "Drop a PNG, JPEG, TIFF, HEIC, or screenshot file."
+        }
+
+        return accepted
+    }
+
+    private func loadDroppedScreenshotFile(_ provider: NSItemProvider) {
+        provider.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { item, error in
+            if let error {
+                DispatchQueue.main.async {
+                    screenshotDropError = "Could not read dropped screenshot: \(error.localizedDescription)"
+                }
+                return
+            }
+
+            guard let url = Self.fileURL(fromDroppedItem: item) else {
+                DispatchQueue.main.async {
+                    screenshotDropError = "Could not read the dropped file URL."
+                }
+                return
+            }
+
+            DispatchQueue.main.async {
+                processDroppedScreenshotURL(url)
+            }
+        }
+    }
+
+    private func loadDroppedScreenshotData(_ provider: NSItemProvider, type: UTType) {
+        provider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, error in
+            if let error {
+                DispatchQueue.main.async {
+                    screenshotDropError = "Could not read dropped image: \(error.localizedDescription)"
+                }
+                return
+            }
+
+            guard let data else {
+                DispatchQueue.main.async {
+                    screenshotDropError = "Could not read dropped image data."
+                }
+                return
+            }
+
+            DispatchQueue.main.async {
+                processDroppedScreenshotData(data, suggestedName: "Dropped Screenshot", contentType: type)
+            }
+        }
+    }
+
+    private func processDroppedScreenshotURL(_ url: URL) {
+        let id = UUID()
+        let placeholder = ScreenshotAttachment.processing(id: id, displayName: url.lastPathComponent)
+        screenshotAttachments.append(placeholder)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let attachment = ScreenshotAttachment.make(id: id, fileURL: url)
+            DispatchQueue.main.async {
+                replaceScreenshotAttachment(id, with: attachment)
+            }
+        }
+    }
+
+    private func processDroppedScreenshotData(
+        _ data: Data,
+        suggestedName: String,
+        contentType: UTType
+    ) {
+        let id = UUID()
+        let placeholder = ScreenshotAttachment.processing(id: id, displayName: suggestedName)
+        screenshotAttachments.append(placeholder)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let attachment = ScreenshotAttachment.make(
+                id: id,
+                data: data,
+                displayName: suggestedName,
+                contentType: contentType
+            )
+            DispatchQueue.main.async {
+                replaceScreenshotAttachment(id, with: attachment)
+            }
+        }
+    }
+
+    private func replaceScreenshotAttachment(_ id: UUID, with attachment: ScreenshotAttachment) {
+        guard let index = screenshotAttachments.firstIndex(where: { $0.id == id }) else {
+            return
+        }
+
+        screenshotAttachments[index] = attachment
+    }
+
+    private func removeScreenshotAttachment(_ id: UUID) {
+        screenshotAttachments.removeAll { $0.id == id }
+    }
+
+    private static func supportedImageDataType(for provider: NSItemProvider) -> UTType? {
+        [.png, .jpeg, .tiff, .heic, .image].first { type in
+            provider.hasItemConformingToTypeIdentifier(type.identifier)
+        }
+    }
+
+    nonisolated private static func fileURL(fromDroppedItem item: NSSecureCoding?) -> URL? {
+        if let url = item as? URL {
+            return url
+        }
+
+        if let data = item as? Data {
+            return URL(dataRepresentation: data, relativeTo: nil)
+        }
+
+        if let string = item as? String {
+            return URL(string: string)
+        }
+
+        return nil
+    }
+
     @MainActor private var canBuildPreview: Bool {
+        if hasPendingScreenshotAnalysis {
+            return false
+        }
+
         switch selectedFlow {
         case .suggestCommand:
-            return !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || hasReadyScreenshotContext
         case .explainOutput:
             let output = selectedTextProvider() ?? pastedOutput
-            return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            return !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || hasReadyScreenshotContext
         case .fixFailedCommand:
             return !failedCommand.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-                !failedOutput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                !failedOutput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                hasReadyScreenshotContext
         }
     }
 
@@ -1052,19 +1376,23 @@ struct CommandPaletteView: View {
 
     @MainActor
     private func commandAssistanceInput() -> CommandAssistanceInput? {
+        let screenshotContext = screenshotAttachmentContext
+
         switch selectedFlow {
         case .suggestCommand:
             return CommandAssistanceInput(
                 flow: .suggestCommand,
                 userPrompt: prompt,
-                workingDirectory: workingDirectoryProvider()
+                workingDirectory: workingDirectoryProvider(),
+                screenshotAttachmentContext: screenshotContext
             )
         case .explainOutput:
             let output = selectedTextProvider() ?? pastedOutput
-            guard !output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmedOutput.isEmpty || screenshotContext != nil else {
                 selectionFailure = CommandIntelligenceSelectionFailure(
                     title: "Selection unavailable",
-                    message: "Paste the output into the field to continue."
+                    message: "Paste output into the field, or drop a screenshot so gridOS can extract text locally."
                 )
                 return nil
             }
@@ -1073,13 +1401,15 @@ struct CommandPaletteView: View {
                 flow: .explainOutput,
                 userPrompt: "Explain terminal output",
                 workingDirectory: workingDirectoryProvider(),
-                selectedOrPastedOutput: output
+                selectedOrPastedOutput: trimmedOutput.isEmpty ? nil : output,
+                screenshotAttachmentContext: screenshotContext
             )
         case .fixFailedCommand:
             return CommandAssistanceInput(
                 flow: .failedCommandHelp,
                 userPrompt: "Fix failed command",
                 workingDirectory: workingDirectoryProvider(),
+                screenshotAttachmentContext: screenshotContext,
                 failedCommand: failedCommand,
                 failedCommandOutput: failedOutput
             )
@@ -1180,6 +1510,10 @@ struct CommandPaletteView: View {
         countText(for: .failedOutput, in: preview)
     }
 
+    private func screenshotAttachmentText(from preview: CommandContextPreview) -> String {
+        contextText(.screenshotAttachments, in: preview)
+    }
+
     private func countText(for source: CommandContextSource, in preview: CommandContextPreview) -> String {
         guard let block = preview.contextBlocks.first(where: { $0.source == source }) else {
             return "0 characters"
@@ -1245,6 +1579,230 @@ private struct PaletteExamplePrompt: Equatable {
     let title: String
     let value: String
     var failedCommand: String? = nil
+}
+
+private struct ScreenshotAttachment: Identifiable, Equatable, Sendable {
+    let id: UUID
+    let displayName: String
+    let byteCount: Int
+    let pixelWidth: Int?
+    let pixelHeight: Int?
+    let contentTypeDescription: String
+    let recognizedText: String
+    let status: ScreenshotAttachmentStatus
+
+    var detailText: String {
+        let dimensions: String
+        if let pixelWidth, let pixelHeight {
+            dimensions = "\(pixelWidth)x\(pixelHeight)"
+        } else {
+            dimensions = "unknown size"
+        }
+
+        return "\(contentTypeDescription) | \(dimensions) | \(Self.formattedBytes(byteCount))"
+    }
+
+    static func processing(id: UUID, displayName: String) -> ScreenshotAttachment {
+        ScreenshotAttachment(
+            id: id,
+            displayName: displayName.isEmpty ? "Dropped Screenshot" : displayName,
+            byteCount: 0,
+            pixelWidth: nil,
+            pixelHeight: nil,
+            contentTypeDescription: "image",
+            recognizedText: "",
+            status: .processing
+        )
+    }
+
+    static func make(id: UUID, fileURL: URL) -> ScreenshotAttachment {
+        let name = fileURL.lastPathComponent.isEmpty ? "Dropped Screenshot" : fileURL.lastPathComponent
+
+        do {
+            let resourceValues = try fileURL.resourceValues(forKeys: [.fileSizeKey, .contentTypeKey])
+            let byteCount = resourceValues.fileSize ?? 0
+            guard byteCount <= ScreenshotAttachmentLimits.maxBytes else {
+                return failed(
+                    id: id,
+                    displayName: name,
+                    byteCount: byteCount,
+                    reason: "File is larger than 25 MB."
+                )
+            }
+
+            let data = try Data(contentsOf: fileURL, options: [.mappedIfSafe])
+            let contentType = resourceValues.contentType ?? UTType(filenameExtension: fileURL.pathExtension) ?? .image
+            return make(id: id, data: data, displayName: name, contentType: contentType)
+        } catch {
+            return failed(
+                id: id,
+                displayName: name,
+                byteCount: 0,
+                reason: "Could not read screenshot metadata."
+            )
+        }
+    }
+
+    static func make(
+        id: UUID,
+        data: Data,
+        displayName: String,
+        contentType: UTType
+    ) -> ScreenshotAttachment {
+        guard data.count <= ScreenshotAttachmentLimits.maxBytes else {
+            return failed(
+                id: id,
+                displayName: displayName,
+                byteCount: data.count,
+                reason: "Image is larger than 25 MB."
+            )
+        }
+
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil)
+        else {
+            return failed(
+                id: id,
+                displayName: displayName,
+                byteCount: data.count,
+                reason: "Unsupported or unreadable image."
+            )
+        }
+
+        let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
+        let width = properties?[kCGImagePropertyPixelWidth] as? Int ?? cgImage.width
+        let height = properties?[kCGImagePropertyPixelHeight] as? Int ?? cgImage.height
+        let recognizedText = recognizedText(from: cgImage)
+
+        return ScreenshotAttachment(
+            id: id,
+            displayName: displayName.isEmpty ? "Dropped Screenshot" : displayName,
+            byteCount: data.count,
+            pixelWidth: width,
+            pixelHeight: height,
+            contentTypeDescription: contentType.preferredFilenameExtension?.uppercased() ?? contentType.localizedDescription ?? "image",
+            recognizedText: recognizedText,
+            status: .ready
+        )
+    }
+
+    static func failed(
+        id: UUID,
+        displayName: String,
+        byteCount: Int,
+        reason: String
+    ) -> ScreenshotAttachment {
+        ScreenshotAttachment(
+            id: id,
+            displayName: displayName.isEmpty ? "Dropped Screenshot" : displayName,
+            byteCount: byteCount,
+            pixelWidth: nil,
+            pixelHeight: nil,
+            contentTypeDescription: "image",
+            recognizedText: "",
+            status: .failed(reason)
+        )
+    }
+
+    func contextText(index: Int) -> String {
+        let textBlock: String
+        if recognizedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textBlock = "Recognized text: none"
+        } else {
+            textBlock = """
+            Recognized text:
+            \(recognizedText)
+            """
+        }
+
+        return """
+        Screenshot \(index): \(displayName)
+        Metadata: \(detailText)
+        \(textBlock)
+        """
+    }
+
+    private static func recognizedText(from cgImage: CGImage) -> String {
+        let request = VNRecognizeTextRequest()
+        request.recognitionLevel = .fast
+        request.usesLanguageCorrection = false
+
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        do {
+            try handler.perform([request])
+        } catch {
+            return ""
+        }
+
+        let text = (request.results ?? [])
+            .compactMap { observation in
+                observation.topCandidates(1).first?.string.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            .filter { !$0.isEmpty }
+            .joined(separator: "\n")
+
+        return truncated(text, limit: ScreenshotAttachmentLimits.maxOCRCharacters)
+    }
+
+    private static func truncated(_ text: String, limit: Int) -> String {
+        guard text.count > limit else {
+            return text
+        }
+
+        let endIndex = text.index(text.startIndex, offsetBy: limit)
+        return String(text[..<endIndex]) + "\n[OCR text truncated]"
+    }
+
+    private static func formattedBytes(_ byteCount: Int) -> String {
+        guard byteCount > 0 else {
+            return "pending"
+        }
+
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: Int64(byteCount))
+    }
+}
+
+private enum ScreenshotAttachmentLimits {
+    static let maxBytes = 25 * 1_024 * 1_024
+    static let maxOCRCharacters = 6_000
+}
+
+private enum ScreenshotAttachmentStatus: Equatable, Sendable {
+    case processing
+    case ready
+    case failed(String)
+
+    var isReady: Bool {
+        if case .ready = self {
+            return true
+        }
+
+        return false
+    }
+
+    var displayText: String {
+        switch self {
+        case .processing:
+            "OCR"
+        case .ready:
+            "READY"
+        case .failed:
+            "FAILED"
+        }
+    }
+
+    var systemImageName: String {
+        switch self {
+        case .processing:
+            "clock"
+        case .ready:
+            "text.viewfinder"
+        case .failed:
+            "exclamationmark.triangle"
+        }
+    }
 }
 
 enum CommandPaletteProviderStatus: Equatable {

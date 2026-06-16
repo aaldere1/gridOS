@@ -11,7 +11,7 @@ enum CommandProviderPrompt {
           "command": "optional shell command",
           "explanation": "what the command inspects or changes",
           "workingDirectoryAssumption": "path or Current terminal directory",
-          "contextUsed": ["prompt", "workingDirectory", "selectedOutput", "pastedOutput", "failedCommand", "failedOutput"],
+          "contextUsed": ["prompt", "workingDirectory", "selectedOutput", "pastedOutput", "screenshotAttachments", "failedCommand", "failedOutput"],
           "providerRiskLabel": "low, medium, high, or unknown"
         }
       ]

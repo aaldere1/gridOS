@@ -261,6 +261,7 @@ public struct CommandAssistanceInput: Codable, Equatable, Sendable {
     public let userPrompt: String
     public let workingDirectory: String?
     public let selectedOrPastedOutput: String?
+    public let screenshotAttachmentContext: String?
     public let failedCommand: String?
     public let failedCommandOutput: String?
 
@@ -269,6 +270,7 @@ public struct CommandAssistanceInput: Codable, Equatable, Sendable {
         userPrompt: String,
         workingDirectory: String? = nil,
         selectedOrPastedOutput: String? = nil,
+        screenshotAttachmentContext: String? = nil,
         failedCommand: String? = nil,
         failedCommandOutput: String? = nil
     ) {
@@ -276,6 +278,7 @@ public struct CommandAssistanceInput: Codable, Equatable, Sendable {
         self.userPrompt = userPrompt
         self.workingDirectory = workingDirectory
         self.selectedOrPastedOutput = selectedOrPastedOutput
+        self.screenshotAttachmentContext = screenshotAttachmentContext
         self.failedCommand = failedCommand
         self.failedCommandOutput = failedCommandOutput
     }
@@ -286,6 +289,7 @@ public enum CommandContextSource: String, CaseIterable, Codable, Sendable {
     case workingDirectory
     case selectedOutput
     case pastedOutput
+    case screenshotAttachments
     case failedCommand
     case failedOutput
 }

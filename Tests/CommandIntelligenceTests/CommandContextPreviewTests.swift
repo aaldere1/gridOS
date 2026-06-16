@@ -56,6 +56,33 @@ final class CommandContextPreviewTests: XCTestCase {
         XCTAssertEqual(preview.contextBlocks.first?.characterCount, "Explain this failure".count)
     }
 
+    func testPreviewIncludesRedactedScreenshotAttachmentContext() {
+        let input = CommandAssistanceInput(
+            flow: .explainOutput,
+            userPrompt: "Explain the dropped screenshot",
+            screenshotAttachmentContext: """
+            Screenshot attachments
+            gridOS extracted text locally from dropped screenshots. Image pixels and local file paths are not included in this provider context.
+
+            Screenshot 1: failure.png
+            Metadata: PNG | 1800x1200 | 944 KB
+            Recognized text:
+            TOKEN=raw-token-value
+            xcodebuild failed with permission denied
+            """
+        )
+
+        let preview = CommandContextBuilder().buildPreview(from: input)
+        let screenshotBlock = preview.contextBlocks.first { $0.source == .screenshotAttachments }
+
+        XCTAssertEqual(preview.contextBlocks.map(\.source), [.prompt, .screenshotAttachments])
+        XCTAssertTrue(preview.approvedPayload.includedContextSourceLabels.contains("Screenshot Attachments"))
+        XCTAssertEqual(screenshotBlock?.label, "Screenshot Attachments")
+        XCTAssertTrue(screenshotBlock?.redactedText.contains("[REDACTED ENV VALUE]") ?? false)
+        XCTAssertFalse(screenshotBlock?.redactedText.contains("raw-token-value") ?? true)
+        XCTAssertTrue(screenshotBlock?.redactedText.contains("Image pixels and local file paths are not included") ?? false)
+    }
+
     func testCanSendIsFalseWhenBlockedReasonsExist() {
         let input = CommandAssistanceInput(
             flow: .explainOutput,

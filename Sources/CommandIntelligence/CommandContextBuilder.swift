@@ -52,6 +52,7 @@ public struct CommandContextBuilder: Sendable {
             OptionalContextCandidate(source: .prompt, label: CommandContextSource.prompt.previewLabel, text: input.userPrompt),
             OptionalContextCandidate(source: .workingDirectory, label: CommandContextSource.workingDirectory.previewLabel, text: input.workingDirectory),
             OptionalContextCandidate(source: .selectedOutput, label: CommandContextSource.selectedOutput.previewLabel, text: input.selectedOrPastedOutput),
+            OptionalContextCandidate(source: .screenshotAttachments, label: CommandContextSource.screenshotAttachments.previewLabel, text: input.screenshotAttachmentContext),
             OptionalContextCandidate(source: .failedCommand, label: CommandContextSource.failedCommand.previewLabel, text: input.failedCommand),
             OptionalContextCandidate(source: .failedOutput, label: CommandContextSource.failedOutput.previewLabel, text: input.failedCommandOutput)
         ]

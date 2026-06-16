@@ -152,6 +152,8 @@ public extension CommandContextSource {
             "Selected or Pasted Output"
         case .pastedOutput:
             "Pasted Output"
+        case .screenshotAttachments:
+            "Screenshot Attachments"
         case .failedCommand:
             "Failed Command"
         case .failedOutput:

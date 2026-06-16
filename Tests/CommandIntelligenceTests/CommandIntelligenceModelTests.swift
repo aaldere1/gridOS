@@ -56,6 +56,7 @@ final class CommandIntelligenceModelTests: XCTestCase {
             userPrompt: "Help fix this command",
             workingDirectory: "/Users/example/project",
             selectedOrPastedOutput: "permission denied",
+            screenshotAttachmentContext: "Screenshot 1: failure.png\nRecognized text:\nPermission denied",
             failedCommand: "cat secret.txt",
             failedCommandOutput: "permission denied"
         )
@@ -64,6 +65,7 @@ final class CommandIntelligenceModelTests: XCTestCase {
         XCTAssertEqual(input.userPrompt, "Help fix this command")
         XCTAssertEqual(input.workingDirectory, "/Users/example/project")
         XCTAssertEqual(input.selectedOrPastedOutput, "permission denied")
+        XCTAssertEqual(input.screenshotAttachmentContext, "Screenshot 1: failure.png\nRecognized text:\nPermission denied")
         XCTAssertEqual(input.failedCommand, "cat secret.txt")
         XCTAssertEqual(input.failedCommandOutput, "permission denied")
     }
