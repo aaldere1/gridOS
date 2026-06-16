@@ -2,70 +2,67 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.5",
-  "build": "13",
-  "sourceCommit": "379289a",
-  "generatedAt": "2026-06-04T16:03:45Z",
+  "version": "1.0.6",
+  "build": "14",
+  "sourceCommit": "edda1ee",
+  "generatedAt": "2026-06-15T21:03:45Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.5-13-379289a.dmg",
-      "sha256": "b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05",
+      "path": "build/release/production/gridOS-1.0.6-14-edda1ee.dmg",
+      "sha256": "cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1",
       "codesign": "pass",
-      "gatekeeper": "pass"
+      "gatekeeper": "pass",
+      "stapler": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.5-13-379289a.zip",
-      "sha256": "b34e83b27ea4f17d9e6076d46686bee7f6330f3eb5357459b5085b1f5ed3e54f"
+      "path": "build/release/production/gridOS-1.0.6-14-edda1ee.zip",
+      "sha256": "69e9187ef4af85f3428b76ded72eb2eb676ead3e690b5ec1c1cc9d5207c72e21"
     },
     "appBundle": {
-      "sha256": "05cc09d1b6fcd010bef4505b63eea99ba0e4185b364eecfb95191fae331acbf7"
+      "sha256": "7e2c55c1c2a0e5f76ccf8a1b16a2795f729270c04eaa13547ac9b284a70c25c2",
+      "codesign": "pass",
+      "gatekeeper": "pass"
     }
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "58a17664-f965-46a6-b75f-cd42ef1ab7e1",
+    "submissionId": "4b8195b6-e9bd-495f-8233-eccad1f793cb",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
   },
   "gatekeeper": {
     "status": "pass",
     "evidence": ".planning/phases/12-beta/evidence/beta-artifact-verification.md"
   },
+  "sparkle": {
+    "status": "pass",
+    "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
+    "appcast": "appcast.xml",
+    "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
+    "feedSignature": "GqbWyXJDFYqj4mjgByrniSA4vAtBmz/7Ptfg5XNzBnRFPzUhv4mkkAcNBC9DpE0bOSExXIJ2E37cFUJuAIcLCQ==",
+    "feedSignedLength": 2886,
+    "enclosureSignature": "RBGfRmOy8XE+bRJ/pGGAFtPaQi9cRAvOqhB9JdXZJakWq52mswqkc/lp3ms+yjrmvn84PgY+ja35wSkYXRtuCQ==",
+    "enclosureLength": 8746890,
+    "validation": "xmllint pass; Ed25519 public-key verification passed for feed and DMG enclosure",
+    "automaticChecks": true,
+    "automaticInstall": true,
+    "systemProfiling": false,
+    "embeddedHelpersSignedWithSecureTimestamps": true
+  },
   "launchSmoke": {
     "status": "pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
-    "visualVersionInspection": "pass",
-    "visibleVersion": "v1.0.5",
-    "computerUseAppInspection": "pass",
-    "computerUseDmgInspection": "pass",
-    "aiCommandHelperInspection": "pass",
-    "aiCommandHelperModeGuidance": "pass",
-    "aiCommandHelperProviderSetup": "pass",
-    "settingsProviderInspection": "pass",
-    "settingsResizable": "pass",
-    "settingsResizeBefore": [700, 640],
-    "settingsResizeAfter": [980, 780],
-    "providersSupported": ["anthropic", "openai"],
-    "providersVisible": ["anthropic", "openai"],
-    "paneToolbarVisible": true,
-    "paneCountVisible": true,
-    "dmgInstallerLayout": "pass",
-    "applicationsCopyInstalled": true,
-    "applicationsCopyVisibleVersion": "v1.0.5"
+    "visibleVersion": "v1.0.6",
+    "settingsSoftwareUpdates": "pass",
+    "settingsAutomaticChecks": true,
+    "settingsAutomaticInstall": true,
+    "settingsSystemProfiling": false,
+    "newIconIncluded": true
   },
   "localUpdateProof": {
-    "status": "pass",
-    "verifiedAt": "2026-06-04T16:03:45Z",
+    "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
-    "scope": "temporary local install root, not clean-Mac evidence",
-    "fromVersion": "1.0.4",
-    "fromBuild": "12",
-    "toVersion": "1.0.5",
-    "toBuild": "13",
-    "fromDmgSha256": "ca9ace5da768270d8fe81261c36b3e53239bcf6576e9727d9d728685d2c60640",
-    "toDmgSha256": "b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05",
-    "codesign": "pass",
-    "gatekeeper": "pass"
+    "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.5.md",
-  "remainingValidation": "Run Finder install and version-to-version update proof on a clean Mac."
+  "releaseNotes": "docs/release-notes/v1.0.6.md",
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.6 to the next release."
 }

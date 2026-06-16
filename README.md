@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.5/gridOS-1.0.5-13-379289a.dmg"><strong>Download v1.0.5 DMG</strong></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.6/gridOS-1.0.6-14-edda1ee.dmg"><strong>Download v1.0.6 DMG</strong></a>
   &nbsp;|&nbsp;
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.5">Release</a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.6">Release</a>
   &nbsp;|&nbsp;
-  <a href="docs/release-notes/v1.0.5.md">Notes</a>
+  <a href="docs/release-notes/v1.0.6.md">Notes</a>
   &nbsp;|&nbsp;
   <a href="docs/security-privacy.md">Security and Privacy</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.5"><img alt="Release v1.0.5" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.6"><img alt="Release v1.0.6" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
   <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-black">
   <img alt="Apple Silicon required" src="https://img.shields.io/badge/Apple%20Silicon-required-black">
   <img alt="License: proprietary" src="https://img.shields.io/badge/license-proprietary-lightgrey">
@@ -48,17 +48,16 @@ The point is a beautiful command workspace that stays careful with real work.
 
 | Field | Value |
 | --- | --- |
-| Version | `1.0.5` |
-| Build | `13` |
+| Version | `1.0.6` |
+| Build | `14` |
 | Platform | macOS 14 or newer, Apple Silicon |
-| Distribution | Developer ID signed, notarized direct-download DMG |
-| Release page | [`v1.0.5`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.5) |
-| DMG SHA-256 | `b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05` |
+| Distribution | Developer ID signed, notarized direct-download DMG with Sparkle automatic updates |
+| Release page | [`v1.0.6`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.6) |
+| DMG SHA-256 | `cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1` |
 
-Version 1.0.5 focuses on making AI Command Helper understandable the first time
-someone presses Command-K, making Settings behave like a real resizable macOS
-window, and deriving the visible app version from signed bundle metadata so the
-UI cannot drift from the release artifact.
+Version 1.0.6 brings the polished public-facing pass: a new app icon and README
+hero, username-free product screenshots, Sparkle automatic updates, calmer app
+copy, and signed/notarized proof for the final release artifact.
 
 ## Actual Screenshots
 
@@ -102,7 +101,7 @@ Command-K is designed as a guarded command surface, not a magic text box.
 
 ## Install
 
-1. Download [`gridOS-1.0.5-13-379289a.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.5/gridOS-1.0.5-13-379289a.dmg).
+1. Download [`gridOS-1.0.6-14-edda1ee.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.6/gridOS-1.0.6-14-edda1ee.dmg).
 2. Open the DMG.
 3. Drag `gridOS.app` into `/Applications`.
 4. Eject the DMG.
@@ -149,17 +148,18 @@ security posture.
 
 ## Verification
 
-The 1.0.5 release has recorded proof for the direct-download lane:
+The 1.0.6 release has recorded proof for the direct-download lane:
 
 - App and DMG signing.
 - Notarization and stapler validation.
 - Gatekeeper assessment.
 - Strict codesign verification.
 - Launch from mounted DMG.
-- Visible `v1.0.5` app check.
+- Visible `v1.0.6` app check.
 - AI Command Helper and Settings path inspection.
+- Sparkle updater controls and signed appcast generation.
 - DMG drag-to-Applications layout inspection.
-- Local 1.0.4 to 1.0.5 replacement proof.
+- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.6 automatic updates now available for future releases.
 
 The release checklist lives in
 [`docs/production-direct-release.md`](docs/production-direct-release.md).
@@ -181,8 +181,8 @@ revision so the DMG, ZIP, and manifest point at a stable source commit.
 
 ## Next Polish
 
-- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.5 DMG.
-- Prove clean-Mac replacement/update flow from 1.0.4 build 12 to 1.0.5 build 13.
+- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.6 DMG.
+- Prove clean-Mac Sparkle update flow from 1.0.6 to the next release.
 - Collect first-user feedback on whether AI Command Helper feels useful enough for daily terminal work.
 - Polish AI Command Helper result states based on that feedback.
 - Decide whether GitHub Releases stays the download surface or a small branded download page should front it.

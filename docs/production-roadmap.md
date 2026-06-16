@@ -10,8 +10,8 @@ Current state as of 2026-06-15:
 
 - XcodeGen project, generated Xcode project, module boundaries, tests, docs, and CI exist.
 - Native shell, Metal identity, local system metrics, multi-pane workspaces, macOS integration foundations, and AI Command Helper are implemented.
-- Version 1.0.5 build 13 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and published as a GitHub release.
-- Manual direct-download updates are supported; Sparkle/appcast remains a later product decision.
+- Version 1.0.6 build 14 is signed, notarized, stapled, Gatekeeper-assessed, launch-smoked, visually checked, and ready for the public GitHub release.
+- Sparkle automatic updates are enabled for the direct-download lane; the manual DMG flow remains the fallback.
 - The repository is public as source-available proprietary code, not open source.
 
 ## Production-ready definition

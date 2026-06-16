@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Production direct 1.0.5 artifact complete; GitHub repo public; separate clean-Mac proof pending
-last_updated: "2026-06-15T16:16:00Z"
+status: Production direct 1.0.6 artifact complete; Sparkle updates added; public GitHub release in progress
+last_updated: "2026-06-15T21:05:00Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 14 - Production direct 1.0.5 and public GitHub release readiness
+Phase 14 - Production direct 1.0.6 and public GitHub release readiness
 
 ## Current status
 
-gridOS is now on production direct version 1.0.5 build 13. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.5-13-379289a.dmg`, SHA-256 `b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.5`, visually inspected through Computer Use, performance-gated, locally replacement-tested from 1.0.4 build 12 to 1.0.5 build 13 in a temporary install root, published as GitHub release `v1.0.5`, and the GitHub repository is now public as source-available proprietary code. Version 1.0.5 clarifies AI Command Helper in Command-K, improves provider setup copy, makes Settings resizable, and derives the visible version from signed bundle metadata. Separate clean-Mac Finder/Gatekeeper install and update proof remain external validation tasks.
+gridOS is now on production direct version 1.0.6 build 14. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.6-14-edda1ee.dmg`, SHA-256 `cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, launch-smoked from the DMG, visibly versioned as `v1.0.6`, visually inspected, performance-gated, and prepared for GitHub release `v1.0.6`. Version 1.0.6 adds the new app icon, username-free README screenshots, Sparkle automatic updates for the direct-download lane, and signed Sparkle helper binaries with secure timestamps while preserving the 1.0.5 AI Command Helper and Settings polish. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.6 to the next release remain external validation tasks.
 
 ## Decisions made
 
@@ -118,7 +118,7 @@ gridOS is now on production direct version 1.0.5 build 13. App Store readiness r
 - Final bundle identifier and signing team.
 - Whether Intel Macs are supported after beta.
 - Final provider availability for alpha after Phase 6 implementation and credential readiness.
-- Whether Sparkle or another updater is used for direct distribution.
+- Whether Sparkle should remain the long-term direct-distribution updater after 1.0.6 field proof.
 
 ## Progress log
 
@@ -447,3 +447,5 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - Phase 12 local launch smoke evidence: `.planning/phases/12-beta/evidence/local-notarized-launch-smoke.md`.
 - 2026-06-15: Public GitHub release-readiness pass aligned current docs to 1.0.5, verified local CI/artifact/Gatekeeper checks, and Computer Use inspected the mounted DMG plus running Applications copy.
 - Stopped at: Production direct 1.0.5 is public on GitHub as source-available proprietary code; separate clean-Mac Finder/Gatekeeper UAT and clean-Mac update proof remain external validation.
+- 2026-06-15: Prepared production direct 1.0.6 with the new icon, username-free README visuals, Sparkle automatic updates, signed Sparkle helpers, final signed/notarized `gridOS-1.0.6-14-edda1ee.dmg`, v1.0.6 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
+- Stopped at: Production direct 1.0.6 is ready for public GitHub release publication; clean-Mac Finder/Gatekeeper UAT and 1.0.6-to-next Sparkle update proof remain external validation.

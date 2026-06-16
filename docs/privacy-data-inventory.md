@@ -11,9 +11,9 @@
 | Sparkle update check | Low | Sparkle preferences and cache as needed by framework | Yes, to the appcast URL and GitHub release asset URLs | Automatic checks and automatic install enabled; Sparkle system profiling disabled | Software Updates settings |
 | Workspace session layout | Low to medium | Application Support `session-v1.json` | No | Restores pane layout as fresh shells | Reset saved session |
 | Recent directories | Medium | Application Support `recent-directories-v1.json` | No | Stores normalized recent directories | Reset saved session |
-| Spotlight workspace metadata | Low to medium | macOS Spotlight index when enabled by a future release | No network exit, but visible to system search | Disabled in 1.0.5; metadata-only foundation exists but no release toggle is exposed | No visible toggle in this release |
-| Notification content | Low by default | macOS notification system when enabled by a future release | No network exit, but visible in system UI | Disabled in 1.0.5; app does not request permission or post local alerts | Permission status check only |
-| Menu bar status | Low | Not persisted as content | No | Staged but not part of the 1.0.5 release surface; terminal workspace remains primary | No visible toggle in this release |
+| Spotlight workspace metadata | Low to medium | macOS Spotlight index when enabled by a future release | No network exit, but visible to system search | Disabled in 1.0.6; metadata-only foundation exists but no release toggle is exposed | No visible toggle in this release |
+| Notification content | Low by default | macOS notification system when enabled by a future release | No network exit, but visible in system UI | Disabled in 1.0.6; app does not request permission or post local alerts | Permission status check only |
+| Menu bar status | Low | Not persisted as content | No | Staged but not part of the 1.0.6 release surface; terminal workspace remains primary | No visible toggle in this release |
 | System metrics snapshot | Low | In memory only | No | Local sampling only | None beyond app use |
 | Visual install seed | Low to medium | Local `@AppStorage` random UUID | No | Generated locally for procedural appearance; not a hardware identifier or credential | Reset appearance/settings behavior |
 | Performance evidence | Low if sanitized | `.planning/phases/*/evidence` | Committed to repo | Synthetic markers and process samples only | Developer workflow |
@@ -41,8 +41,8 @@ The app must not persist these by default:
 | Anthropic provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
 | OpenAI provider request | Redacted `ApprovedCommandContextPayload` only | Explicit user send after preview |
 | Sparkle appcast/update download | Version/update request and release asset download | Automatic update settings; system profiling disabled |
-| macOS Spotlight | Workspace ID, display label, directory basename | Disabled in 1.0.5; metadata-only adapter is staged for a future release |
-| macOS notifications | Sanitized title/body such as `gridOS work finished` | Disabled in 1.0.5; app checks permission state only |
+| macOS Spotlight | Workspace ID, display label, directory basename | Disabled in 1.0.6; metadata-only adapter is staged for a future release |
+| macOS notifications | Sanitized title/body such as `gridOS work finished` | Disabled in 1.0.6; app checks permission state only |
 | Git/repo evidence | Synthetic markers, summary status, non-secret metadata | Source and evidence privacy scans |
 
 ## User Controls

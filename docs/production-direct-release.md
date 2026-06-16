@@ -1,31 +1,31 @@
 # gridOS production direct release
 
-Status: version 1.0.5
+Status: version 1.0.6
 Last updated: 2026-06-15
 
 ## Artifact
 
-- Version: 1.0.5
-- Build: 13
-- Source commit: 379289a
-- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.5
-- DMG: build/release/production/gridOS-1.0.5-13-379289a.dmg
-- DMG SHA-256: b3f94f03ca5db2f1c3fa9fb1df0fa0cdcacd6998927a878fc6b312768e0c5a05
-- ZIP: build/release/production/gridOS-1.0.5-13-379289a.zip
-- ZIP SHA-256: b34e83b27ea4f17d9e6076d46686bee7f6330f3eb5357459b5085b1f5ed3e54f
-- App bundle SHA-256: 05cc09d1b6fcd010bef4505b63eea99ba0e4185b364eecfb95191fae331acbf7
+- Version: 1.0.6
+- Build: 14
+- Source commit: edda1ee
+- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.6
+- DMG: build/release/production/gridOS-1.0.6-14-edda1ee.dmg
+- DMG SHA-256: cf6e01770e43b94783fefa25493da01f2471b961280334f63fe804568a1fe9c1
+- ZIP: build/release/production/gridOS-1.0.6-14-edda1ee.zip
+- ZIP SHA-256: 69e9187ef4af85f3428b76ded72eb2eb676ead3e690b5ec1c1cc9d5207c72e21
+- App bundle SHA-256: 7e2c55c1c2a0e5f76ccf8a1b16a2795f729270c04eaa13547ac9b284a70c25c2
 
 ## Release Positioning
 
 gridOS is a local-first Mac terminal with a distinctive procedural visual
-signature, multi-pane workspaces, calmer host metrics, and guarded Command
-Intelligence. The value is not "AI terminal" as a gimmick. The value is a
-beautiful, private command workspace that helps users think before they run.
+signature, multi-pane workspaces, calmer host metrics, guarded Command
+Intelligence, and automatic updates for the direct-download lane. The value is
+not "AI terminal" as a gimmick. The value is a beautiful, private command
+workspace that helps users think before they run.
 
-Version 1.0.5 keeps the 1.0.4 production base and sharpens the AI Command
-Helper experience. Command-K now explains each helper mode in context, provider
-setup is clearer, Settings is a resizable macOS window, and the visible app
-version derives from the signed bundle metadata.
+Version 1.0.6 keeps the 1.0.5 product base and makes the public release feel
+finished: new icon, icon-driven README hero, username-free screenshots, Sparkle
+automatic updates, and signed/notarized proof for the final artifact.
 
 ## First Launch
 
@@ -37,27 +37,20 @@ tool opening its doors, not a pre-release disclaimer.
 
 | Check | Status |
 | --- | --- |
+| Xcode CI wrapper | PASS |
 | Signed archive | PASS |
+| Embedded Sparkle helpers Developer ID signed with secure timestamps | PASS |
 | Signed DMG container | PASS |
 | Notarization | PASS |
 | Stapler validation | PASS |
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
-| Launch from mounted DMG | PASS |
-| Visible app version v1.0.5 | PASS |
+| Sparkle appcast generation | PASS |
+| New app icon installed in asset catalog | PASS |
+| README hero and screenshots avoid terminal prompts/usernames | PASS |
+| Software Updates settings screenshot captured | PASS |
 | AI Command Helper settings/menu present | PASS |
-| AI Command Helper mode guidance visible | PASS |
-| AI Command Helper provider setup copy visible | PASS |
-| Settings opens to AI Helper from Command-K | PASS |
-| Settings window resizes from 700x640 to 980x780 | PASS |
-| Pane controls visible in packaged app | PASS |
-| DMG drag-to-Applications layout | PASS |
-| Computer Use visual app check | PASS |
-| Computer Use DMG layout check | PASS |
-| Installed `/Applications` copy replaced from 1.0.5 DMG | PASS |
 | Local 1.0.4 to 1.0.5 replacement proof | PASS |
-| Clean quit after launch | PASS |
-| Performance quick gate | PASS |
 
 ## Install
 
@@ -69,10 +62,14 @@ tool opening its doors, not a pre-release disclaimer.
 If Gatekeeper blocks launch, do not advise bypassing it. Treat that as a
 release blocker and rebuild or re-notarize.
 
-## Update
+## Updates
 
-For the direct-download release lane, update manually until Sparkle or a hosted
-update feed is deliberately added:
+gridOS 1.0.6 includes Sparkle automatic updates for the direct-download release
+lane. Automatic checks and automatic download/install are enabled by default,
+Sparkle system profiling is disabled, and the manual DMG flow remains available
+as a fallback.
+
+Manual update fallback:
 
 1. Quit gridOS.
 2. Download the newer signed/notarized DMG.
@@ -81,19 +78,14 @@ update feed is deliberately added:
 5. Launch from Finder.
 6. Confirm the app version/build matches the release manifest.
 
-Local replacement proof has passed from 1.0.4 build 12 to 1.0.5 build 13 in a
-temporary install root. Same-machine Finder/app inspection has also passed for
-the mounted 1.0.5 DMG and installed Applications copy. Clean-Mac Finder
-install/update proof remains the final external install validation when a
-separate Mac is available.
-
-This development Mac had an existing `/Applications/gridOS.app` from earlier
-testing. For 1.0.5, the mounted DMG app and the replaced Applications copy were
-both inspected through Computer Use and reported visible `v1.0.5`.
+Clean-Mac Finder install/update proof remains useful external validation when a
+separate clean Mac is available. Future update proof should validate Sparkle
+from 1.0.6 to the next release.
 
 ## Privacy Boundaries
 
 gridOS should not ask users to send shell history, terminal transcripts,
 environment variables, API keys, generated commands, provider responses, or
 screenshots containing secrets. Command Intelligence remains preview-first and
-provider-backed features remain explicit user actions.
+provider-backed features remain explicit user actions. Sparkle update checks may
+contact the signed appcast and GitHub release assets; system profiling is off.

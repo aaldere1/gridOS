@@ -42,8 +42,8 @@ The boundary is intentionally conservative because eDEX-UI is GPL-3.0 licensed a
 Phase 10 build/test verification keeps this setting in the generated Xcode project while running with `CODE_SIGNING_ALLOWED=NO` for local automation. No hardened-runtime entitlement exceptions are currently declared or required by the checked-in app configuration.
 
 Production signing, notarization, stapling, Gatekeeper assessment, and
-same-machine Finder/app inspection are complete for the 1.0.5 direct release.
-Separate clean-Mac install/update proof remains external validation.
+same-machine Finder/app inspection are complete for the 1.0.6 direct release.
+Separate clean-Mac install and Sparkle update proof remain external validation.
 
 ## Follow-Up
 
