@@ -29,6 +29,7 @@ struct CommandPaletteView: View {
     @State private var serviceResult: CommandIntelligenceServiceResult?
     @State private var selectionFailure: CommandIntelligenceSelectionFailure?
     @State private var isSending = false
+    @State private var sendTask: Task<Void, Never>?
     @State private var pendingRunCommand: ClassifiedGeneratedCommand?
     @State private var isRunConfirmationPresented = false
     @FocusState private var isPromptFocused: Bool
@@ -103,6 +104,9 @@ struct CommandPaletteView: View {
         }
         .onExitCommand {
             onClose()
+        }
+        .onDisappear {
+            cancelSendTask()
         }
         .alert("Run exactly this command?", isPresented: $isRunConfirmationPresented) {
             Button("Run Command") {
@@ -459,7 +463,18 @@ struct CommandPaletteView: View {
             }
 
             screenshotDropError = nil
-            fileURLs.forEach(processDroppedScreenshotURL)
+            let remainingSlots = ScreenshotAttachmentLimits.maxAttachments - screenshotAttachments.count
+            guard remainingSlots > 0 else {
+                screenshotDropError = "Remove a screenshot before adding another."
+                return false
+            }
+
+            fileURLs
+                .prefix(remainingSlots)
+                .forEach(processDroppedScreenshotURL)
+            if fileURLs.count > remainingSlots {
+                screenshotDropError = "Attached \(remainingSlots) screenshot\(remainingSlots == 1 ? "" : "s"). Remove one before adding more."
+            }
             return true
         } isTargeted: { targeted in
             isScreenshotDropTargeted = targeted
@@ -1212,13 +1227,25 @@ struct CommandPaletteView: View {
     private func handleScreenshotDrop(_ providers: [NSItemProvider]) -> Bool {
         screenshotDropError = nil
         var accepted = false
+        var remainingSlots = ScreenshotAttachmentLimits.maxAttachments - screenshotAttachments.count
+
+        guard remainingSlots > 0 else {
+            screenshotDropError = "Remove a screenshot before adding another."
+            return false
+        }
 
         for provider in providers {
+            guard remainingSlots > 0 else {
+                break
+            }
+
             if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
                 accepted = true
+                remainingSlots -= 1
                 loadDroppedScreenshotFile(provider)
             } else if let type = Self.supportedImageDataType(for: provider) {
                 accepted = true
+                remainingSlots -= 1
                 loadDroppedScreenshotData(provider, type: type)
             }
         }
@@ -1424,6 +1451,7 @@ struct CommandPaletteView: View {
 
     @MainActor
     private func closeResult() {
+        cancelSendTask()
         serviceResult = nil
         lastSubmittedPreview = nil
         preview = nil
@@ -1450,19 +1478,31 @@ struct CommandPaletteView: View {
 
     @MainActor
     private func sendPreview(_ preview: CommandContextPreview) {
-        Task { @MainActor in
-            isSending = true
-            serviceResult = nil
-            lastSubmittedPreview = preview
+        guard !isSending else {
+            return
+        }
+
+        sendTask?.cancel()
+        isSending = true
+        serviceResult = nil
+        lastSubmittedPreview = preview
+
+        sendTask = Task { @MainActor in
             let result = await onSendRequest(preview)
+            guard !Task.isCancelled else {
+                return
+            }
+
             self.preview = nil
             serviceResult = result
             isSending = false
+            sendTask = nil
         }
     }
 
     @MainActor
     private func resetComposeState() {
+        cancelSendTask()
         preview = nil
         lastSubmittedPreview = nil
         serviceResult = nil
@@ -1487,6 +1527,13 @@ struct CommandPaletteView: View {
         }
 
         isPromptFocused = true
+    }
+
+    @MainActor
+    private func cancelSendTask() {
+        sendTask?.cancel()
+        sendTask = nil
+        isSending = false
     }
 
     private func promptOrFailedCommandText(from preview: CommandContextPreview) -> String {
@@ -1649,41 +1696,72 @@ private struct ScreenshotAttachment: Identifiable, Equatable, Sendable {
         displayName: String,
         contentType: UTType
     ) -> ScreenshotAttachment {
-        guard data.count <= ScreenshotAttachmentLimits.maxBytes else {
-            return failed(
+        autoreleasepool { () -> ScreenshotAttachment in
+            guard data.count <= ScreenshotAttachmentLimits.maxBytes else {
+                return failed(
+                    id: id,
+                    displayName: displayName,
+                    byteCount: data.count,
+                    reason: "Image is larger than 25 MB."
+                )
+            }
+
+            let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+            guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else {
+                return failed(
+                    id: id,
+                    displayName: displayName,
+                    byteCount: data.count,
+                    reason: "Unsupported or unreadable image."
+                )
+            }
+
+            let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, sourceOptions) as? [CFString: Any]
+            let propertyWidth = properties?[kCGImagePropertyPixelWidth] as? Int
+            let propertyHeight = properties?[kCGImagePropertyPixelHeight] as? Int
+            if let propertyWidth, let propertyHeight, !Self.isAllowedPixelCount(width: propertyWidth, height: propertyHeight) {
+                return failed(
+                    id: id,
+                    displayName: displayName,
+                    byteCount: data.count,
+                    reason: "Image dimensions are too large."
+                )
+            }
+
+            let imageOptions = [kCGImageSourceShouldCacheImmediately: true] as CFDictionary
+            guard let cgImage = CGImageSourceCreateImageAtIndex(source, 0, imageOptions) else {
+                return failed(
+                    id: id,
+                    displayName: displayName,
+                    byteCount: data.count,
+                    reason: "Unsupported or unreadable image."
+                )
+            }
+
+            let width = propertyWidth ?? cgImage.width
+            let height = propertyHeight ?? cgImage.height
+            guard Self.isAllowedPixelCount(width: width, height: height) else {
+                return failed(
+                    id: id,
+                    displayName: displayName,
+                    byteCount: data.count,
+                    reason: "Image dimensions are too large."
+                )
+            }
+
+            let recognizedText = recognizedText(from: cgImage)
+
+            return ScreenshotAttachment(
                 id: id,
-                displayName: displayName,
+                displayName: displayName.isEmpty ? "Dropped Screenshot" : displayName,
                 byteCount: data.count,
-                reason: "Image is larger than 25 MB."
+                pixelWidth: width,
+                pixelHeight: height,
+                contentTypeDescription: contentType.preferredFilenameExtension?.uppercased() ?? contentType.localizedDescription ?? "image",
+                recognizedText: recognizedText,
+                status: .ready
             )
         }
-
-        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
-              let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil)
-        else {
-            return failed(
-                id: id,
-                displayName: displayName,
-                byteCount: data.count,
-                reason: "Unsupported or unreadable image."
-            )
-        }
-
-        let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
-        let width = properties?[kCGImagePropertyPixelWidth] as? Int ?? cgImage.width
-        let height = properties?[kCGImagePropertyPixelHeight] as? Int ?? cgImage.height
-        let recognizedText = recognizedText(from: cgImage)
-
-        return ScreenshotAttachment(
-            id: id,
-            displayName: displayName.isEmpty ? "Dropped Screenshot" : displayName,
-            byteCount: data.count,
-            pixelWidth: width,
-            pixelHeight: height,
-            contentTypeDescription: contentType.preferredFilenameExtension?.uppercased() ?? contentType.localizedDescription ?? "image",
-            recognizedText: recognizedText,
-            status: .ready
-        )
     }
 
     static func failed(
@@ -1744,6 +1822,14 @@ private struct ScreenshotAttachment: Identifiable, Equatable, Sendable {
         return truncated(text, limit: ScreenshotAttachmentLimits.maxOCRCharacters)
     }
 
+    private static func isAllowedPixelCount(width: Int, height: Int) -> Bool {
+        guard width > 0, height > 0 else {
+            return false
+        }
+
+        return width <= ScreenshotAttachmentLimits.maxPixels / height
+    }
+
     private static func truncated(_ text: String, limit: Int) -> String {
         guard text.count > limit else {
             return text
@@ -1765,7 +1851,9 @@ private struct ScreenshotAttachment: Identifiable, Equatable, Sendable {
 }
 
 private enum ScreenshotAttachmentLimits {
+    static let maxAttachments = 4
     static let maxBytes = 25 * 1_024 * 1_024
+    static let maxPixels = 20_000_000
     static let maxOCRCharacters = 6_000
 }
 

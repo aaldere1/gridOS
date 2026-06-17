@@ -119,6 +119,10 @@ public struct TerminalSurface: NSViewRepresentable {
                 self.terminalView = nil
             }
 
+            if let gridOSTerminalView = terminalView as? GridOSTerminalView {
+                gridOSTerminalView.activityHandler = nil
+            }
+
             if let interactionController {
                 let shouldKeepControllerOwnedProcess = interactionController.owns(terminalView)
                     && terminalView.process.running
@@ -214,7 +218,11 @@ public struct TerminalSurface: NSViewRepresentable {
             }
 
             if let startupCommand = configuration.startupCommand {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak terminalView] in
+                    guard let terminalView, terminalView.process.running else {
+                        return
+                    }
+
                     terminalView.sendText(startupCommand + "\n")
                 }
             }

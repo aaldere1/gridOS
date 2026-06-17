@@ -39,6 +39,9 @@ struct TerminalWorkspaceView: View {
                 }
             )
         )
+        .onChange(of: workspaceController.state.layout.paneIDsInVisualOrder) { _, paneIDs in
+            prunePaneSizeState(livePaneIDs: Set(paneIDs))
+        }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Terminal workspace")
         .alert("Close this terminal pane?", isPresented: $isClosePaneConfirmationPresented) {
@@ -463,6 +466,18 @@ struct TerminalWorkspaceView: View {
         paneSizes[paneID] = size
     }
 
+    @MainActor
+    private func prunePaneSizeState(livePaneIDs: Set<TerminalPaneID>) {
+        let stalePaneIDs = paneSizes.keys.filter { !livePaneIDs.contains($0) }
+        for paneID in stalePaneIDs {
+            paneSizes.removeValue(forKey: paneID)
+        }
+
+        if let paneDropTargetID, !livePaneIDs.contains(paneDropTargetID) {
+            self.paneDropTargetID = nil
+        }
+    }
+
     private func paneDropPlacement(for location: CGPoint, in size: CGSize) -> TerminalPanePlacement {
         guard size.width > 0, size.height > 0 else {
             return .after
@@ -521,6 +536,10 @@ private struct TerminalWorkspaceShortcutBridge: NSViewRepresentable {
         nsView.onFocusNextPane = onFocusNextPane
         nsView.onFocusPreviousPane = onFocusPreviousPane
     }
+
+    static func dismantleNSView(_ nsView: TerminalWorkspaceShortcutView, coordinator: ()) {
+        nsView.shutdown()
+    }
 }
 
 @MainActor
@@ -537,6 +556,12 @@ private final class TerminalWorkspaceShortcutView: NSView {
         } else {
             installKeyDownMonitorIfNeeded()
         }
+    }
+
+    func shutdown() {
+        removeKeyDownMonitor()
+        onFocusNextPane = nil
+        onFocusPreviousPane = nil
     }
 
     private func installKeyDownMonitorIfNeeded() {
