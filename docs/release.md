@@ -6,24 +6,24 @@ This document starts as a release checklist and should become the operational so
 
 Current version:
 
-- Marketing version: `1.0.9`
-- Build number: `17`
+- Marketing version: `1.0.10`
+- Build number: `18`
 
 The version source of truth is `project.yml`, regenerated into
 `gridOS.xcodeproj` with XcodeGen.
 
 ## Production direct version
 
-Version 1.0.9 build 17 is the current production-facing direct-download version:
+Version 1.0.10 build 18 is the current production-facing direct-download version:
 
-- DMG: `build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg`
+- DMG: `build/release/production/gridOS-1.0.10-18-26f01e7.dmg`
 - Manifest: `.planning/phases/14-production-release/evidence/production-release-manifest.json`
-- Public release notes: `docs/release-notes/v1.0.9.md`
+- Public release notes: `docs/release-notes/v1.0.10.md`
 - Release evidence: `docs/production-direct-release.md`
 
 This artifact is app-signed, DMG-signed, notarized, stapled,
 Gatekeeper-assessed, strict codesign-verified, launched from a mounted DMG,
-versioned as `v1.0.9`, and packaged with Sparkle automatic updates.
+versioned as `v1.0.10`, and packaged with Sparkle automatic updates.
 The public README uses an icon-driven hero and app screenshots that avoid
 terminal prompts, local usernames, and process details. Clean-Mac Finder install
 and future Sparkle update proof remain useful external validation.

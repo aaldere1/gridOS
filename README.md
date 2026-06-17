@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.9/gridOS-1.0.9-17-2d2fe8d.dmg"><strong>Download v1.0.9 DMG</strong></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.10/gridOS-1.0.10-18-26f01e7.dmg"><strong>Download v1.0.10 DMG</strong></a>
   &nbsp;|&nbsp;
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.9">Release</a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.10">Release</a>
   &nbsp;|&nbsp;
-  <a href="docs/release-notes/v1.0.9.md">Notes</a>
+  <a href="docs/release-notes/v1.0.10.md">Notes</a>
   &nbsp;|&nbsp;
   <a href="docs/security-privacy.md">Security and Privacy</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.9"><img alt="Release v1.0.9" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.10"><img alt="Release v1.0.10" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
   <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-black">
   <img alt="Apple Silicon required" src="https://img.shields.io/badge/Apple%20Silicon-required-black">
   <img alt="License: proprietary" src="https://img.shields.io/badge/license-proprietary-lightgrey">
@@ -48,17 +48,19 @@ The point is a beautiful command workspace that stays careful with real work.
 
 | Field | Value |
 | --- | --- |
-| Version | `1.0.9` |
-| Build | `17` |
+| Version | `1.0.10` |
+| Build | `18` |
 | Platform | macOS 14 or newer, Apple Silicon |
 | Distribution | Developer ID signed, notarized direct-download DMG with Sparkle automatic updates |
-| Release page | [`v1.0.9`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.9) |
-| DMG SHA-256 | `e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633` |
+| Release page | [`v1.0.10`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.10) |
+| DMG SHA-256 | `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1` |
 
-Version 1.0.9 is the native pane workspace update: Command-T creates a new
-terminal to the right, Control-Tab moves between panes without stealing shell
-Tab, pane headers can be dragged to rearrange layouts, and the signed/notarized
-artifact keeps the 1.0.8 terminal jitter and pasteboard fixes.
+Version 1.0.10 is the update and stability release: gridOS can surface an
+available-update badge in the header, Settings can check or start the Sparkle
+update flow, and top-process CPU baselines are retained so long-running local
+metrics stay steadier. It keeps the 1.0.9 Command-T panes, Control-Tab
+traversal, drag-to-rearrange pane headers, terminal jitter fixes, screenshot
+OCR, and DeepSeek/xAI provider support.
 
 ## Actual Screenshots
 
@@ -90,7 +92,7 @@ details.
 - Preview-first provider requests: gridOS shows redacted context before a request leaves the app.
 - Screenshot drops for AI Command Helper: gridOS extracts text locally and sends only reviewed OCR text and metadata, not image pixels or local file paths.
 - Local generated-command risk labels with insert-first behavior and explicit run confirmation.
-- Sparkle automatic updates backed by signed GitHub release assets.
+- Sparkle automatic updates backed by signed GitHub release assets, with visible in-app update availability.
 - Polished drag-to-Applications DMG layout.
 
 ## AI Command Helper
@@ -108,7 +110,7 @@ Command-K is designed as a guarded command surface, not a magic text box.
 
 ## Install
 
-1. Download [`gridOS-1.0.9-17-2d2fe8d.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.9/gridOS-1.0.9-17-2d2fe8d.dmg).
+1. Download [`gridOS-1.0.10-18-26f01e7.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.10/gridOS-1.0.10-18-26f01e7.dmg).
 2. Open the DMG.
 3. Drag `gridOS.app` into `/Applications`.
 4. Eject the DMG.
@@ -133,8 +135,8 @@ For manual updates:
 5. Launch from Finder and confirm the visible version.
 
 Local replacement proof has passed from 1.0.4 build 12 to 1.0.5 build 13.
-Version 1.0.9 is prepared for the signed Sparkle appcast; clean-Mac install and
-Sparkle update proof from 1.0.8 to 1.0.9 remain useful external validation
+Version 1.0.10 is prepared for the signed Sparkle appcast; clean-Mac install and
+Sparkle update proof from 1.0.9 to 1.0.10 remain useful external validation
 items.
 
 ## Privacy Boundaries
@@ -157,20 +159,20 @@ security posture.
 
 ## Verification
 
-The 1.0.9 release has recorded proof for the direct-download lane:
+The 1.0.10 release has recorded proof for the direct-download lane:
 
 - App and DMG signing.
 - Notarization and stapler validation.
 - Gatekeeper assessment.
 - Strict codesign verification.
 - Mounted DMG layout and artifact assessment.
-- Version `1.0.9` build `17` bundle check.
+- Version `1.0.10` build `18` bundle check.
 - Command-T pane creation, Control-Tab traversal, and drag-to-rearrange pane tests.
 - AI Command Helper, screenshot drop zone, and Settings path inspection.
 - Sparkle updater controls and signed appcast generation.
 - DMG drag-to-Applications layout inspection.
 - ZIP extraction proof with strict codesign and Gatekeeper execution assessment.
-- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.9 automatic updates now available for future releases.
+- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.10 automatic updates now available for future releases.
 
 The release checklist lives in
 [`docs/production-direct-release.md`](docs/production-direct-release.md).
@@ -192,8 +194,8 @@ revision so the DMG, ZIP, and manifest point at a stable source commit.
 
 ## Next Polish
 
-- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.9 DMG.
-- Prove clean-Mac Sparkle update flow from 1.0.8 to 1.0.9.
+- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.10 DMG.
+- Prove clean-Mac Sparkle update flow from 1.0.9 to 1.0.10.
 - Collect first-user feedback on whether AI Command Helper feels useful enough for daily terminal work.
 - Polish AI Command Helper result states based on that feedback.
 - Decide whether GitHub Releases stays the download surface or a small branded download page should front it.

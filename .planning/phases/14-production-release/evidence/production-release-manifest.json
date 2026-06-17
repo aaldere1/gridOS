@@ -2,28 +2,28 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.9",
-  "build": "17",
-  "sourceCommit": "2d2fe8d",
-  "generatedAt": "2026-06-17T17:15:00Z",
+  "version": "1.0.10",
+  "build": "18",
+  "sourceCommit": "26f01e7",
+  "generatedAt": "2026-06-17T21:58:56Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg",
-      "sha256": "e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633",
-      "sizeBytes": 9051257,
+      "path": "build/release/production/gridOS-1.0.10-18-26f01e7.dmg",
+      "sha256": "5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1",
+      "sizeBytes": 9086688,
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.9-17-2d2fe8d.zip",
-      "sha256": "f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e",
-      "sizeBytes": 8087178,
+      "path": "build/release/production/gridOS-1.0.10-18-26f01e7.zip",
+      "sha256": "a5b6d670a7ab3949642a23c8c3305cb768dbbb916262f3557d271e04385e21c4",
+      "sizeBytes": 8122654,
       "extractionVerification": "pass",
       "stapler": "pass"
     },
     "appBundle": {
-      "treeSha256Relative": "5215282e064aa3305a964bdc2acfa0da2568649c4bc0065c5210a07676acdb08",
+      "treeSha256Relative": "0efb8b232885fff498c4bf6109cbea98aeeb6fc606a8278e8e323df13b80886c",
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
@@ -31,24 +31,24 @@
   },
   "notarization": {
     "status": "pass",
-    "dmgSubmissionId": "8ae9e408-6740-4d3c-8149-e4f76fb02fea",
-    "zipSubmissionId": "7dfaaac2-24a3-4c0c-aa4c-1d33300a49e1",
-    "evidence": ".planning/phases/12-beta/evidence/beta-notarization-dmg-v1.0.9.md"
+    "dmgSubmissionId": "fada5925-970b-4562-9623-da68d19d592e",
+    "zipSubmissionId": "ada2c70d-c9db-419e-b088-9b3f92299d12",
+    "evidence": ".planning/phases/12-beta/evidence/beta-notarization-dmg-v1.0.10.md"
   },
   "gatekeeper": {
     "status": "pass",
-    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.9.md",
-    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.9.md"
+    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.10.md",
+    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.10.md"
   },
   "sparkle": {
     "status": "pass",
     "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
     "appcast": "appcast.xml",
     "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
-    "feedSignature": "g4+jOhanczeBHZFAjhBB6pskeZy76YmafZn3G7MZphMRfPLdsH/sbqRwxMh/5gaVNJFQjPH5zXnNAjbs6sQZAA==",
-    "feedSignedLength": 3130,
-    "enclosureSignature": "sSa4rWUS6+Ba+9MVueL0vASK5yOqgY1NY1nwWWEJ6i6NIcoUwU3tHS4Q2w7Pjzgn/9JE81KEKPSVr1KdEHWTCg==",
-    "enclosureLength": 9051257,
+    "feedSignature": "dYSMubq7UsMpw83TKkGS51Uo5amH8xN0BmOtW2QsESyxDNjbQuREQCvI0A6ilkhWVMn7dJsxKM15LmFN4LcVCw==",
+    "feedSignedLength": 3286,
+    "enclosureSignature": "SsYMVyBHd/SeFbiS8gVoer6skjwdoQaiSrkZ+JROadWEN6g5yKvNk1jN9DDqAAByhlr/JC+Cq+kqEYbZoTG9Bw==",
+    "enclosureLength": 9086688,
     "validation": "xmllint pass; Ed25519 public-key verification passed by scripts/write-sparkle-appcast.sh for feed and DMG enclosure",
     "automaticChecks": true,
     "automaticInstall": true,
@@ -59,8 +59,8 @@
     "status": "artifact-proof-pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "scope": "current-Mac mounted DMG assessment plus committed screenshot inspection; separate clean-Mac proof remains open",
-    "version": "1.0.9",
-    "build": "17",
+    "version": "1.0.10",
+    "build": "18",
     "settingsSoftwareUpdates": "pass",
     "settingsAutomaticChecks": true,
     "settingsAutomaticInstall": true,
@@ -75,23 +75,28 @@
     "ciBuildTest": "pass",
     "scope": "Command-T pane creation, Control-Tab/Control-Shift-Tab pane traversal, drag-to-rearrange pane headers, and active-pane behavior covered by unit tests."
   },
+  "terminalStabilityProof": {
+    "status": "pass",
+    "ciBuildTest": "pass",
+    "scope": "Terminal jitter, pasteboard shortcuts, surface update, and top-process baseline retention covered by unit tests."
+  },
   "githubRelease": {
-    "status": "published",
-    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.9",
+    "status": "prepared-pending-publication",
+    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.10",
     "assets": {
-      "dmgDigest": "sha256:e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633",
-      "zipDigest": "sha256:f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e",
-      "appcastDigest": "sha256:abcb1c94aca82479dda8c4dc805be3a6b3953b86e04b91b8c6cdfb96aeffe9df"
+      "dmgDigest": "sha256:5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1",
+      "zipDigest": "sha256:a5b6d670a7ab3949642a23c8c3305cb768dbbb916262f3557d271e04385e21c4",
+      "appcastDigest": "sha256:4c38aae00dd762acb2076583253bd2a7775881c4bb8c8a4358f4dd89893780b8"
     },
-    "rawMainAppcastDiff": "pass",
-    "githubActionsRun": "27707174758",
-    "githubActionsConclusion": "success"
+    "rawMainAppcastDiff": "pending",
+    "githubActionsRun": "pending",
+    "githubActionsConclusion": "pending"
   },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.9.md",
-  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.8 to 1.0.9."
+  "releaseNotes": "docs/release-notes/v1.0.10.md",
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.9 to 1.0.10."
 }
