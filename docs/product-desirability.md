@@ -1,7 +1,7 @@
 # gridOS Product Desirability
 
-Status: version 1.0.8 product pass
-Last updated: 2026-06-16
+Status: version 1.0.9 product pass
+Last updated: 2026-06-17
 
 App Store readiness remains secondary to product quality. The current bar is
 not compliance. The current bar is whether a serious Mac terminal user would
@@ -15,13 +15,14 @@ calmer live metrics, and a Command-K flow that reads like a guarded runbook
 rather than a generic AI form. The product is still early, but it no longer
 feels like pre-release paperwork wrapped around a terminal.
 
-Version 1.0.8 keeps the 1.0.7 HUD and provider expansion base and makes the
-terminal feel steadier: reduced typing and resize jitter, restored focused-pane
-paste, terminal-aware copy/select-all behavior, username-free product
-screenshots, Sparkle automatic updates, and a signed / notarized artifact with
-embedded Sparkle helpers signed using secure timestamps. It preserves the
-Command-K clarity, provider setup copy, resizable Settings window, visible
-bundle-version discipline, and polished drag-to-Applications installer.
+Version 1.0.9 keeps the 1.0.8 terminal stability base and makes the workspace
+feel more native: Command-T creates a new pane to the right, Control-Tab moves
+between panes without stealing shell completion, and pane headers can be dragged
+to rearrange layouts. It preserves username-free product screenshots, Sparkle
+automatic updates, a signed / notarized artifact with embedded Sparkle helpers
+signed using secure timestamps, Command-K clarity, provider setup copy,
+resizable Settings, visible bundle-version discipline, and the polished
+drag-to-Applications installer.
 
 ## What Must Become Obvious
 
@@ -50,8 +51,8 @@ bundle-version discipline, and polished drag-to-Applications installer.
 
 ## Next Product Moves
 
-1. Keep the 1.0.8 GitHub release assets, Sparkle appcast, and download-facing notes aligned with `docs/production-direct-release.md`.
+1. Keep the 1.0.9 GitHub release assets, Sparkle appcast, and download-facing notes aligned with `docs/production-direct-release.md`.
 2. Keep the public repository posture source-available proprietary unless a separate open-source licensing decision is made.
 3. Run clean-Mac Finder/Gatekeeper UAT as final external validation when a separate Mac is available.
-4. Prove Sparkle update flow from 1.0.7 to 1.0.8.
+4. Prove Sparkle update flow from 1.0.8 to 1.0.9.
 5. Collect first-user feedback on whether AI Command Helper feels useful enough to become a daily workflow, not just a novelty.

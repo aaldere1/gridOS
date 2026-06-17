@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Production direct 1.0.8 published; Sparkle appcast updated; GitHub CI passed
-last_updated: "2026-06-16T22:34:50Z"
+status: Production direct 1.0.9 prepared; Sparkle appcast updated; GitHub release publication in progress
+last_updated: "2026-06-17T17:15:00Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 14 - Production direct 1.0.8 and public GitHub release readiness
+Phase 14 - Production direct 1.0.9 and public GitHub release readiness
 
 ## Current status
 
-gridOS is now on production direct version 1.0.8 build 16. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.8-16-c60fecb.dmg`, SHA-256 `6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, mounted-DMG smoke checked, published on GitHub release `v1.0.8`, and covered by passing GitHub Actions CI run `27652514707`. Version 1.0.8 reduces terminal typing/resize jitter, restores focused-terminal Command-V paste, adds terminal-aware Command-A/Command-C handling, keeps username-free README screenshots, and preserves Sparkle automatic updates for the direct-download lane. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.7 to 1.0.8 remain external validation tasks.
+gridOS is preparing production direct version 1.0.9 build 17. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg`, SHA-256 `e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, mounted-DMG smoke checked, and ready for GitHub release `v1.0.9`. Version 1.0.9 adds Command-T pane creation, Control-Tab pane traversal that preserves shell Tab, and drag-to-rearrange pane headers while keeping the 1.0.8 terminal jitter/pasteboard polish, username-free README screenshots, and Sparkle automatic updates for the direct-download lane. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.8 to 1.0.9 remain external validation tasks.
 
 ## Decisions made
 
@@ -453,3 +453,5 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - 2026-06-16: Prepared production direct 1.0.8 with terminal jitter reduction, terminal pasteboard shortcut fixes, signed/notarized `gridOS-1.0.8-16-c60fecb.dmg`, stapled ZIP fallback, v1.0.8 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
 - 2026-06-16: Published GitHub release `v1.0.8` with matching DMG/ZIP asset digests, raw `main` appcast readback, and passing GitHub Actions CI run `27652514707`.
 - Stopped at: Production direct 1.0.8 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.7-to-1.0.8 Sparkle update proof remain external validation.
+- 2026-06-17: Prepared production direct 1.0.9 with Command-T pane creation, Control-Tab pane traversal, drag-to-rearrange pane headers, signed/notarized `gridOS-1.0.9-17-2d2fe8d.dmg`, stapled ZIP fallback, v1.0.9 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
+- Stopped at: Production direct 1.0.9 is ready for GitHub publication; clean-Mac Finder/Gatekeeper UAT and 1.0.8-to-1.0.9 Sparkle update proof remain external validation.

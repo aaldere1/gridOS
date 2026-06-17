@@ -2,28 +2,28 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.8",
-  "build": "16",
-  "sourceCommit": "c60fecb",
-  "generatedAt": "2026-06-16T22:25:50Z",
+  "version": "1.0.9",
+  "build": "17",
+  "sourceCommit": "2d2fe8d",
+  "generatedAt": "2026-06-17T17:15:00Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.8-16-c60fecb.dmg",
-      "sha256": "6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346",
-      "sizeBytes": 8913473,
+      "path": "build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg",
+      "sha256": "e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633",
+      "sizeBytes": 9051257,
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.8-16-c60fecb.zip",
-      "sha256": "34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2",
-      "sizeBytes": 8039028,
+      "path": "build/release/production/gridOS-1.0.9-17-2d2fe8d.zip",
+      "sha256": "f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e",
+      "sizeBytes": 8087178,
       "extractionVerification": "pass",
       "stapler": "pass"
     },
     "appBundle": {
-      "treeSha256Relative": "6ddef1c6e063ca7c4abe143f658f459e9b72793ae99f9b9df0c8d95af469b513",
+      "treeSha256Relative": "5215282e064aa3305a964bdc2acfa0da2568649c4bc0065c5210a07676acdb08",
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass"
@@ -31,23 +31,24 @@
   },
   "notarization": {
     "status": "pass",
-    "submissionId": "25ec9d47-d4ec-457e-896e-cfae309ffcd8",
-    "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
+    "dmgSubmissionId": "8ae9e408-6740-4d3c-8149-e4f76fb02fea",
+    "zipSubmissionId": "7dfaaac2-24a3-4c0c-aa4c-1d33300a49e1",
+    "evidence": ".planning/phases/12-beta/evidence/beta-notarization-dmg-v1.0.9.md"
   },
   "gatekeeper": {
     "status": "pass",
-    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.8.md",
-    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.8.md"
+    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.9.md",
+    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.9.md"
   },
   "sparkle": {
     "status": "pass",
     "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
     "appcast": "appcast.xml",
     "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
-    "feedSignature": "8/jY42AE8dUrnVUWsB1LDix435EWYhplctNpo/egXW+XuYeU0xxKp/2Qn5HMWt7z3ELCzIcdx5IGn243Qv/gCg==",
-    "feedSignedLength": 3077,
-    "enclosureSignature": "YWoHB3TSqIDGxRcCEE8GISHa4xbwAHVYJXtq6JhEep5Zmdc2SzaNThSjyHltxJHYqv145A3xEyXeRiFwgDTyBg==",
-    "enclosureLength": 8913473,
+    "feedSignature": "g4+jOhanczeBHZFAjhBB6pskeZy76YmafZn3G7MZphMRfPLdsH/sbqRwxMh/5gaVNJFQjPH5zXnNAjbs6sQZAA==",
+    "feedSignedLength": 3130,
+    "enclosureSignature": "sSa4rWUS6+Ba+9MVueL0vASK5yOqgY1NY1nwWWEJ6i6NIcoUwU3tHS4Q2w7Pjzgn/9JE81KEKPSVr1KdEHWTCg==",
+    "enclosureLength": 9051257,
     "validation": "xmllint pass; Ed25519 public-key verification passed by scripts/write-sparkle-appcast.sh for feed and DMG enclosure",
     "automaticChecks": true,
     "automaticInstall": true,
@@ -58,8 +59,8 @@
     "status": "artifact-proof-pass",
     "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
     "scope": "current-Mac mounted DMG assessment plus committed screenshot inspection; separate clean-Mac proof remains open",
-    "version": "1.0.8",
-    "build": "16",
+    "version": "1.0.9",
+    "build": "17",
     "settingsSoftwareUpdates": "pass",
     "settingsAutomaticChecks": true,
     "settingsAutomaticInstall": true,
@@ -69,28 +70,16 @@
     "commandHelperScreenshotDropZone": "pass",
     "readmeScreenshotsAvoidTerminalPromptsAndUsernames": true
   },
-  "terminalPolishProof": {
+  "terminalPaneProof": {
     "status": "pass",
-    "xcodebuildBuildTest": "pass",
-    "scope": "Terminal jitter reduction and focused-pane Command-A/Command-C/Command-V behavior covered by unit tests plus prior live debug smoke."
-  },
-  "githubRelease": {
-    "status": "published",
-    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.8",
-    "assets": {
-      "dmgDigest": "sha256:6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346",
-      "zipDigest": "sha256:34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2",
-      "appcastDigest": "sha256:8c44f51d7e710fb1e5eba6af582cfce03e41e2d1667b51f58cf5e7f3c627beaa"
-    },
-    "rawMainAppcastDiff": "pass",
-    "githubActionsRun": "27652514707",
-    "githubActionsConclusion": "success"
+    "ciBuildTest": "pass",
+    "scope": "Command-T pane creation, Control-Tab/Control-Shift-Tab pane traversal, drag-to-rearrange pane headers, and active-pane behavior covered by unit tests."
   },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.8.md",
-  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.7 to 1.0.8."
+  "releaseNotes": "docs/release-notes/v1.0.9.md",
+  "remainingValidation": "Publish the GitHub release assets, then run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.8 to 1.0.9."
 }

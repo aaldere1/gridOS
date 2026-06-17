@@ -1,19 +1,19 @@
 # gridOS production direct release
 
-Status: version 1.0.8
-Last updated: 2026-06-16
+Status: version 1.0.9
+Last updated: 2026-06-17
 
 ## Artifact
 
-- Version: 1.0.8
-- Build: 16
-- Source commit: c60fecb
-- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.8
-- DMG: build/release/production/gridOS-1.0.8-16-c60fecb.dmg
-- DMG SHA-256: 6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346
-- ZIP: build/release/production/gridOS-1.0.8-16-c60fecb.zip
-- ZIP SHA-256: 34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2
-- Extracted app tree SHA-256: 6ddef1c6e063ca7c4abe143f658f459e9b72793ae99f9b9df0c8d95af469b513
+- Version: 1.0.9
+- Build: 17
+- Source commit: 2d2fe8d
+- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.9
+- DMG: build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg
+- DMG SHA-256: e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633
+- ZIP: build/release/production/gridOS-1.0.9-17-2d2fe8d.zip
+- ZIP SHA-256: f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e
+- Extracted app tree SHA-256: 5215282e064aa3305a964bdc2acfa0da2568649c4bc0065c5210a07676acdb08
 
 ## Release Positioning
 
@@ -23,9 +23,10 @@ Intelligence, and automatic updates for the direct-download lane. The value is
 not "AI terminal" as a gimmick. The value is a beautiful, private command
 workspace that helps users think before they run.
 
-Version 1.0.8 keeps the 1.0.7 HUD and provider expansion base and focuses on
-terminal feel: reduced typing and resize jitter, terminal-aware Command-A and
-Command-C, restored Command-V paste in focused terminal panes, username-free
+Version 1.0.9 keeps the 1.0.8 terminal feel fixes and makes pane management
+native: Command-T creates a new terminal to the right, Control-Tab and
+Control-Shift-Tab move focus across panes without stealing shell Tab, and pane
+headers can be dragged to rearrange the workspace. It preserves username-free
 screenshots, Sparkle automatic updates, and signed/notarized proof for the
 final artifact.
 
@@ -54,6 +55,7 @@ tool opening its doors, not a pre-release disclaimer.
 | AI Command Helper settings/menu present | PASS |
 | AI Command Helper screenshot drop zone with local OCR messaging | PASS |
 | Terminal jitter reduction and pasteboard shortcut tests | PASS |
+| Command-T pane creation, Control-Tab traversal, and drag layout tests | PASS |
 | ZIP extraction strict codesign and Gatekeeper execution assessment | PASS |
 | Local 1.0.4 to 1.0.5 replacement proof | PASS |
 
@@ -69,7 +71,7 @@ release blocker and rebuild or re-notarize.
 
 ## Updates
 
-gridOS 1.0.8 includes Sparkle automatic updates for the direct-download release
+gridOS 1.0.9 includes Sparkle automatic updates for the direct-download release
 lane. Automatic checks and automatic download/install are enabled by default,
 Sparkle system profiling is disabled, and the manual DMG flow remains available
 as a fallback.
@@ -85,7 +87,7 @@ Manual update fallback:
 
 Clean-Mac Finder install/update proof remains useful external validation when a
 separate clean Mac is available. Future update proof should validate Sparkle
-from 1.0.7 to 1.0.8.
+from 1.0.8 to 1.0.9.
 
 ## Privacy Boundaries
 

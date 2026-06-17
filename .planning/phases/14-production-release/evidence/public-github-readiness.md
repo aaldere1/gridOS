@@ -1,15 +1,15 @@
 # gridOS public GitHub readiness
 
-Date: 2026-06-16
-Last validated: 2026-06-16
+Date: 2026-06-17
+Last validated: 2026-06-17
 Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PASS for final v1.0.8 GitHub publication.
+PASS for final v1.0.9 GitHub publication.
 
 The source-available proprietary repository posture is already public and
-acceptable. The 1.0.8 artifact is signed, notarized, stapled, Gatekeeper
+acceptable. The 1.0.9 artifact is signed, notarized, stapled, Gatekeeper
 accepted, mounted from the final DMG for artifact proof, and covered by a signed
 Sparkle appcast.
 
@@ -19,20 +19,17 @@ permission from the copyright holder.
 
 ## Source and CI
 
-- Direct `xcodebuild build test`: PASS after the 1.0.8 terminal jitter and
-  pasteboard shortcut changes.
-- `scripts/ci-build-test.sh`: PASS after the 1.0.8 release commit.
-- GitHub Actions CI run `27652514707`: PASS on `deed416`.
-- `git diff --check`: PASS after the 1.0.8 release-script/doc evidence edits.
-- Current public docs now identify 1.0.8 as the current release.
+- `scripts/ci-build-test.sh`: PASS after the 1.0.9 source commit.
+- `git diff --check`: PASS after the 1.0.9 release-script/doc evidence edits.
+- Current public docs now identify 1.0.9 as the current release.
 - Repository posture is documented as source-available proprietary, not open
   source.
 
 ## Artifact Checks
 
-- DMG SHA-256: `6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346`.
-- ZIP SHA-256: `34e02e501362e0fcd797987f85663b980827300238eb9801e05123e9f0d7c1e2`.
-- Extracted app tree SHA-256: `6ddef1c6e063ca7c4abe143f658f459e9b72793ae99f9b9df0c8d95af469b513`.
+- DMG SHA-256: `e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633`.
+- ZIP SHA-256: `f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e`.
+- Extracted app tree SHA-256: `5215282e064aa3305a964bdc2acfa0da2568649c4bc0065c5210a07676acdb08`.
 - `codesign --verify --deep --strict --verbose=2` against the mounted app:
   PASS.
 - `spctl --assess --type execute --verbose=4` against the mounted app: PASS,
@@ -45,8 +42,6 @@ permission from the copyright holder.
   symlink.
 - ZIP extraction with `ditto` preserved strict codesign, stapler validation, and
   Gatekeeper assessment: PASS.
-- GitHub release asset readback matched the local DMG and ZIP SHA-256 digests:
-  PASS.
 
 ## Visual Proof
 
@@ -67,24 +62,24 @@ permission from the copyright holder.
 
 ## Sparkle Appcast
 
-- `appcast.xml`: generated for `gridOS 1.0.8` build `16`.
+- `appcast.xml`: generated for `gridOS 1.0.9` build `17`.
 - `xmllint --noout appcast.xml`: PASS.
 - Feed Ed25519 signature verification against
   `nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=`: PASS.
 - Feed signature:
-  `8/jY42AE8dUrnVUWsB1LDix435EWYhplctNpo/egXW+XuYeU0xxKp/2Qn5HMWt7z3ELCzIcdx5IGn243Qv/gCg==`.
+  `g4+jOhanczeBHZFAjhBB6pskeZy76YmafZn3G7MZphMRfPLdsH/sbqRwxMh/5gaVNJFQjPH5zXnNAjbs6sQZAA==`.
 - DMG enclosure Ed25519 signature verification against
-  `build/release/production/gridOS-1.0.8-16-c60fecb.dmg`: PASS.
+  `build/release/production/gridOS-1.0.9-17-2d2fe8d.dmg`: PASS.
 - DMG enclosure signature:
-  `YWoHB3TSqIDGxRcCEE8GISHa4xbwAHVYJXtq6JhEep5Zmdc2SzaNThSjyHltxJHYqv145A3xEyXeRiFwgDTyBg==`.
-- Appcast enclosure length `8913473` matches the local DMG.
+  `sSa4rWUS6+Ba+9MVueL0vASK5yOqgY1NY1nwWWEJ6i6NIcoUwU3tHS4Q2w7Pjzgn/9JE81KEKPSVr1KdEHWTCg==`.
+- Appcast enclosure length `9051257` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
-  `6884374556bb43ed2895ab9ae2a0486309d52042e069deb28b9d49e88a08e346`.
-- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
+  `e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633`.
 
 ## Remaining External Validation
 
+- Publish the GitHub release assets and record asset readback proof.
 - Separate clean-Mac Finder/Gatekeeper install proof remains useful external
   validation when a separate clean Mac is available.
-- Separate clean-Mac Sparkle update proof from 1.0.7 to 1.0.8 remains useful
+- Separate clean-Mac Sparkle update proof from 1.0.8 to 1.0.9 remains useful
   external validation when a separate clean Mac is available.
