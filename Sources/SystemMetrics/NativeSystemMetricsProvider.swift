@@ -351,15 +351,12 @@ public struct NativeSystemMetricsProvider: Sendable {
             return lhs.cpuPercent > rhs.cpuPercent
         }
         let topProcesses = Array(sortedMetrics.prefix(visibleLimit))
-        let retainedSampleLimit = max(visibleLimit * 8, visibleLimit)
-        let retainedPIDs = Set(sortedMetrics.prefix(retainedSampleLimit).map(\.pid))
-        let boundedSamples = samples.filter { retainedPIDs.contains($0.key) }
 
         guard !topProcesses.isEmpty else {
-            return TopProcessesReading(metrics: .unavailable(reason: "No process data"), samples: boundedSamples)
+            return TopProcessesReading(metrics: .unavailable(reason: "No process data"), samples: samples)
         }
 
-        return TopProcessesReading(metrics: .available(topProcesses), samples: boundedSamples)
+        return TopProcessesReading(metrics: .available(topProcesses), samples: samples)
     }
 
     private func processMetrics(
