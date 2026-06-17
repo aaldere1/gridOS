@@ -6,7 +6,7 @@ Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PASS for prepared v1.0.10 GitHub publication.
+PASS for final v1.0.10 GitHub publication.
 
 The source-available proprietary repository posture is already public and
 acceptable. The 1.0.10 artifact is signed, notarized, stapled, Gatekeeper
@@ -20,7 +20,7 @@ permission from the copyright holder.
 ## Source and CI
 
 - `scripts/ci-build-test.sh`: PASS after the 1.0.10 source commit.
-- GitHub Actions CI run: pending until the release-prep commit is pushed.
+- GitHub Actions CI run `27722694434`: PASS on `4d58dd7`.
 - `git diff --check`: PASS after the 1.0.10 release-script/doc evidence edits.
 - Current public docs now identify 1.0.10 as the current release.
 - Repository posture is documented as source-available proprietary, not open
@@ -43,7 +43,8 @@ permission from the copyright holder.
   symlink.
 - ZIP extraction with `ditto` preserved strict codesign, stapler validation, and
   Gatekeeper assessment: PASS.
-- GitHub release asset readback: pending until publication.
+- GitHub release asset readback matched the local DMG, ZIP, and appcast
+  SHA-256 digests: PASS.
 
 ## Visual Proof
 
@@ -77,15 +78,14 @@ permission from the copyright holder.
 - Appcast enclosure length `9086688` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
   `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`.
-- Raw `main` appcast fetched from GitHub: pending until the release-prep commit
-  is pushed.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## GitHub Release Readback
 
 - Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.10
-- Draft: pending.
-- Prerelease: pending.
-- Published at: pending.
+- Draft: false.
+- Prerelease: false.
+- Published at: 2026-06-17T22:05:52Z.
 - DMG asset digest:
   `sha256:5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`.
 - ZIP asset digest:

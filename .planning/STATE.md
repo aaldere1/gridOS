@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Production direct 1.0.10 prepared; Sparkle appcast updated; GitHub publication pending
-last_updated: "2026-06-17T21:59:00Z"
+status: Production direct 1.0.10 published; Sparkle appcast updated; GitHub CI passed
+last_updated: "2026-06-17T22:06:00Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 14 - Production direct 1.0.10 and public GitHub release readiness
 
 ## Current status
 
-gridOS is prepared for production direct version 1.0.10 build 18. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.10-18-26f01e7.dmg`, SHA-256 `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, mounted-DMG smoke checked, and covered by a regenerated signed Sparkle appcast. Version 1.0.10 adds an in-app update availability badge, clearer Software Updates actions, and retained top-process CPU baselines for steadier long-running metrics while keeping the 1.0.9 Command-T pane workflow, username-free README screenshots, DeepSeek/xAI support, and Sparkle automatic updates for the direct-download lane. The GitHub repository remains public as source-available proprietary code. GitHub release publication, GitHub Actions readback, separate clean-Mac Finder/Gatekeeper install proof, and Sparkle update proof from 1.0.9 to 1.0.10 remain validation tasks.
+gridOS is now on production direct version 1.0.10 build 18. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.10-18-26f01e7.dmg`, SHA-256 `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, mounted-DMG smoke checked, published on GitHub release `v1.0.10`, covered by matching GitHub asset readback, and covered by passing GitHub Actions CI run `27722694434`. Version 1.0.10 adds an in-app update availability badge, clearer Software Updates actions, and retained top-process CPU baselines for steadier long-running metrics while keeping the 1.0.9 Command-T pane workflow, username-free README screenshots, DeepSeek/xAI support, and Sparkle automatic updates for the direct-download lane. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.9 to 1.0.10 remain external validation tasks.
 
 ## Decisions made
 
@@ -457,4 +457,5 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - 2026-06-17: Published GitHub release `v1.0.9` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, and passing GitHub Actions CI run `27707174758`.
 - Stopped at: Production direct 1.0.9 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.8-to-1.0.9 Sparkle update proof remain external validation.
 - 2026-06-17: Prepared production direct 1.0.10 with visible update availability, clearer Software Updates controls, retained top-process CPU baselines, signed/notarized `gridOS-1.0.10-18-26f01e7.dmg`, stapled ZIP fallback, v1.0.10 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
-- Stopped at: Production direct 1.0.10 is prepared; GitHub release publication/readback, GitHub Actions proof, clean-Mac Finder/Gatekeeper UAT, and 1.0.9-to-1.0.10 Sparkle update proof remain validation tasks.
+- 2026-06-17: Published GitHub release `v1.0.10` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, and passing GitHub Actions CI run `27722694434`.
+- Stopped at: Production direct 1.0.10 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.9-to-1.0.10 Sparkle update proof remain external validation.
