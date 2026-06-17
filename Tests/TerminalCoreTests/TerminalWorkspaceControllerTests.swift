@@ -87,11 +87,13 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         let secondary = TerminalRoutingSpy()
         workspace.controller(for: "primary").attach(primary)
         workspace.controller(for: "pane-b").attach(secondary)
+        let secondaryController = workspace.controller(for: "pane-b")
 
         workspace.terminateAllPanes()
 
         XCTAssertEqual(primary.terminateCount, 1)
         XCTAssertEqual(secondary.terminateCount, 1)
+        XCTAssertFalse(workspace.controller(for: "pane-b") === secondaryController)
     }
 
     func testWorkingDirectoryActivityUpdatesOnlySourcePane() {

@@ -37,7 +37,9 @@ struct RootView: View {
     )
     @State private var systemSnapshot: SystemMetricsSnapshot = SystemMetricsPreviewData.snapshot
     @State private var workspaceSaveTask: Task<Void, Never>?
+    @State private var commandPaletteProviderStatusTask: Task<Void, Never>?
     @State private var commandPaletteProviderStatus: CommandPaletteProviderStatus = .unknown
+    @ObservedObject private var softwareUpdateController = SoftwareUpdateController.shared
 
     init(
         processConfiguration: TerminalSessionConfiguration = Self.defaultProcessConfiguration,
@@ -90,6 +92,9 @@ struct RootView: View {
                     version: GridOSProduct.version,
                     reducedMotion: effectiveReducedMotion,
                     theme: visualTheme,
+                    availableUpdate: softwareUpdateController.availability.availableUpdate,
+                    canCheckForUpdates: softwareUpdateController.canCheckForUpdates,
+                    onShowUpdate: softwareUpdateController.checkForUpdates,
                     onCycleVisualMode: cycleVisualMode
                 )
 
@@ -204,11 +209,14 @@ struct RootView: View {
         }
         .onDisappear {
             AppTerminationGuard.shared.shouldTerminateHandler = nil
+            commandPaletteProviderStatusTask?.cancel()
+            commandPaletteProviderStatusTask = nil
             saveWorkspaceNow()
             workspaceController.terminateAllPanes()
         }
         .task {
             ensureInstallSeed()
+            softwareUpdateController.refreshAvailabilityIfNeeded()
             #if DEBUG
             startPhase7SmokeIfNeeded()
             startPhase8SmokeIfNeeded()
@@ -404,13 +412,24 @@ struct RootView: View {
         let providerID = commandIntelligenceProviderID
         let providerName = CommandIntelligenceModelCatalog.descriptor(for: providerID).displayName
 
-        Task { @MainActor in
+        commandPaletteProviderStatusTask?.cancel()
+        commandPaletteProviderStatusTask = Task { @MainActor in
             do {
                 let hasKey = try await KeychainCommandCredentialStore().apiKey(for: providerID) != nil
+                guard !Task.isCancelled, providerID == commandIntelligenceProviderID else {
+                    return
+                }
+
                 commandPaletteProviderStatus = hasKey ? .configured : .missing(providerName: providerName)
             } catch {
+                guard !Task.isCancelled, providerID == commandIntelligenceProviderID else {
+                    return
+                }
+
                 commandPaletteProviderStatus = .unknown
             }
+
+            commandPaletteProviderStatusTask = nil
         }
     }
 
@@ -593,6 +612,9 @@ private struct AppFrameHeader: View {
     let version: String
     let reducedMotion: Bool
     let theme: VisualTheme
+    let availableUpdate: SoftwareUpdateInfo?
+    let canCheckForUpdates: Bool
+    let onShowUpdate: @MainActor () -> Void
     let onCycleVisualMode: @MainActor () -> Void
 
     var body: some View {
@@ -641,11 +663,64 @@ private struct AppFrameHeader: View {
             .help("Cycle Visual Style")
             .accessibilityLabel("Cycle Visual Style")
 
+            if let availableUpdate {
+                HeaderUpdateButton(
+                    update: availableUpdate,
+                    canCheckForUpdates: canCheckForUpdates,
+                    theme: theme,
+                    action: onShowUpdate
+                )
+            }
+
             Text("v\(version)")
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
                 .foregroundStyle(Color(theme.palette.primaryAccent).opacity(0.56))
+                .lineLimit(1)
         }
         .padding(.leading, 72)
+    }
+}
+
+private struct HeaderUpdateButton: View {
+    let update: SoftwareUpdateInfo
+    let canCheckForUpdates: Bool
+    let theme: VisualTheme
+    let action: @MainActor () -> Void
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "arrow.down.circle.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .accessibilityHidden(true)
+
+                Text("UPDATE")
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+
+                Text("v\(update.displayVersion)")
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+            }
+            .lineLimit(1)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(Color(theme.palette.statusAccent).opacity(canCheckForUpdates ? 0.82 : 0.30))
+            )
+            .overlay {
+                Capsule()
+                    .stroke(Color(theme.palette.statusAccent).opacity(0.90), lineWidth: 1)
+                    .accessibilityHidden(true)
+            }
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(Color(theme.palette.background).opacity(canCheckForUpdates ? 0.94 : 0.58))
+        .disabled(!canCheckForUpdates)
+        .help("Update to gridOS \(update.displayName)")
+        .accessibilityLabel("Update available")
+        .accessibilityValue("gridOS \(update.displayName)")
     }
 }
 

@@ -334,23 +334,32 @@ public struct NativeSystemMetricsProvider: Sendable {
             metrics.append(process.metrics)
         }
 
-        let topProcesses = Array(
-            metrics
-                .sorted { lhs, rhs in
-                    if lhs.cpuPercent == rhs.cpuPercent {
-                        return lhs.residentMemoryBytes > rhs.residentMemoryBytes
-                    }
+        return Self.boundedTopProcessReading(metrics: metrics, samples: samples, limit: limit)
+    }
 
-                    return lhs.cpuPercent > rhs.cpuPercent
-                }
-                .prefix(max(0, limit))
-        )
+    static func boundedTopProcessReading(
+        metrics: [TopProcessMetrics],
+        samples: [Int32: TopProcessCounterSample],
+        limit: Int
+    ) -> TopProcessesReading {
+        let visibleLimit = max(0, limit)
+        let sortedMetrics = metrics.sorted { lhs, rhs in
+            if lhs.cpuPercent == rhs.cpuPercent {
+                return lhs.residentMemoryBytes > rhs.residentMemoryBytes
+            }
+
+            return lhs.cpuPercent > rhs.cpuPercent
+        }
+        let topProcesses = Array(sortedMetrics.prefix(visibleLimit))
+        let retainedSampleLimit = max(visibleLimit * 8, visibleLimit)
+        let retainedPIDs = Set(sortedMetrics.prefix(retainedSampleLimit).map(\.pid))
+        let boundedSamples = samples.filter { retainedPIDs.contains($0.key) }
 
         guard !topProcesses.isEmpty else {
-            return TopProcessesReading(metrics: .unavailable(reason: "No process data"), samples: samples)
+            return TopProcessesReading(metrics: .unavailable(reason: "No process data"), samples: boundedSamples)
         }
 
-        return TopProcessesReading(metrics: .available(topProcesses), samples: samples)
+        return TopProcessesReading(metrics: .available(topProcesses), samples: boundedSamples)
     }
 
     private func processMetrics(

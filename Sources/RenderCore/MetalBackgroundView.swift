@@ -129,10 +129,11 @@ public struct MetalBackgroundView: NSViewRepresentable {
             }
 
             animationTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
-                Task { @MainActor [weak self] in
+                MainActor.assumeIsolated {
                     self?.tick()
                 }
             }
+            animationTimer?.tolerance = 1.0 / 120.0
         }
 
         private func tick() {

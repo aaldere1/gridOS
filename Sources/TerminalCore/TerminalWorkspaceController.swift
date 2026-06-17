@@ -164,6 +164,7 @@ public final class TerminalWorkspaceController: ObservableObject {
         for controller in controllersByPaneID.values {
             controller.terminate()
         }
+        controllersByPaneID.removeAll()
     }
 
     public func handleActivity(_ event: TerminalActivityEvent, from paneID: TerminalPaneID) {

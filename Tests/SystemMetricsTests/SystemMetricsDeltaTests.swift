@@ -73,4 +73,32 @@ final class SystemMetricsDeltaTests: XCTestCase {
         XCTAssertEqual(hostCPU.usagePercent, 100, accuracy: 0.001)
         XCTAssertEqual(processCPU, 200, accuracy: 0.001)
     }
+
+    func testTopProcessCounterSamplesStayBoundedToDisplayCandidates() {
+        let metrics = (1...500).map { index in
+            TopProcessMetrics(
+                pid: Int32(index),
+                name: "process-\(index)",
+                cpuPercent: Double(index % 23),
+                residentMemoryBytes: UInt64(index * 1_024)
+            )
+        }
+        let samples = Dictionary(
+            uniqueKeysWithValues: metrics.map { metric in
+                (
+                    metric.pid,
+                    TopProcessCounterSample(pid: metric.pid, totalTime: UInt64(metric.pid) * 1_000)
+                )
+            }
+        )
+
+        let reading = NativeSystemMetricsProvider.boundedTopProcessReading(
+            metrics: metrics,
+            samples: samples,
+            limit: 6
+        )
+
+        XCTAssertEqual(reading.metrics.value?.count, 6)
+        XCTAssertLessThanOrEqual(reading.samples.count, 48)
+    }
 }
