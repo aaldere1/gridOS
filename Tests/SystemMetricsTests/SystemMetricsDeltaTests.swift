@@ -74,7 +74,7 @@ final class SystemMetricsDeltaTests: XCTestCase {
         XCTAssertEqual(processCPU, 200, accuracy: 0.001)
     }
 
-    func testTopProcessCounterSamplesStayBoundedToDisplayCandidates() {
+    func testTopProcessCounterSamplesRetainAllCurrentProcessBaselines() {
         let metrics = (1...500).map { index in
             TopProcessMetrics(
                 pid: Int32(index),
@@ -99,6 +99,7 @@ final class SystemMetricsDeltaTests: XCTestCase {
         )
 
         XCTAssertEqual(reading.metrics.value?.count, 6)
-        XCTAssertLessThanOrEqual(reading.samples.count, 48)
+        XCTAssertEqual(reading.samples.count, metrics.count)
+        XCTAssertEqual(Set(reading.samples.keys), Set(metrics.map(\.pid)))
     }
 }
