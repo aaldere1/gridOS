@@ -75,11 +75,23 @@
     "ciBuildTest": "pass",
     "scope": "Command-T pane creation, Control-Tab/Control-Shift-Tab pane traversal, drag-to-rearrange pane headers, and active-pane behavior covered by unit tests."
   },
+  "githubRelease": {
+    "status": "published",
+    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.9",
+    "assets": {
+      "dmgDigest": "sha256:e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633",
+      "zipDigest": "sha256:f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e",
+      "appcastDigest": "sha256:abcb1c94aca82479dda8c4dc805be3a6b3953b86e04b91b8c6cdfb96aeffe9df"
+    },
+    "rawMainAppcastDiff": "pass",
+    "githubActionsRun": "27707174758",
+    "githubActionsConclusion": "success"
+  },
   "localUpdateProof": {
     "status": "historical-pass",
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
   "releaseNotes": "docs/release-notes/v1.0.9.md",
-  "remainingValidation": "Publish the GitHub release assets, then run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.8 to 1.0.9."
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.8 to 1.0.9."
 }

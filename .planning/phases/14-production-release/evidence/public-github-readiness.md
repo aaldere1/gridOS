@@ -20,6 +20,7 @@ permission from the copyright holder.
 ## Source and CI
 
 - `scripts/ci-build-test.sh`: PASS after the 1.0.9 source commit.
+- GitHub Actions CI run `27707174758`: PASS on `fbcf927`.
 - `git diff --check`: PASS after the 1.0.9 release-script/doc evidence edits.
 - Current public docs now identify 1.0.9 as the current release.
 - Repository posture is documented as source-available proprietary, not open
@@ -42,6 +43,8 @@ permission from the copyright holder.
   symlink.
 - ZIP extraction with `ditto` preserved strict codesign, stapler validation, and
   Gatekeeper assessment: PASS.
+- GitHub release asset readback matched the local DMG, ZIP, and appcast
+  SHA-256 digests: PASS.
 
 ## Visual Proof
 
@@ -75,10 +78,23 @@ permission from the copyright holder.
 - Appcast enclosure length `9051257` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
   `e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633`.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
+
+## GitHub Release Readback
+
+- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.9
+- Draft: false.
+- Prerelease: false.
+- Published at: 2026-06-17T17:23:39Z.
+- DMG asset digest:
+  `sha256:e112a0d16c6e350579cee44c475bc9e0916ab2a4768f7c7b3fb48cc4a2048633`.
+- ZIP asset digest:
+  `sha256:f211ecef83d26f09b98258e1d40884c6dfb8382e928143464fe04e4d42e40f6e`.
+- Appcast asset digest:
+  `sha256:abcb1c94aca82479dda8c4dc805be3a6b3953b86e04b91b8c6cdfb96aeffe9df`.
 
 ## Remaining External Validation
 
-- Publish the GitHub release assets and record asset readback proof.
 - Separate clean-Mac Finder/Gatekeeper install proof remains useful external
   validation when a separate clean Mac is available.
 - Separate clean-Mac Sparkle update proof from 1.0.8 to 1.0.9 remains useful
