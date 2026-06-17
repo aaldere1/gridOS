@@ -23,6 +23,13 @@ public enum TerminalSplitAxis: String, Codable, Equatable, Sendable {
     case vertical
 }
 
+public enum TerminalPanePlacement: String, Equatable, Sendable {
+    case before
+    case after
+    case above
+    case below
+}
+
 public indirect enum TerminalPaneLayout: Codable, Equatable, Sendable {
     case pane(TerminalPaneID)
     case split(axis: TerminalSplitAxis, fraction: Double, first: TerminalPaneLayout, second: TerminalPaneLayout)
@@ -284,6 +291,34 @@ public struct TerminalWorkspaceState: Equatable, Sendable {
     }
 
     @discardableResult
+    public mutating func movePane(
+        _ sourcePaneID: TerminalPaneID,
+        relativeTo targetPaneID: TerminalPaneID,
+        placement: TerminalPanePlacement
+    ) -> Bool {
+        guard sourcePaneID != targetPaneID,
+              panesByID[sourcePaneID] != nil,
+              panesByID[targetPaneID] != nil,
+              layout.contains(sourcePaneID),
+              layout.contains(targetPaneID),
+              let compactedLayout = layout.removingPane(sourcePaneID),
+              compactedLayout.contains(targetPaneID) else {
+            return false
+        }
+
+        let replacement = TerminalPaneLayout.split(
+            axis: placement.splitAxis,
+            fraction: TerminalPaneLayout.clampedFraction(0.50),
+            first: placement.placesSourceFirst ? .pane(sourcePaneID) : .pane(targetPaneID),
+            second: placement.placesSourceFirst ? .pane(targetPaneID) : .pane(sourcePaneID)
+        )
+
+        layout = compactedLayout.replacingPane(targetPaneID, with: replacement)
+        activePaneID = sourcePaneID
+        return true
+    }
+
+    @discardableResult
     public mutating func closeActivePane() -> TerminalPaneID? {
         guard panesByID.count > 1,
               let updatedLayout = layout.removingPane(activePaneID) else {
@@ -361,5 +396,25 @@ public struct TerminalWorkspaceState: Equatable, Sendable {
 
         let nextIndex = (currentIndex + offset + paneIDs.count) % paneIDs.count
         activePaneID = paneIDs[nextIndex]
+    }
+}
+
+private extension TerminalPanePlacement {
+    var splitAxis: TerminalSplitAxis {
+        switch self {
+        case .before, .after:
+            return .horizontal
+        case .above, .below:
+            return .vertical
+        }
+    }
+
+    var placesSourceFirst: Bool {
+        switch self {
+        case .before, .above:
+            return true
+        case .after, .below:
+            return false
+        }
     }
 }

@@ -81,6 +81,47 @@ final class TerminalWorkspaceModelTests: XCTestCase {
         XCTAssertEqual(state.activePaneID, "pane-c")
     }
 
+    func testMovePanePlacesSourceRelativeToTargetAndKeepsDescriptors() {
+        var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
+        state.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        state.splitActivePane(axis: .vertical, newPaneID: "pane-c")
+
+        XCTAssertTrue(state.movePane("primary", relativeTo: "pane-c", placement: .after))
+
+        XCTAssertEqual(state.layout.paneIDsInVisualOrder, ["pane-b", "pane-c", "primary"])
+        XCTAssertEqual(state.activePaneID, "primary")
+        XCTAssertEqual(state.panesByID["primary"]?.configuration.workingDirectory, "/Users/test")
+        XCTAssertEqual(state.panesByID["pane-b"]?.configuration.workingDirectory, "/Users/test")
+        XCTAssertEqual(state.panesByID["pane-c"]?.configuration.workingDirectory, "/Users/test")
+    }
+
+    func testMovePaneCanPlaceSourceAboveTarget() {
+        var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
+        state.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        XCTAssertTrue(state.movePane("pane-b", relativeTo: "primary", placement: .above))
+
+        guard case .split(let axis, _, let first, let second) = state.layout else {
+            return XCTFail("Expected split layout")
+        }
+        XCTAssertEqual(axis, .vertical)
+        XCTAssertEqual(first.paneIDsInVisualOrder, ["pane-b"])
+        XCTAssertEqual(second.paneIDsInVisualOrder, ["primary"])
+        XCTAssertEqual(state.activePaneID, "pane-b")
+    }
+
+    func testMovePaneRejectsSameOrMissingPane() {
+        var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
+        state.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let layoutBefore = state.layout
+
+        XCTAssertFalse(state.movePane("pane-b", relativeTo: "pane-b", placement: .after))
+        XCTAssertFalse(state.movePane("missing", relativeTo: "primary", placement: .after))
+
+        XCTAssertEqual(state.layout, layoutBefore)
+        XCTAssertEqual(state.activePaneID, "pane-b")
+    }
+
     func testRepeatedSplitsSupportMoreThanThreePanes() {
         var state = TerminalWorkspaceState(defaultConfiguration: fixtureConfiguration())
 

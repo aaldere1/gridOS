@@ -96,6 +96,12 @@ private struct TerminalCommands: Commands {
 
             Divider()
 
+            Button("New Terminal Pane") {
+                terminalWorkspaceCommands?.splitRight()
+            }
+            .keyboardShortcut("t", modifiers: [.command])
+            .disabled(terminalWorkspaceCommands == nil)
+
             Button("Split Right") {
                 terminalWorkspaceCommands?.splitRight()
             }

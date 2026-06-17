@@ -171,6 +171,22 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(workspace.state.recentDirectories.first, "/Users/test/Project")
     }
 
+    func testMovePaneUpdatesLayoutAndFocusesMovedPane() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        XCTAssertTrue(workspace.movePane("primary", relativeTo: "pane-b", placement: .after))
+
+        XCTAssertEqual(workspace.state.layout.paneIDsInVisualOrder, ["pane-b", "primary"])
+        XCTAssertEqual(workspace.activePaneID, "primary")
+        XCTAssertEqual(primary.focusRequestCount, 1)
+        XCTAssertEqual(secondary.focusRequestCount, 0)
+    }
+
     func testResizeActivePaneAdjustsMatchingSplitFraction() {
         let workspace = fixtureWorkspace()
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")

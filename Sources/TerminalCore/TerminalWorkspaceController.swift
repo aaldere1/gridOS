@@ -51,6 +51,20 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     @discardableResult
+    public func movePane(
+        _ sourcePaneID: TerminalPaneID,
+        relativeTo targetPaneID: TerminalPaneID,
+        placement: TerminalPanePlacement
+    ) -> Bool {
+        guard state.movePane(sourcePaneID, relativeTo: targetPaneID, placement: placement) else {
+            return false
+        }
+
+        focusActivePane()
+        return true
+    }
+
+    @discardableResult
     public func closeActivePane() -> Bool {
         guard state.panesByID.count > 1 else {
             return false
