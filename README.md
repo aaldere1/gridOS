@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.10/gridOS-1.0.10-18-26f01e7.dmg"><strong>Download v1.0.10 DMG</strong></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.11/gridOS-1.0.11-19-a3fb5ec.dmg"><strong>Download v1.0.11 DMG</strong></a>
   &nbsp;|&nbsp;
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.10">Release</a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.11">Release</a>
   &nbsp;|&nbsp;
-  <a href="docs/release-notes/v1.0.10.md">Notes</a>
+  <a href="docs/release-notes/v1.0.11.md">Notes</a>
   &nbsp;|&nbsp;
   <a href="docs/security-privacy.md">Security and Privacy</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.10"><img alt="Release v1.0.10" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.11"><img alt="Release v1.0.11" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
   <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-black">
   <img alt="Apple Silicon required" src="https://img.shields.io/badge/Apple%20Silicon-required-black">
   <img alt="License: proprietary" src="https://img.shields.io/badge/license-proprietary-lightgrey">
@@ -48,19 +48,19 @@ The point is a beautiful command workspace that stays careful with real work.
 
 | Field | Value |
 | --- | --- |
-| Version | `1.0.10` |
-| Build | `18` |
+| Version | `1.0.11` |
+| Build | `19` |
 | Platform | macOS 14 or newer, Apple Silicon |
 | Distribution | Developer ID signed, notarized direct-download DMG with Sparkle automatic updates |
-| Release page | [`v1.0.10`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.10) |
-| DMG SHA-256 | `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1` |
+| Release page | [`v1.0.11`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.11) |
+| DMG SHA-256 | `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6` |
 
-Version 1.0.10 is the update and stability release: gridOS can surface an
-available-update badge in the header, Settings can check or start the Sparkle
-update flow, and top-process CPU baselines are retained so long-running local
-metrics stay steadier. It keeps the 1.0.9 Command-T panes, Control-Tab
-traversal, drag-to-rearrange pane headers, terminal jitter fixes, screenshot
-OCR, and DeepSeek/xAI provider support.
+Version 1.0.11 is the terminal workflow polish release: copy and paste now work
+naturally between terminal panes, clicked panes become the active target for
+Terminal menu commands, and paste still flows through SwiftTerm's native path.
+It keeps the 1.0.10 update affordance, steadier metrics, Command-T panes,
+Control-Tab traversal, drag-to-rearrange pane headers, screenshot OCR, and
+DeepSeek/xAI provider support.
 
 ## Actual Screenshots
 
@@ -110,7 +110,7 @@ Command-K is designed as a guarded command surface, not a magic text box.
 
 ## Install
 
-1. Download [`gridOS-1.0.10-18-26f01e7.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.10/gridOS-1.0.10-18-26f01e7.dmg).
+1. Download [`gridOS-1.0.11-19-a3fb5ec.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.11/gridOS-1.0.11-19-a3fb5ec.dmg).
 2. Open the DMG.
 3. Drag `gridOS.app` into `/Applications`.
 4. Eject the DMG.
@@ -135,8 +135,8 @@ For manual updates:
 5. Launch from Finder and confirm the visible version.
 
 Local replacement proof has passed from 1.0.4 build 12 to 1.0.5 build 13.
-Version 1.0.10 is prepared for the signed Sparkle appcast; clean-Mac install and
-Sparkle update proof from 1.0.9 to 1.0.10 remain useful external validation
+Version 1.0.11 is prepared for the signed Sparkle appcast; clean-Mac install and
+Sparkle update proof from 1.0.10 to 1.0.11 remain useful external validation
 items.
 
 ## Privacy Boundaries
@@ -159,20 +159,21 @@ security posture.
 
 ## Verification
 
-The 1.0.10 release has recorded proof for the direct-download lane:
+The 1.0.11 release has recorded proof for the direct-download lane:
 
 - App and DMG signing.
 - Notarization and stapler validation.
 - Gatekeeper assessment.
 - Strict codesign verification.
 - Mounted DMG layout and artifact assessment.
-- Version `1.0.10` build `18` bundle check.
+- Version `1.0.11` build `19` bundle check.
+- Cross-pane terminal copy/paste and active-pane menu routing tests.
 - Command-T pane creation, Control-Tab traversal, and drag-to-rearrange pane tests.
 - AI Command Helper, screenshot drop zone, and Settings path inspection.
 - Sparkle updater controls and signed appcast generation.
 - DMG drag-to-Applications layout inspection.
 - ZIP extraction proof with strict codesign and Gatekeeper execution assessment.
-- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.10 automatic updates now available for future releases.
+- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.11 automatic updates now available for future releases.
 
 The release checklist lives in
 [`docs/production-direct-release.md`](docs/production-direct-release.md).
@@ -194,8 +195,8 @@ revision so the DMG, ZIP, and manifest point at a stable source commit.
 
 ## Next Polish
 
-- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.10 DMG.
-- Prove clean-Mac Sparkle update flow from 1.0.9 to 1.0.10.
+- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.11 DMG.
+- Prove clean-Mac Sparkle update flow from 1.0.10 to 1.0.11.
 - Collect first-user feedback on whether AI Command Helper feels useful enough for daily terminal work.
 - Polish AI Command Helper result states based on that feedback.
 - Decide whether GitHub Releases stays the download surface or a small branded download page should front it.

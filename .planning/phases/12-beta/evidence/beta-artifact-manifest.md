@@ -1,21 +1,21 @@
 # Beta artifact manifest
 
-- Timestamp UTC: 2026-06-17T21:51:20Z
-- Source commit: 26f01e7
+- Timestamp UTC: 2026-06-18T12:54:49Z
+- Source commit: a3fb5ec
 - Bundle ID: com.aaldere1.gridos
-- Version: 1.0.10
-- Build: 18
-- ZIP basename: gridOS-1.0.10-18-26f01e7.zip
-- ZIP SHA-256: a5b6d670a7ab3949642a23c8c3305cb768dbbb916262f3557d271e04385e21c4
-- DMG basename: gridOS-1.0.10-18-26f01e7.dmg
-- DMG SHA-256 after notarization/stapling: 5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1
+- Version: 1.0.11
+- Build: 19
+- ZIP basename: gridOS-1.0.11-19-a3fb5ec.zip
+- ZIP SHA-256 after app stapling and re-packaging: c956322ff601d6538d748cae1a8025a646d488d079df8703cc5e99b0cb0ebf4d
+- DMG basename: gridOS-1.0.11-19-a3fb5ec.dmg
+- DMG SHA-256 before notarization/stapling: 5939a9464e256cbce2fd3e6c3655523a549bafc072bf0e4ea08ebfca03cf16b5
+- DMG SHA-256 after notarization/stapling: 1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6
 - DMG code signature: present
 - Signing identity: present
 - Development team: present
 - Hardened runtime: YES
 - Embedded Sparkle helpers: Developer ID signed with secure timestamps
 - Artifact path policy: local output directory only; no artifacts are stored under .planning.
-- Notarization command: scripts/notarize-beta-artifact.sh <local-output-dir>/gridOS-1.0.10-18-26f01e7.dmg
-- Verification command: scripts/verify-beta-artifact.sh <local-output-dir>/gridOS-1.0.10-18-26f01e7.dmg
+- Notarization command: scripts/notarize-beta-artifact.sh <local-output-dir>/gridOS-1.0.11-19-a3fb5ec.dmg
+- Verification command: scripts/verify-beta-artifact.sh <local-output-dir>/gridOS-1.0.11-19-a3fb5ec.dmg
 - Final distribution SHA-256 is recorded after stapling in .planning/phases/12-beta/beta-release-manifest.json and .planning/phases/12-beta/evidence/beta-artifact-verification.md.
-- Repack note: ZIP was rebuilt from the notarized/stapled archive app, and the DMG was rebuilt with that stapled app before final DMG notarization/stapling.

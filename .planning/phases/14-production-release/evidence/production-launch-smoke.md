@@ -1,12 +1,12 @@
 # Production launch-readiness smoke
 
-- Timestamp UTC: 2026-06-17T21:58:00Z
-- Artifact: build/release/production/gridOS-1.0.10-18-26f01e7.dmg
-- Artifact SHA-256: 5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1
-- Artifact size: 9086688 bytes
-- Source commit: 26f01e7
-- Version: 1.0.10
-- Build: 18
+- Timestamp UTC: 2026-06-18T13:02:00Z
+- Artifact: build/release/production/gridOS-1.0.11-19-a3fb5ec.dmg
+- Artifact SHA-256: 1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6
+- Artifact size: 9014868 bytes
+- Source commit: a3fb5ec
+- Version: 1.0.11
+- Build: 19
 - Bundle ID: com.aaldere1.gridos
 - Mounted proof path: sanitized mounted DMG root/gridOS.app
 - Result: PASS
@@ -14,7 +14,7 @@
 ## DMG Container
 
 ```text
-build/release/production/gridOS-1.0.10-18-26f01e7.dmg: accepted
+build/release/production/gridOS-1.0.11-19-a3fb5ec.dmg: accepted
 source=Notarized Developer ID
 stapler=PASS
 ```
@@ -36,11 +36,12 @@ codesign --verify --deep --strict --verbose=2 mounted DMG root/gridOS.app
 ## Version And Settings Sample
 
 ```text
-VERSION=1.0.10
-BUILD=18
+VERSION=1.0.11
+BUILD=19
 BUNDLE_ID=com.aaldere1.gridos
-DMG_SHA256=5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1
-APP_BUNDLE_SHA256=0efb8b232885fff498c4bf6109cbea98aeeb6fc606a8278e8e323df13b80886c
+DMG_SHA256=1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6
+DMG_APP_BUNDLE_SHA256=d03ad0b435427dd7b084f285d68f61c7ca3ab75487463d6ea2475b480a3fa29b
+ZIP_EXTRACTED_APP_BUNDLE_SHA256=78bc7a7749805c64043bce21bf1fea922bcdc3c5164bfe95b6bb3f5ae8cc816c
 SUFeedURL=https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml
 SUPublicEDKey=nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=
 SUEnableAutomaticChecks=true
@@ -58,9 +59,19 @@ APPLICATIONS_LINK=present
 BACKGROUND_FILE_COUNT=1
 ```
 
+## Launch Observation
+
+The app process launched from the mounted notarized DMG on the current Mac. A
+release one-shot `--cmd` marker was attempted for terminal smoke, but the marker
+was not written before timeout; this is treated as out of scope because
+`docs/release.md` identifies the `--cmd` terminal smoke as a Debug-build helper.
+The release artifact proof therefore relies on Gatekeeper, strict codesign,
+stapler validation, mounted-DMG layout, and unit coverage for terminal command
+routing.
+
 ## Public Screenshots
 
-The committed public README screenshots were inspected for the 1.0.10 release:
+The committed public README screenshots were inspected for the 1.0.11 release:
 
 - `docs/assets/readme/screenshots/gridos-hud-signal.png`: shows the Redline HUD Signal rail without terminal prompt, username, path, or private content.
 - `docs/assets/readme/screenshots/gridos-command-helper.png`: shows the AI Command Helper screenshot drop zone and local OCR messaging without terminal prompt, username, path, or private content.
@@ -78,14 +89,15 @@ enclosure signature against the public key embedded in the app.
 
 ## Terminal And Update Polish
 
-The 1.0.10 source changes were covered by `scripts/ci-build-test.sh`. The test
-suite includes Command-T pane creation, Control-Tab and Control-Shift-Tab pane
-traversal, drag-to-rearrange pane headers, active-pane paste/copy/select-all,
-font-size propagation, surface-update coverage, and top-process baseline
-retention.
+The 1.0.11 source changes were covered by `scripts/ci-build-test.sh`. The test
+suite includes cross-pane terminal copy/paste, clicked-pane active routing,
+Command-T pane creation, Control-Tab and Control-Shift-Tab pane traversal,
+drag-to-rearrange pane headers, active-pane paste/copy/select-all, font-size
+propagation, surface-update coverage, and top-process baseline retention.
 
 ## Cleanup
 
+- Mounted gridOS process cleanup: PASS
 - DMG detach status: PASS
 
 ## Notes

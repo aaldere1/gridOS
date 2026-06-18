@@ -1,16 +1,16 @@
 {
   "channel": "beta",
   "artifact": {
-    "name": "gridOS-1.0.10-18-26f01e7.dmg",
+    "name": "gridOS-1.0.11-19-a3fb5ec.dmg",
     "type": "dmg",
-    "sha256": "5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1"
+    "sha256": "1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6"
   },
-  "sha256": "5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1",
+  "sha256": "1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.10",
-  "build": "18",
-  "sourceCommit": "26f01e7",
-  "generatedAt": "2026-06-17T21:57:29Z",
+  "version": "1.0.11",
+  "build": "19",
+  "sourceCommit": "a3fb5ec",
+  "generatedAt": "2026-06-18T12:59:38Z",
   "notarization": {
     "status": "pass",
     "evidence": ".planning/phases/12-beta/evidence/beta-notarization.md"
