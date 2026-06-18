@@ -454,8 +454,12 @@ struct RootView: View {
 
     private func handleTerminalActivity(_ activity: TerminalActivityEvent, from paneID: TerminalPaneID) {
         workspaceController.handleActivity(activity, from: paneID)
-        if case .workingDirectoryChanged = activity {
+
+        switch activity {
+        case .focused, .workingDirectoryChanged:
             scheduleWorkspaceSave()
+        default:
+            break
         }
 
         guard let parameters = renderEventParameters(for: activity) else {
@@ -480,7 +484,7 @@ struct RootView: View {
             return (.terminalResize, 0.34)
         case .processStarted, .processTerminated:
             return (.processLifecycle, 0.44)
-        case .titleChanged, .workingDirectoryChanged:
+        case .focused, .titleChanged, .workingDirectoryChanged:
             return nil
         }
     }

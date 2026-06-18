@@ -1,3 +1,4 @@
+import AppKit
 import Combine
 import Foundation
 
@@ -8,6 +9,7 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
     func focusTerminal()
     func copySelection()
     func paste()
+    func pasteText(_ text: String)
     func selectAll()
     func clear()
     func reset()
@@ -17,10 +19,39 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
 }
 
 @MainActor
+protocol TerminalClipboard: AnyObject {
+    func readString() -> String?
+    func writeString(_ string: String)
+}
+
+@MainActor
+final class SystemTerminalClipboard: TerminalClipboard {
+    static let shared = SystemTerminalClipboard()
+
+    private init() {}
+
+    func readString() -> String? {
+        NSPasteboard.general.string(forType: .string)
+    }
+
+    func writeString(_ string: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(string, forType: .string)
+    }
+}
+
+@MainActor
 public final class TerminalInteractionController: ObservableObject {
     private var terminal: (any TerminalInteractionControllingTerminal)?
+    private let clipboard: any TerminalClipboard
 
-    public init() {}
+    public convenience init() {
+        self.init(clipboard: SystemTerminalClipboard.shared)
+    }
+
+    init(clipboard: any TerminalClipboard) {
+        self.clipboard = clipboard
+    }
 
     public func selectedText() -> String? {
         guard let selection = terminal?.getSelection(),
@@ -43,12 +74,27 @@ public final class TerminalInteractionController: ObservableObject {
         terminal?.focusTerminal()
     }
 
-    public func copySelection() {
-        terminal?.copySelection()
+    @discardableResult
+    public func copySelection() -> Bool {
+        guard let selection = terminal?.getSelection(),
+              !selection.isEmpty else {
+            return false
+        }
+
+        clipboard.writeString(selection)
+        return true
     }
 
-    public func paste() {
-        terminal?.paste()
+    @discardableResult
+    public func paste() -> Bool {
+        guard let text = clipboard.readString(),
+              !text.isEmpty else {
+            terminal?.paste()
+            return false
+        }
+
+        terminal?.pasteText(text)
+        return true
     }
 
     public func selectAll() {
