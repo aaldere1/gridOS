@@ -21,7 +21,7 @@ Channel: production-direct
 ## Proof
 
 - `scripts/ci-build-test.sh`: PASS
-- GitHub Actions CI run 27760536472 for PR #4: PASS
+- GitHub Actions CI run 27761563976: PASS
 - DMG code signature: PASS
 - DMG notarization: PASS
 - DMG notary submission ID: b1a8ce38-31d4-462b-a923-c7f2f5a0f556
@@ -37,6 +37,8 @@ Channel: production-direct
 - Embedded Sparkle helpers Developer ID signed with secure timestamps: PASS
 - Sparkle appcast generation: PASS
 - Sparkle appcast XML validation: PASS
+- GitHub release asset readback: PASS
+- Raw `main` appcast matches local `appcast.xml`: PASS
 - Terminal cross-pane clipboard and clicked-pane active routing tests: PASS
 - Terminal pane Command-T, Control-Tab, and drag layout tests: PASS
 - Terminal jitter reduction, active-pane pasteboard shortcuts, and top-process baseline tests: PASS

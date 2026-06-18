@@ -1,17 +1,17 @@
 # gridOS public GitHub readiness
 
-Date: 2026-06-17
-Last validated: 2026-06-17
+Date: 2026-06-18
+Last validated: 2026-06-18
 Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PASS for final v1.0.10 GitHub publication.
+PASS for final v1.0.11 GitHub publication.
 
-The source-available proprietary repository posture is already public and
-acceptable. The 1.0.10 artifact is signed, notarized, stapled, Gatekeeper
-accepted, mounted from the final DMG for artifact proof, and covered by a signed
-Sparkle appcast.
+The source-available proprietary repository posture is public and acceptable.
+The 1.0.11 artifact is signed, notarized, stapled, Gatekeeper accepted, mounted
+from the final DMG for artifact proof, uploaded to the public GitHub release,
+and covered by a signed Sparkle appcast that matches raw `main`.
 
 This is not an open-source license change. `LICENSE` still grants no public
 copying, modification, distribution, sublicensing, or use rights without written
@@ -19,18 +19,24 @@ permission from the copyright holder.
 
 ## Source and CI
 
-- `scripts/ci-build-test.sh`: PASS after the 1.0.10 source commit.
-- GitHub Actions CI run `27722694434`: PASS on `4d58dd7`.
-- `git diff --check`: PASS after the 1.0.10 release-script/doc evidence edits.
-- Current public docs now identify 1.0.10 as the current release.
+- `scripts/ci-build-test.sh`: PASS after the 1.0.11 source commit.
+- Pull request CI run `27760536472`: PASS for PR #4.
+- GitHub Actions CI run `27761563976`: PASS on release-prep commit `6f25f10`.
+- `git diff --check`: PASS after the 1.0.11 release-script/doc evidence edits.
+- Current public docs identify 1.0.11 as the current release.
 - Repository posture is documented as source-available proprietary, not open
   source.
 
 ## Artifact Checks
 
-- DMG SHA-256: `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`.
-- ZIP SHA-256: `a5b6d670a7ab3949642a23c8c3305cb768dbbb916262f3557d271e04385e21c4`.
-- Extracted app tree SHA-256: `0efb8b232885fff498c4bf6109cbea98aeeb6fc606a8278e8e323df13b80886c`.
+- DMG SHA-256:
+  `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
+- ZIP SHA-256:
+  `c956322ff601d6538d748cae1a8025a646d488d079df8703cc5e99b0cb0ebf4d`.
+- DMG app tree SHA-256:
+  `d03ad0b435427dd7b084f285d68f61c7ca3ab75487463d6ea2475b480a3fa29b`.
+- ZIP extracted app tree SHA-256:
+  `78bc7a7749805c64043bce21bf1fea922bcdc3c5164bfe95b6bb3f5ae8cc816c`.
 - `codesign --verify --deep --strict --verbose=2` against the mounted app:
   PASS.
 - `spctl --assess --type execute --verbose=4` against the mounted app: PASS,
@@ -65,37 +71,37 @@ permission from the copyright holder.
 
 ## Sparkle Appcast
 
-- `appcast.xml`: generated for `gridOS 1.0.10` build `18`.
+- `appcast.xml`: generated for `gridOS 1.0.11` build `19`.
 - `xmllint --noout appcast.xml`: PASS.
 - Feed Ed25519 signature verification against
   `nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=`: PASS.
 - Feed signature:
-  `dYSMubq7UsMpw83TKkGS51Uo5amH8xN0BmOtW2QsESyxDNjbQuREQCvI0A6ilkhWVMn7dJsxKM15LmFN4LcVCw==`.
+  `VYsgZ0IFL8Znq0e8hAvm5MlKg//RZleUhidCuw0ZtXMZ8QhujbDkTqZV/fGCCcEWxRl5fsMmmpp99UY0SUiQCg==`.
 - DMG enclosure Ed25519 signature verification against
-  `build/release/production/gridOS-1.0.10-18-26f01e7.dmg`: PASS.
+  `build/release/production/gridOS-1.0.11-19-a3fb5ec.dmg`: PASS.
 - DMG enclosure signature:
-  `SsYMVyBHd/SeFbiS8gVoer6skjwdoQaiSrkZ+JROadWEN6g5yKvNk1jN9DDqAAByhlr/JC+Cq+kqEYbZoTG9Bw==`.
-- Appcast enclosure length `9086688` matches the local DMG.
+  `DsLJWqsdISLnJ0i4+fHpyat3qStQlBcWdIUbym+w4YoRu0gpOOVluZoIhnXRLRi0t0L5aUmv260U1ZjvrBL5Dw==`.
+- Appcast enclosure length `9014868` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
-  `5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`.
+  `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
 - Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## GitHub Release Readback
 
-- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.10
+- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.11
 - Draft: false.
 - Prerelease: false.
-- Published at: 2026-06-17T22:05:52Z.
+- Published at: 2026-06-18T13:09:31Z.
 - DMG asset digest:
-  `sha256:5fc389fa655ae9793503bd554615ee067443856a30fb64c5700e459ecb5b56c1`.
+  `sha256:1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
 - ZIP asset digest:
-  `sha256:a5b6d670a7ab3949642a23c8c3305cb768dbbb916262f3557d271e04385e21c4`.
+  `sha256:c956322ff601d6538d748cae1a8025a646d488d079df8703cc5e99b0cb0ebf4d`.
 - Appcast asset digest:
-  `sha256:4c38aae00dd762acb2076583253bd2a7775881c4bb8c8a4358f4dd89893780b8`.
+  `sha256:cdc032fbb1c360f93a39fb757122f84c6f272cedd0b9b353eb1b242cf2ef1e06`.
 
 ## Remaining External Validation
 
 - Separate clean-Mac Finder/Gatekeeper install proof remains useful external
   validation when a separate clean Mac is available.
-- Separate clean-Mac Sparkle update proof from 1.0.9 to 1.0.10 remains useful
-  external validation when a separate clean Mac is available.
+- Separate clean-Mac Sparkle update proof from 1.0.10 to 1.0.11 remains useful
+  validation when a separate clean Mac is available.
