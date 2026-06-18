@@ -6,14 +6,20 @@ public final class TerminalWorkspaceController: ObservableObject {
     @Published public private(set) var state: TerminalWorkspaceState
 
     private var controllersByPaneID: [TerminalPaneID: TerminalInteractionController]
+    private let clipboard: any TerminalClipboard
 
     public var activePaneID: TerminalPaneID {
         state.activePaneID
     }
 
-    public init(state: TerminalWorkspaceState) {
+    public convenience init(state: TerminalWorkspaceState) {
+        self.init(state: state, clipboard: SystemTerminalClipboard.shared)
+    }
+
+    init(state: TerminalWorkspaceState, clipboard: any TerminalClipboard) {
         self.state = state
         self.controllersByPaneID = [:]
+        self.clipboard = clipboard
     }
 
     public func controller(for paneID: TerminalPaneID) -> TerminalInteractionController {
@@ -21,7 +27,7 @@ public final class TerminalWorkspaceController: ObservableObject {
             return controller
         }
 
-        let controller = TerminalInteractionController()
+        let controller = TerminalInteractionController(clipboard: clipboard)
         controllersByPaneID[paneID] = controller
         return controller
     }
@@ -168,11 +174,14 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     public func handleActivity(_ event: TerminalActivityEvent, from paneID: TerminalPaneID) {
-        guard case .workingDirectoryChanged(let directory) = event else {
+        switch event {
+        case .focused:
+            activatePane(paneID)
+        case .workingDirectoryChanged(let directory):
+            state.updateWorkingDirectory(directory, for: paneID)
+        default:
             return
         }
-
-        state.updateWorkingDirectory(directory, for: paneID)
     }
 
     public func snapshot() -> TerminalWorkspaceSnapshot {

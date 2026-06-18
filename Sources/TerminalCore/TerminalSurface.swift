@@ -275,9 +275,17 @@ public struct TerminalSurface: NSViewRepresentable {
 @MainActor
 private final class GridOSTerminalView: LocalProcessTerminalView {
     var activityHandler: ((TerminalActivityEvent) -> Void)?
+    private var focusMouseMonitor: Any?
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
+
+        if window == nil {
+            removeFocusMouseMonitor()
+            return
+        }
+
+        installFocusMouseMonitorIfNeeded()
 
         DispatchQueue.main.async { [weak self] in
             guard let self else {
@@ -296,6 +304,14 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         return handlePasteboardKeyEquivalent(event)
     }
 
+    override func viewWillMove(toWindow newWindow: NSWindow?) {
+        if newWindow == nil {
+            removeFocusMouseMonitor()
+        }
+
+        super.viewWillMove(toWindow: newWindow)
+    }
+
     override func send(source: TerminalView, data: ArraySlice<UInt8>) {
         emitActivity(.input(byteCount: data.count))
         super.send(source: source, data: data)
@@ -304,6 +320,40 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
     override func dataReceived(slice: ArraySlice<UInt8>) {
         emitActivity(.output(byteCount: slice.count))
         super.dataReceived(slice: slice)
+    }
+
+    private func installFocusMouseMonitorIfNeeded() {
+        guard focusMouseMonitor == nil else {
+            return
+        }
+
+        focusMouseMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
+            guard let self,
+                  let window = self.window,
+                  event.window === window else {
+                return event
+            }
+
+            let clickLocation = self.convert(event.locationInWindow, from: nil)
+            if self.bounds.contains(clickLocation) {
+                self.emitFocusActivity()
+            }
+
+            return event
+        }
+    }
+
+    private func removeFocusMouseMonitor() {
+        guard let focusMouseMonitor else {
+            return
+        }
+
+        NSEvent.removeMonitor(focusMouseMonitor)
+        self.focusMouseMonitor = nil
+    }
+
+    private func emitFocusActivity() {
+        activityHandler?(.focused)
     }
 
     private func emitActivity(_ event: TerminalActivityEvent) {
@@ -321,12 +371,15 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
 
         switch key {
         case "a":
+            emitFocusActivity()
             selectAll()
             return true
         case "c":
+            emitFocusActivity()
             copy(self)
             return true
         case "v":
+            emitFocusActivity()
             paste(self)
             return true
         default:
@@ -356,6 +409,12 @@ extension LocalProcessTerminalView: TerminalInteractionControllingTerminal {
     }
 
     func paste() {
+        paste(self)
+    }
+
+    func pasteText(_ text: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
         paste(self)
     }
 

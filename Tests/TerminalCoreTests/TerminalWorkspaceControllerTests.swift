@@ -55,11 +55,45 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(primary.selectAllCount, 0)
         XCTAssertEqual(primary.clearCount, 0)
         XCTAssertEqual(primary.resetCount, 0)
-        XCTAssertEqual(secondary.copySelectionCount, 1)
+        XCTAssertEqual(secondary.copySelectionCount, 0)
         XCTAssertEqual(secondary.pasteCount, 1)
         XCTAssertEqual(secondary.selectAllCount, 1)
         XCTAssertEqual(secondary.clearCount, 1)
         XCTAssertEqual(secondary.resetCount, 1)
+    }
+
+    func testCopyFromOnePanePastesClipboardIntoAnotherPane() {
+        let clipboard = TerminalClipboardSpy()
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy(selection: "echo from primary")
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("primary")
+        workspace.copyActivePaneSelection()
+        workspace.activatePane("pane-b")
+        workspace.pasteIntoActivePane()
+
+        XCTAssertEqual(clipboard.string, "echo from primary")
+        XCTAssertTrue(primary.pastedTexts.isEmpty)
+        XCTAssertEqual(secondary.pastedTexts, ["echo from primary"])
+        XCTAssertEqual(secondary.pasteCount, 0)
+    }
+
+    func testFocusedActivityActivatesSourcePaneForMenuCommands() {
+        let workspace = fixtureWorkspace()
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        workspace.activatePane("primary")
+        workspace.handleActivity(.focused, from: "pane-b")
+
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
+
+        workspace.handleActivity(.focused, from: "missing-pane")
+
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
     }
 
     func testCloseActivePaneTerminatesOnlyClosedPane() {
@@ -202,7 +236,7 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(fraction, 0.55, accuracy: 0.001)
     }
 
-    private func fixtureWorkspace() -> TerminalWorkspaceController {
+    private func fixtureWorkspace(clipboard: any TerminalClipboard = TerminalClipboardSpy()) -> TerminalWorkspaceController {
         TerminalWorkspaceController(
             state: TerminalWorkspaceState(
                 defaultConfiguration: TerminalSessionConfiguration(
@@ -213,14 +247,17 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
                     fontSize: 14,
                     startupCommand: nil
                 )
-            )
+            ),
+            clipboard: clipboard
         )
     }
 }
 
 @MainActor
 private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
+    private let selection: String?
     private(set) var sentTexts: [String] = []
+    private(set) var pastedTexts: [String] = []
     private(set) var focusRequestCount = 0
     private(set) var copySelectionCount = 0
     private(set) var pasteCount = 0
@@ -229,8 +266,12 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
     private(set) var resetCount = 0
     private(set) var terminateCount = 0
 
+    init(selection: String? = nil) {
+        self.selection = selection
+    }
+
     func getSelection() -> String? {
-        nil
+        selection
     }
 
     func sendText(_ text: String) {
@@ -247,6 +288,10 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
 
     func paste() {
         pasteCount += 1
+    }
+
+    func pasteText(_ text: String) {
+        pastedTexts.append(text)
     }
 
     func selectAll() {
@@ -271,5 +316,22 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
 
     func isProcessRunning() -> Bool {
         terminateCount == 0
+    }
+}
+
+@MainActor
+private final class TerminalClipboardSpy: TerminalClipboard {
+    var string: String?
+
+    init(string: String? = nil) {
+        self.string = string
+    }
+
+    func readString() -> String? {
+        string
+    }
+
+    func writeString(_ string: String) {
+        self.string = string
     }
 }
