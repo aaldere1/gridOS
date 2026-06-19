@@ -1,20 +1,20 @@
 # gridOS production direct release
 
-Status: version 1.0.13
+Status: version 1.0.14
 Last updated: 2026-06-19
 
 ## Artifact
 
-- Version: 1.0.13
-- Build: 21
-- Source commit: 00e2893
-- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.13
-- DMG: build/release/production/gridOS-1.0.13-21-00e2893.dmg
-- DMG SHA-256: 0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041
-- ZIP: build/release/production/gridOS-1.0.13-21-00e2893.zip
-- ZIP SHA-256: ca58ce5da13f035934872c9c19880f185271f6fbd932c6a7a1bbaa1b4b926d7e
-- DMG app tree SHA-256: 74d77fda1c2fc9989202e0c20624e97e1d4a996da28b717b1f597ea0e9c4ada7
-- ZIP extracted app tree SHA-256: 0dfba7130c5eeaa87ae06caba26edec79f10c205002bbe59b16fcac02fad93f6
+- Version: 1.0.14
+- Build: 22
+- Source commit: c245751
+- GitHub release: https://github.com/aaldere1/gridOS/releases/tag/v1.0.14
+- DMG: build/release/production/gridOS-1.0.14-22-c245751.dmg
+- DMG SHA-256: ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9
+- ZIP: build/release/production/gridOS-1.0.14-22-c245751.zip
+- ZIP SHA-256: 46be3c5c3ae9721ba59c195a16d94d8497e1857ec854599e7e7c6328aa8686ba
+- DMG app tree SHA-256: 2b1ddc05c684ed91c3c7bbb7fe30e0182bab5cae1fe1bd498172741529b882f2
+- ZIP extracted app tree SHA-256: be125ab5ea19ade4d87fd601239bde50b4e0d364640e8e729e0f1d47b3793659
 
 ## Release Positioning
 
@@ -24,14 +24,14 @@ Intelligence, and automatic updates for the direct-download lane. The value is
 not "AI terminal" as a gimmick. The value is a beautiful, private command
 workspace that helps users think before they run.
 
-Version 1.0.13 keeps the 1.0.12 cross-pane clipboard routing, then fixes the
-more specific source-pane copy path: when Command-C is emitted from one terminal
-pane/session, gridOS reads that pane's selection before falling back to active
-or other panes. That makes selected text copied from one pane paste reliably
-into another pane. It preserves username-free screenshots, Command-T pane
-creation, Control-Tab traversal, drag-to-rearrange panes, AI Command Helper
-screenshot OCR, DeepSeek/xAI provider support, and signed/notarized proof for
-the final artifact.
+Version 1.0.14 keeps the 1.0.13 source-pane copy fix and closes the remaining
+source-pane Select All path: when Command-A is emitted from one terminal
+pane/session, gridOS selects that pane before falling back to the active pane.
+That makes selected-all text copy from the pane the user is actually using and
+paste reliably into another pane. It preserves username-free screenshots,
+Command-T pane creation, Control-Tab traversal, drag-to-rearrange panes, AI
+Command Helper screenshot OCR, DeepSeek/xAI provider support, and
+signed/notarized proof for the final artifact.
 
 ## First Launch
 
@@ -44,7 +44,7 @@ tool opening its doors, not a pre-release disclaimer.
 | Check | Status |
 | --- | --- |
 | Xcode CI wrapper | PASS |
-| GitHub Actions CI run 27839793210 | PASS |
+| GitHub Actions CI run 27840599226 | PASS |
 | Signed archive | PASS |
 | Embedded Sparkle helpers Developer ID signed with secure timestamps | PASS |
 | Signed DMG container | PASS |
@@ -53,8 +53,8 @@ tool opening its doors, not a pre-release disclaimer.
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
 | Sparkle appcast generation | PASS |
-| GitHub release asset readback | PASS |
-| Raw `main` appcast readback | PASS |
+| GitHub release asset readback | PENDING |
+| Raw `main` appcast readback | PENDING |
 | New app icon installed in asset catalog | PASS |
 | README hero and screenshots avoid terminal prompts/usernames | PASS |
 | Software Updates settings screenshot captured | PASS |
@@ -62,7 +62,7 @@ tool opening its doors, not a pre-release disclaimer.
 | AI Command Helper screenshot drop zone with local OCR messaging | PASS |
 | Terminal jitter reduction and pasteboard shortcut tests | PASS |
 | Command-T pane creation, Control-Tab traversal, and drag layout tests | PASS |
-| Source-pane terminal copy and cross-pane paste tests | PASS |
+| Source-pane Select All, source-pane copy, and cross-pane paste tests | PASS |
 | Live pane-to-pane selected-text copy/paste smoke | PASS |
 | Header update affordance and Settings update controls | PASS |
 | ZIP extraction strict codesign and Gatekeeper execution assessment | PASS |
@@ -80,7 +80,7 @@ release blocker and rebuild or re-notarize.
 
 ## Updates
 
-gridOS 1.0.13 includes Sparkle automatic updates for the direct-download release
+gridOS 1.0.14 includes Sparkle automatic updates for the direct-download release
 lane. Automatic checks and automatic download/install are enabled by default,
 Sparkle system profiling is disabled, and the manual DMG flow remains available
 as a fallback.
@@ -96,7 +96,7 @@ Manual update fallback:
 
 Clean-Mac Finder install/update proof remains useful external validation when a
 separate clean Mac is available. Future update proof should validate Sparkle
-from 1.0.12 to 1.0.13.
+from 1.0.13 to 1.0.14.
 
 ## Privacy Boundaries
 

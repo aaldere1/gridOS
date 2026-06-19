@@ -6,12 +6,12 @@ Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PASS for final v1.0.13 GitHub publication.
+PREPARED for final v1.0.14 GitHub publication.
 
 The source-available proprietary repository posture is public and acceptable.
-The 1.0.13 artifact is signed, notarized, stapled, Gatekeeper accepted, uploaded
-to the public GitHub release, and covered by a signed Sparkle appcast that
-matches raw `main`.
+The 1.0.14 artifact is signed, notarized, stapled, Gatekeeper accepted, and
+covered by a signed Sparkle appcast. GitHub release publication, asset digest
+readback, and raw `main` appcast readback are pending the release commit/tag.
 
 This is not an open-source license change. `LICENSE` still grants no public
 copying, modification, distribution, sublicensing, or use rights without written
@@ -19,25 +19,25 @@ permission from the copyright holder.
 
 ## Source and CI
 
-- `scripts/ci-build-test.sh`: PASS after the 1.0.13 version bump.
-- Pull request CI run `27839566314`: PASS for PR #6.
-- GitHub Actions CI run `27839645362`: PASS on PR #6 merge commit `45670df`.
-- GitHub Actions CI run `27839793210`: PASS on version bump commit `00e2893`.
-- `git diff --check`: PASS after the 1.0.13 release-script/doc evidence edits.
-- Current public docs identify 1.0.13 as the current release.
+- `scripts/ci-build-test.sh`: PASS after the 1.0.14 version bump.
+- Pull request CI run `27840462691`: PASS for PR #7.
+- GitHub Actions CI run `27840562158`: PASS on PR #7 merge commit `bcc78a2`.
+- GitHub Actions CI run `27840599226`: PASS on version bump commit `c245751`.
+- `git diff --check`: PASS after the 1.0.14 release-script/doc evidence edits.
+- Current public docs identify 1.0.14 as the current release.
 - Repository posture is documented as source-available proprietary, not open
   source.
 
 ## Artifact Checks
 
 - DMG SHA-256:
-  `0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041`.
+  `ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`.
 - ZIP SHA-256:
-  `ca58ce5da13f035934872c9c19880f185271f6fbd932c6a7a1bbaa1b4b926d7e`.
+  `46be3c5c3ae9721ba59c195a16d94d8497e1857ec854599e7e7c6328aa8686ba`.
 - DMG app tree SHA-256:
-  `74d77fda1c2fc9989202e0c20624e97e1d4a996da28b717b1f597ea0e9c4ada7`.
+  `2b1ddc05c684ed91c3c7bbb7fe30e0182bab5cae1fe1bd498172741529b882f2`.
 - ZIP extracted app tree SHA-256:
-  `0dfba7130c5eeaa87ae06caba26edec79f10c205002bbe59b16fcac02fad93f6`.
+  `be125ab5ea19ade4d87fd601239bde50b4e0d364640e8e729e0f1d47b3793659`.
 - `codesign --verify --deep --strict --verbose=2` against the app: PASS.
 - `spctl --assess --type execute --verbose=4` against the app: PASS.
 - `spctl -a -t open --context context:primary-signature -v` against the DMG:
@@ -52,9 +52,10 @@ permission from the copyright holder.
 - Local pane-to-pane selected-text copy/paste smoke: PASS. It copied selected
   text from pane 1, moved to pane 2, pasted, and visibly landed the copied text
   in pane 2.
-- TerminalCore tests cover source-pane copy priority, cross-pane copy/paste,
-  selected inactive-pane fallback, active-pane paste routing, clicked-pane focus
-  routing, Command-T pane creation, and layout publication.
+- TerminalCore tests cover source-pane Select All, source-pane copy priority,
+  cross-pane copy/paste, selected inactive-pane fallback, active-pane paste
+  routing, clicked-pane focus routing, Command-T pane creation, and layout
+  publication.
 
 ## Visual Proof
 
@@ -75,37 +76,38 @@ permission from the copyright holder.
 
 ## Sparkle Appcast
 
-- `appcast.xml`: generated for `gridOS 1.0.13` build `21`.
+- `appcast.xml`: generated for `gridOS 1.0.14` build `22`.
 - `xmllint --noout appcast.xml`: PASS.
 - Feed Ed25519 signature verification against
   `nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=`: PASS.
 - Feed signature:
-  `PnK88HOyNWlROUL+PnDfo9d7tpmfHc7RWonTX4rn3q53PhQmEbJF1tHZcOc92DxL2tg8DXaoqKpmi3xCHV9zCg==`.
+  `qE/y79PQ/I3mPAVhmOHXa1aTD6oV6dBpgU2DNnMaArL4tp6Kdxceg6W4PTsnJlySfdhlGIlXmyQtLpNlaH4MDQ==`.
 - DMG enclosure Ed25519 signature verification against
-  `build/release/production/gridOS-1.0.13-21-00e2893.dmg`: PASS.
+  `build/release/production/gridOS-1.0.14-22-c245751.dmg`: PASS.
 - DMG enclosure signature:
-  `U9tR8Br66nufemK7r2faYEYd8B20r0yLKrbZQkPJ3P2FAqaA8DmGjZExc8ENv7u0IobPdUMf5BzRy0S19bi4Bg==`.
-- Appcast enclosure length `9023660` matches the local DMG.
+  `yi6eiKNV7Cj2ZT8hLyfvsD+bLlt/xBsvk/45nG0ObBVGWWgyL00s/qTs83WShMMrVrJVM/bm4NqHYK2ICweaDA==`.
+- Appcast enclosure length `9023820` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
-  `0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041`.
-- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
+  `ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`:
+  PENDING release commit push.
 
 ## GitHub Release Readback
 
-- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.13
-- Draft: false.
-- Prerelease: false.
-- Published at: 2026-06-19T17:35:23Z.
+- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.14
+- Draft: PENDING.
+- Prerelease: PENDING.
+- Published at: PENDING.
 - DMG asset digest:
-  `sha256:0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041`.
+  `sha256:ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`.
 - ZIP asset digest:
-  `sha256:ca58ce5da13f035934872c9c19880f185271f6fbd932c6a7a1bbaa1b4b926d7e`.
+  `sha256:46be3c5c3ae9721ba59c195a16d94d8497e1857ec854599e7e7c6328aa8686ba`.
 - Appcast asset digest:
-  `sha256:a758184b6926365bdbec64e38bc2d00e00a2669d099e71a1faafb5496e4e26df`.
+  `sha256:4a8a67967c71589028d56e7a25e113085139aa16ebf7bc15a4acab69f9842283`.
 
 ## Remaining External Validation
 
 - Separate clean-Mac Finder/Gatekeeper install proof remains useful external
   validation when a separate clean Mac is available.
-- Separate clean-Mac Sparkle update proof from 1.0.12 to 1.0.13 remains useful
+- Separate clean-Mac Sparkle update proof from 1.0.13 to 1.0.14 remains useful
   validation when a separate clean Mac is available.
