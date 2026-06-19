@@ -2,27 +2,28 @@
   "channel": "production-direct",
   "product": "gridOS",
   "bundleIdentifier": "com.aaldere1.gridos",
-  "version": "1.0.14",
-  "build": "22",
-  "sourceCommit": "c245751",
-  "generatedAt": "2026-06-19T17:53:34Z",
+  "version": "1.0.15",
+  "build": "23",
+  "sourceCommit": "f7b51bc",
+  "generatedAt": "2026-06-19T18:56:29Z",
   "artifacts": {
     "dmg": {
-      "path": "build/release/production/gridOS-1.0.14-22-c245751.dmg",
-      "sha256": "ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9",
-      "sizeBytes": 9023820,
+      "path": "build/release/production/gridOS-1.0.15-23-f7b51bc.dmg",
+      "sha256": "92f6a0fd0f74b5fdae70b1cdb390e3846dd3020555ebe01a312ea459252b1593",
+      "sizeBytes": 9101039,
       "codesign": "pass",
       "gatekeeper": "pass",
       "stapler": "pass",
-      "appTreeSha256": "2b1ddc05c684ed91c3c7bbb7fe30e0182bab5cae1fe1bd498172741529b882f2"
+      "mountedAppStapler": "pass",
+      "appTreeSha256": "eb5a56c3f0d56eb5c39388955218a752c60cae275c567ef1ce7c2c148885a77d"
     },
     "zip": {
-      "path": "build/release/production/gridOS-1.0.14-22-c245751.zip",
-      "sha256": "46be3c5c3ae9721ba59c195a16d94d8497e1857ec854599e7e7c6328aa8686ba",
-      "sizeBytes": 8137914,
+      "path": "build/release/production/gridOS-1.0.15-23-f7b51bc.zip",
+      "sha256": "395df75adbc9f8487cb59a6e24aba0ae1467ea5eb30d56817679e1c14fe4843b",
+      "sizeBytes": 8138289,
       "extractionVerification": "pass",
       "stapler": "pass",
-      "appTreeSha256": "be125ab5ea19ade4d87fd601239bde50b4e0d364640e8e729e0f1d47b3793659"
+      "appTreeSha256": "eb5a56c3f0d56eb5c39388955218a752c60cae275c567ef1ce7c2c148885a77d"
     },
     "appBundle": {
       "notarizedAndStapledForZip": true,
@@ -33,48 +34,32 @@
   },
   "notarization": {
     "status": "pass",
-    "dmgSubmissionId": "0f629080-a7cd-4d3e-925b-712a21eba262",
-    "appTicketSourceSubmissionId": "5a817acf-292f-4581-a30b-1ea093b16a35",
-    "zipSubmissionId": "a22c85bc-26ab-4db9-a4fb-a51ec852fc85",
-    "evidence": ".planning/phases/12-beta/evidence/beta-notarization-dmg-v1.0.14.md",
-    "appEvidence": ".planning/phases/12-beta/evidence/beta-notarization-app-v1.0.14.md",
-    "zipEvidence": ".planning/phases/12-beta/evidence/beta-notarization-zip-v1.0.14.md"
+    "dmgSubmissionId": "7a74f95d-e087-4b0b-a3f0-e5dfebf790e9",
+    "appTicketSourceSubmissionId": "0de75ff3-db77-4fe7-b6ae-475e8decf586",
+    "zipSubmissionId": "0de75ff3-db77-4fe7-b6ae-475e8decf586",
+    "evidence": ".planning/phases/12-beta/evidence/beta-notarization-dmg-v1.0.15.md",
+    "zipEvidence": ".planning/phases/12-beta/evidence/beta-notarization-zip-v1.0.15.md"
   },
   "gatekeeper": {
     "status": "pass",
-    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.14.md",
-    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.14.md"
+    "dmgEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-dmg-v1.0.15.md",
+    "zipEvidence": ".planning/phases/12-beta/evidence/beta-artifact-verification-zip-v1.0.15.md"
   },
   "sparkle": {
     "status": "pass",
     "feedUrl": "https://raw.githubusercontent.com/aaldere1/gridOS/main/appcast.xml",
     "appcast": "appcast.xml",
-    "appcastSha256": "4a8a67967c71589028d56e7a25e113085139aa16ebf7bc15a4acab69f9842283",
+    "appcastSha256": "d989da7d411803bf8df5499d81b9b93d966063e54b5adc2a8e21544a4d83cbf9",
     "publicEdKey": "nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=",
-    "feedSignature": "qE/y79PQ/I3mPAVhmOHXa1aTD6oV6dBpgU2DNnMaArL4tp6Kdxceg6W4PTsnJlySfdhlGIlXmyQtLpNlaH4MDQ==",
-    "feedSignedLength": 3125,
-    "enclosureSignature": "yi6eiKNV7Cj2ZT8hLyfvsD+bLlt/xBsvk/45nG0ObBVGWWgyL00s/qTs83WShMMrVrJVM/bm4NqHYK2ICweaDA==",
-    "enclosureLength": 9023820,
+    "feedSignature": "K6e5RX24GX2Zdd246nWIhuX/RlBrUXgyOQ06+bXrYMhEixSfrdhoy5yd5yGYA8jgleL96BKCiS7UMD3WeedsDQ==",
+    "feedSignedLength": 3304,
+    "enclosureSignature": "SnkImN0R2yNKX5DI1He+aEv/I9PUNgwktev6tXDbNz8QxbS+f+XpeQkKxo47RL3h10qmVOtMbwGbx1xUitoZAg==",
+    "enclosureLength": 9101039,
     "validation": "xmllint pass; Ed25519 public-key verification passed by scripts/write-sparkle-appcast.sh for feed and DMG enclosure",
     "automaticChecks": true,
     "automaticInstall": true,
     "systemProfiling": false,
     "embeddedHelpersSignedWithSecureTimestamps": true
-  },
-  "launchSmoke": {
-    "status": "artifact-proof-pass",
-    "evidence": ".planning/phases/14-production-release/evidence/production-launch-smoke.md",
-    "scope": "current-Mac artifact assessment plus committed screenshot inspection; separate clean-Mac proof remains open",
-    "version": "1.0.14",
-    "build": "22",
-    "settingsSoftwareUpdates": "pass",
-    "settingsAutomaticChecks": true,
-    "settingsAutomaticInstall": true,
-    "settingsSystemProfiling": false,
-    "newIconIncluded": true,
-    "hudSignalScreenshot": "pass",
-    "commandHelperScreenshotDropZone": "pass",
-    "readmeScreenshotsAvoidTerminalPromptsAndUsernames": true
   },
   "terminalPaneProof": {
     "status": "pass",
@@ -84,8 +69,7 @@
   "terminalClipboardProof": {
     "status": "pass",
     "ciBuildTest": "pass",
-    "liveAppSmoke": "pass",
-    "scope": "Source-pane Select All, source-pane copy, cross-pane copy/paste, selected inactive-pane fallback, active-pane paste routing, blocked-pane isolation, and empty-clipboard fallback behavior covered by tests and live app smoke."
+    "scope": "Source-pane paste, source-pane Select All, source-pane copy, cross-pane copy/paste, selected inactive-pane fallback, active-pane menu routing, blocked-pane isolation, and empty-clipboard fallback behavior covered by tests."
   },
   "terminalStabilityProof": {
     "status": "pass",
@@ -93,18 +77,17 @@
     "scope": "Terminal jitter, pasteboard shortcuts, surface update, and top-process baseline retention covered by unit tests."
   },
   "githubRelease": {
-    "status": "published",
-    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.14",
-    "publishedAt": "2026-06-19T17:58:31Z",
-    "draft": false,
-    "prerelease": false,
+    "status": "pending-publication",
+    "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.15",
+    "draft": null,
+    "prerelease": null,
     "assets": {
-      "dmgDigest": "sha256:ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9",
-      "zipDigest": "sha256:46be3c5c3ae9721ba59c195a16d94d8497e1857ec854599e7e7c6328aa8686ba",
-      "appcastDigest": "sha256:4a8a67967c71589028d56e7a25e113085139aa16ebf7bc15a4acab69f9842283"
+      "dmgDigest": "sha256:92f6a0fd0f74b5fdae70b1cdb390e3846dd3020555ebe01a312ea459252b1593",
+      "zipDigest": "sha256:395df75adbc9f8487cb59a6e24aba0ae1467ea5eb30d56817679e1c14fe4843b",
+      "appcastDigest": "sha256:d989da7d411803bf8df5499d81b9b93d966063e54b5adc2a8e21544a4d83cbf9"
     },
-    "rawMainAppcastDiff": "pass",
-    "githubActionsRun": "27841066943",
+    "rawMainAppcastDiff": "pending",
+    "githubActionsRun": "27842978804",
     "githubActionsConclusion": "success"
   },
   "localUpdateProof": {
@@ -112,6 +95,6 @@
     "evidence": ".planning/phases/14-production-release/evidence/local-update-proof.md",
     "scope": "1.0.4 build 12 to 1.0.5 build 13 temporary local install root; not clean-Mac evidence"
   },
-  "releaseNotes": "docs/release-notes/v1.0.14.md",
-  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.13 to 1.0.14."
+  "releaseNotes": "docs/release-notes/v1.0.15.md",
+  "remainingValidation": "Run Finder install proof on a separate clean Mac and prove Sparkle update flow from 1.0.14 to 1.0.15."
 }
