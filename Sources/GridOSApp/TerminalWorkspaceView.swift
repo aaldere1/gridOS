@@ -28,8 +28,17 @@ struct TerminalWorkspaceView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .focusedValue(\.terminalWorkspaceCommands, terminalWorkspaceCommands)
+        .onAppear {
+            TerminalWorkspaceCommandCenter.shared.install(terminalWorkspaceCommands)
+        }
+        .onDisappear {
+            TerminalWorkspaceCommandCenter.shared.uninstall()
+        }
         .background(
             TerminalWorkspaceShortcutBridge(
+                onCreatePaneRight: {
+                    splitRight()
+                },
                 onFocusNextPane: {
                     focusNextPane()
                 },
@@ -204,21 +213,21 @@ struct TerminalWorkspaceView: View {
     @MainActor
     private func splitRight() {
         workspaceController.splitActivePane(axis: .horizontal)
-        workspaceController.focusActivePane()
+        focusActivePaneAfterRender()
         onWorkspaceChange()
     }
 
     @MainActor
     private func splitDown() {
         workspaceController.splitActivePane(axis: .vertical)
-        workspaceController.focusActivePane()
+        focusActivePaneAfterRender()
         onWorkspaceChange()
     }
 
     @MainActor
     private func duplicatePane() {
         workspaceController.duplicateActivePane()
-        workspaceController.focusActivePane()
+        focusActivePaneAfterRender()
         onWorkspaceChange()
     }
 
@@ -238,8 +247,20 @@ struct TerminalWorkspaceView: View {
         }
 
         workspaceController.openDirectoryInNewPane(directory)
-        workspaceController.focusActivePane()
+        focusActivePaneAfterRender()
         onWorkspaceChange()
+    }
+
+    @MainActor
+    private func focusActivePaneAfterRender() {
+        workspaceController.focusActivePane()
+
+        let delays: [TimeInterval] = [0, 0.05, 0.20]
+        for delay in delays {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [workspaceController] in
+                workspaceController.focusActivePane()
+            }
+        }
     }
 
     @MainActor
@@ -297,6 +318,7 @@ struct TerminalWorkspaceView: View {
                 TerminalSurface(
                     paneID: paneID,
                     configuration: descriptor.configuration,
+                    isActive: isActive,
                     interactionController: workspaceController.controller(for: paneID),
                     onActivity: onActivity
                 )
@@ -522,17 +544,20 @@ private extension UTType {
 }
 
 private struct TerminalWorkspaceShortcutBridge: NSViewRepresentable {
+    let onCreatePaneRight: @MainActor () -> Void
     let onFocusNextPane: @MainActor () -> Void
     let onFocusPreviousPane: @MainActor () -> Void
 
     func makeNSView(context: Context) -> TerminalWorkspaceShortcutView {
         let view = TerminalWorkspaceShortcutView()
+        view.onCreatePaneRight = onCreatePaneRight
         view.onFocusNextPane = onFocusNextPane
         view.onFocusPreviousPane = onFocusPreviousPane
         return view
     }
 
     func updateNSView(_ nsView: TerminalWorkspaceShortcutView, context: Context) {
+        nsView.onCreatePaneRight = onCreatePaneRight
         nsView.onFocusNextPane = onFocusNextPane
         nsView.onFocusPreviousPane = onFocusPreviousPane
     }
@@ -544,6 +569,7 @@ private struct TerminalWorkspaceShortcutBridge: NSViewRepresentable {
 
 @MainActor
 private final class TerminalWorkspaceShortcutView: NSView {
+    var onCreatePaneRight: (@MainActor () -> Void)?
     var onFocusNextPane: (@MainActor () -> Void)?
     var onFocusPreviousPane: (@MainActor () -> Void)?
     private var keyDownMonitor: Any?
@@ -560,6 +586,7 @@ private final class TerminalWorkspaceShortcutView: NSView {
 
     func shutdown() {
         removeKeyDownMonitor()
+        onCreatePaneRight = nil
         onFocusNextPane = nil
         onFocusPreviousPane = nil
     }
@@ -589,11 +616,18 @@ private final class TerminalWorkspaceShortcutView: NSView {
     }
 
     private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
+        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        let key = event.charactersIgnoringModifiers?.lowercased()
+
+        if modifierFlags == .command, key == "t" {
+            onCreatePaneRight?()
+            return nil
+        }
+
         guard event.keyCode == 48 else {
             return event
         }
 
-        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         switch modifierFlags {
         case .control:
             onFocusNextPane?()

@@ -75,116 +75,99 @@ private struct SoftwareUpdateCommands: Commands {
 }
 
 private struct TerminalCommands: Commands {
-    @FocusedValue(\.terminalWorkspaceCommands) private var terminalWorkspaceCommands
+    @ObservedObject private var terminalWorkspaceCommandCenter = TerminalWorkspaceCommandCenter.shared
 
     var body: some Commands {
         CommandMenu("Terminal") {
             Button("Copy") {
-                terminalWorkspaceCommands?.copy()
+                terminalWorkspaceCommandCenter.copy()
             }
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Paste") {
-                terminalWorkspaceCommands?.paste()
+                terminalWorkspaceCommandCenter.paste()
             }
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Select All") {
-                terminalWorkspaceCommands?.selectAll()
+                terminalWorkspaceCommandCenter.selectAll()
             }
-            .disabled(terminalWorkspaceCommands == nil)
 
             Divider()
 
             Button("New Terminal Pane") {
-                terminalWorkspaceCommands?.splitRight()
+                terminalWorkspaceCommandCenter.splitRight()
             }
             .keyboardShortcut("t", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Split Right") {
-                terminalWorkspaceCommands?.splitRight()
+                terminalWorkspaceCommandCenter.splitRight()
             }
             .keyboardShortcut("d", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Split Down") {
-                terminalWorkspaceCommands?.splitDown()
+                terminalWorkspaceCommandCenter.splitDown()
             }
             .keyboardShortcut("d", modifiers: [.command, .shift])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Duplicate Pane") {
-                terminalWorkspaceCommands?.duplicatePane()
+                terminalWorkspaceCommandCenter.duplicatePane()
             }
             .keyboardShortcut("d", modifiers: [.command, .option])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Open Folder...") {
-                terminalWorkspaceCommands?.openFolder()
+                terminalWorkspaceCommandCenter.openFolder()
             }
             .keyboardShortcut("o", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Close Pane") {
-                terminalWorkspaceCommands?.closePane()
+                terminalWorkspaceCommandCenter.closePane()
             }
             .keyboardShortcut("w", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Divider()
 
             Button("Focus Next Pane") {
-                terminalWorkspaceCommands?.focusNextPane()
+                terminalWorkspaceCommandCenter.focusNextPane()
             }
             .keyboardShortcut("]", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Focus Previous Pane") {
-                terminalWorkspaceCommands?.focusPreviousPane()
+                terminalWorkspaceCommandCenter.focusPreviousPane()
             }
             .keyboardShortcut("[", modifiers: [.command])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Divider()
 
             Button("Resize Pane Left") {
-                terminalWorkspaceCommands?.resizePaneLeft()
+                terminalWorkspaceCommandCenter.resizePaneLeft()
             }
             .keyboardShortcut(.leftArrow, modifiers: [.command, .control])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Resize Pane Right") {
-                terminalWorkspaceCommands?.resizePaneRight()
+                terminalWorkspaceCommandCenter.resizePaneRight()
             }
             .keyboardShortcut(.rightArrow, modifiers: [.command, .control])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Resize Pane Up") {
-                terminalWorkspaceCommands?.resizePaneUp()
+                terminalWorkspaceCommandCenter.resizePaneUp()
             }
             .keyboardShortcut(.upArrow, modifiers: [.command, .control])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Resize Pane Down") {
-                terminalWorkspaceCommands?.resizePaneDown()
+                terminalWorkspaceCommandCenter.resizePaneDown()
             }
             .keyboardShortcut(.downArrow, modifiers: [.command, .control])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Divider()
 
             Button("Clear") {
-                terminalWorkspaceCommands?.clear()
+                terminalWorkspaceCommandCenter.clear()
             }
             .keyboardShortcut("k", modifiers: [.command, .option])
-            .disabled(terminalWorkspaceCommands == nil)
 
             Button("Reset") {
-                terminalWorkspaceCommands?.reset()
+                terminalWorkspaceCommandCenter.reset()
             }
             .keyboardShortcut("r", modifiers: [.command, .option])
-            .disabled(terminalWorkspaceCommands == nil)
         }
     }
 }

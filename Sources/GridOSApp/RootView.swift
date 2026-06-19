@@ -456,10 +456,14 @@ struct RootView: View {
         workspaceController.handleActivity(activity, from: paneID)
 
         switch activity {
-        case .focused, .workingDirectoryChanged:
+        case .focused, .splitRightRequested, .workingDirectoryChanged:
             scheduleWorkspaceSave()
         default:
             break
+        }
+
+        if case .splitRightRequested = activity {
+            focusActivePaneAfterRender()
         }
 
         guard let parameters = renderEventParameters(for: activity) else {
@@ -484,8 +488,20 @@ struct RootView: View {
             return (.terminalResize, 0.34)
         case .processStarted, .processTerminated:
             return (.processLifecycle, 0.44)
-        case .focused, .titleChanged, .workingDirectoryChanged:
+        case .focused, .copyRequested, .pasteRequested, .selectAllRequested, .splitRightRequested,
+             .titleChanged, .workingDirectoryChanged:
             return nil
+        }
+    }
+
+    private func focusActivePaneAfterRender() {
+        workspaceController.focusActivePane()
+
+        let delays: [TimeInterval] = [0, 0.05, 0.20]
+        for delay in delays {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [workspaceController] in
+                workspaceController.focusActivePane()
+            }
         }
     }
 
