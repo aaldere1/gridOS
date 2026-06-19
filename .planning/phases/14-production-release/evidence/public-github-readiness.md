@@ -1,17 +1,17 @@
 # gridOS public GitHub readiness
 
-Date: 2026-06-18
-Last validated: 2026-06-18
+Date: 2026-06-19
+Last validated: 2026-06-19
 Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PASS for final v1.0.11 GitHub publication.
+PASS for final v1.0.12 GitHub publication.
 
 The source-available proprietary repository posture is public and acceptable.
-The 1.0.11 artifact is signed, notarized, stapled, Gatekeeper accepted, mounted
-from the final DMG for artifact proof, uploaded to the public GitHub release,
-and covered by a signed Sparkle appcast that matches raw `main`.
+The 1.0.12 artifact is signed, notarized, stapled, Gatekeeper accepted, uploaded
+to the public GitHub release, and covered by a signed Sparkle appcast that
+matches raw `main`.
 
 This is not an open-source license change. `LICENSE` still grants no public
 copying, modification, distribution, sublicensing, or use rights without written
@@ -19,38 +19,44 @@ permission from the copyright holder.
 
 ## Source and CI
 
-- `scripts/ci-build-test.sh`: PASS after the 1.0.11 source commit.
-- Pull request CI run `27760536472`: PASS for PR #4.
-- GitHub Actions CI run `27761563976`: PASS on release-prep commit `6f25f10`.
-- `git diff --check`: PASS after the 1.0.11 release-script/doc evidence edits.
-- Current public docs identify 1.0.11 as the current release.
+- `scripts/ci-build-test.sh`: PASS after the 1.0.12 version bump.
+- Pull request CI run `27837910031`: PASS for PR #5.
+- GitHub Actions CI run `27838082157`: PASS on version bump commit `7b007d0`.
+- GitHub Actions CI run `27838453986`: PASS on release-prep commit `5600ced`.
+- `git diff --check`: PASS after the 1.0.12 release-script/doc evidence edits.
+- Current public docs identify 1.0.12 as the current release.
 - Repository posture is documented as source-available proprietary, not open
   source.
 
 ## Artifact Checks
 
 - DMG SHA-256:
-  `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
+  `b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4`.
 - ZIP SHA-256:
-  `c956322ff601d6538d748cae1a8025a646d488d079df8703cc5e99b0cb0ebf4d`.
+  `3ef677d2d96de9655360b3b7a1dc63617dce0a32df78cb0e1bd3f8a93e4fe914`.
 - DMG app tree SHA-256:
-  `d03ad0b435427dd7b084f285d68f61c7ca3ab75487463d6ea2475b480a3fa29b`.
+  `bef75a3db4af2f16c17c6099cec9272fa4db1d0dadcbdc022c0f9f95a784e106`.
 - ZIP extracted app tree SHA-256:
-  `78bc7a7749805c64043bce21bf1fea922bcdc3c5164bfe95b6bb3f5ae8cc816c`.
-- `codesign --verify --deep --strict --verbose=2` against the mounted app:
-  PASS.
-- `spctl --assess --type execute --verbose=4` against the mounted app: PASS,
-  accepted from Notarized Developer ID.
+  `9db7babc3c89c2f267b1d03da707fbdbf6b5ddb62706b3ca4dcaf375c907604f`.
+- `codesign --verify --deep --strict --verbose=2` against the app: PASS.
+- `spctl --assess --type execute --verbose=4` against the app: PASS.
 - `spctl -a -t open --context context:primary-signature -v` against the DMG:
-  PASS, accepted from Notarized Developer ID.
+  PASS.
 - `xcrun stapler validate` against the DMG: PASS.
-- `xcrun stapler validate` against the mounted app: PASS.
-- DMG layout contains `gridOS.app` and an `Applications -> /Applications`
-  symlink.
+- `xcrun stapler validate` against the ZIP-extracted app: PASS.
 - ZIP extraction with `ditto` preserved strict codesign, stapler validation, and
   Gatekeeper assessment: PASS.
 - GitHub release asset readback matched the local DMG, ZIP, and appcast
   SHA-256 digests: PASS.
+
+## Product Proof
+
+- Local cross-pane app smoke: PASS. It copied selected output from a blocked
+  first pane, created a second pane with Command-T, pasted a command into the
+  second pane, and verified the blocked first pane remained untouched.
+- TerminalCore tests cover cross-pane copy/paste, selected inactive-pane
+  fallback, active-pane paste routing, clicked-pane focus routing, Command-T
+  pane creation, and layout publication.
 
 ## Visual Proof
 
@@ -71,37 +77,37 @@ permission from the copyright holder.
 
 ## Sparkle Appcast
 
-- `appcast.xml`: generated for `gridOS 1.0.11` build `19`.
+- `appcast.xml`: generated for `gridOS 1.0.12` build `20`.
 - `xmllint --noout appcast.xml`: PASS.
 - Feed Ed25519 signature verification against
   `nnzeMZKjZFLXB/2A8xiz01Nb+dOrs/5xpO1ig+v6+0A=`: PASS.
 - Feed signature:
-  `VYsgZ0IFL8Znq0e8hAvm5MlKg//RZleUhidCuw0ZtXMZ8QhujbDkTqZV/fGCCcEWxRl5fsMmmpp99UY0SUiQCg==`.
+  `rrpdf2CrhuJyEa6m/LuXDvblVS99uQcDjQ6zjvv2dhWDSaOjH5Aust8O2GMNwXlU7H8/aHYLtTeXPZ9Y9MUtAQ==`.
 - DMG enclosure Ed25519 signature verification against
-  `build/release/production/gridOS-1.0.11-19-a3fb5ec.dmg`: PASS.
+  `build/release/production/gridOS-1.0.12-20-7b007d0.dmg`: PASS.
 - DMG enclosure signature:
-  `DsLJWqsdISLnJ0i4+fHpyat3qStQlBcWdIUbym+w4YoRu0gpOOVluZoIhnXRLRi0t0L5aUmv260U1ZjvrBL5Dw==`.
-- Appcast enclosure length `9014868` matches the local DMG.
+  `OHnHwZGcLRkp3NSyDhR7AZ5jkyw/N0vvO2I5h37Ef+VwVY6DGW+YcJZjPILgQs9u42KtYd067zbscli2aM0GDg==`.
+- Appcast enclosure length `9022718` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
-  `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
+  `b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4`.
 - Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## GitHub Release Readback
 
-- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.11
+- Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.12
 - Draft: false.
 - Prerelease: false.
-- Published at: 2026-06-18T13:09:31Z.
+- Published at: 2026-06-19T16:54:57Z.
 - DMG asset digest:
-  `sha256:1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`.
+  `sha256:b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4`.
 - ZIP asset digest:
-  `sha256:c956322ff601d6538d748cae1a8025a646d488d079df8703cc5e99b0cb0ebf4d`.
+  `sha256:3ef677d2d96de9655360b3b7a1dc63617dce0a32df78cb0e1bd3f8a93e4fe914`.
 - Appcast asset digest:
-  `sha256:cdc032fbb1c360f93a39fb757122f84c6f272cedd0b9b353eb1b242cf2ef1e06`.
+  `sha256:181679685fc48ab09ed0f9a47db9a87ac0f4e2ec4e013e9bbb9959b03addb771`.
 
 ## Remaining External Validation
 
 - Separate clean-Mac Finder/Gatekeeper install proof remains useful external
   validation when a separate clean Mac is available.
-- Separate clean-Mac Sparkle update proof from 1.0.10 to 1.0.11 remains useful
+- Separate clean-Mac Sparkle update proof from 1.0.11 to 1.0.12 remains useful
   validation when a separate clean Mac is available.

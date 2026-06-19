@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Production direct 1.0.11 published; Sparkle appcast updated; GitHub CI passed
-last_updated: "2026-06-18T13:11:52Z"
+status: Production direct 1.0.12 published; Sparkle appcast updated; GitHub CI passed
+last_updated: "2026-06-19T16:58:00Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -15,11 +15,11 @@ progress:
 
 ## Active phase
 
-Phase 14 - Production direct 1.0.11 and public GitHub release readiness
+Phase 14 - Production direct 1.0.12 and public GitHub release readiness
 
 ## Current status
 
-gridOS is now on production direct version 1.0.11 build 19. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.11-19-a3fb5ec.dmg`, SHA-256 `1712d5b34d9b6edf233214a2b927bb7c0cb55838dfe4e9d42c95dcfcee80c9d6`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, mounted-DMG smoke checked, published on GitHub release `v1.0.11`, covered by matching GitHub asset readback, covered by raw `main` appcast readback, and covered by passing GitHub Actions CI run `27761563976`. Version 1.0.11 adds cross-pane terminal copy/paste via the shared system pasteboard and keeps terminal menu commands aligned to the pane the user clicked while retaining the 1.0.10 update badge, Software Updates controls, and long-session metrics stability. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.10 to 1.0.11 remain external validation tasks.
+gridOS is now on production direct version 1.0.12 build 20. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.12-20-7b007d0.dmg`, SHA-256 `b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, live cross-pane smoke checked, published on GitHub release `v1.0.12`, covered by matching GitHub asset readback, covered by raw `main` appcast readback, and covered by passing GitHub Actions CI run `27838453986`. Version 1.0.12 fixes cross-pane terminal clipboard routing so app-driven paste targets the active pane and selected text can be copied from another pane when appropriate while retaining the 1.0.11 terminal workflow polish, the 1.0.10 update badge, Software Updates controls, and long-session metrics stability. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.11 to 1.0.12 remain external validation tasks.
 
 ## Decisions made
 
@@ -462,3 +462,6 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - 2026-06-18: Prepared production direct 1.0.11 with cross-pane terminal copy/paste, clicked-pane focus routing for Terminal menu commands, signed/notarized `gridOS-1.0.11-19-a3fb5ec.dmg`, stapled ZIP fallback, v1.0.11 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
 - 2026-06-18: Published GitHub release `v1.0.11` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, and passing GitHub Actions CI run `27761563976`.
 - Stopped at: Production direct 1.0.11 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.10-to-1.0.11 Sparkle update proof remain external validation.
+- 2026-06-19: Prepared production direct 1.0.12 with cross-pane clipboard responder routing, direct active-pane PTY paste, selected inactive-pane copy fallback, signed/notarized `gridOS-1.0.12-20-7b007d0.dmg`, stapled/rebuilt ZIP fallback, v1.0.12 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
+- 2026-06-19: Published GitHub release `v1.0.12` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, PR #5 merge proof, and passing GitHub Actions CI run `27838453986`.
+- Stopped at: Production direct 1.0.12 is public; clean-Mac Finder/Gatekeeper UAT and 1.0.11-to-1.0.12 Sparkle update proof remain external validation.

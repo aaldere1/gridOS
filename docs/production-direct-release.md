@@ -45,7 +45,7 @@ tool opening its doors, not a pre-release disclaimer.
 | Check | Status |
 | --- | --- |
 | Xcode CI wrapper | PASS |
-| GitHub Actions CI run 27761563976 | PASS |
+| GitHub Actions CI run 27838453986 | PASS |
 | Signed archive | PASS |
 | Embedded Sparkle helpers Developer ID signed with secure timestamps | PASS |
 | Signed DMG container | PASS |
