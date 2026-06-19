@@ -150,8 +150,8 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(secondary.selectAllCount, 0)
     }
 
-    func testPasteRequestedFromInactivePaneTargetsActivePane() {
-        let clipboard = TerminalClipboardSpy(string: "echo active paste")
+    func testPasteRequestTargetsSourcePaneBeforeActivePane() {
+        let clipboard = TerminalClipboardSpy(string: "echo source paste")
         let workspace = fixtureWorkspace(clipboard: clipboard)
         workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
         let primary = TerminalRoutingSpy()
@@ -162,8 +162,93 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         workspace.activatePane("pane-b")
         workspace.handleActivity(.pasteRequested, from: "primary")
 
+        XCTAssertEqual(primary.sentTexts, ["echo source paste"])
+        XCTAssertTrue(secondary.sentTexts.isEmpty)
+    }
+
+    func testPasteRequestFromThirdPaneSurvivesStaleActivePaneAfterSwitching() {
+        let clipboard = TerminalClipboardSpy(string: "echo pane c")
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        workspace.activatePane("primary")
+        workspace.splitActivePane(axis: .vertical, newPaneID: "pane-c")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        let tertiary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+        workspace.controller(for: "pane-c").attach(tertiary)
+
+        workspace.activatePane("pane-b")
+        workspace.handleActivity(.pasteRequested, from: "pane-c")
+
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
         XCTAssertTrue(primary.sentTexts.isEmpty)
-        XCTAssertEqual(secondary.sentTexts, ["echo active paste"])
+        XCTAssertTrue(secondary.sentTexts.isEmpty)
+        XCTAssertEqual(tertiary.sentTexts, ["echo pane c"])
+    }
+
+    func testPasteRequestFromMovedPaneTargetsMovedSourcePane() {
+        let clipboard = TerminalClipboardSpy(string: "echo moved pane")
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        workspace.activatePane("primary")
+        workspace.splitActivePane(axis: .vertical, newPaneID: "pane-c")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        let tertiary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+        workspace.controller(for: "pane-c").attach(tertiary)
+
+        XCTAssertTrue(workspace.movePane("pane-c", relativeTo: "pane-b", placement: .after))
+        workspace.activatePane("pane-b")
+        workspace.handleActivity(.pasteRequested, from: "pane-c")
+
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertTrue(secondary.sentTexts.isEmpty)
+        XCTAssertEqual(tertiary.sentTexts, ["echo moved pane"])
+    }
+
+    func testPasteRequestFromMissingSourceFallsBackToActivePane() {
+        let clipboard = TerminalClipboardSpy(string: "echo active fallback")
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("pane-b")
+        workspace.handleActivity(.pasteRequested, from: "missing-pane")
+
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertEqual(secondary.sentTexts, ["echo active fallback"])
+    }
+
+    func testRapidPasteRequestsEachTargetTheirSourcePane() {
+        let clipboard = TerminalClipboardSpy(string: "first")
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        workspace.activatePane("primary")
+        workspace.splitActivePane(axis: .vertical, newPaneID: "pane-c")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        let tertiary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+        workspace.controller(for: "pane-c").attach(tertiary)
+
+        workspace.activatePane("primary")
+        workspace.handleActivity(.pasteRequested, from: "pane-b")
+        clipboard.string = "second"
+        workspace.handleActivity(.pasteRequested, from: "pane-c")
+
+        XCTAssertEqual(workspace.activePaneID, "primary")
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertEqual(secondary.sentTexts, ["first"])
+        XCTAssertEqual(tertiary.sentTexts, ["second"])
     }
 
     func testFocusedActivityActivatesSourcePaneForMenuCommands() {
