@@ -93,8 +93,9 @@
     "scope": "Terminal jitter, pasteboard shortcuts, surface update, and top-process baseline retention covered by unit tests."
   },
   "githubRelease": {
-    "status": "prepared",
+    "status": "published",
     "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.13",
+    "publishedAt": "2026-06-19T17:35:23Z",
     "draft": false,
     "prerelease": false,
     "assets": {
@@ -102,7 +103,7 @@
       "zipDigest": "sha256:ca58ce5da13f035934872c9c19880f185271f6fbd932c6a7a1bbaa1b4b926d7e",
       "appcastDigest": "sha256:a758184b6926365bdbec64e38bc2d00e00a2669d099e71a1faafb5496e4e26df"
     },
-    "rawMainAppcastDiff": "pending",
+    "rawMainAppcastDiff": "pass",
     "githubActionsRun": "27839793210",
     "githubActionsConclusion": "success"
   },

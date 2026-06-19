@@ -9,10 +9,9 @@ Scope: source-available public repository visibility for `aaldere1/gridOS`.
 PASS for final v1.0.13 GitHub publication.
 
 The source-available proprietary repository posture is public and acceptable.
-The 1.0.13 artifact is signed, notarized, stapled, Gatekeeper accepted, and
-covered by a signed Sparkle appcast. GitHub release upload and raw `main`
-appcast readback are the remaining publication proof steps for this release
-cycle.
+The 1.0.13 artifact is signed, notarized, stapled, Gatekeeper accepted, uploaded
+to the public GitHub release, and covered by a signed Sparkle appcast that
+matches raw `main`.
 
 This is not an open-source license change. `LICENSE` still grants no public
 copying, modification, distribution, sublicensing, or use rights without written
@@ -89,14 +88,14 @@ permission from the copyright holder.
 - Appcast enclosure length `9023660` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
   `0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041`.
-- Raw `main` appcast readback: pending publication-proof commit.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## GitHub Release Readback
 
 - Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.13
-- Draft: pending upload.
-- Prerelease: pending upload.
-- Published at: pending upload.
+- Draft: false.
+- Prerelease: false.
+- Published at: 2026-06-19T17:35:23Z.
 - DMG asset digest:
   `sha256:0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041`.
 - ZIP asset digest:
