@@ -189,6 +189,15 @@ public final class TerminalWorkspaceController: ObservableObject {
         controller(for: activePaneID).paste()
     }
 
+    @discardableResult
+    public func paste(into sourcePaneID: TerminalPaneID) -> Bool {
+        if state.layout.contains(sourcePaneID) {
+            return controller(for: sourcePaneID).paste()
+        }
+
+        return pasteIntoActivePane()
+    }
+
     public func selectAllInActivePane() {
         controller(for: activePaneID).selectAll()
     }
@@ -233,7 +242,7 @@ public final class TerminalWorkspaceController: ObservableObject {
         case .copyRequested:
             copySelection(from: paneID)
         case .pasteRequested:
-            pasteIntoActivePane()
+            paste(into: paneID)
         case .selectAllRequested:
             selectAll(in: paneID)
         case .splitRightRequested:
