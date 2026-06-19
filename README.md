@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.12/gridOS-1.0.12-20-7b007d0.dmg"><strong>Download v1.0.12 DMG</strong></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/download/v1.0.13/gridOS-1.0.13-21-00e2893.dmg"><strong>Download v1.0.13 DMG</strong></a>
   &nbsp;|&nbsp;
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.12">Release</a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.13">Release</a>
   &nbsp;|&nbsp;
-  <a href="docs/release-notes/v1.0.12.md">Notes</a>
+  <a href="docs/release-notes/v1.0.13.md">Notes</a>
   &nbsp;|&nbsp;
   <a href="docs/security-privacy.md">Security and Privacy</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.12"><img alt="Release v1.0.12" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
+  <a href="https://github.com/aaldere1/gridOS/releases/tag/v1.0.13"><img alt="Release v1.0.13" src="https://img.shields.io/github/v/release/aaldere1/gridOS?label=release"></a>
   <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-black">
   <img alt="Apple Silicon required" src="https://img.shields.io/badge/Apple%20Silicon-required-black">
   <img alt="License: proprietary" src="https://img.shields.io/badge/license-proprietary-lightgrey">
@@ -48,18 +48,17 @@ The point is a beautiful command workspace that stays careful with real work.
 
 | Field | Value |
 | --- | --- |
-| Version | `1.0.12` |
-| Build | `20` |
+| Version | `1.0.13` |
+| Build | `21` |
 | Platform | macOS 14 or newer, Apple Silicon |
 | Distribution | Developer ID signed, notarized direct-download DMG with Sparkle automatic updates |
-| Release page | [`v1.0.12`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.12) |
-| DMG SHA-256 | `b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4` |
+| Release page | [`v1.0.13`](https://github.com/aaldere1/gridOS/releases/tag/v1.0.13) |
+| DMG SHA-256 | `0c68b1115377dfd4675304ae022f5e40ebf090c237c2192dfd3eb79ada688041` |
 
-Version 1.0.12 is the cross-pane clipboard fix release: terminal Copy, Paste,
-and Select All now route through the workspace controller, selected text can be
-copied from another pane when the active pane has no selection, and paste sends
-clipboard text into the active pane instead of depending on stale responder
-focus. It keeps the 1.0.11 terminal workflow polish, the 1.0.10 update
+Version 1.0.13 is the terminal clipboard correctness release: selected text
+copied from one terminal pane/session now pastes reliably into another
+pane/session inside the same gridOS window. It keeps the 1.0.12 cross-pane
+clipboard routing, the 1.0.11 terminal workflow polish, the 1.0.10 update
 affordance, steadier metrics, Command-T panes, Control-Tab traversal,
 drag-to-rearrange pane headers, screenshot OCR, and DeepSeek/xAI provider
 support.
@@ -112,7 +111,7 @@ Command-K is designed as a guarded command surface, not a magic text box.
 
 ## Install
 
-1. Download [`gridOS-1.0.12-20-7b007d0.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.12/gridOS-1.0.12-20-7b007d0.dmg).
+1. Download [`gridOS-1.0.13-21-00e2893.dmg`](https://github.com/aaldere1/gridOS/releases/download/v1.0.13/gridOS-1.0.13-21-00e2893.dmg).
 2. Open the DMG.
 3. Drag `gridOS.app` into `/Applications`.
 4. Eject the DMG.
@@ -137,8 +136,8 @@ For manual updates:
 5. Launch from Finder and confirm the visible version.
 
 Local replacement proof has passed from 1.0.4 build 12 to 1.0.5 build 13.
-Version 1.0.12 is prepared for the signed Sparkle appcast; clean-Mac install and
-Sparkle update proof from 1.0.11 to 1.0.12 remain useful external validation
+Version 1.0.13 is prepared for the signed Sparkle appcast; clean-Mac install and
+Sparkle update proof from 1.0.12 to 1.0.13 remain useful external validation
 items.
 
 ## Privacy Boundaries
@@ -161,24 +160,24 @@ security posture.
 
 ## Verification
 
-The 1.0.12 release has recorded proof for the direct-download lane:
+The 1.0.13 release has recorded proof for the direct-download lane:
 
 - App and DMG signing.
 - Notarization and stapler validation.
 - Gatekeeper assessment.
 - Strict codesign verification.
 - Mounted DMG layout and artifact assessment.
-- Version `1.0.12` build `20` bundle check.
-- Live cross-pane smoke: copy selected output from a blocked first pane,
-  Command-T into a second pane, paste into the second pane, and confirm the
-  blocked pane was untouched.
-- Cross-pane terminal copy/paste and active-pane menu routing tests.
+- Version `1.0.13` build `21` bundle check.
+- Live pane-to-pane smoke: copy selected text from pane 1 and paste it into pane
+  2 inside the same gridOS window.
+- Source-pane terminal copy, cross-pane paste, and active-pane menu routing
+  tests.
 - Command-T pane creation, Control-Tab traversal, and drag-to-rearrange pane tests.
 - AI Command Helper, screenshot drop zone, and Settings path inspection.
 - Sparkle updater controls and signed appcast generation.
 - DMG drag-to-Applications layout inspection.
 - ZIP extraction proof with strict codesign and Gatekeeper execution assessment.
-- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.12 automatic updates now available for future releases.
+- Local 1.0.4 to 1.0.5 replacement proof, with 1.0.13 automatic updates now available for future releases.
 
 The release checklist lives in
 [`docs/production-direct-release.md`](docs/production-direct-release.md).
@@ -200,8 +199,8 @@ revision so the DMG, ZIP, and manifest point at a stable source commit.
 
 ## Next Polish
 
-- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.12 DMG.
-- Prove clean-Mac Sparkle update flow from 1.0.11 to 1.0.12.
+- Run clean-Mac Finder/Gatekeeper UAT for the public 1.0.13 DMG.
+- Prove clean-Mac Sparkle update flow from 1.0.12 to 1.0.13.
 - Collect first-user feedback on whether AI Command Helper feels useful enough for daily terminal work.
 - Polish AI Command Helper result states based on that feedback.
 - Decide whether GitHub Releases stays the download surface or a small branded download page should front it.
