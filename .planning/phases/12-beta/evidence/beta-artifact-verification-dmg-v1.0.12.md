@@ -1,13 +1,13 @@
 # Beta artifact verification
 
-- Timestamp UTC: 2026-06-19T16:50:27Z
+- Timestamp UTC: 2026-06-19T16:50:24Z
 - Beta artifact manifest: .planning/phases/12-beta/evidence/beta-artifact-manifest.md
-- Artifact basename: gridOS-1.0.12-20-7b007d0.zip
-- Input type: zip
-- Artifact SHA-256: 3ef677d2d96de9655360b3b7a1dc63617dce0a32df78cb0e1bd3f8a93e4fe914
-- Artifact codesign status: not_applicable
-- Artifact Gatekeeper status: not_applicable
-- App bundle SHA-256: 9db7babc3c89c2f267b1d03da707fbdbf6b5ddb62706b3ca4dcaf375c907604f
+- Artifact basename: gridOS-1.0.12-20-7b007d0.dmg
+- Input type: dmg
+- Artifact SHA-256: b0cf33cbd020c45dbd359bffd8e1b59421a12a8980f6ef428ec2cd6b5ed77ff4
+- Artifact codesign status: PASS
+- Artifact Gatekeeper status: PASS
+- App bundle SHA-256: bef75a3db4af2f16c17c6099cec9272fa4db1d0dadcbdc022c0f9f95a784e106
 - Verification command: codesign --verify --deep --strict --verbose=2
 - codesign status: PASS
 - Stapler command: xcrun stapler validate
