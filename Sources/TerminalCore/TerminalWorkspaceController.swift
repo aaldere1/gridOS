@@ -193,6 +193,15 @@ public final class TerminalWorkspaceController: ObservableObject {
         controller(for: activePaneID).selectAll()
     }
 
+    public func selectAll(in sourcePaneID: TerminalPaneID) {
+        if state.layout.contains(sourcePaneID) {
+            controller(for: sourcePaneID).selectAll()
+            return
+        }
+
+        selectAllInActivePane()
+    }
+
     public func clearActivePane() {
         controller(for: activePaneID).clear()
     }
@@ -226,7 +235,7 @@ public final class TerminalWorkspaceController: ObservableObject {
         case .pasteRequested:
             pasteIntoActivePane()
         case .selectAllRequested:
-            selectAllInActivePane()
+            selectAll(in: paneID)
         case .splitRightRequested:
             activatePane(paneID)
             splitActivePane(axis: .horizontal)
