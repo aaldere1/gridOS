@@ -21,7 +21,7 @@ Channel: production-direct
 ## Proof
 
 - `scripts/ci-build-test.sh`: PASS
-- GitHub Actions CI run 27840599226: PASS
+- GitHub Actions CI run 27841066943: PASS
 - PR #6 and PR #7 merged cleanly: PASS
 - DMG code signature: PASS
 - DMG notarization: PASS

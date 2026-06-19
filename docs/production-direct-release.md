@@ -44,7 +44,7 @@ tool opening its doors, not a pre-release disclaimer.
 | Check | Status |
 | --- | --- |
 | Xcode CI wrapper | PASS |
-| GitHub Actions CI run 27840599226 | PASS |
+| GitHub Actions CI run 27841066943 | PASS |
 | Signed archive | PASS |
 | Embedded Sparkle helpers Developer ID signed with secure timestamps | PASS |
 | Signed DMG container | PASS |
@@ -53,8 +53,8 @@ tool opening its doors, not a pre-release disclaimer.
 | Gatekeeper assessment | PASS |
 | Strict codesign verification | PASS |
 | Sparkle appcast generation | PASS |
-| GitHub release asset readback | PENDING |
-| Raw `main` appcast readback | PENDING |
+| GitHub release asset readback | PASS |
+| Raw `main` appcast readback | PASS |
 | New app icon installed in asset catalog | PASS |
 | README hero and screenshots avoid terminal prompts/usernames | PASS |
 | Software Updates settings screenshot captured | PASS |

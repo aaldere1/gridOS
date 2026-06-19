@@ -6,12 +6,12 @@ Scope: source-available public repository visibility for `aaldere1/gridOS`.
 
 ## Verdict
 
-PREPARED for final v1.0.14 GitHub publication.
+PASS for final v1.0.14 GitHub publication.
 
 The source-available proprietary repository posture is public and acceptable.
-The 1.0.14 artifact is signed, notarized, stapled, Gatekeeper accepted, and
-covered by a signed Sparkle appcast. GitHub release publication, asset digest
-readback, and raw `main` appcast readback are pending the release commit/tag.
+The 1.0.14 artifact is signed, notarized, stapled, Gatekeeper accepted,
+uploaded to the public GitHub release, and covered by a signed Sparkle appcast
+that matches raw `main`.
 
 This is not an open-source license change. `LICENSE` still grants no public
 copying, modification, distribution, sublicensing, or use rights without written
@@ -23,6 +23,7 @@ permission from the copyright holder.
 - Pull request CI run `27840462691`: PASS for PR #7.
 - GitHub Actions CI run `27840562158`: PASS on PR #7 merge commit `bcc78a2`.
 - GitHub Actions CI run `27840599226`: PASS on version bump commit `c245751`.
+- GitHub Actions CI run `27841066943`: PASS on release-prep commit `11d7d03`.
 - `git diff --check`: PASS after the 1.0.14 release-script/doc evidence edits.
 - Current public docs identify 1.0.14 as the current release.
 - Repository posture is documented as source-available proprietary, not open
@@ -89,15 +90,14 @@ permission from the copyright holder.
 - Appcast enclosure length `9023820` matches the local DMG.
 - Appcast DMG SHA-256 verification matched
   `ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`.
-- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`:
-  PENDING release commit push.
+- Raw `main` appcast fetched from GitHub matched the local `appcast.xml`: PASS.
 
 ## GitHub Release Readback
 
 - Release URL: https://github.com/aaldere1/gridOS/releases/tag/v1.0.14
-- Draft: PENDING.
-- Prerelease: PENDING.
-- Published at: PENDING.
+- Draft: false.
+- Prerelease: false.
+- Published at: 2026-06-19T17:58:31Z.
 - DMG asset digest:
   `sha256:ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`.
 - ZIP asset digest:

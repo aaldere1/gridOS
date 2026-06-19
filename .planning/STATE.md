@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Production direct 1.0.14 prepared; Sparkle appcast updated; GitHub publication pending
-last_updated: "2026-06-19T17:53:34Z"
+status: Production direct 1.0.14 published; Sparkle appcast updated; GitHub release readback passed
+last_updated: "2026-06-19T17:58:31Z"
 progress:
   total_phases: 15
   completed_phases: 12
@@ -19,7 +19,7 @@ Phase 14 - Production direct 1.0.14 and public GitHub release readiness
 
 ## Current status
 
-gridOS is prepared for production direct version 1.0.14 build 22. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.14-22-c245751.dmg`, SHA-256 `ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, covered by a signed Sparkle appcast, and covered by passing GitHub Actions CI run `27840599226`. Version 1.0.14 fixes the remaining source-pane terminal Select All routing so Command-A and Command-C both follow the terminal pane/session that emitted the shortcut before text is pasted into another pane/session. It retains the 1.0.13 source-pane copy fix, the 1.0.12 cross-pane clipboard routing, the 1.0.11 terminal workflow polish, the 1.0.10 update badge, Software Updates controls, and long-session metrics stability. GitHub publication, asset readback, and raw `main` appcast readback are pending the release commit/tag. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.13 to 1.0.14 remain external validation tasks.
+gridOS is now on production direct version 1.0.14 build 22. App Store readiness remains paused while the direct product is distributed and tested. The versioned artifact is `build/release/production/gridOS-1.0.14-22-c245751.dmg`, SHA-256 `ff78c949c06bfaec170fd56b8d63c66d6a181622fb2c4966d6834ccad4e268f9`; it is app-signed, DMG-signed, notarized, stapled, Gatekeeper-assessed, strict codesign-verified, published on GitHub release `v1.0.14`, covered by matching GitHub asset readback, covered by raw `main` appcast readback, and covered by passing GitHub Actions CI run `27841066943`. Version 1.0.14 fixes the remaining source-pane terminal Select All routing so Command-A and Command-C both follow the terminal pane/session that emitted the shortcut before text is pasted into another pane/session. It retains the 1.0.13 source-pane copy fix, the 1.0.12 cross-pane clipboard routing, the 1.0.11 terminal workflow polish, the 1.0.10 update badge, Software Updates controls, and long-session metrics stability. The GitHub repository remains public as source-available proprietary code. Separate clean-Mac Finder/Gatekeeper install proof and Sparkle update proof from 1.0.13 to 1.0.14 remain external validation tasks.
 
 ## Decisions made
 
@@ -468,3 +468,4 @@ Run clean-Mac Finder/Gatekeeper UAT for `gridOS-1.0.2-10-8f2865b.dmg`, then prov
 - 2026-06-19: Prepared production direct 1.0.13 with source-pane terminal copy routing, synchronous terminal shortcut activity for selection-sensitive copy, signed/notarized `gridOS-1.0.13-21-00e2893.dmg`, stapled/rebuilt ZIP fallback, v1.0.13 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
 - 2026-06-19: Published GitHub release `v1.0.13` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, PR #6 merge proof, and passing GitHub Actions CI run `27839793210`.
 - 2026-06-19: Prepared production direct 1.0.14 with source-pane terminal Select All routing, signed/notarized `gridOS-1.0.14-22-c245751.dmg`, stapled/rebuilt ZIP fallback, v1.0.14 release notes, and a signed `appcast.xml` with validated feed and enclosure Ed25519 signatures.
+- 2026-06-19: Published GitHub release `v1.0.14` with matching DMG/ZIP/appcast asset digests, raw `main` appcast readback, PR #7 merge proof, and passing GitHub Actions CI run `27841066943`.
