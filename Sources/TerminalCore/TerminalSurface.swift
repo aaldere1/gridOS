@@ -10,17 +10,20 @@ public struct TerminalSurface: NSViewRepresentable {
 
     private let paneID: TerminalPaneID
     private let configuration: TerminalSessionConfiguration
+    private let isActive: Bool
     private let onActivity: ActivityHandler
     private let interactionController: TerminalInteractionController?
 
     public init(
         paneID: TerminalPaneID = "primary",
         configuration: TerminalSessionConfiguration = .default,
+        isActive: Bool = true,
         interactionController: TerminalInteractionController? = nil,
         onActivity: @escaping ActivityHandler = { _, _ in }
     ) {
         self.paneID = paneID
         self.configuration = configuration
+        self.isActive = isActive
         self.interactionController = interactionController
         self.onActivity = onActivity
     }
@@ -29,6 +32,7 @@ public struct TerminalSurface: NSViewRepresentable {
         Coordinator(
             paneID: paneID,
             configuration: configuration,
+            isActive: isActive,
             interactionController: interactionController,
             onActivity: onActivity
         )
@@ -47,7 +51,7 @@ public struct TerminalSurface: NSViewRepresentable {
             return
         }
 
-        context.coordinator.update(configuration: configuration, terminalView: terminalView)
+        context.coordinator.update(configuration: configuration, isActive: isActive, terminalView: terminalView)
     }
 
     @MainActor public static func dismantleNSView(_ nsView: NSView, coordinator: Coordinator) {
@@ -58,6 +62,7 @@ public struct TerminalSurface: NSViewRepresentable {
     public final class Coordinator: NSObject, LocalProcessTerminalViewDelegate {
         private let paneID: TerminalPaneID
         private var configuration: TerminalSessionConfiguration
+        private var isActive: Bool
         private let interactionController: TerminalInteractionController?
         private let onActivity: ActivityHandler
         private var state = TerminalSessionState.idle
@@ -68,11 +73,13 @@ public struct TerminalSurface: NSViewRepresentable {
         init(
             paneID: TerminalPaneID,
             configuration: TerminalSessionConfiguration,
+            isActive: Bool,
             interactionController: TerminalInteractionController?,
             onActivity: @escaping ActivityHandler
         ) {
             self.paneID = paneID
             self.configuration = configuration
+            self.isActive = isActive
             self.interactionController = interactionController
             self.onActivity = onActivity
             super.init()
@@ -88,6 +95,7 @@ public struct TerminalSurface: NSViewRepresentable {
             self.terminalView = terminalView
             interactionController?.attach(terminalView)
             if let gridOSTerminalView = terminalView as? GridOSTerminalView {
+                gridOSTerminalView.shouldAutoFocus = isActive
                 gridOSTerminalView.activityHandler = { [weak self] event in
                     self?.recordActivity(event)
                 }
@@ -96,9 +104,19 @@ public struct TerminalSurface: NSViewRepresentable {
             startShell(in: terminalView)
         }
 
-        func update(configuration: TerminalSessionConfiguration, terminalView: LocalProcessTerminalView) {
+        func update(configuration: TerminalSessionConfiguration, isActive: Bool, terminalView: LocalProcessTerminalView) {
             let previousConfiguration = self.configuration
+            let wasActive = self.isActive
             self.configuration = configuration
+            self.isActive = isActive
+
+            if let gridOSTerminalView = terminalView as? GridOSTerminalView {
+                gridOSTerminalView.shouldAutoFocus = isActive
+            }
+
+            if isActive, !wasActive {
+                focusAfterRender(terminalView)
+            }
 
             guard previousConfiguration.fontName != configuration.fontName
                 || previousConfiguration.fontSize != configuration.fontSize else {
@@ -213,8 +231,8 @@ public struct TerminalSurface: NSViewRepresentable {
             state = .running
             recordActivity(.processStarted(shell: configuration.shellDisplayName))
 
-            DispatchQueue.main.async {
-                terminalView.window?.makeFirstResponder(terminalView)
+            if isActive {
+                focusAfterRender(terminalView)
             }
 
             if let startupCommand = configuration.startupCommand {
@@ -269,34 +287,58 @@ public struct TerminalSurface: NSViewRepresentable {
 
             onActivity(paneID, .output(byteCount: byteCount))
         }
+
+        private func focusAfterRender(_ terminalView: LocalProcessTerminalView) {
+            let delays: [TimeInterval] = [0, 0.05, 0.20]
+            for delay in delays {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self, weak terminalView] in
+                    guard let self,
+                          self.isActive,
+                          let terminalView else {
+                        return
+                    }
+
+                    terminalView.window?.makeFirstResponder(terminalView)
+                }
+            }
+        }
     }
 }
 
 @MainActor
 private final class GridOSTerminalView: LocalProcessTerminalView {
     var activityHandler: ((TerminalActivityEvent) -> Void)?
+    var shouldAutoFocus = true
     private var focusMouseMonitor: Any?
+    private var workspaceShortcutMonitor: Any?
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
 
         if window == nil {
-            removeFocusMouseMonitor()
+            removeEventMonitors()
             return
         }
 
         installFocusMouseMonitorIfNeeded()
+        installWorkspaceShortcutMonitorIfNeeded()
 
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return
             }
 
-            self.window?.makeFirstResponder(self)
+            if self.shouldAutoFocus {
+                self.window?.makeFirstResponder(self)
+            }
         }
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if handleWorkspaceKeyEquivalent(event) {
+            return true
+        }
+
         if super.performKeyEquivalent(with: event) {
             return true
         }
@@ -306,7 +348,7 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
 
     override func viewWillMove(toWindow newWindow: NSWindow?) {
         if newWindow == nil {
-            removeFocusMouseMonitor()
+            removeEventMonitors()
         }
 
         super.viewWillMove(toWindow: newWindow)
@@ -343,6 +385,51 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         }
     }
 
+    private func installWorkspaceShortcutMonitorIfNeeded() {
+        guard workspaceShortcutMonitor == nil else {
+            return
+        }
+
+        workspaceShortcutMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard let self,
+                  let window = self.window,
+                  event.window === window else {
+                return event
+            }
+
+            guard self.shouldHandleTerminalKeyEquivalent(in: window) else {
+                return event
+            }
+
+            if self.handleWorkspaceKeyEquivalent(event) {
+                return nil
+            }
+
+            if self.handlePasteboardKeyEquivalent(event) {
+                return nil
+            }
+
+            return event
+        }
+    }
+
+    private func shouldHandleTerminalKeyEquivalent(in window: NSWindow) -> Bool {
+        if window.firstResponder === self {
+            return true
+        }
+
+        guard let responderView = window.firstResponder as? NSView else {
+            return false
+        }
+
+        return responderView.isDescendant(of: self)
+    }
+
+    private func removeEventMonitors() {
+        removeFocusMouseMonitor()
+        removeWorkspaceShortcutMonitor()
+    }
+
     private func removeFocusMouseMonitor() {
         guard let focusMouseMonitor else {
             return
@@ -352,7 +439,17 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         self.focusMouseMonitor = nil
     }
 
+    private func removeWorkspaceShortcutMonitor() {
+        guard let workspaceShortcutMonitor else {
+            return
+        }
+
+        NSEvent.removeMonitor(workspaceShortcutMonitor)
+        self.workspaceShortcutMonitor = nil
+    }
+
     private func emitFocusActivity() {
+        window?.makeFirstResponder(self)
         activityHandler?(.focused)
     }
 
@@ -371,20 +468,29 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
 
         switch key {
         case "a":
-            emitFocusActivity()
-            selectAll()
+            emitActivity(.selectAllRequested)
             return true
         case "c":
-            emitFocusActivity()
-            copy(self)
+            emitActivity(.copyRequested)
             return true
         case "v":
-            emitFocusActivity()
-            paste(self)
+            emitActivity(.pasteRequested)
             return true
         default:
             return false
         }
+    }
+
+    private func handleWorkspaceKeyEquivalent(_ event: NSEvent) -> Bool {
+        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        guard modifierFlags == .command,
+              event.charactersIgnoringModifiers?.lowercased() == "t" else {
+            return false
+        }
+
+        emitFocusActivity()
+        emitActivity(.splitRightRequested)
+        return true
     }
 }
 
@@ -409,12 +515,6 @@ extension LocalProcessTerminalView: TerminalInteractionControllingTerminal {
     }
 
     func paste() {
-        paste(self)
-    }
-
-    func pasteText(_ text: String) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(text, forType: .string)
         paste(self)
     }
 

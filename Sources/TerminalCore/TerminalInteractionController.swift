@@ -9,7 +9,6 @@ protocol TerminalInteractionControllingTerminal: AnyObject {
     func focusTerminal()
     func copySelection()
     func paste()
-    func pasteText(_ text: String)
     func selectAll()
     func clear()
     func reset()
@@ -87,13 +86,19 @@ public final class TerminalInteractionController: ObservableObject {
 
     @discardableResult
     public func paste() -> Bool {
-        guard let text = clipboard.readString(),
-              !text.isEmpty else {
-            terminal?.paste()
+        guard let terminal else {
             return false
         }
 
-        terminal?.pasteText(text)
+        terminal.focusTerminal()
+
+        guard let text = clipboard.readString(),
+              !text.isEmpty else {
+            terminal.paste()
+            return false
+        }
+
+        terminal.sendText(text)
         return true
     }
 

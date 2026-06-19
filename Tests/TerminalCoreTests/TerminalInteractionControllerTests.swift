@@ -94,7 +94,7 @@ final class TerminalInteractionControllerTests: XCTestCase {
         XCTAssertEqual(terminal.pasteCount, 1)
     }
 
-    func testPasteInjectsClipboardTextAsTerminalPaste() {
+    func testPasteSendsClipboardTextToTerminalInput() {
         let terminal = TerminalInteractionTerminalSpy()
         let clipboard = TerminalClipboardSpy(string: "printf 'from pane a'\n")
         let controller = TerminalInteractionController(clipboard: clipboard)
@@ -102,8 +102,9 @@ final class TerminalInteractionControllerTests: XCTestCase {
         controller.attach(terminal)
 
         XCTAssertTrue(controller.paste())
-        XCTAssertEqual(terminal.pastedTexts, ["printf 'from pane a'\n"])
+        XCTAssertEqual(terminal.sentTexts, ["printf 'from pane a'\n"])
         XCTAssertEqual(terminal.pasteCount, 0)
+        XCTAssertEqual(terminal.focusRequestCount, 1)
     }
 
     func testPasteFallsBackToTerminalPasteWhenClipboardHasNoString() {
@@ -114,8 +115,15 @@ final class TerminalInteractionControllerTests: XCTestCase {
         controller.attach(terminal)
 
         XCTAssertFalse(controller.paste())
-        XCTAssertEqual(terminal.pastedTexts, [])
         XCTAssertEqual(terminal.pasteCount, 1)
+        XCTAssertEqual(terminal.focusRequestCount, 1)
+    }
+
+    func testPasteReturnsFalseWithoutAttachedTerminal() {
+        let clipboard = TerminalClipboardSpy(string: "echo ignored")
+        let controller = TerminalInteractionController(clipboard: clipboard)
+
+        XCTAssertFalse(controller.paste())
     }
 
     func testSelectAllTargetsAttachedTerminal() {
@@ -206,7 +214,6 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
     private let selection: String?
     private let isRunning: Bool
     private(set) var sentTexts: [String] = []
-    private(set) var pastedTexts: [String] = []
     private(set) var focusRequestCount = 0
     private(set) var copySelectionCount = 0
     private(set) var pasteCount = 0
@@ -238,10 +245,6 @@ private final class TerminalInteractionTerminalSpy: TerminalInteractionControlli
 
     func paste() {
         pasteCount += 1
-    }
-
-    func pasteText(_ text: String) {
-        pastedTexts.append(text)
     }
 
     func selectAll() {

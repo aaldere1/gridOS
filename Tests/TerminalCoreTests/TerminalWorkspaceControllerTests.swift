@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import TerminalCore
 
@@ -77,9 +78,60 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         workspace.pasteIntoActivePane()
 
         XCTAssertEqual(clipboard.string, "echo from primary")
-        XCTAssertTrue(primary.pastedTexts.isEmpty)
-        XCTAssertEqual(secondary.pastedTexts, ["echo from primary"])
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertEqual(secondary.sentTexts, ["echo from primary"])
         XCTAssertEqual(secondary.pasteCount, 0)
+    }
+
+    func testCopyFallsBackToSelectedTextInInactivePane() {
+        let clipboard = TerminalClipboardSpy()
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy(selection: "echo selected elsewhere")
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("pane-b")
+
+        XCTAssertTrue(workspace.copyActivePaneSelection())
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
+        XCTAssertEqual(clipboard.string, "echo selected elsewhere")
+
+        XCTAssertTrue(workspace.pasteIntoActivePane())
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertEqual(secondary.sentTexts, ["echo selected elsewhere"])
+    }
+
+    func testCopyPrefersActivePaneSelectionBeforeOtherPaneSelections() {
+        let clipboard = TerminalClipboardSpy()
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy(selection: "stale primary selection")
+        let secondary = TerminalRoutingSpy(selection: "fresh active selection")
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("pane-b")
+
+        XCTAssertTrue(workspace.copyActivePaneSelection())
+        XCTAssertEqual(clipboard.string, "fresh active selection")
+    }
+
+    func testPasteRequestedFromInactivePaneTargetsActivePane() {
+        let clipboard = TerminalClipboardSpy(string: "echo active paste")
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy()
+        let secondary = TerminalRoutingSpy()
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("pane-b")
+        workspace.handleActivity(.pasteRequested, from: "primary")
+
+        XCTAssertTrue(primary.sentTexts.isEmpty)
+        XCTAssertEqual(secondary.sentTexts, ["echo active paste"])
     }
 
     func testFocusedActivityActivatesSourcePaneForMenuCommands() {
@@ -94,6 +146,34 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         workspace.handleActivity(.focused, from: "missing-pane")
 
         XCTAssertEqual(workspace.activePaneID, "pane-b")
+    }
+
+    func testSplitRightActivityCreatesPaneFromSourcePane() {
+        let workspace = fixtureWorkspace()
+
+        workspace.handleActivity(.splitRightRequested, from: "primary")
+
+        XCTAssertEqual(workspace.state.panesByID.count, 2)
+        XCTAssertNotEqual(workspace.activePaneID, "primary")
+
+        guard case .split(.horizontal, _, .pane("primary"), .pane(let newPaneID)) = workspace.state.layout else {
+            return XCTFail("Expected primary to split right from terminal shortcut activity")
+        }
+
+        XCTAssertEqual(workspace.activePaneID, newPaneID)
+    }
+
+    func testSplitPublishesWorkspaceChangeForSwiftUIRendering() {
+        let workspace = fixtureWorkspace()
+        var didPublish = false
+        let cancellable = workspace.objectWillChange.sink {
+            didPublish = true
+        }
+
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+
+        XCTAssertTrue(didPublish)
+        withExtendedLifetime(cancellable) {}
     }
 
     func testCloseActivePaneTerminatesOnlyClosedPane() {
@@ -257,7 +337,6 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
 private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
     private let selection: String?
     private(set) var sentTexts: [String] = []
-    private(set) var pastedTexts: [String] = []
     private(set) var focusRequestCount = 0
     private(set) var copySelectionCount = 0
     private(set) var pasteCount = 0
@@ -288,10 +367,6 @@ private final class TerminalRoutingSpy: TerminalInteractionControllingTerminal {
 
     func paste() {
         pasteCount += 1
-    }
-
-    func pasteText(_ text: String) {
-        pastedTexts.append(text)
     }
 
     func selectAll() {

@@ -34,24 +34,29 @@ public final class TerminalWorkspaceController: ObservableObject {
 
     public func activatePane(_ paneID: TerminalPaneID) {
         guard state.layout.contains(paneID),
-              state.panesByID[paneID] != nil else {
+              state.panesByID[paneID] != nil,
+              state.activePaneID != paneID else {
             return
         }
 
+        objectWillChange.send()
         state.activePaneID = paneID
     }
 
     public func splitActivePane(axis: TerminalSplitAxis, newPaneID: TerminalPaneID = .generated()) {
+        objectWillChange.send()
         state.splitActivePane(axis: axis, newPaneID: newPaneID)
         _ = controller(for: state.activePaneID)
     }
 
     public func duplicateActivePane(newPaneID: TerminalPaneID = .generated()) {
+        objectWillChange.send()
         state.duplicateActivePane(newPaneID: newPaneID)
         _ = controller(for: state.activePaneID)
     }
 
     public func openDirectoryInNewPane(_ directory: String, newPaneID: TerminalPaneID = .generated()) {
+        objectWillChange.send()
         state.openDirectoryInNewPane(directory, newPaneID: newPaneID)
         _ = controller(for: state.activePaneID)
     }
@@ -62,6 +67,7 @@ public final class TerminalWorkspaceController: ObservableObject {
         relativeTo targetPaneID: TerminalPaneID,
         placement: TerminalPanePlacement
     ) -> Bool {
+        objectWillChange.send()
         guard state.movePane(sourcePaneID, relativeTo: targetPaneID, placement: placement) else {
             return false
         }
@@ -76,6 +82,7 @@ public final class TerminalWorkspaceController: ObservableObject {
             return false
         }
 
+        objectWillChange.send()
         let closingPaneID = state.activePaneID
         controllersByPaneID[closingPaneID]?.terminate()
         guard state.closeActivePane() == closingPaneID else {
@@ -87,11 +94,13 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     public func focusNextPane() {
+        objectWillChange.send()
         state.focusNextPane()
         focusActivePane()
     }
 
     public func focusPreviousPane() {
+        objectWillChange.send()
         state.focusPreviousPane()
         focusActivePane()
     }
@@ -138,11 +147,23 @@ public final class TerminalWorkspaceController: ObservableObject {
         }
     }
 
-    public func copyActivePaneSelection() {
-        controller(for: activePaneID).copySelection()
+    @discardableResult
+    public func copyActivePaneSelection() -> Bool {
+        if controller(for: activePaneID).copySelection() {
+            return true
+        }
+
+        for paneID in state.layout.paneIDsInVisualOrder where paneID != activePaneID {
+            if controller(for: paneID).copySelection() {
+                return true
+            }
+        }
+
+        return false
     }
 
-    public func pasteIntoActivePane() {
+    @discardableResult
+    public func pasteIntoActivePane() -> Bool {
         controller(for: activePaneID).paste()
     }
 
@@ -159,6 +180,7 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     public func updateTerminalFontSize(_ fontSize: Double) {
+        objectWillChange.send()
         state.updateTerminalFontSize(fontSize)
     }
 
@@ -177,7 +199,18 @@ public final class TerminalWorkspaceController: ObservableObject {
         switch event {
         case .focused:
             activatePane(paneID)
+        case .copyRequested:
+            copyActivePaneSelection()
+        case .pasteRequested:
+            pasteIntoActivePane()
+        case .selectAllRequested:
+            selectAllInActivePane()
+        case .splitRightRequested:
+            activatePane(paneID)
+            splitActivePane(axis: .horizontal)
+            focusActivePane()
         case .workingDirectoryChanged(let directory):
+            objectWillChange.send()
             state.updateWorkingDirectory(directory, for: paneID)
         default:
             return
@@ -189,6 +222,7 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     private func resizeActivePane(axis: TerminalSplitAxis, direction: SplitResizeDirection) {
+        objectWillChange.send()
         state.layout = state.layout.resizingSplit(
             containing: activePaneID,
             axis: axis,
