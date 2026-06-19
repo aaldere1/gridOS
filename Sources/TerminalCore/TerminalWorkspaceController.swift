@@ -163,6 +163,28 @@ public final class TerminalWorkspaceController: ObservableObject {
     }
 
     @discardableResult
+    public func copySelection(from sourcePaneID: TerminalPaneID) -> Bool {
+        if state.layout.contains(sourcePaneID),
+           controller(for: sourcePaneID).copySelection() {
+            return true
+        }
+
+        if sourcePaneID != activePaneID,
+           controller(for: activePaneID).copySelection() {
+            return true
+        }
+
+        for paneID in state.layout.paneIDsInVisualOrder
+            where paneID != sourcePaneID && paneID != activePaneID {
+            if controller(for: paneID).copySelection() {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    @discardableResult
     public func pasteIntoActivePane() -> Bool {
         controller(for: activePaneID).paste()
     }
@@ -200,7 +222,7 @@ public final class TerminalWorkspaceController: ObservableObject {
         case .focused:
             activatePane(paneID)
         case .copyRequested:
-            copyActivePaneSelection()
+            copySelection(from: paneID)
         case .pasteRequested:
             pasteIntoActivePane()
         case .selectAllRequested:

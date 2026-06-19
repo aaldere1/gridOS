@@ -118,6 +118,22 @@ final class TerminalWorkspaceControllerTests: XCTestCase {
         XCTAssertEqual(clipboard.string, "fresh active selection")
     }
 
+    func testCopyRequestPrefersSourcePaneSelectionBeforeActivePaneSelection() {
+        let clipboard = TerminalClipboardSpy()
+        let workspace = fixtureWorkspace(clipboard: clipboard)
+        workspace.splitActivePane(axis: .horizontal, newPaneID: "pane-b")
+        let primary = TerminalRoutingSpy(selection: "copy this from source")
+        let secondary = TerminalRoutingSpy(selection: "do not copy active")
+        workspace.controller(for: "primary").attach(primary)
+        workspace.controller(for: "pane-b").attach(secondary)
+
+        workspace.activatePane("pane-b")
+        workspace.handleActivity(.copyRequested, from: "primary")
+
+        XCTAssertEqual(workspace.activePaneID, "pane-b")
+        XCTAssertEqual(clipboard.string, "copy this from source")
+    }
+
     func testPasteRequestedFromInactivePaneTargetsActivePane() {
         let clipboard = TerminalClipboardSpy(string: "echo active paste")
         let workspace = fixtureWorkspace(clipboard: clipboard)

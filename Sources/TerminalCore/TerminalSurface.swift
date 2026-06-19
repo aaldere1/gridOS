@@ -459,6 +459,10 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         }
     }
 
+    private func emitActivityImmediately(_ event: TerminalActivityEvent) {
+        activityHandler?(event)
+    }
+
     private func handlePasteboardKeyEquivalent(_ event: NSEvent) -> Bool {
         let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         guard modifierFlags == .command,
@@ -468,13 +472,13 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
 
         switch key {
         case "a":
-            emitActivity(.selectAllRequested)
+            emitActivityImmediately(.selectAllRequested)
             return true
         case "c":
-            emitActivity(.copyRequested)
+            emitActivityImmediately(.copyRequested)
             return true
         case "v":
-            emitActivity(.pasteRequested)
+            emitActivityImmediately(.pasteRequested)
             return true
         default:
             return false
@@ -489,7 +493,7 @@ private final class GridOSTerminalView: LocalProcessTerminalView {
         }
 
         emitFocusActivity()
-        emitActivity(.splitRightRequested)
+        emitActivityImmediately(.splitRightRequested)
         return true
     }
 }
