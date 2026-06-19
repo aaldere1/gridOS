@@ -5,7 +5,7 @@
   "version": "1.0.15",
   "build": "23",
   "sourceCommit": "f7b51bc",
-  "generatedAt": "2026-06-19T18:56:29Z",
+  "generatedAt": "2026-06-19T19:00:39Z",
   "artifacts": {
     "dmg": {
       "path": "build/release/production/gridOS-1.0.15-23-f7b51bc.dmg",
@@ -77,17 +77,18 @@
     "scope": "Terminal jitter, pasteboard shortcuts, surface update, and top-process baseline retention covered by unit tests."
   },
   "githubRelease": {
-    "status": "pending-publication",
+    "status": "published",
     "url": "https://github.com/aaldere1/gridOS/releases/tag/v1.0.15",
-    "draft": null,
-    "prerelease": null,
+    "publishedAt": "2026-06-19T19:00:39Z",
+    "draft": false,
+    "prerelease": false,
     "assets": {
       "dmgDigest": "sha256:92f6a0fd0f74b5fdae70b1cdb390e3846dd3020555ebe01a312ea459252b1593",
       "zipDigest": "sha256:395df75adbc9f8487cb59a6e24aba0ae1467ea5eb30d56817679e1c14fe4843b",
       "appcastDigest": "sha256:d989da7d411803bf8df5499d81b9b93d966063e54b5adc2a8e21544a4d83cbf9"
     },
-    "rawMainAppcastDiff": "pending",
-    "githubActionsRun": "27842978804",
+    "rawMainAppcastDiff": "pass",
+    "githubActionsRun": "27843486220",
     "githubActionsConclusion": "success"
   },
   "localUpdateProof": {
